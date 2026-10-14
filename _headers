@@ -18,6 +18,10 @@
 /assets/js/*
   Cache-Control: public, max-age=3600, must-revalidate
 
+# Portfolio CSS stylesheets (stable non-fingerprinted filenames: 1-hour cache with must-revalidate)
+/assets/css/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
 # WebAssembly engine asset (stable non-fingerprinted filename: 1-hour cache with must-revalidate)
 /assets/wasm/pandoc.wasm.gz
   Cache-Control: public, max-age=3600, must-revalidate

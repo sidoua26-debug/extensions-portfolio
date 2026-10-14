@@ -29,6 +29,8 @@ describe('Step 6C: Strengthened Converter UI Integration & Race Tests (Playwrigh
 
       if (fs.existsSync(localPath) && fs.statSync(localPath).isFile()) {
         const mime = safeUrl.endsWith('.js') ? 'application/javascript'
+          : safeUrl.endsWith('.css') ? 'text/css'
+          : safeUrl.endsWith('.png') ? 'image/png'
           : safeUrl.endsWith('.wasm.gz') ? 'application/gzip'
           : safeUrl.endsWith('.docx') ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
           : 'text/html';

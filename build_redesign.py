@@ -10,1396 +10,59 @@ html = r'''<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Browser Extensions — Built for Real Work</title>
-  <meta name="description" content="Tools for developers, researchers, SEO professionals, and everyday productivity — with privacy and practical usefulness at the core. Published on Microsoft Edge Add-ons.">
+  <meta name="description" content="Privacy-first Microsoft Edge extensions for developers and researchers, featuring a free in-browser Word-to-LaTeX converter with zero telemetry.">
   <meta name="keywords" content="Word to LaTeX, Table Extractor, BulkGrab, SEO Inspector, AuditPilot, Microsoft Edge Add-ons, browser extensions, offline converter, privacy">
 
-  <!-- Open Graph -->
+  <link rel="canonical" href="https://sidoua26-debug.github.io/extensions-portfolio/">
+  <link rel="alternate" hreflang="en" href="https://sidoua26-debug.github.io/extensions-portfolio/">
+  <link rel="alternate" hreflang="x-default" href="https://sidoua26-debug.github.io/extensions-portfolio/">
+
   <meta property="og:type" content="website">
   <meta property="og:title" content="Browser Extensions — Built for Real Work">
   <meta property="og:description" content="Tools for developers, researchers, SEO professionals, and everyday productivity — with privacy and practical usefulness at the core.">
   <meta property="og:url" content="https://sidoua26-debug.github.io/extensions-portfolio/">
 
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Browser Extensions — Built for Real Work">
   <meta name="twitter:description" content="Tools for developers, researchers, and professionals. 100% client-side privacy.">
 
   <link rel="icon" type="image/png" href="assets/icons/word-to-latex-128.png">
 
-  <!-- Typography: Geist (UI) + JetBrains Mono (Code/Mono) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <style>
-    /* ==========================================================================
-       DESIGN SYSTEM TOKENS (8px Grid, High Contrast, Editorial Quality)
-       ========================================================================== */
-    :root {
-      /* Light Neutral Palette */
-      --bg-page: #f8fafc;
-      --bg-surface: #ffffff;
-      --bg-surface-elevated: #ffffff;
-      --bg-muted: #f1f5f9;
-      --bg-subtle: #f8fafc;
-      --border-page: #e2e8f0;
-      --border-subtle: #cbd5e1;
-      --border-focus: #4f46e5;
+  <link rel="stylesheet" href="assets/css/styles.css">
 
-      --text-main: #090d16;
-      --text-secondary: #475569;
-      --text-tertiary: #64748b;
-      --text-soft: #94a3b8;
-
-      /* Primary Brand / Accent */
-      --accent: #4f46e5;
-      --accent-hover: #4338ca;
-      --accent-subtle: rgba(79, 70, 229, 0.08);
-      --accent-border: rgba(79, 70, 229, 0.2);
-      --accent-text: #4338ca;
-
-      /* Specific Product Tints (Restrained, subtle borders & badges) */
-      --tint-w2l: #6366f1;
-      --tint-w2l-subtle: rgba(99, 102, 241, 0.08);
-      --tint-w2l-border: rgba(99, 102, 241, 0.22);
-
-      --tint-table: #0284c7;
-      --tint-table-subtle: rgba(2, 132, 199, 0.08);
-      --tint-table-border: rgba(2, 132, 199, 0.22);
-
-      --tint-bulk: #0284c7;
-      --tint-bulk-subtle: rgba(2, 132, 199, 0.08);
-      --tint-bulk-border: rgba(2, 132, 199, 0.22);
-
-      --tint-seo: #059669;
-      --tint-seo-subtle: rgba(5, 150, 105, 0.08);
-      --tint-seo-border: rgba(5, 150, 105, 0.22);
-
-      --tint-audit: #d97706;
-      --tint-audit-subtle: rgba(217, 119, 6, 0.08);
-      --tint-audit-border: rgba(217, 119, 6, 0.22);
-
-      --tint-mail: #ea580c;
-      --tint-mail-subtle: rgba(234, 88, 12, 0.08);
-      --tint-mail-border: rgba(234, 88, 12, 0.22);
-
-      /* Edge Store Brand */
-      --edge-blue: #0078d4;
-      --edge-blue-hover: #106ebe;
-      --edge-blue-subtle: rgba(0, 120, 212, 0.08);
-      --edge-blue-border: rgba(0, 120, 212, 0.24);
-
-      /* Geometry & Shadows */
-      --r-sm: 6px;
-      --r-md: 10px;
-      --r-lg: 14px;
-      --r-xl: 18px;
-
-      --shadow-sm: 0 1px 2px 0 rgba(9, 13, 22, 0.04);
-      --shadow-md: 0 4px 12px -2px rgba(9, 13, 22, 0.06), 0 2px 6px -1px rgba(9, 13, 22, 0.03);
-      --shadow-lg: 0 16px 32px -4px rgba(9, 13, 22, 0.08), 0 6px 12px -2px rgba(9, 13, 22, 0.04);
-      --shadow-card: 0 1px 3px rgba(9, 13, 22, 0.05), 0 10px 24px -6px rgba(9, 13, 22, 0.04);
-
-      /* Typography & Easing */
-      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-      --ease: 200ms cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* System Dark Mode */
-    @media (prefers-color-scheme: dark) {
-      html:not([data-theme="light"]) {
-        --bg-page: #080c14;
-        --bg-surface: #0f1624;
-        --bg-surface-elevated: #162033;
-        --bg-muted: #141c2c;
-        --bg-subtle: #0d131f;
-        --border-page: #1c2638;
-        --border-subtle: #2d3b52;
-        --border-focus: #818cf8;
-
-        --text-main: #f8fafc;
-        --text-secondary: #cbd5e1;
-        --text-tertiary: #94a3b8;
-        --text-soft: #64748b;
-
-        --accent: #818cf8;
-        --accent-hover: #a5b4fc;
-        --accent-subtle: rgba(129, 140, 248, 0.12);
-        --accent-border: rgba(129, 140, 248, 0.28);
-        --accent-text: #c7d2fe;
-
-        --tint-w2l: #818cf8;
-        --tint-w2l-subtle: rgba(129, 140, 248, 0.12);
-        --tint-w2l-border: rgba(129, 140, 248, 0.28);
-
-        --tint-table: #38bdf8;
-        --tint-table-subtle: rgba(56, 189, 248, 0.12);
-        --tint-table-border: rgba(56, 189, 248, 0.28);
-
-        --tint-bulk: #38bdf8;
-        --tint-bulk-subtle: rgba(56, 189, 248, 0.12);
-        --tint-bulk-border: rgba(56, 189, 248, 0.28);
-
-        --tint-seo: #34d399;
-        --tint-seo-subtle: rgba(52, 211, 153, 0.12);
-        --tint-seo-border: rgba(52, 211, 153, 0.28);
-
-        --tint-audit: #fbbf24;
-        --tint-audit-subtle: rgba(251, 191, 36, 0.12);
-        --tint-audit-border: rgba(251, 191, 36, 0.28);
-
-        --tint-mail: #fb923c;
-        --tint-mail-subtle: rgba(251, 146, 60, 0.12);
-        --tint-mail-border: rgba(251, 146, 60, 0.28);
-
-        --edge-blue: #38bdf8;
-        --edge-blue-hover: #7dd3fc;
-        --edge-blue-subtle: rgba(56, 189, 248, 0.12);
-        --edge-blue-border: rgba(56, 189, 248, 0.28);
-
-        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.35);
-        --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.45);
-        --shadow-lg: 0 20px 32px rgba(0, 0, 0, 0.6);
-        --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4), 0 12px 28px -6px rgba(0, 0, 0, 0.5);
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://sidoua26-debug.github.io/extensions-portfolio/#website",
+        "url": "https://sidoua26-debug.github.io/extensions-portfolio/",
+        "name": "Browser Extensions Portfolio",
+        "description": "Privacy-first Microsoft Edge browser extensions portfolio and in-browser Word-to-LaTeX converter.",
+        "inLanguage": "en"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://sidoua26-debug.github.io/extensions-portfolio/#word-to-latex",
+        "name": "Word to LaTeX (Offline)",
+        "operatingSystem": "Any (Browser Extension / WebAssembly)",
+        "applicationCategory": "ProductivityApplication",
+        "description": "Converts Microsoft Word (.docx) documents, tables, and math into clean LaTeX completely offline inside the browser.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
       }
-    }
+    ]
+  }
+  </script>
 
-    /* Explicit Dark Theme */
-    html[data-theme="dark"] {
-      --bg-page: #080c14;
-      --bg-surface: #0f1624;
-      --bg-surface-elevated: #162033;
-      --bg-muted: #141c2c;
-      --bg-subtle: #0d131f;
-      --border-page: #1c2638;
-      --border-subtle: #2d3b52;
-      --border-focus: #818cf8;
-
-      --text-main: #f8fafc;
-      --text-secondary: #cbd5e1;
-      --text-tertiary: #94a3b8;
-      --text-soft: #64748b;
-
-      --accent: #818cf8;
-      --accent-hover: #a5b4fc;
-      --accent-subtle: rgba(129, 140, 248, 0.12);
-      --accent-border: rgba(129, 140, 248, 0.28);
-      --accent-text: #c7d2fe;
-
-      --tint-w2l: #818cf8;
-      --tint-w2l-subtle: rgba(129, 140, 248, 0.12);
-      --tint-w2l-border: rgba(129, 140, 248, 0.28);
-
-      --tint-table: #38bdf8;
-      --tint-table-subtle: rgba(56, 189, 248, 0.12);
-      --tint-table-border: rgba(56, 189, 248, 0.28);
-
-      --tint-bulk: #38bdf8;
-      --tint-bulk-subtle: rgba(56, 189, 248, 0.12);
-      --tint-bulk-border: rgba(56, 189, 248, 0.28);
-
-      --tint-seo: #34d399;
-      --tint-seo-subtle: rgba(52, 211, 153, 0.12);
-      --tint-seo-border: rgba(52, 211, 153, 0.28);
-
-      --tint-audit: #fbbf24;
-      --tint-audit-subtle: rgba(251, 191, 36, 0.12);
-      --tint-audit-border: rgba(251, 191, 36, 0.28);
-
-      --tint-mail: #fb923c;
-      --tint-mail-subtle: rgba(251, 146, 60, 0.12);
-      --tint-mail-border: rgba(251, 146, 60, 0.28);
-
-      --edge-blue: #38bdf8;
-      --edge-blue-hover: #7dd3fc;
-      --edge-blue-subtle: rgba(56, 189, 248, 0.12);
-      --edge-blue-border: rgba(56, 189, 248, 0.28);
-
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.35);
-      --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.45);
-      --shadow-lg: 0 20px 32px rgba(0, 0, 0, 0.6);
-      --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.4), 0 12px 28px -6px rgba(0, 0, 0, 0.5);
-    }
-
-    /* Explicit Light Theme */
-    html[data-theme="light"] {
-      --bg-page: #f8fafc;
-      --bg-surface: #ffffff;
-      --bg-surface-elevated: #ffffff;
-      --bg-muted: #f1f5f9;
-      --bg-subtle: #f8fafc;
-      --border-page: #e2e8f0;
-      --border-subtle: #cbd5e1;
-      --border-focus: #4f46e5;
-
-      --text-main: #090d16;
-      --text-secondary: #475569;
-      --text-tertiary: #64748b;
-      --text-soft: #94a3b8;
-
-      --accent: #4f46e5;
-      --accent-hover: #4338ca;
-      --accent-subtle: rgba(79, 70, 229, 0.08);
-      --accent-border: rgba(79, 70, 229, 0.2);
-      --accent-text: #4338ca;
-
-      --tint-w2l: #6366f1;
-      --tint-w2l-subtle: rgba(99, 102, 241, 0.08);
-      --tint-w2l-border: rgba(99, 102, 241, 0.22);
-
-      --tint-table: #0284c7;
-      --tint-table-subtle: rgba(2, 132, 199, 0.08);
-      --tint-table-border: rgba(2, 132, 199, 0.22);
-
-      --tint-bulk: #0284c7;
-      --tint-bulk-subtle: rgba(2, 132, 199, 0.08);
-      --tint-bulk-border: rgba(2, 132, 199, 0.22);
-
-      --tint-seo: #059669;
-      --tint-seo-subtle: rgba(5, 150, 105, 0.08);
-      --tint-seo-border: rgba(5, 150, 105, 0.22);
-
-      --tint-audit: #d97706;
-      --tint-audit-subtle: rgba(217, 119, 6, 0.08);
-      --tint-audit-border: rgba(217, 119, 6, 0.22);
-
-      --tint-mail: #ea580c;
-      --tint-mail-subtle: rgba(234, 88, 12, 0.08);
-      --tint-mail-border: rgba(234, 88, 12, 0.22);
-
-      --edge-blue: #0078d4;
-      --edge-blue-hover: #106ebe;
-      --edge-blue-subtle: rgba(0, 120, 212, 0.08);
-      --edge-blue-border: rgba(0, 120, 212, 0.24);
-
-      --shadow-sm: 0 1px 2px 0 rgba(9, 13, 22, 0.04);
-      --shadow-md: 0 4px 12px -2px rgba(9, 13, 22, 0.06);
-      --shadow-lg: 0 16px 32px -4px rgba(9, 13, 22, 0.08);
-      --shadow-card: 0 1px 3px rgba(9, 13, 22, 0.05), 0 10px 24px -6px rgba(9, 13, 22, 0.04);
-    }
-
-    /* ==========================================================================
-       RESET & BASE ELEMENTS
-       ========================================================================== */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      font-size: 16px;
-    }
-
-    body {
-      font-family: var(--font-sans);
-      background-color: var(--bg-page);
-      color: var(--text-main);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-      transition: background-color var(--ease), color var(--ease);
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    code {
-      font-family: var(--font-mono);
-      font-size: 0.86em;
-      background: var(--bg-muted);
-      border: 1px solid var(--border-page);
-      padding: 0.16em 0.4em;
-      border-radius: var(--r-sm);
-      color: var(--text-main);
-    }
-
-    :focus-visible {
-      outline: 2px solid var(--border-focus);
-      outline-offset: 3px;
-      border-radius: var(--r-sm);
-    }
-
-    .container {
-      width: 100%;
-      max-width: 1160px;
-      margin-inline: auto;
-      padding-inline: clamp(16px, 4vw, 32px);
-    }
-
-    /* ==========================================================================
-       BUTTONS & BADGES
-       ========================================================================== */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 10px 20px;
-      font-size: 0.925rem;
-      font-weight: 600;
-      line-height: 1.2;
-      border-radius: var(--r-md);
-      border: 1px solid transparent;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background var(--ease), border-color var(--ease), transform var(--ease), box-shadow var(--ease);
-      user-select: none;
-      text-decoration: none;
-    }
-
-    .btn:active {
-      transform: translateY(1px);
-    }
-
-    .btn-primary {
-      background: #4f46e5;
-      color: #ffffff;
-      border-color: #4f46e5;
-      box-shadow: 0 1px 3px rgba(79, 70, 229, 0.25), 0 4px 10px rgba(79, 70, 229, 0.15);
-    }
-
-    .btn-primary:hover {
-      background: #4338ca;
-      border-color: #4338ca;
-      transform: translateY(-1px);
-      box-shadow: 0 3px 6px rgba(79, 70, 229, 0.3), 0 8px 18px rgba(79, 70, 229, 0.2);
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      border-color: var(--accent-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 3px 6px rgba(79, 70, 229, 0.3), 0 8px 18px rgba(79, 70, 229, 0.2);
-    }
-
-    .btn-edge {
-      background: #0078d4;
-      color: #ffffff;
-      border-color: #0078d4;
-      box-shadow: 0 1px 3px rgba(0, 120, 212, 0.25);
-    }
-
-    .btn-edge:hover {
-      background: #106ebe;
-      border-color: #106ebe;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 120, 212, 0.35);
-    }
-
-    .btn-ghost {
-      background: var(--bg-surface);
-      color: var(--text-main);
-      border: 1px solid var(--border-page);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .btn-ghost:hover {
-      background: var(--bg-muted);
-      border-color: var(--border-subtle);
-      transform: translateY(-1px);
-    }
-
-    .btn-sm {
-      padding: 7px 14px;
-      font-size: 0.85rem;
-      border-radius: var(--r-sm);
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      font-size: 0.775rem;
-      font-weight: 600;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      line-height: 1.35;
-      letter-spacing: 0.01em;
-    }
-
-    .badge-edge {
-      background: var(--edge-blue-subtle);
-      color: var(--edge-blue);
-      border-color: var(--edge-blue-border);
-    }
-
-    .badge-subtle {
-      background: var(--bg-muted);
-      color: var(--text-secondary);
-      border-color: var(--border-page);
-    }
-
-    .badge-w2l {
-      background: var(--tint-w2l-subtle);
-      color: var(--tint-w2l);
-      border-color: var(--tint-w2l-border);
-    }
-
-    .badge-table {
-      background: var(--tint-table-subtle);
-      color: var(--tint-table);
-      border-color: var(--tint-table-border);
-    }
-
-    .badge-seo {
-      background: var(--tint-seo-subtle);
-      color: var(--tint-seo);
-      border-color: var(--tint-seo-border);
-    }
-
-    .badge-audit {
-      background: var(--tint-audit-subtle);
-      color: var(--tint-audit);
-      border-color: var(--tint-audit-border);
-    }
-
-    .badge-mail {
-      background: var(--tint-mail-subtle);
-      color: var(--tint-mail);
-      border-color: var(--tint-mail-border);
-    }
-
-    /* ==========================================================================
-       STICKY NAVBAR
-       ========================================================================== */
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(248, 250, 252, 0.88);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border-page);
-      transition: background var(--ease), border-color var(--ease);
-    }
-
-    html[data-theme="dark"] .navbar,
-    @media (prefers-color-scheme: dark) {
-      html:not([data-theme="light"]) .navbar {
-        background: rgba(8, 12, 20, 0.88);
-      }
-    }
-
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
-      gap: 16px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      font-size: 1.05rem;
-      color: var(--text-main);
-      letter-spacing: -0.02em;
-    }
-
-    .brand-mark {
-      width: 32px;
-      height: 32px;
-      border-radius: var(--r-md);
-      background: linear-gradient(135deg, var(--accent), #4338ca);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.35);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      list-style: none;
-    }
-
-    .nav-link {
-      padding: 8px 14px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      border-radius: var(--r-sm);
-      transition: color var(--ease), background var(--ease);
-    }
-
-    .nav-link:hover {
-      color: var(--text-main);
-      background: var(--bg-muted);
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .theme-toggle {
-      width: 38px;
-      height: 38px;
-      border-radius: var(--r-md);
-      border: 1px solid var(--border-page);
-      background: var(--bg-surface);
-      color: var(--text-secondary);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all var(--ease);
-    }
-
-    .theme-toggle:hover {
-      color: var(--text-main);
-      border-color: var(--border-subtle);
-      background: var(--bg-muted);
-    }
-
-    .icon-sun, .icon-moon {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    /* Auto switch icons */
-    .icon-sun { display: none; }
-    .icon-moon { display: block; }
-    @media (prefers-color-scheme: dark) {
-      html:not([data-theme="light"]) .icon-sun { display: block; }
-      html:not([data-theme="light"]) .icon-moon { display: none; }
-    }
-    html[data-theme="dark"] .icon-sun { display: block; }
-    html[data-theme="dark"] .icon-moon { display: none; }
-    html[data-theme="light"] .icon-sun { display: none; }
-    html[data-theme="light"] .icon-moon { display: block; }
-
-    .mobile-menu-btn {
-      display: none;
-      width: 38px;
-      height: 38px;
-      border-radius: var(--r-md);
-      border: 1px solid var(--border-page);
-      background: var(--bg-surface);
-      color: var(--text-main);
-      cursor: pointer;
-      align-items: center;
-      justify-content: center;
-    }
-
-    @media (max-width: 768px) {
-      .mobile-menu-btn { display: flex; }
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 64px;
-        left: 0;
-        right: 0;
-        background: var(--bg-surface);
-        border-bottom: 1px solid var(--border-page);
-        padding: 12px 24px 20px;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 6px;
-        box-shadow: var(--shadow-lg);
-      }
-      .nav-links.open { display: flex; }
-      .nav-link { padding: 10px 14px; }
-      .nav-actions .btn-edge { display: none; }
-    }
-
-    /* ==========================================================================
-       HERO SECTION
-       ========================================================================== */
-    .hero {
-      position: relative;
-      padding-top: clamp(60px, 8vw, 100px);
-      padding-bottom: clamp(64px, 8vw, 108px);
-      border-bottom: 1px solid var(--border-page);
-      overflow: hidden;
-    }
-
-    .hero-grid-bg {
-      position: absolute;
-      inset: 0;
-      background-image: 
-        linear-gradient(var(--border-page) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border-page) 1px, transparent 1px);
-      background-size: 56px 56px;
-      opacity: 0.35;
-      mask-image: radial-gradient(ellipse 75% 65% at 50% 15%, black 20%, transparent 80%);
-      -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 15%, black 20%, transparent 80%);
-      pointer-events: none;
-    }
-
-    .hero-content {
-      position: relative;
-      max-width: 860px;
-      margin-inline: auto;
-      text-align: center;
-    }
-
-    .hero-badge-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 22px;
-      padding: 6px 14px;
-      font-size: 0.825rem;
-      font-weight: 600;
-      color: var(--edge-blue);
-      background: var(--edge-blue-subtle);
-      border: 1px solid var(--edge-blue-border);
-      border-radius: 999px;
-    }
-
-    .hero-badge-pill svg {
-      width: 14px;
-      height: 14px;
-    }
-
-    .hero-title {
-      font-size: clamp(2.4rem, 5.2vw, 4rem);
-      font-weight: 800;
-      line-height: 1.08;
-      letter-spacing: -0.038em;
-      color: var(--text-main);
-      margin-bottom: 20px;
-    }
-
-    .hero-sub {
-      font-size: clamp(1.05rem, 2vw, 1.25rem);
-      color: var(--text-secondary);
-      line-height: 1.62;
-      margin-bottom: 34px;
-      max-width: 680px;
-      margin-inline: auto;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 40px;
-    }
-
-    .trust-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      padding-top: 24px;
-      border-top: 1px solid var(--border-page);
-      font-size: 0.85rem;
-      color: var(--text-tertiary);
-    }
-
-    .trust-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .trust-chip svg {
-      width: 16px;
-      height: 16px;
-      color: var(--tint-seo);
-    }
-
-    /* Hero Standout Visual Mock */
-    .hero-visual-container {
-      margin-top: 48px;
-      border-radius: var(--r-xl);
-      background: var(--bg-surface);
-      border: 1px solid var(--border-page);
-      box-shadow: var(--shadow-lg);
-      overflow: hidden;
-      text-align: left;
-    }
-
-    .hero-visual-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 18px;
-      background: var(--bg-muted);
-      border-bottom: 1px solid var(--border-page);
-    }
-
-    .visual-dots {
-      display: flex;
-      gap: 6px;
-    }
-
-    .visual-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--border-subtle);
-    }
-
-    .visual-title-pill {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--text-tertiary);
-      background: var(--bg-surface);
-      padding: 3px 12px;
-      border-radius: 4px;
-      border: 1px solid var(--border-page);
-    }
-
-    .hero-visual-frame {
-      position: relative;
-      background: #000;
-      cursor: zoom-in;
-    }
-
-    .hero-visual-frame img {
-      width: 100%;
-      height: auto;
-      display: block;
-      transition: opacity var(--ease);
-    }
-
-    /* ==========================================================================
-       FLAGSHIP PRODUCT SECTION: Word to LaTeX (Offline)
-       ========================================================================== */
-    .flagship-section {
-      padding-block: clamp(72px, 9vw, 112px);
-      background: var(--bg-surface);
-      border-bottom: 1px solid var(--border-page);
-    }
-
-    .section-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.825rem;
-      font-weight: 700;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 12px;
-    }
-
-    .section-heading {
-      font-size: clamp(2rem, 3.8vw, 2.75rem);
-      font-weight: 800;
-      letter-spacing: -0.035em;
-      line-height: 1.15;
-      color: var(--text-main);
-      margin-bottom: 14px;
-    }
-
-    .section-lead {
-      font-size: 1.05rem;
-      color: var(--text-secondary);
-      max-width: 640px;
-      line-height: 1.6;
-    }
-
-    .flagship-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 40px;
-      margin-top: 48px;
-    }
-
-    @media (min-width: 960px) {
-      .flagship-grid {
-        grid-template-columns: 1.15fr 0.85fr;
-        align-items: start;
-        gap: 56px;
-      }
-    }
-
-    /* Interactive Showcase Gallery */
-    .product-showcase {
-      background: var(--bg-page);
-      border: 1px solid var(--border-page);
-      border-radius: var(--r-xl);
-      overflow: hidden;
-      box-shadow: var(--shadow-card);
-    }
-
-    .showcase-toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
-      background: var(--bg-muted);
-      border-bottom: 1px solid var(--border-page);
-    }
-
-    .showcase-tabs-nav {
-      display: flex;
-      overflow-x: auto;
-      gap: 4px;
-      padding: 8px 12px;
-      background: var(--bg-surface);
-      border-bottom: 1px solid var(--border-page);
-      scrollbar-width: thin;
-    }
-
-    .tab-trigger {
-      padding: 7px 14px;
-      font-size: 0.825rem;
-      font-weight: 600;
-      border: 1px solid transparent;
-      border-radius: var(--r-sm);
-      background: transparent;
-      color: var(--text-secondary);
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all var(--ease);
-      font-family: var(--font-sans);
-    }
-
-    .tab-trigger:hover {
-      color: var(--text-main);
-      background: var(--bg-muted);
-    }
-
-    .tab-trigger.active {
-      color: var(--accent);
-      background: var(--accent-subtle);
-      border-color: var(--accent-border);
-    }
-
-    .showcase-stage {
-      position: relative;
-      background: #090d16;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 380px;
-    }
-
-    .showcase-img {
-      width: 100%;
-      height: auto;
-      display: none;
-      cursor: zoom-in;
-    }
-
-    .showcase-img.active {
-      display: block;
-    }
-
-    .showcase-caption {
-      padding: 12px 18px;
-      font-size: 0.825rem;
-      color: var(--text-secondary);
-      background: var(--bg-surface);
-      border-top: 1px solid var(--border-page);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    /* Benefits List */
-    .flagship-benefits {
-      display: flex;
-      flex-direction: column;
-      gap: 22px;
-    }
-
-    .benefit-group {
-      display: flex;
-      gap: 14px;
-    }
-
-    .benefit-icon-container {
-      width: 38px;
-      height: 38px;
-      border-radius: var(--r-md);
-      background: var(--tint-w2l-subtle);
-      border: 1px solid var(--tint-w2l-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--tint-w2l);
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .benefit-title {
-      font-size: 0.985rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 2px;
-    }
-
-    .benefit-desc {
-      font-size: 0.885rem;
-      color: var(--text-secondary);
-      line-height: 1.55;
-    }
-
-    .experimental-notice {
-      padding: 14px 18px;
-      background: var(--tint-audit-subtle);
-      border: 1px solid var(--tint-audit-border);
-      border-left: 4px solid var(--tint-audit);
-      border-radius: var(--r-md);
-      font-size: 0.85rem;
-      color: var(--text-main);
-      line-height: 1.55;
-    }
-
-    .experimental-notice strong {
-      color: var(--tint-audit);
-    }
-
-    /* ==========================================================================
-       ALL EXTENSIONS PORTFOLIO SECTION (5 Distinctive Products)
-       ========================================================================== */
-    .portfolio-section {
-      padding-block: clamp(72px, 9vw, 112px);
-      border-bottom: 1px solid var(--border-page);
-    }
-
-    .portfolio-header-area {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 48px;
-    }
-
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-
-    @media (min-width: 680px) {
-      .portfolio-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (min-width: 1040px) {
-      .portfolio-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    /* Product Card Architecture */
-    .product-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-page);
-      border-radius: var(--r-xl);
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
-      overflow: hidden;
-      box-shadow: var(--shadow-card);
-    }
-
-    .product-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
-      border-color: var(--border-subtle);
-    }
-
-    /* Featured card takes 2 columns on wide screens */
-    .product-card.card-featured {
-      background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-subtle) 100%);
-      border-color: var(--tint-w2l-border);
-    }
-
-    @media (min-width: 1040px) {
-      .product-card.card-featured {
-        grid-column: span 2;
-      }
-    }
-
-    .card-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-
-    .card-icon-img {
-      width: 52px;
-      height: 52px;
-      border-radius: var(--r-md);
-      background: var(--bg-muted);
-      border: 1px solid var(--border-page);
-      object-fit: contain;
-      flex-shrink: 0;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .card-header-meta {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .card-product-name {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text-main);
-      letter-spacing: -0.015em;
-      line-height: 1.25;
-      margin-bottom: 4px;
-    }
-
-    .card-subheading {
-      font-size: 0.84rem;
-      color: var(--text-secondary);
-      line-height: 1.4;
-    }
-
-    .card-body {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .card-pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .card-screenshot-wrap {
-      width: 100%;
-      height: 164px;
-      border-radius: var(--r-md);
-      overflow: hidden;
-      border: 1px solid var(--border-page);
-      background: #000;
-      position: relative;
-      cursor: zoom-in;
-    }
-
-    .card-screenshot-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform var(--ease);
-    }
-
-    .card-screenshot-wrap:hover img {
-      transform: scale(1.03);
-    }
-
-    .card-benefit-quote {
-      font-size: 0.875rem;
-      color: var(--text-main);
-      background: var(--bg-muted);
-      border-left: 3px solid var(--accent);
-      padding: 10px 14px;
-      border-radius: 0 var(--r-sm) var(--r-sm) 0;
-      line-height: 1.5;
-    }
-
-    .card-points {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      font-size: 0.835rem;
-      color: var(--text-secondary);
-    }
-
-    .card-points li {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-    }
-
-    .card-points li svg {
-      width: 14px;
-      height: 14px;
-      color: var(--tint-seo);
-      flex-shrink: 0;
-      margin-top: 3px;
-    }
-
-    .btn-chrome {
-      background: #1a73e8;
-      color: #ffffff;
-      border-color: #1a73e8;
-      box-shadow: 0 1px 3px rgba(26, 115, 232, 0.25);
-    }
-
-    .btn-chrome:hover {
-      background: #1557b0;
-      border-color: #1557b0;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.35);
-    }
-
-    .card-footer {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border-page);
-    }
-
-    .card-actions-group {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    /* ==========================================================================
-       HOW TO INSTALL SECTION
-       ========================================================================== */
-    .install-section {
-      padding-block: clamp(72px, 9vw, 112px);
-      background: var(--bg-surface);
-      border-bottom: 1px solid var(--border-page);
-    }
-
-    .install-cards-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-      margin-top: 40px;
-    }
-
-    @media (min-width: 680px) {
-      .install-cards-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (min-width: 1040px) {
-      .install-cards-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-
-    .install-step-box {
-      background: var(--bg-page);
-      border: 1px solid var(--border-page);
-      border-radius: var(--r-xl);
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      position: relative;
-    }
-
-    .step-badge {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--accent-subtle);
-      border: 1px solid var(--accent-border);
-      color: var(--accent);
-      font-weight: 800;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .step-heading {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    .step-paragraph {
-      font-size: 0.865rem;
-      color: var(--text-secondary);
-      line-height: 1.55;
-    }
-
-    /* ==========================================================================
-       LABS / IN DEVELOPMENT (MailFlow)
-       ========================================================================== */
-    .labs-section {
-      padding-block: 48px;
-      background: var(--bg-page);
-      border-bottom: 1px solid var(--border-page);
-    }
-
-    .labs-container-box {
-      background: var(--bg-surface);
-      border: 1px dashed var(--border-subtle);
-      border-radius: var(--r-xl);
-      padding: 24px 28px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .labs-info-group {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .labs-icon-box {
-      width: 48px;
-      height: 48px;
-      border-radius: var(--r-md);
-      background: var(--tint-mail-subtle);
-      border: 1px solid var(--tint-mail-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--tint-mail);
-      flex-shrink: 0;
-    }
-
-    /* ==========================================================================
-       ABOUT & FOOTER
-       ========================================================================== */
-    .about-section {
-      padding-block: clamp(64px, 8vw, 96px);
-      background: var(--bg-surface);
-      border-bottom: 1px solid var(--border-page);
-    }
-
-    .about-card {
-      max-width: 680px;
-    }
-
-    .about-body-text {
-      font-size: 1.05rem;
-      color: var(--text-secondary);
-      line-height: 1.75;
-      margin-block: 16px 28px;
-    }
-
-    .about-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .site-footer {
-      padding-block: 36px;
-      background: var(--bg-page);
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-    }
-
-    .footer-content {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .footer-nav-list {
-      display: flex;
-      gap: 20px;
-      list-style: none;
-    }
-
-    .footer-nav-list a:hover {
-      color: var(--text-main);
-    }
-
-    /* ==========================================================================
-       ACCESSIBLE LIGHTBOX
-       ========================================================================== */
-    .lightbox-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      background: rgba(0, 0, 0, 0.88);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-
-    .lightbox-modal.active {
-      display: flex;
-    }
-
-    .lightbox-window {
-      position: relative;
-      max-width: 1280px;
-      max-height: 90vh;
-      border-radius: var(--r-lg);
-      overflow: hidden;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-
-    .lightbox-large-img {
-      width: 100%;
-      height: auto;
-      max-height: 85vh;
-      object-fit: contain;
-      display: block;
-    }
-
-    .lightbox-close-btn {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(15, 23, 42, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      color: #ffffff;
-      font-size: 1.25rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background var(--ease);
-    }
-
-    .lightbox-close-btn:hover {
-      background: rgba(15, 23, 42, 1);
-    }
-
-    /* Reduced Motion */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-  </style>
 </head>
 <body>
 
@@ -1422,6 +85,7 @@ html = r'''<!DOCTYPE html>
       <nav aria-label="Main Navigation">
         <ul class="nav-links" id="navLinks">
           <li><a href="#flagship" class="nav-link">Word to LaTeX</a></li>
+          <li><a href="#live-converter" class="nav-link">Online Converter</a></li>
           <li><a href="#portfolio" class="nav-link">All 5 Add-ons</a></li>
           <li><a href="#install" class="nav-link">Installation</a></li>
           <li><a href="#about" class="nav-link">About</a></li>
@@ -1465,7 +129,7 @@ html = r'''<!DOCTYPE html>
         </div>
 
         <h1 id="heroHeadline" class="hero-title">
-          Powerful Browser Extensions.<br>Built for Real Work.
+          Powerful Browser Extensions. <br>Built for Real Work.
         </h1>
 
         <p class="hero-sub">
@@ -1473,15 +137,14 @@ html = r'''<!DOCTYPE html>
         </p>
 
         <div class="hero-actions">
-          <a href="#flagship" class="btn btn-primary">
-            Explore Word to LaTeX
+          <a href="#live-converter" class="btn btn-primary">
+            Try Online Converter
           </a>
           <a href="#portfolio" class="btn btn-ghost">
             Explore All Extensions
           </a>
         </div>
 
-        <!-- Trust Row (Verified Facts Only) -->
         <div class="trust-row">
           <div class="trust-chip">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
@@ -1497,18 +160,72 @@ html = r'''<!DOCTYPE html>
           </div>
         </div>
 
-        <!-- Convincing Visual Preview in Hero -->
-        <div class="hero-visual-container">
-          <div class="hero-visual-bar">
-            <div class="visual-dots" aria-hidden="true">
-              <span class="visual-dot"></span>
-              <span class="visual-dot"></span>
-              <span class="visual-dot"></span>
+        <div class="converter-card" id="live-converter">
+          <div class="converter-card-header">
+            <div>
+              <span class="badge badge-w2l">Local Pandoc WASM</span>
+              <span class="badge badge-subtle" style="margin-left: 6px;">Zero Uploads</span>
             </div>
-            <div class="visual-title-pill">Word to LaTeX (Offline) — Active Conversion Preview</div>
+
+            <div class="converter-mode-group" role="radiogroup" aria-label="LaTeX Output Mode">
+              <button type="button" class="mode-btn active" id="modeFragmentBtn" role="radio" aria-checked="true" title="Generate body snippet without document preamble">
+                LaTeX Fragment
+              </button>
+              <button type="button" class="mode-btn" id="modeDocumentBtn" role="radio" aria-checked="false" title="Generate complete compilable document with preamble">
+                Complete Document
+              </button>
+            </div>
           </div>
-          <div class="hero-visual-frame">
-            <img class="lightbox-trigger" src="assets/screenshots/w2l-2-output.png" alt="Word to LaTeX conversion output interface with instant clipboard copy toast" title="Click to view full 1280x800 resolution">
+
+          <div class="converter-card-body">
+            <div class="drop-zone" id="converterDropZone" tabindex="0" role="region" aria-label="Word document upload dropzone">
+              <input type="file" id="docxFileInput" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display: none !important;" aria-label="Select Word document (.docx)">
+              <div class="drop-icon" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+              </div>
+              <div class="drop-title">Select or drop a Microsoft Word (.docx) document</div>
+              <div class="drop-subtitle">Processed locally on your machine via WebAssembly. Press Enter or click to browse.</div>
+              <button type="button" class="btn btn-edge btn-sm" id="converterChooseBtn">
+                Choose .docx File
+              </button>
+              <div id="converterFileName" class="file-name-tag" hidden></div>
+            </div>
+
+            <div id="converterStatus" class="status-panel" role="status" aria-live="polite">
+              <div id="converterStatusDot" class="status-indicator-dot" aria-hidden="true"></div>
+              <div id="converterStatusSpinner" class="status-spinner" aria-hidden="true" style="display: none;"></div>
+              <div>
+                <strong id="converterStatusStage" style="text-transform: capitalize; margin-right: 6px;">Status:</strong>
+                <span id="converterStatusMessage">Ready — select or drop a .docx file to convert</span>
+              </div>
+            </div>
+
+            <div id="converterError" class="error-banner" role="alert" aria-live="assertive" hidden></div>
+
+            <div id="converterOutputContainer" class="output-panel" hidden>
+              <div class="output-header">
+                <span class="output-title">Clean LaTeX Output</span>
+                <div class="output-actions">
+                  <button type="button" id="converterCopyBtn" class="btn btn-ghost btn-sm" title="Copy LaTeX snippet to clipboard">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    Copy LaTeX
+                  </button>
+                  <button type="button" id="converterDownloadBtn" class="btn btn-ghost btn-sm" title="Download as .tex file">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Download .tex
+                  </button>
+                  <button type="button" id="converterResetBtn" class="btn btn-ghost btn-sm" title="Convert another file">
+                    Convert Another
+                  </button>
+                </div>
+              </div>
+              <textarea id="converterOutputArea" class="output-textarea" readonly spellcheck="false" aria-label="LaTeX Output"></textarea>
+            </div>
+
+            <div class="converter-attribution">
+              Conversion engine powered by <a href="https://pandoc.org/" target="_blank" rel="noopener noreferrer">Pandoc</a> 3.10 compiled to WebAssembly (GPL-2.0+).
+              View engine license and attribution at <a href="assets/wasm/LICENSE.txt" target="_blank">LICENSE.txt</a>.
+            </div>
           </div>
         </div>
       </div>
@@ -1526,7 +243,6 @@ html = r'''<!DOCTYPE html>
         </p>
 
         <div class="flagship-grid">
-          <!-- Interactive Screenshot Showcase -->
           <div class="product-showcase">
             <div class="showcase-toolbar">
               <div class="visual-dots" aria-hidden="true">
@@ -1537,7 +253,6 @@ html = r'''<!DOCTYPE html>
               <span class="badge badge-w2l">Pandoc WebAssembly</span>
             </div>
 
-            <!-- Tab Switcher -->
             <div class="showcase-tabs-nav" role="tablist" aria-label="Word to LaTeX Interfaces">
               <button class="tab-trigger active" role="tab" aria-selected="true" data-target="panel-w2l-output">LaTeX Output &amp; Copy</button>
               <button class="tab-trigger" role="tab" aria-selected="false" data-target="panel-w2l-upload">DOCX File Upload</button>
@@ -1546,10 +261,10 @@ html = r'''<!DOCTYPE html>
             </div>
 
             <div class="showcase-stage">
-              <img id="panel-w2l-output" class="showcase-img active lightbox-trigger" src="assets/screenshots/w2l-2-output.png" alt="Word to LaTeX output view with instant clipboard sync confirmation" title="Click to enlarge" loading="lazy">
-              <img id="panel-w2l-upload" class="showcase-img lightbox-trigger" src="assets/screenshots/w2l-1-upload.png" alt="Word to LaTeX local DOCX file upload view" title="Click to enlarge" loading="lazy">
-              <img id="panel-w2l-paste" class="showcase-img lightbox-trigger" src="assets/screenshots/w2l-3-paste.png" alt="Word to LaTeX pasted table conversion" title="Click to enlarge" loading="lazy">
-              <img id="panel-w2l-ocr" class="showcase-img lightbox-trigger" src="assets/screenshots/w2l-4-image.png" alt="Word to LaTeX experimental image OCR" title="Click to enlarge" loading="lazy">
+              <img id="panel-w2l-output" class="showcase-img active lightbox-trigger" src="assets/screenshots/w2l-2-output.png" alt="Word to LaTeX output view with instant clipboard sync confirmation" title="Click to enlarge" loading="lazy" width="1280" height="800">
+              <img id="panel-w2l-upload" class="showcase-img lightbox-trigger" src="assets/screenshots/w2l-1-upload.png" alt="Word to LaTeX local DOCX file upload view" title="Click to enlarge" loading="lazy" width="1280" height="800">
+              <img id="panel-w2l-paste" class="showcase-img lightbox-trigger" src="assets/screenshots/w2l-3-paste.png" alt="Word to LaTeX pasted table conversion" title="Click to enlarge" loading="lazy" width="1280" height="800">
+              <img id="panel-w2l-ocr" class="showcase-img lightbox-trigger" src="assets/screenshots/w2l-4-image.png" alt="Word to LaTeX experimental image OCR" title="Click to enlarge" loading="lazy" width="1280" height="800">
             </div>
 
             <div class="showcase-caption">
@@ -1558,9 +273,8 @@ html = r'''<!DOCTYPE html>
             </div>
           </div>
 
-          <!-- Product Story & Benefits -->
           <div class="flagship-benefits">
-            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <div class="flex-wrap-gap-8">
               <span class="badge badge-edge">Microsoft Edge Verified</span>
               <span class="badge badge-subtle">Zero Permissions Requested</span>
               <span class="badge badge-w2l">Version 1.0.5</span>
@@ -1596,15 +310,18 @@ html = r'''<!DOCTYPE html>
               </div>
             </div>
 
-            <!-- Honest Limitation Disclosure -->
             <div class="experimental-notice" role="note">
               <strong>Transparent Scope &amp; Limitations:</strong> Image OCR is experimental and tested against an 80-sample golden evaluation corpus (97.5% compile rate). Radicals (√) are often read as V, matrix grids are unreliable, and handwriting is unsupported. Always review OCR output before publication.
             </div>
 
-            <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px;">
+            <div class="flex-wrap-gap-12-mt-8">
               <a href="https://microsoftedge.microsoft.com/addons/detail/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-edge" aria-label="Install Word to LaTeX on Microsoft Edge Add-ons">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10l4-4"/><path d="M16 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
                 Get on Microsoft Edge Add-ons
+              </a>
+              <a href="#live-converter" class="btn btn-edge btn-converter-tint">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                Try Online Converter
               </a>
               <a href="https://github.com/sidoua26-debug/word-to-latex-extension" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
@@ -1615,6 +332,8 @@ html = r'''<!DOCTYPE html>
         </div>
       </div>
     </section>
+
+
 
     <!-- ======================================================================
          PORTFOLIO GRID: All 5 Confirmed Published Products
@@ -1634,10 +353,9 @@ html = r'''<!DOCTYPE html>
 
         <div class="portfolio-grid">
 
-<!-- 1. Table Extractor -->
           <article class="product-card" aria-labelledby="cardTitleTable">
             <div class="card-header">
-              <img class="card-icon-img" src="assets/icons/table-extractor-300.png" alt="Table Extractor icon" loading="lazy">
+              <img class="card-icon-img" src="assets/icons/table-extractor-300.png" alt="Table Extractor icon" loading="lazy" width="300" height="300">
               <div class="card-header-meta">
                 <h3 id="cardTitleTable" class="card-product-name">Table Extractor</h3>
                 <p class="card-subheading">HTML &amp; Virtualized Data Grid Exporter</p>
@@ -1655,13 +373,13 @@ html = r'''<!DOCTYPE html>
               </div>
 
               <div class="card-screenshot-wrap">
-                <img class="lightbox-trigger" src="assets/screenshots/table-1-detection.png" alt="Table Extractor detecting HTML tables" loading="lazy">
+                <img class="lightbox-trigger" src="assets/screenshots/table-1-detection.png" alt="Table Extractor detecting HTML tables" loading="lazy" width="1280" height="800">
               </div>
 
               <ul class="card-points">
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Auto-detects standard &amp; virtualized tables</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> UTF-8 BOM encoding for instant Excel opening</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Granular row range &amp; hidden column recovery</li>
+                <li>Auto-detects standard &amp; virtualized tables</li>
+                <li>UTF-8 BOM encoding for instant Excel opening</li>
+                <li>Granular row range &amp; hidden column recovery</li>
               </ul>
             </div>
 
@@ -1674,10 +392,9 @@ html = r'''<!DOCTYPE html>
             </div>
           </article>
 
-          <!-- 2. BulkGrab -->
           <article class="product-card" aria-labelledby="cardTitleBulk">
             <div class="card-header">
-              <img class="card-icon-img" src="assets/icons/bulkgrab-128.png" alt="BulkGrab icon" loading="lazy">
+              <img class="card-icon-img" src="assets/icons/bulkgrab-128.png" alt="BulkGrab icon" loading="lazy" width="128" height="128">
               <div class="card-header-meta">
                 <h3 id="cardTitleBulk" class="card-product-name">BulkGrab</h3>
                 <p class="card-subheading">Batch File Downloader &amp; ZIP Bundler</p>
@@ -1695,13 +412,13 @@ html = r'''<!DOCTYPE html>
               </div>
 
               <div class="card-screenshot-wrap">
-                <img class="lightbox-trigger" src="assets/screenshots/bulkgrab-1-panel.png" alt="BulkGrab interactive floating file detection panel" loading="lazy">
+                <img class="lightbox-trigger" src="assets/screenshots/bulkgrab-1-panel.png" alt="BulkGrab interactive floating file detection panel" loading="lazy" width="1280" height="800">
               </div>
 
               <ul class="card-points">
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Smart scan for PDFs, images, archives, media</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Non-intrusive floating in-page selection panel</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Zero cloud upload — bundles files locally</li>
+                <li>Smart scan for PDFs, images, archives, media</li>
+                <li>Non-intrusive floating in-page selection panel</li>
+                <li>Zero cloud upload — bundles files locally</li>
               </ul>
             </div>
 
@@ -1714,10 +431,9 @@ html = r'''<!DOCTYPE html>
             </div>
           </article>
 
-          <!-- 3. Word to LaTeX (Portfolio Summary Card) -->
           <article class="product-card" aria-labelledby="cardTitleW2L">
             <div class="card-header">
-              <img class="card-icon-img" src="assets/icons/word-to-latex-128.png" alt="Word to LaTeX icon" loading="lazy">
+              <img class="card-icon-img" src="assets/icons/word-to-latex-128.png" alt="Word to LaTeX icon" loading="lazy" width="128" height="128">
               <div class="card-header-meta">
                 <h3 id="cardTitleW2L" class="card-product-name">Word to LaTeX</h3>
                 <p class="card-subheading">Offline Document &amp; Math Converter</p>
@@ -1735,13 +451,13 @@ html = r'''<!DOCTYPE html>
               </div>
 
               <div class="card-screenshot-wrap">
-                <img class="lightbox-trigger" src="assets/screenshots/w2l-2-output.png" alt="Word to LaTeX conversion interface preview" loading="lazy">
+                <img class="lightbox-trigger" src="assets/screenshots/w2l-2-output.png" alt="Word to LaTeX conversion interface preview" loading="lazy" width="1280" height="800">
               </div>
 
               <ul class="card-points">
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Native .docx conversion with Pandoc WASM</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Booktabs tables &amp; automatic artifact removal</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Offline Tesseract OCR math assistance</li>
+                <li>Native .docx conversion with Pandoc WASM</li>
+                <li>Booktabs tables &amp; automatic artifact removal</li>
+                <li>Offline Tesseract OCR math assistance</li>
               </ul>
             </div>
 
@@ -1754,10 +470,9 @@ html = r'''<!DOCTYPE html>
             </div>
           </article>
 
-          <!-- 4. SEO Inspector -->
           <article class="product-card" aria-labelledby="cardTitleSEO">
             <div class="card-header">
-              <img class="card-icon-img" src="assets/icons/seo-inspector-128.png" alt="SEO Inspector icon" loading="lazy">
+              <img class="card-icon-img" src="assets/icons/seo-inspector-128.png" alt="SEO Inspector icon" loading="lazy" width="128" height="128">
               <div class="card-header-meta">
                 <h3 id="cardTitleSEO" class="card-product-name">SEO Inspector</h3>
                 <p class="card-subheading">On-Page Technical Diagnostics</p>
@@ -1775,13 +490,13 @@ html = r'''<!DOCTYPE html>
               </div>
 
               <div class="card-screenshot-wrap">
-                <img class="lightbox-trigger" src="assets/screenshots/seo-1-overview.png" alt="SEO Inspector overview diagnostics tab" loading="lazy">
+                <img class="lightbox-trigger" src="assets/screenshots/seo-1-overview.png" alt="SEO Inspector overview diagnostics tab" loading="lazy" width="1280" height="800">
               </div>
 
               <ul class="card-points">
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> H1-H6 hierarchy visualizer &amp; keyword density</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> JSON-LD structured data parser &amp; validator</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Navigation Timing API benchmarks &amp; export</li>
+                <li>H1-H6 hierarchy visualizer &amp; keyword density</li>
+                <li>JSON-LD structured data parser &amp; validator</li>
+                <li>Navigation Timing API benchmarks &amp; export</li>
               </ul>
             </div>
 
@@ -1793,10 +508,9 @@ html = r'''<!DOCTYPE html>
             </div>
           </article>
 
-          <!-- 5. AuditPilot -->
           <article class="product-card" aria-labelledby="cardTitleAudit">
             <div class="card-header">
-              <img class="card-icon-img" src="assets/icons/auditpilot-300.png" alt="AuditPilot icon" loading="lazy">
+              <img class="card-icon-img" src="assets/icons/auditpilot-300.png" alt="AuditPilot icon" loading="lazy" width="300" height="300">
               <div class="card-header-meta">
                 <h3 id="cardTitleAudit" class="card-product-name">AuditPilot</h3>
                 <p class="card-subheading">AI Website &amp; CRO Auditor</p>
@@ -1814,13 +528,13 @@ html = r'''<!DOCTYPE html>
               </div>
 
               <div class="card-screenshot-wrap">
-                <img class="lightbox-trigger" src="assets/screenshots/auditpilot-1-overview.png" alt="AuditPilot active audit score dashboard" loading="lazy">
+                <img class="lightbox-trigger" src="assets/screenshots/auditpilot-1-overview.png" alt="AuditPilot active audit score dashboard" loading="lazy" width="1280" height="800">
               </div>
 
               <ul class="card-points">
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 5-pillar diagnostics (Value Prop, CRO, SEO, UX)</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Severity-ranked findings &amp; copy suggestions</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Executive branded PDF export for proposals</li>
+                <li>5-pillar diagnostics (Value Prop, CRO, SEO, UX)</li>
+                <li>Severity-ranked findings &amp; copy suggestions</li>
+                <li>Executive branded PDF export for proposals</li>
               </ul>
             </div>
 
@@ -1883,11 +597,11 @@ html = r'''<!DOCTYPE html>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </div>
             <div>
-              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
-                <h3 style="font-size: 1.05rem; font-weight: 700;">MailFlow</h3>
+              <div class="coming-soon-meta">
+                <h3 class="coming-soon-title">MailFlow</h3>
                 <span class="badge badge-mail">In Active Development</span>
               </div>
-              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+              <p class="coming-soon-desc">
                 Gmail template manager with dynamic variables, compose shortcut auto-expansion, and scheduled sending.
               </p>
             </div>
@@ -1909,7 +623,10 @@ html = r'''<!DOCTYPE html>
           <div class="section-eyebrow">Engineering Philosophy</div>
           <h2 id="aboutHeading" class="section-heading">Local-first browser software</h2>
           <p class="about-body-text">
-            I build focused, high-utility browser extensions for developers, academics, and researchers. Software should respect user autonomy: everything runs locally in the browser sandbox, requiring zero remote servers, no user accounts, and zero background analytics.
+            I build focused, high-utility browser extensions for developers, academics, SEO professionals, and researchers. Software should respect user autonomy: everything runs locally in the browser sandbox, requiring zero remote servers, no user accounts, and zero background analytics.
+          </p>
+          <p class="about-body-text">
+            Every tool in this portfolio is crafted under strict architectural constraints. WebAssembly allows heavy compute tasks—like compiling Pandoc 3.10 and running document conversions—to execute right in your browser client without sending private manuscript data to third-party cloud servers. Similarly, file scanning, table extraction, and DOM diagnostics remain entirely within your device's memory. By refusing telemetry trackers and analytics SDKs, these extensions ensure your workflows remain confidential, fast, and completely offline-capable.
           </p>
 
           <div class="about-buttons">
@@ -1950,11 +667,16 @@ html = r'''<!DOCTYPE html>
   <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Enlarged screenshot viewer">
     <button class="lightbox-close-btn" id="lightboxCloseBtn" type="button" aria-label="Close enlarged view">&times;</button>
     <div class="lightbox-window">
-      <img id="lightboxLargeImg" class="lightbox-large-img" src="" alt="Enlarged screenshot preview">
+      <img id="lightboxLargeImg" class="lightbox-large-img" src="assets/screenshots/placeholder-modal.png" alt="Enlarged screenshot preview" width="1280" height="800">
     </div>
   </div>
 
+  <!-- ========================================================================
+       SCRIPTS: THEMING, TABS, LIGHTBOX, ACCESSIBILITY
+       ======================================================================== -->
   <script src="assets/js/site.js"></script>
+
+  <script type="module" src="assets/js/converterUi.js"></script>
 </body>
 </html>
 '''

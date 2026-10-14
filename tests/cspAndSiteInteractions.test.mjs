@@ -46,6 +46,8 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
           headers['Cache-Control'] = 'no-cache, must-revalidate';
         } else if (safeUrl.startsWith('/assets/js/')) {
           headers['Cache-Control'] = 'public, max-age=3600, must-revalidate';
+        } else if (safeUrl.startsWith('/assets/css/')) {
+          headers['Cache-Control'] = 'public, max-age=3600, must-revalidate';
         } else if (safeUrl === '/assets/wasm/pandoc.wasm.gz') {
           headers['Cache-Control'] = 'public, max-age=3600, must-revalidate';
         }
@@ -214,7 +216,86 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     assert.equal(cspViolations.length, 0, 'Zero CSP violations occurred during WASM instantiation & conversion');
   });
 
-  it('7. Zero CSP violations or console errors were recorded across entire test run', () => {
+  it('7. Technical SEO verification: 0 broken images, explicit dimensions, <=160 char meta, canonical, hreflang, JSON-LD, 0 insecure links, >15% text ratio', async () => {
+    // 1. All images load successfully with naturalWidth > 0 and complete == true
+    const imageStatus = await page.evaluate(() => {
+      const imgs = Array.from(document.querySelectorAll('img'));
+      return imgs.map((img, i) => ({
+        index: i,
+        src: img.getAttribute('src'),
+        complete: img.complete,
+        naturalWidth: img.naturalWidth,
+        naturalHeight: img.naturalHeight,
+        hasWidthAttr: img.hasAttribute('width'),
+        hasHeightAttr: img.hasAttribute('height'),
+        widthAttr: img.getAttribute('width'),
+        heightAttr: img.getAttribute('height'),
+      }));
+    });
+
+    assert.equal(imageStatus.length, 15, 'Page contains exactly 15 img elements');
+    for (const info of imageStatus) {
+      assert.ok(info.complete, `Image ${info.index} (${info.src}) should be complete`);
+      assert.ok(info.naturalWidth > 0, `Image ${info.index} (${info.src}) should have naturalWidth > 0, got ${info.naturalWidth}`);
+      assert.ok(info.naturalHeight > 0, `Image ${info.index} (${info.src}) should have naturalHeight > 0, got ${info.naturalHeight}`);
+      assert.ok(info.hasWidthAttr, `Image ${info.index} (${info.src}) must have width attribute`);
+      assert.ok(info.hasHeightAttr, `Image ${info.index} (${info.src}) must have height attribute`);
+    }
+
+    // 2. Meta description is under 160 characters (between 135 and 155)
+    const metaDesc = await page.$eval('meta[name="description"]', (el) => el.getAttribute('content'));
+    assert.ok(metaDesc, 'Meta description exists');
+    assert.ok(metaDesc.length <= 160, `Meta description should be <= 160 chars, got ${metaDesc.length}`);
+    assert.ok(metaDesc.length >= 135, `Meta description should be >= 135 chars, got ${metaDesc.length}`);
+    assert.ok(metaDesc.toLowerCase().includes('edge'), 'Meta description mentions Edge');
+    assert.ok(metaDesc.toLowerCase().includes('word-to-latex'), 'Meta description mentions Word-to-LaTeX');
+
+    // 3. Canonical and hreflang tags
+    const canonicalHref = await page.$eval('link[rel="canonical"]', (el) => el.getAttribute('href'));
+    assert.equal(canonicalHref, 'https://sidoua26-debug.github.io/extensions-portfolio/');
+
+    const hreflangEn = await page.$eval('link[rel="alternate"][hreflang="en"]', (el) => el.getAttribute('href'));
+    assert.equal(hreflangEn, 'https://sidoua26-debug.github.io/extensions-portfolio/');
+
+    const hreflangDefault = await page.$eval('link[rel="alternate"][hreflang="x-default"]', (el) => el.getAttribute('href'));
+    assert.equal(hreflangDefault, 'https://sidoua26-debug.github.io/extensions-portfolio/');
+
+    // 4. Zero insecure http:// links
+    const insecureLinks = await page.evaluate(() => {
+      const elements = Array.from(document.querySelectorAll('a[href], link[href], script[src], img[src]'));
+      return elements
+        .map((el) => el.getAttribute('href') || el.getAttribute('src'))
+        .filter((val) => val && val.startsWith('http://') && !val.includes('localhost') && !val.includes('127.0.0.1'));
+    });
+    assert.deepEqual(insecureLinks, [], 'Zero insecure http:// links in DOM');
+
+    // 5. JSON-LD Structured Data
+    const jsonLdContent = await page.$eval('script[type="application/ld+json"]', (el) => el.textContent);
+    assert.ok(jsonLdContent, 'JSON-LD script exists');
+    const parsedJsonLd = JSON.parse(jsonLdContent);
+    assert.equal(parsedJsonLd['@context'], 'https://schema.org');
+    assert.ok(parsedJsonLd['@graph'].some((item) => item['@type'] === 'WebSite'));
+    assert.ok(parsedJsonLd['@graph'].some((item) => item['@type'] === 'SoftwareApplication'));
+
+    // 6. Text-to-HTML code ratio > 15% and H1 spacing
+    const h1Text = await page.evaluate(() => document.getElementById('heroHeadline').innerHTML);
+    assert.ok(h1Text.includes('. <br>') || h1Text.includes('. <br'), 'H1 has a space before <br>');
+
+    const ratioInfo = await page.evaluate(() => {
+      const html = document.documentElement.outerHTML;
+      // Strip script tags
+      const withoutScripts = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+      const textOnly = withoutScripts.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      return {
+        htmlLength: html.length,
+        textLength: textOnly.length,
+        ratio: (textOnly.length / html.length) * 100,
+      };
+    });
+    assert.ok(ratioInfo.ratio > 15, `Text-to-HTML ratio should exceed 15%, got ${ratioInfo.ratio.toFixed(2)}%`);
+  });
+
+  it('8. Zero CSP violations or console errors were recorded across entire test run', () => {
     assert.deepEqual(cspViolations, [], `Expected 0 CSP violations, got: ${JSON.stringify(cspViolations)}`);
     assert.deepEqual(consoleErrors, [], `Expected 0 console errors, got: ${JSON.stringify(consoleErrors)}`);
   });

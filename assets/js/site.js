@@ -92,7 +92,7 @@
   if (modal && modalImg && closeBtn) {
     triggers.forEach(img => {
       img.addEventListener('click', () => {
-        modalImg.src = img.src;
+        modalImg.src = img.getAttribute('src') || img.src;
         modalImg.alt = img.alt || 'Enlarged screenshot preview';
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
