@@ -1,0 +1,23 @@
+# Cloudflare Pages Custom Headers Configuration
+# Documentation: https://developers.cloudflare.com/pages/configuration/headers/
+
+# Site-wide baseline security headers
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none';
+
+# HTML documents: require freshness revalidation on updates
+/
+  Cache-Control: no-cache, must-revalidate
+
+/index.html
+  Cache-Control: no-cache, must-revalidate
+
+# Converter JavaScript bundles (stable non-fingerprinted filenames: 1-hour cache with must-revalidate)
+/assets/js/*
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# WebAssembly engine asset (stable non-fingerprinted filename: 1-hour cache with must-revalidate)
+/assets/wasm/pandoc.wasm.gz
+  Cache-Control: public, max-age=3600, must-revalidate

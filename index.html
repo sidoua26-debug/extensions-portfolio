@@ -1386,6 +1386,244 @@
       background: rgba(15, 23, 42, 1);
     }
 
+    /* ==========================================================================
+       LIVE CONVERTER SECTION STYLING
+       ========================================================================== */
+    .converter-section {
+      padding: 96px 0;
+      background: var(--bg-subtle);
+      border-top: 1px solid var(--border-page);
+      border-bottom: 1px solid var(--border-page);
+      position: relative;
+    }
+
+    .converter-container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .converter-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      margin-top: 32px;
+    }
+
+    .converter-card-header {
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--border-page);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      background: var(--bg-surface-elevated);
+    }
+
+    .converter-mode-group {
+      display: inline-flex;
+      background: var(--bg-muted);
+      padding: 4px;
+      border-radius: var(--r-md);
+      border: 1px solid var(--border-page);
+      gap: 2px;
+    }
+
+    .mode-btn {
+      padding: 6px 14px;
+      border-radius: var(--r-sm);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: all var(--ease);
+    }
+
+    .mode-btn:hover {
+      color: var(--text-main);
+    }
+
+    .mode-btn.active {
+      background: var(--bg-surface);
+      color: var(--accent);
+      box-shadow: var(--shadow-sm);
+      font-weight: 600;
+    }
+
+    .converter-card-body {
+      padding: 32px;
+    }
+
+    .drop-zone {
+      border: 2px dashed var(--border-subtle);
+      border-radius: var(--r-lg);
+      padding: 48px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--ease);
+      background: var(--bg-subtle);
+    }
+
+    .drop-zone:hover,
+    .drop-zone:focus-within {
+      border-color: var(--accent);
+      background: var(--accent-subtle);
+    }
+
+    .drop-zone.drag-active {
+      border-color: var(--accent);
+      background: var(--accent-subtle);
+      transform: scale(1.01);
+    }
+
+    .drop-icon {
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: inline-flex;
+      padding: 14px;
+      border-radius: 50%;
+      background: var(--bg-surface);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .drop-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .drop-subtitle {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .file-name-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: var(--r-full);
+      background: var(--tint-w2l-subtle);
+      border: 1px solid var(--tint-w2l-border);
+      color: var(--tint-w2l);
+      font-size: 13px;
+      font-family: var(--font-mono);
+      margin-top: 16px;
+    }
+
+    .status-panel {
+      margin-top: 24px;
+      padding: 16px 20px;
+      border-radius: var(--r-md);
+      background: var(--bg-muted);
+      border: 1px solid var(--border-page);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .status-spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--border-subtle);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .error-banner {
+      margin-top: 24px;
+      padding: 14px 18px;
+      border-radius: var(--r-md);
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #dc2626;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .output-panel {
+      margin-top: 28px;
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      background: var(--bg-surface-elevated);
+    }
+
+    .output-header {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border-page);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: var(--bg-muted);
+    }
+
+    .output-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .output-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .output-textarea {
+      width: 100%;
+      min-height: 320px;
+      padding: 18px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.6;
+      background: var(--bg-surface);
+      color: var(--text-main);
+      border: none;
+      resize: vertical;
+      box-sizing: border-box;
+      white-space: pre;
+    }
+
+    .output-textarea:focus {
+      outline: none;
+    }
+
+    .btn-success {
+      background: #059669 !important;
+      color: #ffffff !important;
+      border-color: #059669 !important;
+    }
+
+    .converter-attribution {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-tertiary);
+      line-height: 1.5;
+    }
+
+    .converter-attribution a {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
     /* Reduced Motion */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -1416,6 +1654,7 @@
       <nav aria-label="Main Navigation">
         <ul class="nav-links" id="navLinks">
           <li><a href="#flagship" class="nav-link">Word to LaTeX</a></li>
+          <li><a href="#live-converter" class="nav-link">Online Converter</a></li>
           <li><a href="#portfolio" class="nav-link">All 5 Add-ons</a></li>
           <li><a href="#install" class="nav-link">Installation</a></li>
           <li><a href="#about" class="nav-link">About</a></li>
@@ -1600,10 +1839,103 @@
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10l4-4"/><path d="M16 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
                 Get on Microsoft Edge Add-ons
               </a>
+              <a href="#live-converter" class="btn btn-edge" style="background: var(--tint-w2l); border-color: var(--tint-w2l);">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                Try Online Converter
+              </a>
               <a href="https://github.com/sidoua26-debug/word-to-latex-extension" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
                 Source Code
               </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         LIVE ONLINE CONVERTER: In-Browser Pandoc WebAssembly
+         ====================================================================== -->
+    <section class="converter-section" id="live-converter" aria-labelledby="converterHeading">
+      <div class="container converter-container">
+        <div style="text-align: center;">
+          <div class="section-eyebrow">Client-Side Utility</div>
+          <h2 id="converterHeading" class="section-heading">Online Word-to-LaTeX Converter</h2>
+          <p class="section-lead" style="max-width: 680px; margin: 0 auto;">
+            Convert Word (<code>.docx</code>) manuscripts directly into clean LaTeX right in your browser. Powered by Pandoc WebAssembly with zero server uploads, 100% private and offline-capable.
+          </p>
+        </div>
+
+        <div class="converter-card">
+          <div class="converter-card-header">
+            <div>
+              <span class="badge badge-w2l">Local Pandoc WASM</span>
+              <span class="badge badge-subtle" style="margin-left: 6px;">Zero Uploads</span>
+            </div>
+
+            <!-- Mode Selector: Fragment vs Document -->
+            <div class="converter-mode-group" role="radiogroup" aria-label="LaTeX Output Mode">
+              <button type="button" class="mode-btn active" id="modeFragmentBtn" role="radio" aria-checked="true" title="Generate body snippet without document preamble">
+                LaTeX Fragment
+              </button>
+              <button type="button" class="mode-btn" id="modeDocumentBtn" role="radio" aria-checked="false" title="Generate complete compilable document with preamble">
+                Complete Document
+              </button>
+            </div>
+          </div>
+
+          <div class="converter-card-body">
+            <!-- Drop & File Picker Area -->
+            <div class="drop-zone" id="converterDropZone" tabindex="0" role="region" aria-label="Word document upload dropzone">
+              <input type="file" id="docxFileInput" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display: none;" aria-label="Select Word document (.docx)">
+              <div class="drop-icon" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+              </div>
+              <div class="drop-title">Select or drop a Microsoft Word (.docx) document</div>
+              <div class="drop-subtitle">Processed locally on your machine via WebAssembly. Press Enter or click to browse.</div>
+              <button type="button" class="btn btn-edge btn-sm" onclick="document.getElementById('docxFileInput').click()">
+                Choose .docx File
+              </button>
+              <div id="converterFileName" class="file-name-tag" hidden></div>
+            </div>
+
+            <!-- Status Indicator -->
+            <div id="converterStatus" class="status-panel" role="status" aria-live="polite" hidden>
+              <div class="status-spinner" aria-hidden="true"></div>
+              <div>
+                <strong id="converterStatusStage" style="text-transform: capitalize; margin-right: 6px;">Status</strong>
+                <span id="converterStatusMessage">Initializing...</span>
+              </div>
+            </div>
+
+            <!-- Error Banner -->
+            <div id="converterError" class="error-banner" role="alert" aria-live="assertive" hidden></div>
+
+            <!-- Output Panel -->
+            <div id="converterOutputContainer" class="output-panel" hidden>
+              <div class="output-header">
+                <span class="output-title">Clean LaTeX Output</span>
+                <div class="output-actions">
+                  <button type="button" id="converterCopyBtn" class="btn btn-ghost btn-sm" title="Copy LaTeX snippet to clipboard">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    Copy LaTeX
+                  </button>
+                  <button type="button" id="converterDownloadBtn" class="btn btn-ghost btn-sm" title="Download as .tex file">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Download .tex
+                  </button>
+                  <button type="button" id="converterResetBtn" class="btn btn-ghost btn-sm" title="Convert another file">
+                    Convert Another
+                  </button>
+                </div>
+              </div>
+              <textarea id="converterOutputArea" class="output-textarea" readonly spellcheck="false" aria-label="LaTeX Output"></textarea>
+            </div>
+
+            <!-- Attribution Notice -->
+            <div class="converter-attribution">
+              Conversion engine powered by <a href="https://pandoc.org/" target="_blank" rel="noopener noreferrer">Pandoc</a> 3.10 compiled to WebAssembly (GPL-2.0+).
+              View engine license and attribution at <a href="assets/wasm/LICENSE.txt" target="_blank">LICENSE.txt</a>.
             </div>
           </div>
         </div>
@@ -1951,109 +2283,9 @@
   <!-- ========================================================================
        SCRIPTS: THEMING, TABS, LIGHTBOX, ACCESSIBILITY
        ======================================================================== -->
-  <script>
-    // 1. Theme Management (System Detection + Explicit Toggle + localStorage)
-    (function initTheming() {
-      const root = document.documentElement;
-      const toggle = document.getElementById('themeToggle');
-      const saved = localStorage.getItem('theme');
-      if (saved) {
-        root.setAttribute('data-theme', saved);
-      }
+  <script src="assets/js/site.js"></script>
 
-      toggle.addEventListener('click', () => {
-        const current = root.getAttribute('data-theme');
-        const isDark = current === 'dark' || (!current && window.matchMedia('(prefers-color-scheme: dark)').matches);
-        const next = isDark ? 'light' : 'dark';
-        root.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
-      });
-    })();
-
-    // 2. Mobile Menu Handling
-    (function initMobileNav() {
-      const btn = document.getElementById('mobileMenuBtn');
-      const menu = document.getElementById('navLinks');
-
-      btn.addEventListener('click', () => {
-        const isOpen = menu.classList.toggle('open');
-        btn.setAttribute('aria-expanded', String(isOpen));
-      });
-
-      menu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          menu.classList.remove('open');
-          btn.setAttribute('aria-expanded', 'false');
-        });
-      });
-    })();
-
-    // 3. Flagship Showcase Tab Switcher (with keyboard arrow support)
-    (function initShowcaseTabs() {
-      const tabs = Array.from(document.querySelectorAll('.tab-trigger'));
-      const panels = Array.from(document.querySelectorAll('.showcase-img'));
-
-      function selectTab(index) {
-        tabs.forEach((t, i) => {
-          const active = i === index;
-          t.classList.toggle('active', active);
-          t.setAttribute('aria-selected', String(active));
-        });
-        panels.forEach((p, i) => {
-          p.classList.toggle('active', i === index);
-        });
-      }
-
-      tabs.forEach((tab, index) => {
-        tab.addEventListener('click', () => selectTab(index));
-        tab.addEventListener('keydown', (e) => {
-          if (e.key === 'ArrowRight') {
-            e.preventDefault();
-            const next = (index + 1) % tabs.length;
-            selectTab(next);
-            tabs[next].focus();
-          } else if (e.key === 'ArrowLeft') {
-            e.preventDefault();
-            const prev = (index - 1 + tabs.length) % tabs.length;
-            selectTab(prev);
-            tabs[prev].focus();
-          }
-        });
-      });
-    })();
-
-    // 4. Accessible Lightbox
-    (function initLightbox() {
-      const modal = document.getElementById('lightboxModal');
-      const modalImg = document.getElementById('lightboxLargeImg');
-      const closeBtn = document.getElementById('lightboxCloseBtn');
-      const triggers = document.querySelectorAll('.lightbox-trigger');
-
-      triggers.forEach(img => {
-        img.addEventListener('click', () => {
-          modalImg.src = img.src;
-          modalImg.alt = img.alt || 'Enlarged screenshot preview';
-          modal.classList.add('active');
-          document.body.style.overflow = 'hidden';
-          closeBtn.focus();
-        });
-      });
-
-      function closeModal() {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-
-      closeBtn.addEventListener('click', closeModal);
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
-          closeModal();
-        }
-      });
-    })();
-  </script>
+  <!-- Word-to-LaTeX Live Converter UI Controller -->
+  <script type="module" src="assets/js/converterUi.js"></script>
 </body>
 </html>

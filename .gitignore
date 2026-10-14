@@ -11,3 +11,13 @@ __pycache__/
 Thumbs.db
 .vscode/
 .idea/
+
+# Node dependencies
+node_modules/
+npm-debug.log*
+
+# Exclude raw uncompressed WASM binaries (only assets/wasm/pandoc.wasm.gz is tracked)
+*.wasm
+
+# Test run and audit output artifacts
+tests/*_results.json
