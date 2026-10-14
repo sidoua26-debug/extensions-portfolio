@@ -1,0 +1,13 @@
+# Test and audit screenshots generated during design audits
+*.png
+!assets/**/*.png
+
+# Python cache & build
+__pycache__/
+*.py[cod]
+
+# OS & editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
