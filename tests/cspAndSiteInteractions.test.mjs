@@ -252,13 +252,13 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
 
     // 3. Canonical and hreflang tags
     const canonicalHref = await page.$eval('link[rel="canonical"]', (el) => el.getAttribute('href'));
-    assert.equal(canonicalHref, 'https://sidoua26-debug.github.io/extensions-portfolio/');
+    assert.equal(canonicalHref, 'https://extensionguy.me/');
 
     const hreflangEn = await page.$eval('link[rel="alternate"][hreflang="en"]', (el) => el.getAttribute('href'));
-    assert.equal(hreflangEn, 'https://sidoua26-debug.github.io/extensions-portfolio/');
+    assert.equal(hreflangEn, 'https://extensionguy.me/');
 
     const hreflangDefault = await page.$eval('link[rel="alternate"][hreflang="x-default"]', (el) => el.getAttribute('href'));
-    assert.equal(hreflangDefault, 'https://sidoua26-debug.github.io/extensions-portfolio/');
+    assert.equal(hreflangDefault, 'https://extensionguy.me/');
 
     // 4. Zero insecure http:// links
     const insecureLinks = await page.evaluate(() => {

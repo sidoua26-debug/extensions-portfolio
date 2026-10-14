@@ -13,14 +13,14 @@ html = r'''<!DOCTYPE html>
   <meta name="description" content="Privacy-first Microsoft Edge extensions for developers and researchers, featuring a free in-browser Word-to-LaTeX converter with zero telemetry.">
   <meta name="keywords" content="Word to LaTeX, Table Extractor, BulkGrab, SEO Inspector, AuditPilot, Microsoft Edge Add-ons, browser extensions, offline converter, privacy">
 
-  <link rel="canonical" href="https://sidoua26-debug.github.io/extensions-portfolio/">
-  <link rel="alternate" hreflang="en" href="https://sidoua26-debug.github.io/extensions-portfolio/">
-  <link rel="alternate" hreflang="x-default" href="https://sidoua26-debug.github.io/extensions-portfolio/">
+  <link rel="canonical" href="https://extensionguy.me/">
+  <link rel="alternate" hreflang="en" href="https://extensionguy.me/">
+  <link rel="alternate" hreflang="x-default" href="https://extensionguy.me/">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Browser Extensions — Built for Real Work">
   <meta property="og:description" content="Tools for developers, researchers, SEO professionals, and everyday productivity — with privacy and practical usefulness at the core.">
-  <meta property="og:url" content="https://sidoua26-debug.github.io/extensions-portfolio/">
+  <meta property="og:url" content="https://extensionguy.me/">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Browser Extensions — Built for Real Work">
@@ -40,15 +40,15 @@ html = r'''<!DOCTYPE html>
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://sidoua26-debug.github.io/extensions-portfolio/#website",
-        "url": "https://sidoua26-debug.github.io/extensions-portfolio/",
+        "@id": "https://extensionguy.me/#website",
+        "url": "https://extensionguy.me/",
         "name": "Browser Extensions Portfolio",
         "description": "Privacy-first Microsoft Edge browser extensions portfolio and in-browser Word-to-LaTeX converter.",
         "inLanguage": "en"
       },
       {
         "@type": "SoftwareApplication",
-        "@id": "https://sidoua26-debug.github.io/extensions-portfolio/#word-to-latex",
+        "@id": "https://extensionguy.me/#word-to-latex",
         "name": "Word to LaTeX (Offline)",
         "operatingSystem": "Any (Browser Extension / WebAssembly)",
         "applicationCategory": "ProductivityApplication",
