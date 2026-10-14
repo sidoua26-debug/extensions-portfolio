@@ -148,11 +148,14 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     await tabs.nth(1).press('ArrowRight');
     const tab2Active = await tabs.nth(2).getAttribute('aria-selected');
     assert.equal(tab2Active, 'true');
+
+    // Select first tab back to restore active panel
+    await tabs.nth(0).click();
     assert.equal(cspViolations.length, 0, 'No CSP violations during tab switching');
   });
 
   it('4. Accessible lightbox opens screenshot and closes with Escape key', async () => {
-    const trigger = page.locator('.lightbox-trigger').first();
+    const trigger = page.locator('.lightbox-trigger.active, .showcase-img.active.lightbox-trigger, .lightbox-trigger').first();
     await trigger.click();
 
     const isModalActive = await page.evaluate(() => document.getElementById('lightboxModal').classList.contains('active'));
@@ -164,7 +167,39 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     assert.equal(cspViolations.length, 0, 'No CSP violations during lightbox interaction');
   });
 
-  it('5. Web Worker and Pandoc WebAssembly instantiate and convert DOCX under strict CSP', async () => {
+  it('5. Live Word-to-LaTeX Converter is positioned above the fold with calm Ready status and hidden file inputs', async () => {
+    // 1. Positioned in the hero above the fold
+    const converterBox = await page.locator('#live-converter').boundingBox();
+    assert.ok(converterBox, 'Live converter element exists on page');
+    assert.ok(converterBox.y < 700, `Expected converter Y position above fold (<700), got ${converterBox.y}`);
+
+    // 2. Calm Ready status on load (no spinning circle, solid green dot, informative text)
+    const statusStage = await page.textContent('#converterStatusStage');
+    const statusMsg = await page.textContent('#converterStatusMessage');
+    assert.ok(statusStage.includes('Ready'), `Status stage should be Ready, got: "${statusStage}"`);
+    assert.ok(statusMsg.includes('Select or drop a .docx file'), `Status message should prompt for file, got: "${statusMsg}"`);
+
+    const dotVisible = await page.locator('#converterStatusDot').isVisible();
+    assert.equal(dotVisible, true, 'Calm status dot is visible');
+
+    const spinnerVisible = await page.locator('#converterStatusSpinner').isVisible();
+    assert.equal(spinnerVisible, false, 'Status spinner is hidden on initial load');
+
+    // 3. Raw file input and empty file name tag are hidden
+    const fileInputHidden = await page.evaluate(() => {
+      const el = document.getElementById('docxFileInput');
+      return el && window.getComputedStyle(el).display === 'none';
+    });
+    assert.equal(fileInputHidden, true, 'docxFileInput has display: none');
+
+    const fileNameHidden = await page.evaluate(() => {
+      const el = document.getElementById('converterFileName');
+      return el && window.getComputedStyle(el).display === 'none';
+    });
+    assert.equal(fileNameHidden, true, 'converterFileName tag has display: none');
+  });
+
+  it('6. Web Worker and Pandoc WebAssembly instantiate and convert DOCX under strict CSP', async () => {
     const fileInput = page.locator('#docxFileInput');
     await fileInput.setInputFiles(FIXTURE_DOCX);
 
@@ -179,7 +214,7 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     assert.equal(cspViolations.length, 0, 'Zero CSP violations occurred during WASM instantiation & conversion');
   });
 
-  it('6. Zero CSP violations or console errors were recorded across entire test run', () => {
+  it('7. Zero CSP violations or console errors were recorded across entire test run', () => {
     assert.deepEqual(cspViolations, [], `Expected 0 CSP violations, got: ${JSON.stringify(cspViolations)}`);
     assert.deepEqual(consoleErrors, [], `Expected 0 console errors, got: ${JSON.stringify(consoleErrors)}`);
   });

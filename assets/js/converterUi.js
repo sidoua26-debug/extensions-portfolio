@@ -391,6 +391,12 @@ var ConverterUI = class {
     });
     modeFragmentBtn.addEventListener("click", () => this.setMode("fragment"));
     modeDocumentBtn.addEventListener("click", () => this.setMode("document"));
+    if (this.elements.chooseBtn) {
+      this.elements.chooseBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        fileInput.click();
+      });
+    }
     copyBtn.addEventListener("click", () => this.handleCopy());
     downloadBtn.addEventListener("click", () => this.handleDownload());
     resetBtn.addEventListener("click", () => this.resetUI());
@@ -445,15 +451,14 @@ var ConverterUI = class {
     this.elements.outputContainer.setAttribute("hidden", "");
     this.elements.copyBtn.disabled = true;
     this.elements.downloadBtn.disabled = true;
-    this.elements.statusContainer.removeAttribute("hidden");
-    this.updateStatus("reading", `Reading ${file.name}...`);
+    this.updateStatus("Reading", `Reading ${file.name}...`, true);
     this.clearError();
     let arrayBuffer;
     try {
       arrayBuffer = await file.arrayBuffer();
     } catch (err) {
       if (generation !== this.activeGeneration) return;
-      this.hideStatus();
+      this.updateStatus("Error", "Failed to read file", false);
       this.showError(`Failed to read file: ${err?.message || String(err)}`);
       return;
     }
@@ -477,7 +482,7 @@ var ConverterUI = class {
       );
       if (generation !== this.activeGeneration) return;
       this.currentResult = result;
-      this.hideStatus();
+      this.updateStatus("Complete", "Clean LaTeX generated successfully", false);
       this.elements.outputArea.value = result.cleanLatex;
       this.elements.outputContainer.removeAttribute("hidden");
       this.elements.copyBtn.disabled = false;
@@ -485,7 +490,7 @@ var ConverterUI = class {
       this.elements.outputArea.focus({ preventScroll: true });
     } catch (err) {
       if (generation !== this.activeGeneration) return;
-      this.hideStatus();
+      this.updateStatus("Error", "Conversion failed", false);
       const message = err?.message || "Conversion failed with an unspecified error.";
       this.showError(message);
     }
@@ -500,11 +505,21 @@ var ConverterUI = class {
       cleaning: "Cleaning LaTeX Output..."
     };
     const stageLabel = stageNames[progress.stage] || progress.stage;
-    this.updateStatus(progress.stage, progress.message ? `${stageLabel} \u2014 ${progress.message}` : stageLabel);
+    this.updateStatus(progress.stage, progress.message ? `${stageLabel} \u2014 ${progress.message}` : stageLabel, true);
   }
-  updateStatus(stage, message) {
+  setStatusActive(isBusy) {
+    if (this.elements.statusDot) {
+      this.elements.statusDot.style.display = isBusy ? "none" : "block";
+    }
+    if (this.elements.statusSpinner) {
+      this.elements.statusSpinner.style.display = isBusy ? "block" : "none";
+    }
+  }
+  updateStatus(stage, message, isBusy = true) {
+    this.setStatusActive(isBusy);
     this.elements.statusStage.textContent = stage;
     this.elements.statusMessage.textContent = message;
+    this.elements.statusContainer.removeAttribute("hidden");
   }
   hideStatus() {
     this.elements.statusContainer.setAttribute("hidden", "");
@@ -529,8 +544,8 @@ var ConverterUI = class {
     this.elements.outputContainer.setAttribute("hidden", "");
     this.elements.copyBtn.disabled = true;
     this.elements.downloadBtn.disabled = true;
-    this.hideStatus();
     this.clearError();
+    this.updateStatus("Ready", "Select or drop a .docx file to convert", false);
   }
   async handleCopy() {
     if (!this.currentResult || !this.currentResult.cleanLatex) return;
@@ -585,6 +600,9 @@ function initConverterUI() {
   const dropZone = document.getElementById("converterDropZone");
   const fileInput = document.getElementById("docxFileInput");
   const fileNameDisplay = document.getElementById("converterFileName");
+  const chooseBtn = document.getElementById("converterChooseBtn");
+  const statusDot = document.getElementById("converterStatusDot");
+  const statusSpinner = document.getElementById("converterStatusSpinner");
   const modeFragmentBtn = document.getElementById("modeFragmentBtn");
   const modeDocumentBtn = document.getElementById("modeDocumentBtn");
   const statusContainer = document.getElementById("converterStatus");
@@ -604,6 +622,9 @@ function initConverterUI() {
     dropZone,
     fileInput,
     fileNameDisplay,
+    chooseBtn: chooseBtn || void 0,
+    statusDot: statusDot || void 0,
+    statusSpinner: statusSpinner || void 0,
     modeFragmentBtn,
     modeDocumentBtn,
     statusContainer,

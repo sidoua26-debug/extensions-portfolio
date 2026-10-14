@@ -21,3 +21,4 @@ npm-debug.log*
 
 # Test run and audit output artifacts
 tests/*_results.json
+test-results/
