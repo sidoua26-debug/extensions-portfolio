@@ -152,11 +152,11 @@ html = r'''<!DOCTYPE html>
           </div>
           <div class="trust-chip">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <span>Local-First &amp; Client-Side Focus</span>
+            <span>Most tools run 100% offline</span>
           </div>
           <div class="trust-chip">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            <span>Zero Remote Telemetry</span>
+            <span>Zero Tracking &amp; Telemetry</span>
           </div>
         </div>
 
@@ -344,7 +344,7 @@ html = r'''<!DOCTYPE html>
           <div>
             <div class="section-eyebrow">Extension Portfolio</div>
             <h2 id="portfolioHeading" class="section-heading">Published Edge Add-ons</h2>
-            <p class="section-lead">Each tool is designed with a specific workflow purpose, zero telemetry, and minimal permission requirements.</p>
+            <p class="section-lead">Each tool is designed with a specific workflow purpose, minimal permissions, and zero tracking. Most tools run 100% offline on your device.</p>
           </div>
           <div>
             <span class="badge badge-edge">5 Live Add-ons</span>
@@ -628,7 +628,7 @@ html = r'''<!DOCTYPE html>
           </div>
 
           <div class="labs-action-group">
-            <a href="mailto:sidoua26@gmail.com?subject=MailFlow%20launch%20notification" class="btn btn-edge btn-sm" aria-label="Notify me when MailFlow launches">
+            <a href="mailto:contact@extensionguy.me?subject=MailFlow%20launch%20notification" class="btn btn-edge btn-sm" aria-label="Notify me when MailFlow launches">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
               Notify me
             </a>
@@ -649,7 +649,7 @@ html = r'''<!DOCTYPE html>
           <!-- Avatar: skipped (no local photo file provided) -->
 
           <p class="about-body-text">
-            I build small browser extensions that do one job well and never phone home. I started with Word to LaTeX after losing hours reformatting a manuscript, and I didn't want to upload it to a random website. So everything here runs on your device: no accounts, no servers, no tracking.
+            I build focused browser extensions that do one job well and respect your privacy. I started with Word to LaTeX after losing hours reformatting a manuscript, and I didn't want to upload it to a random website. Most tools here run entirely on your device with no accounts, no servers, and no tracking—and any cloud assistance is always explicitly disclosed.
           </p>
 
           <div class="about-values-grid">
@@ -685,11 +685,11 @@ html = r'''<!DOCTYPE html>
           </div>
 
           <div class="about-buttons">
-            <a href="mailto:sidoua26@gmail.com?subject=Extension%20Request" class="btn btn-edge">
+            <a href="mailto:contact@extensionguy.me?subject=Extension%20Request" class="btn btn-edge">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
               Request an extension
             </a>
-            <a href="https://github.com/sidoua26-debug/word-to-latex-extension/issues" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+            <a href="https://github.com/sidoua26-debug/extensions-portfolio/issues" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" aria-label="Report a bug on GitHub for any extension">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
               Report a bug
             </a>
@@ -697,9 +697,9 @@ html = r'''<!DOCTYPE html>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
               GitHub (@sidoua26-debug)
             </a>
-            <a href="mailto:sidoua26@gmail.com" class="btn btn-ghost">
+            <a href="mailto:contact@extensionguy.me" class="btn btn-ghost">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              sidoua26@gmail.com
+              contact@extensionguy.me
             </a>
           </div>
         </div>
@@ -718,7 +718,7 @@ html = r'''<!DOCTYPE html>
       </div>
       <ul class="footer-nav-list">
         <li><a href="https://github.com/sidoua26-debug" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-        <li><a href="mailto:sidoua26@gmail.com">Support</a></li>
+        <li><a href="mailto:support@extensionguy.me">Support</a></li>
         <li><a href="privacy.html">Privacy Policy</a></li>
       </ul>
     </div>

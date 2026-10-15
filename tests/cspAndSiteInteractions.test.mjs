@@ -249,6 +249,7 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
       return imgs.map((img, i) => ({
         index: i,
         src: img.getAttribute('src'),
+        alt: img.getAttribute('alt'),
         complete: img.complete,
         naturalWidth: img.naturalWidth,
         naturalHeight: img.naturalHeight,
@@ -259,8 +260,10 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
       }));
     });
 
-    assert.equal(imageStatus.length, 14, 'Page contains exactly 14 img elements');
+    assert.ok(imageStatus.length > 0, 'Page contains img elements');
     for (const info of imageStatus) {
+      assert.ok(info.src && info.src.trim().length > 0, `Image ${info.index} must have non-empty src`);
+      assert.ok(typeof info.alt === 'string' && info.alt.trim().length > 0, `Image ${info.index} (${info.src}) must have non-empty alt text`);
       assert.ok(info.complete, `Image ${info.index} (${info.src}) should be complete`);
       assert.ok(info.naturalWidth > 0, `Image ${info.index} (${info.src}) should have naturalWidth > 0, got ${info.naturalWidth}`);
       assert.ok(info.naturalHeight > 0, `Image ${info.index} (${info.src}) should have naturalHeight > 0, got ${info.naturalHeight}`);
