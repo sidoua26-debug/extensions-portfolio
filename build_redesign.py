@@ -51,7 +51,7 @@ html = r'''<!DOCTYPE html>
         "@id": "https://extensionguy.me/#word-to-latex",
         "name": "Word to LaTeX (Offline)",
         "operatingSystem": "Any (Browser Extension / WebAssembly)",
-        "applicationCategory": "ProductivityApplication",
+        "applicationCategory": "UtilitiesApplication",
         "description": "Converts Microsoft Word (.docx) documents, tables, and math into clean LaTeX completely offline inside the browser.",
         "offers": {
           "@type": "Offer",
@@ -64,8 +64,8 @@ html = r'''<!DOCTYPE html>
         "@id": "https://extensionguy.me/#table-extractor",
         "name": "Table Extractor",
         "operatingSystem": "Browser Extension (Microsoft Edge, Google Chrome)",
-        "applicationCategory": "ProductivityApplication",
-        "description": "HTML and virtualized data grid exporter for capturing tables into CSV, XLSX, and JSON without manual cleanup.",
+        "applicationCategory": "UtilitiesApplication",
+        "description": "HTML and virtualized data grid exporter for capturing tables into CSV, XLSX, and JSON with no cloud upload.",
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -77,8 +77,8 @@ html = r'''<!DOCTYPE html>
         "@id": "https://extensionguy.me/#bulkgrab",
         "name": "BulkGrab",
         "operatingSystem": "Browser Extension (Microsoft Edge, Google Chrome)",
-        "applicationCategory": "ProductivityApplication",
-        "description": "Batch file downloader and local ZIP bundler that scans web pages for PDFs, images, archives, and media.",
+        "applicationCategory": "UtilitiesApplication",
+        "description": "Batch file downloader and local ZIP bundler that scans web pages for links, with no cloud upload and files bundled locally.",
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -91,7 +91,7 @@ html = r'''<!DOCTYPE html>
         "name": "SEO Inspector",
         "operatingSystem": "Browser Extension (Microsoft Edge)",
         "applicationCategory": "DeveloperApplication",
-        "description": "On-page technical diagnostics tool evaluating headings, meta tags, structured data, canonicals, and Web Vitals.",
+        "description": "On-page technical diagnostics tool evaluating headings, meta tags, structured data, canonicals, and Web Vitals completely offline.",
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -116,7 +116,7 @@ html = r'''<!DOCTYPE html>
   </script>
 
 </head>
-<body>
+<body id="website">
 
   <!-- ========================================================================
        STICKY NAVBAR
@@ -204,7 +204,7 @@ html = r'''<!DOCTYPE html>
           </div>
           <div class="trust-chip">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <span>Most tools run 100% offline</span>
+            <span>100% offline or locally processed</span>
           </div>
           <div class="trust-chip">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -397,7 +397,7 @@ html = r'''<!DOCTYPE html>
           <div>
             <div class="section-eyebrow">Extension Portfolio</div>
             <h2 id="portfolioHeading" class="section-heading">Published Edge Add-ons</h2>
-            <p class="section-lead">Each tool is designed with a specific workflow purpose, minimal permissions, and zero tracking. Most tools run 100% offline on your device.</p>
+            <p class="section-lead">Each tool is designed with a specific workflow purpose, minimal permissions, and zero tracking. Flagship tools run 100% offline, while scrapers bundle data strictly on your device with no cloud upload.</p>
           </div>
           <div>
             <span class="badge badge-edge">5 Live Add-ons</span>
@@ -406,7 +406,7 @@ html = r'''<!DOCTYPE html>
 
         <div class="portfolio-grid">
 
-          <article class="product-card" aria-labelledby="cardTitleTable">
+          <article class="product-card" id="table-extractor" aria-labelledby="cardTitleTable">
             <div class="card-header">
               <img class="card-icon-img" src="assets/icons/table-extractor-300.png" alt="Table Extractor icon" loading="lazy" width="300" height="300">
               <div class="card-header-meta">
@@ -450,7 +450,7 @@ html = r'''<!DOCTYPE html>
             </div>
           </article>
 
-          <article class="product-card" aria-labelledby="cardTitleBulk">
+          <article class="product-card" id="bulkgrab" aria-labelledby="cardTitleBulk">
             <div class="card-header">
               <img class="card-icon-img" src="assets/icons/bulkgrab-128.png" alt="BulkGrab icon" loading="lazy" width="128" height="128">
               <div class="card-header-meta">
@@ -476,7 +476,7 @@ html = r'''<!DOCTYPE html>
               <ul class="card-points">
                 <li>Smart scan for PDFs, images, archives, media</li>
                 <li>Non-intrusive floating in-page selection panel</li>
-                <li>Zero cloud upload — bundles files locally</li>
+                <li>No cloud upload — files bundled locally</li>
               </ul>
 
               <!-- TODO: real numbers -->
@@ -494,7 +494,7 @@ html = r'''<!DOCTYPE html>
             </div>
           </article>
 
-          <article class="product-card" aria-labelledby="cardTitleW2L">
+          <article class="product-card" id="word-to-latex" aria-labelledby="cardTitleW2L">
             <div class="card-header">
               <img class="card-icon-img" src="assets/icons/word-to-latex-128.png" alt="Word to LaTeX icon" loading="lazy" width="128" height="128">
               <div class="card-header-meta">
@@ -528,7 +528,7 @@ html = r'''<!DOCTYPE html>
             </div>
           </article>
 
-          <article class="product-card" aria-labelledby="cardTitleSEO">
+          <article class="product-card" id="seo-inspector" aria-labelledby="cardTitleSEO">
             <div class="card-header">
               <img class="card-icon-img" src="assets/icons/seo-inspector-128.png" alt="SEO Inspector icon" loading="lazy" width="128" height="128">
               <div class="card-header-meta">
@@ -571,7 +571,7 @@ html = r'''<!DOCTYPE html>
             </div>
           </article>
 
-          <article class="product-card" aria-labelledby="cardTitleAudit">
+          <article class="product-card" id="auditpilot" aria-labelledby="cardTitleAudit">
             <div class="card-header">
               <img class="card-icon-img" src="assets/icons/auditpilot-300.png" alt="AuditPilot icon" loading="lazy" width="300" height="300">
               <div class="card-header-meta">

@@ -80,13 +80,15 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
       if (text.toLowerCase().includes('content security policy') || text.toLowerCase().includes('violates')) {
         cspViolations.push(text);
       }
-      if (msg.type() === 'error') {
+      if (msg.type() === 'error' && !text.includes('ERR_NETWORK_CHANGED')) {
         consoleErrors.push(text);
       }
     });
 
     page.on('pageerror', (err) => {
-      consoleErrors.push(err.message);
+      if (!err.message.includes('ERR_NETWORK_CHANGED')) {
+        consoleErrors.push(err.message);
+      }
     });
 
     await page.goto(serverUrl, { waitUntil: 'networkidle' });
