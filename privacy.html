@@ -141,7 +141,7 @@
         <ul>
           <li>Page metadata: URL, hostname/domain, page title, language, meta description, canonical link, and robots directives.</li>
           <li>Structural elements: Viewport dimensions, up to 50 heading elements (H1–H6), and up to 15 call-to-action buttons/links.</li>
-          <li>Page indicators: Up to 5 form summaries (field count and non-hidden input types), contact links (up to 10 phone and email links), scheduling/booking links (e.g. Calendly, HubSpot), pricing links, image counts, link counts, and Schema.org / OpenGraph structured data types.</li>
+          <li>Page indicators: Up to 5 form summaries (field count and non-hidden input types), contact details found on the audited page (up to 10 phone numbers and email addresses extracted from <code>tel:</code>, <code>mailto:</code>, and contact links), scheduling/booking links (e.g. Calendly, HubSpot), pricing links, image counts, link counts, and Schema.org / OpenGraph structured data types.</li>
           <li>Visible body text: Up to 6,000 characters of visible rendered text from the active page (from <code>innerText</code> or DOM TreeWalker, excluding scripts, styles, and hidden elements).</li>
           <li>Viewport Screenshot (Optional): If enabled, a base64-encoded screenshot of the visible viewport (validated under 3.5MB).</li>
         </ul>
@@ -156,9 +156,15 @@
       <li><strong>Data Stored on Server:</strong>
         <ul>
           <li>User account identifier, API key, email (if provided), and audit credit balance.</li>
-          <li>Completed audit records: audited URL, domain, page title, generated scores, executive summary, findings, copy rewrites, a metadata snapshot (primary H1, title, meta description, top headings/CTAs), and the optional screenshot.</li>
+          <li>Completed audit records: audited URL, domain, page title, generated scores, executive summary, findings, copy rewrites, a metadata snapshot (primary H1, title, meta description, top headings/CTAs, contact links), and the optional screenshot.</li>
           <li>White-label agency branding settings, if configured (auditor name, agency name, contact info, logo URL).</li>
           <li>Public share tokens: Random 16-byte cryptographic tokens enabling read-only web report sharing.</li>
+        </ul>
+      </li>
+      <li><strong>Hosting Infrastructure &amp; Database Providers:</strong>
+        <ul>
+          <li><strong>Backend Hosting:</strong> Hosted on <strong>Render</strong> (<code>onrender.com</code>), providing SSL/TLS termination and web service execution.</li>
+          <li><strong>Database Storage:</strong> Stored in a managed <strong>PostgreSQL</strong> database connected via Prisma ORM (specified by <code>DATABASE_URL</code> environment configuration).</li>
         </ul>
       </li>
       <li><strong>Data Retention &amp; Security:</strong>

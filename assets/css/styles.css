@@ -588,7 +588,8 @@
       }
       .nav-links.open { display: flex; }
       .nav-link { padding: 10px 14px; }
-      .nav-actions .btn-edge { display: none; }
+      .nav-actions .btn-edge,
+      .nav-actions .nav-cta-btn { display: none; }
     }
 
     /* ==========================================================================
