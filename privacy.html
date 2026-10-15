@@ -108,33 +108,22 @@
     </ul>
 
     <h2>2. Browser Extensions Data Handling</h2>
-    <p>Every extension listed in this portfolio is built with a local-first architecture to protect user privacy. Below is an accurate breakdown by product:</p>
+    <p>Every extension listed in this portfolio is designed to respect your privacy with minimal permissions and clear data boundaries. Below is an accurate breakdown by product:</p>
 
     <h3>Word to LaTeX (Offline)</h3>
-    <ul>
-      <li><strong>Zero Permissions:</strong> Requests <code>permissions: []</code> in its Manifest V3 definition.</li>
-      <li><strong>100% Offline:</strong> All document parsing (Pandoc WebAssembly) and optical character recognition (Tesseract.js) execute entirely inside your local browser sandbox. Your files, equations, and converted LaTeX code never touch any external server.</li>
-    </ul>
+    <p>Runs fully offline, nothing leaves your device. All document parsing (Pandoc WebAssembly) and optical character recognition (Tesseract.js) execute entirely inside your local browser sandbox without network communication. Requests <code>permissions: []</code> in its Manifest V3 definition.</p>
 
     <h3>Table Extractor</h3>
-    <ul>
-      <li><strong>Client-Side Extraction:</strong> Scans and processes HTML tables and virtualized data grids locally in your active tab.</li>
-      <li><strong>Minimal Permissions:</strong> Uses <code>activeTab</code> and <code>scripting</code> only when you explicitly click the extension. Pro licensing validation calls are made only if you enter a license key or purchase a Pro license.</li>
-    </ul>
+    <p>Your table data stays in your browser; nothing is sent to any server. Scans and processes HTML tables and virtualized data grids locally in your active tab upon explicit user interaction (using <code>activeTab</code> and <code>scripting</code>). Pro licensing validation calls are made only if you explicitly activate a license key.</p>
 
     <h3>BulkGrab</h3>
-    <ul>
-      <li><strong>Local Scanning &amp; Bundling:</strong> Detects download links and compiles ZIP archives in-browser.</li>
-      <li><strong>Direct Downloads:</strong> Downloads occur through your browser's native download manager without proxying files through any remote server.</li>
-    </ul>
+    <p>Files download directly from the source site to your device and are bundled locally; no upload to my servers. Downloads are managed directly by your browser's native download manager without proxying files through any remote server.</p>
 
     <h3>SEO Inspector</h3>
-    <ul>
-      <li><strong>Active Tab Diagnostics:</strong> Evaluates page DOM, meta tags, schemas, and navigation timings in-memory. Zero browsing history is monitored, and zero analytics are sent.</li>
-    </ul>
+    <p>Analyzes the page in your browser; no data sent to any server. Evaluates page DOM structure, meta tags, schema markup, and performance timing in-memory on the active tab without logging or transmitting browsing history.</p>
 
     <h3>AuditPilot</h3>
-    <p>Unlike our offline extensions, AuditPilot uses a client-server architecture with external AI integration to provide conversion rate optimization and technical audits. Its data handling operates as follows:</p>
+    <p>Unlike Word to LaTeX, AuditPilot uses a client-server architecture with external AI integration to provide conversion rate optimization and technical audits. Its data handling operates as follows:</p>
     <ul>
       <li><strong>User-Initiated Audits:</strong> Audits run strictly on-demand when you click the extension on an active tab. It never monitors, scans, or records browsing history in the background.</li>
       <li><strong>Page Data Transmitted to Backend:</strong> When an audit is triggered, the extension sends page structure and visible text to our backend API (<code>https://auditpilot-dc8n.onrender.com</code>), including:

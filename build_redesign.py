@@ -52,7 +52,7 @@ html = r'''<!DOCTYPE html>
         "name": "Word to LaTeX (Offline)",
         "operatingSystem": "Any (Browser Extension / WebAssembly)",
         "applicationCategory": "UtilitiesApplication",
-        "description": "Converts Microsoft Word (.docx) documents, tables, and math into clean LaTeX completely offline inside the browser.",
+        "description": "Converts Microsoft Word (.docx) documents, tables, and math into clean LaTeX: runs fully offline, nothing leaves your device.",
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -65,7 +65,7 @@ html = r'''<!DOCTYPE html>
         "name": "Table Extractor",
         "operatingSystem": "Browser Extension (Microsoft Edge, Google Chrome)",
         "applicationCategory": "UtilitiesApplication",
-        "description": "HTML and virtualized data grid exporter for capturing tables into CSV, XLSX, and JSON with no cloud upload.",
+        "description": "HTML and virtualized data grid exporter: your table data stays in your browser; nothing is sent to any server.",
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -78,7 +78,7 @@ html = r'''<!DOCTYPE html>
         "name": "BulkGrab",
         "operatingSystem": "Browser Extension (Microsoft Edge, Google Chrome)",
         "applicationCategory": "UtilitiesApplication",
-        "description": "Batch file downloader and local ZIP bundler that scans web pages for links, with no cloud upload and files bundled locally.",
+        "description": "Batch file downloader and local ZIP bundler: files download directly from the source site to your device and are bundled locally; no upload to my servers.",
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -91,7 +91,7 @@ html = r'''<!DOCTYPE html>
         "name": "SEO Inspector",
         "operatingSystem": "Browser Extension (Microsoft Edge)",
         "applicationCategory": "DeveloperApplication",
-        "description": "On-page technical diagnostics tool evaluating headings, meta tags, structured data, canonicals, and Web Vitals completely offline.",
+        "description": "On-page technical diagnostics tool: analyzes the page in your browser; no data sent to any server.",
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -204,7 +204,7 @@ html = r'''<!DOCTYPE html>
           </div>
           <div class="trust-chip">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <span>100% offline or locally processed</span>
+            <span>Word to LaTeX works 100% offline</span>
           </div>
           <div class="trust-chip">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -397,7 +397,7 @@ html = r'''<!DOCTYPE html>
           <div>
             <div class="section-eyebrow">Extension Portfolio</div>
             <h2 id="portfolioHeading" class="section-heading">Published Edge Add-ons</h2>
-            <p class="section-lead">Each tool is designed with a specific workflow purpose, minimal permissions, and zero tracking. Flagship tools run 100% offline, while scrapers bundle data strictly on your device with no cloud upload.</p>
+            <p class="section-lead">Each tool is designed with a specific workflow purpose and minimal permissions. Word to LaTeX runs fully offline; Table Extractor, BulkGrab, and SEO Inspector don't send your data to any server; AuditPilot uses a cloud AI service and says so.</p>
           </div>
           <div>
             <span class="badge badge-edge">5 Live Add-ons</span>
@@ -476,7 +476,7 @@ html = r'''<!DOCTYPE html>
               <ul class="card-points">
                 <li>Smart scan for PDFs, images, archives, media</li>
                 <li>Non-intrusive floating in-page selection panel</li>
-                <li>No cloud upload — files bundled locally</li>
+                <li>Files download directly to your device; no upload to my servers</li>
               </ul>
 
               <!-- TODO: real numbers -->
@@ -510,7 +510,7 @@ html = r'''<!DOCTYPE html>
               </div>
 
               <p class="card-summary-text">
-                Converts Microsoft Word (.docx) documents, complex tables, and math equations into clean, publication-ready LaTeX directly in your browser. Eliminates manual reformatting with zero remote servers, no user accounts, and zero telemetry.
+                Converts Microsoft Word (.docx) documents, complex tables, and math equations into clean, publication-ready LaTeX: runs fully offline, nothing leaves your device.
               </p>
 
               <!-- TODO: real numbers -->
@@ -602,7 +602,7 @@ html = r'''<!DOCTYPE html>
               </ul>
 
               <div class="card-disclosure-note" role="note">
-                <strong>Privacy Disclosure:</strong> Unlike our fully offline tools, AuditPilot connects to an external AI API (Google Gemini) via a dedicated backend service to analyze website copy and compile executive PDF audits.
+                <strong>Privacy Disclosure:</strong> Unlike Word to LaTeX, AuditPilot connects to an external AI API (Google Gemini) via a dedicated backend service to analyze website copy and compile executive PDF audits.
               </div>
 
               <!-- TODO: real numbers -->
@@ -702,7 +702,7 @@ html = r'''<!DOCTYPE html>
           <!-- Avatar: skipped (no local photo file provided) -->
 
           <p class="about-body-text">
-            I build focused browser extensions that do one job well and respect your privacy. I started with Word to LaTeX after losing hours reformatting a manuscript, and I didn't want to upload it to a random website. Most tools here run entirely on your device with no accounts, no servers, and no tracking—and any cloud assistance is always explicitly disclosed.
+            I build focused browser extensions that do one job well and respect your privacy. I started with Word to LaTeX after losing hours reformatting a manuscript, and I didn't want to upload it to a random website. Word to LaTeX runs fully offline; Table Extractor, BulkGrab, and SEO Inspector don't send your data to any server; and AuditPilot uses a cloud AI service and says so.
           </p>
 
           <div class="about-values-grid">
