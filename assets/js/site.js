@@ -87,31 +87,84 @@
   const modal = document.getElementById('lightboxModal');
   const modalImg = document.getElementById('lightboxLargeImg');
   const closeBtn = document.getElementById('lightboxCloseBtn');
+  const caption = document.getElementById('lightboxCaption');
   const triggers = document.querySelectorAll('.lightbox-trigger');
 
   if (modal && modalImg && closeBtn) {
+    let lastActiveElement = null;
+
+    function openModal(img) {
+      lastActiveElement = document.activeElement;
+      const fullSrc = img.getAttribute('src') || img.src;
+      const fullAlt = img.getAttribute('alt') || 'Enlarged screenshot preview';
+      modalImg.src = fullSrc;
+      modalImg.alt = fullAlt;
+      if (caption) {
+        caption.textContent = fullAlt;
+      }
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+
+    function closeModal() {
+      if (!modal.classList.contains('active')) return;
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+      if (lastActiveElement && typeof lastActiveElement.focus === 'function') {
+        lastActiveElement.focus();
+      }
+    }
+
     triggers.forEach(img => {
-      img.addEventListener('click', () => {
-        modalImg.src = img.getAttribute('src') || img.src;
-        modalImg.alt = img.alt || 'Enlarged screenshot preview';
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        closeBtn.focus();
+      // Allow keyboard activation if the trigger is focusable
+      if (!img.hasAttribute('tabindex')) {
+        img.setAttribute('tabindex', '0');
+        img.setAttribute('role', 'button');
+        img.setAttribute('aria-label', `Enlarge screenshot: ${img.getAttribute('alt') || 'preview'}`);
+      }
+      img.addEventListener('click', () => openModal(img));
+      img.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openModal(img);
+        }
       });
     });
 
-    function closeModal() {
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
     closeBtn.addEventListener('click', closeModal);
+
+    // Close on backdrop click (clicking outside the lightbox window)
     modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('active')) {
+      if (e.target === modal || !e.target.closest('.lightbox-window')) {
         closeModal();
+      }
+    });
+
+    // Keyboard handlers: Escape to close, Tab to trap focus
+    document.addEventListener('keydown', (e) => {
+      if (!modal.classList.contains('active')) return;
+
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeModal();
+      } else if (e.key === 'Tab') {
+        const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === first || !modal.contains(document.activeElement)) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last || !modal.contains(document.activeElement)) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
       }
     });
   }

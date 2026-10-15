@@ -1267,18 +1267,81 @@
     }
 
     .about-card {
-      max-width: 680px;
+      max-width: 860px;
     }
 
     .about-body-text {
       font-size: 1.05rem;
       color: var(--text-secondary);
       line-height: 1.75;
-      margin-block: 16px 28px;
+      margin-block: 16px 20px;
+    }
+
+    .about-values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin: 24px 0 32px;
+    }
+
+    .about-value-item {
+      background: var(--bg-muted);
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-md);
+      padding: 20px;
+    }
+
+    .about-value-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .about-value-title svg {
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .about-value-text {
+      font-size: 0.885rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin: 0;
     }
 
     .about-buttons {
       display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .card-summary-text {
+      font-size: 0.925rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-top: 10px;
+      margin-bottom: 16px;
+    }
+
+    .card-disclosure-note {
+      font-size: 0.8rem;
+      color: var(--text-tertiary);
+      background: var(--bg-muted);
+      border: 1px solid var(--border-page);
+      border-left: 3px solid var(--tint-audit);
+      border-radius: 0 var(--r-sm) var(--r-sm) 0;
+      padding: 8px 12px;
+      line-height: 1.5;
+      margin-top: 8px;
+    }
+
+    .labs-action-group {
+      display: flex;
+      align-items: center;
       flex-wrap: wrap;
       gap: 12px;
     }
@@ -1336,14 +1399,25 @@
       overflow: hidden;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
       border: 1px solid rgba(255, 255, 255, 0.15);
+      background: #000;
     }
 
     .lightbox-large-img {
       width: 100%;
       height: auto;
-      max-height: 85vh;
+      max-height: 80vh;
       object-fit: contain;
       display: block;
+    }
+
+    .lightbox-caption {
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      background: rgba(15, 23, 42, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+      margin: 0;
     }
 
     .lightbox-close-btn {
@@ -1362,6 +1436,7 @@
       align-items: center;
       justify-content: center;
       transition: background var(--ease);
+      z-index: 1010;
     }
 
     .lightbox-close-btn:hover {

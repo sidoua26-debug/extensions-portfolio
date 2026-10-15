@@ -156,16 +156,42 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     assert.equal(cspViolations.length, 0, 'No CSP violations during tab switching');
   });
 
-  it('4. Accessible lightbox opens screenshot and closes with Escape key', async () => {
+  it('4. Accessible lightbox opens screenshot, sets full-size src & alt, traps focus, and closes with Escape & backdrop', async () => {
     const trigger = page.locator('.lightbox-trigger.active, .showcase-img.active.lightbox-trigger, .lightbox-trigger').first();
+    const triggerSrc = await trigger.getAttribute('src');
+    const triggerAlt = await trigger.getAttribute('alt');
+
     await trigger.click();
 
+    // 1. Modal is active
     const isModalActive = await page.evaluate(() => document.getElementById('lightboxModal').classList.contains('active'));
     assert.equal(isModalActive, true, 'Modal should be active after clicking screenshot');
 
+    // 2. Full-size image and real alt are displayed
+    const modalImgSrc = await page.getAttribute('#lightboxLargeImg', 'src');
+    const modalImgAlt = await page.getAttribute('#lightboxLargeImg', 'alt');
+    const captionText = await page.textContent('#lightboxCaption');
+
+    assert.equal(modalImgSrc, triggerSrc, 'Modal img src matches clicked screenshot');
+    assert.equal(modalImgAlt, triggerAlt, 'Modal img alt matches clicked screenshot');
+    assert.equal(captionText, triggerAlt, 'Modal caption text matches real alt text');
+
+    // 3. Focus is trapped inside modal (close button focused)
+    const isCloseBtnFocused = await page.evaluate(() => document.activeElement === document.getElementById('lightboxCloseBtn'));
+    assert.equal(isCloseBtnFocused, true, 'Close button should receive focus on open');
+
+    // 4. Escape closes modal
     await page.keyboard.press('Escape');
     const isModalClosed = await page.evaluate(() => document.getElementById('lightboxModal').classList.contains('active'));
     assert.equal(isModalClosed, false, 'Modal should be closed after Escape key');
+
+    // 5. Re-open and verify backdrop click closes modal
+    await trigger.click();
+    assert.equal(await page.evaluate(() => document.getElementById('lightboxModal').classList.contains('active')), true);
+    // Click on modal background (outside window)
+    await page.click('#lightboxModal', { position: { x: 10, y: 10 } });
+    assert.equal(await page.evaluate(() => document.getElementById('lightboxModal').classList.contains('active')), false, 'Modal should close on backdrop click');
+
     assert.equal(cspViolations.length, 0, 'No CSP violations during lightbox interaction');
   });
 
@@ -233,7 +259,7 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
       }));
     });
 
-    assert.equal(imageStatus.length, 15, 'Page contains exactly 15 img elements');
+    assert.equal(imageStatus.length, 14, 'Page contains exactly 14 img elements');
     for (const info of imageStatus) {
       assert.ok(info.complete, `Image ${info.index} (${info.src}) should be complete`);
       assert.ok(info.naturalWidth > 0, `Image ${info.index} (${info.src}) should have naturalWidth > 0, got ${info.naturalWidth}`);

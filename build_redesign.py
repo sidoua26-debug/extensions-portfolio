@@ -24,7 +24,7 @@ html = r'''<!DOCTYPE html>
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Browser Extensions — Built for Real Work">
-  <meta name="twitter:description" content="Tools for developers, researchers, and professionals. 100% client-side privacy.">
+  <meta name="twitter:description" content="Privacy-first tools for developers and researchers, featuring local-first browser extensions.">
 
   <link rel="icon" type="image/png" href="assets/icons/word-to-latex-128.png">
 
@@ -152,7 +152,7 @@ html = r'''<!DOCTYPE html>
           </div>
           <div class="trust-chip">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <span>100% Client-Side Processing</span>
+            <span>Local-First &amp; Client-Side Focus</span>
           </div>
           <div class="trust-chip">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -381,6 +381,11 @@ html = r'''<!DOCTYPE html>
                 <li>UTF-8 BOM encoding for instant Excel opening</li>
                 <li>Granular row range &amp; hidden column recovery</li>
               </ul>
+
+              <!-- TODO: real numbers -->
+              <div class="card-social-proof" hidden aria-hidden="true" style="display: none;">
+                ★ [rating] on Edge Add-ons · [N] users
+              </div>
             </div>
 
             <div class="card-footer">
@@ -420,6 +425,11 @@ html = r'''<!DOCTYPE html>
                 <li>Non-intrusive floating in-page selection panel</li>
                 <li>Zero cloud upload — bundles files locally</li>
               </ul>
+
+              <!-- TODO: real numbers -->
+              <div class="card-social-proof" hidden aria-hidden="true" style="display: none;">
+                ★ [rating] on Edge Add-ons · [N] users
+              </div>
             </div>
 
             <div class="card-footer">
@@ -442,23 +452,18 @@ html = r'''<!DOCTYPE html>
 
             <div class="card-body">
               <div class="card-pill-row">
-                <span class="badge badge-w2l">Academic &amp; Research</span>
-                <span class="badge badge-subtle">0 Permissions · 100% Offline</span>
+                <span class="badge badge-w2l">Flagship Project</span>
+                <span class="badge badge-subtle">100% Offline WASM</span>
               </div>
 
-              <div class="card-benefit-quote">
-                <strong>Main Benefit:</strong> Eliminates tedious document reformatting by turning Word OpenXML into paste-ready LaTeX fragments.
-              </div>
+              <p class="card-summary-text">
+                Converts Microsoft Word (.docx) documents, complex tables, and math equations into clean, publication-ready LaTeX directly in your browser. Eliminates manual reformatting with zero remote servers, no user accounts, and zero telemetry.
+              </p>
 
-              <div class="card-screenshot-wrap">
-                <img class="lightbox-trigger" src="assets/screenshots/w2l-2-output.png" alt="Word to LaTeX conversion interface preview" loading="lazy" width="1280" height="800">
+              <!-- TODO: real numbers -->
+              <div class="card-social-proof" hidden aria-hidden="true" style="display: none;">
+                ★ [rating] on Edge Add-ons · [N] users
               </div>
-
-              <ul class="card-points">
-                <li>Native .docx conversion with Pandoc WASM</li>
-                <li>Booktabs tables &amp; automatic artifact removal</li>
-                <li>Offline Tesseract OCR math assistance</li>
-              </ul>
             </div>
 
             <div class="card-footer">
@@ -498,6 +503,11 @@ html = r'''<!DOCTYPE html>
                 <li>JSON-LD structured data parser &amp; validator</li>
                 <li>Navigation Timing API benchmarks &amp; export</li>
               </ul>
+
+              <!-- TODO: real numbers -->
+              <div class="card-social-proof" hidden aria-hidden="true" style="display: none;">
+                ★ [rating] on Edge Add-ons · [N] users
+              </div>
             </div>
 
             <div class="card-footer">
@@ -521,6 +531,7 @@ html = r'''<!DOCTYPE html>
               <div class="card-pill-row">
                 <span class="badge badge-audit">Consulting &amp; CRO</span>
                 <span class="badge badge-subtle">Client-Ready PDF</span>
+                <span class="badge badge-subtle">Cloud AI Assisted</span>
               </div>
 
               <div class="card-benefit-quote">
@@ -536,6 +547,15 @@ html = r'''<!DOCTYPE html>
                 <li>Severity-ranked findings &amp; copy suggestions</li>
                 <li>Executive branded PDF export for proposals</li>
               </ul>
+
+              <div class="card-disclosure-note" role="note">
+                <strong>Privacy Disclosure:</strong> Unlike our fully offline tools, AuditPilot connects to an external AI API (Google Gemini) via a dedicated backend service to analyze website copy and compile executive PDF audits.
+              </div>
+
+              <!-- TODO: real numbers -->
+              <div class="card-social-proof" hidden aria-hidden="true" style="display: none;">
+                ★ [rating] on Edge Add-ons · [N] users
+              </div>
             </div>
 
             <div class="card-footer">
@@ -607,7 +627,11 @@ html = r'''<!DOCTYPE html>
             </div>
           </div>
 
-          <div>
+          <div class="labs-action-group">
+            <a href="mailto:sidoua26@gmail.com?subject=MailFlow%20launch%20notification" class="btn btn-edge btn-sm" aria-label="Notify me when MailFlow launches">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              Notify me
+            </a>
             <span class="badge badge-subtle">Coming Soon to Edge Add-ons</span>
           </div>
         </div>
@@ -621,15 +645,54 @@ html = r'''<!DOCTYPE html>
       <div class="container">
         <div class="about-card">
           <div class="section-eyebrow">Engineering Philosophy</div>
-          <h2 id="aboutHeading" class="section-heading">Local-first browser software</h2>
+          <h2 id="aboutHeading" class="section-heading">Hi, I'm Sid</h2>
+          <!-- Avatar: skipped (no local photo file provided) -->
+
           <p class="about-body-text">
-            I build focused, high-utility browser extensions for developers, academics, SEO professionals, and researchers. Software should respect user autonomy: everything runs locally in the browser sandbox, requiring zero remote servers, no user accounts, and zero background analytics.
-          </p>
-          <p class="about-body-text">
-            Every tool in this portfolio is crafted under strict architectural constraints. WebAssembly allows heavy compute tasks—like compiling Pandoc 3.10 and running document conversions—to execute right in your browser client without sending private manuscript data to third-party cloud servers. Similarly, file scanning, table extraction, and DOM diagnostics remain entirely within your device's memory. By refusing telemetry trackers and analytics SDKs, these extensions ensure your workflows remain confidential, fast, and completely offline-capable.
+            I build small browser extensions that do one job well and never phone home. I started with Word to LaTeX after losing hours reformatting a manuscript, and I didn't want to upload it to a random website. So everything here runs on your device: no accounts, no servers, no tracking.
           </p>
 
+          <div class="about-values-grid">
+            <div class="about-value-item">
+              <h3 class="about-value-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Private by design
+              </h3>
+              <p class="about-value-text">
+                All heavy compute and file transformations—including Pandoc WebAssembly compilation and table parsing—execute entirely inside your local browser sandbox. Your private documents, research manuscripts, and clipboard contents never leave your device.
+              </p>
+            </div>
+
+            <div class="about-value-item">
+              <h3 class="about-value-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Minimal permissions
+              </h3>
+              <p class="about-value-text">
+                Zero broad host permissions, zero browsing activity monitoring, and zero third-party telemetry SDKs. Each extension requests only the bare minimum permissions necessary to perform its specific productivity task safely.
+              </p>
+            </div>
+
+            <div class="about-value-item">
+              <h3 class="about-value-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                Open to check
+              </h3>
+              <p class="about-value-text">
+                Transparent, open-source codebases hosted on GitHub. Anyone can inspect the implementation, audit security boundaries, verify dependency manifests, and confirm zero-telemetry claims firsthand.
+              </p>
+            </div>
+          </div>
+
           <div class="about-buttons">
+            <a href="mailto:sidoua26@gmail.com?subject=Extension%20Request" class="btn btn-edge">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Request an extension
+            </a>
+            <a href="https://github.com/sidoua26-debug/word-to-latex-extension/issues" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Report a bug
+            </a>
             <a href="https://github.com/sidoua26-debug" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
               GitHub (@sidoua26-debug)
@@ -664,10 +727,11 @@ html = r'''<!DOCTYPE html>
   <!-- ========================================================================
        ACCESSIBLE LIGHTBOX ZOOM MODAL
        ======================================================================== -->
-  <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Enlarged screenshot viewer">
+  <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Enlarged screenshot viewer" aria-describedby="lightboxCaption">
     <button class="lightbox-close-btn" id="lightboxCloseBtn" type="button" aria-label="Close enlarged view">&times;</button>
     <div class="lightbox-window">
       <img id="lightboxLargeImg" class="lightbox-large-img" src="assets/screenshots/placeholder-modal.png" alt="Enlarged screenshot preview" width="1280" height="800">
+      <p id="lightboxCaption" class="lightbox-caption">Enlarged screenshot preview</p>
     </div>
   </div>
 
