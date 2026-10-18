@@ -122,49 +122,6 @@
     <h3>SEO Inspector</h3>
     <p>Analyzes the page in your browser; no data sent to any server. Evaluates page DOM structure, meta tags, schema markup, and performance timing in-memory on the active tab without logging or transmitting browsing history.</p>
 
-    <h3>AuditPilot</h3>
-    <p>Unlike Word to LaTeX, AuditPilot uses a client-server architecture with external AI integration to provide conversion rate optimization and technical audits. Its data handling operates as follows:</p>
-    <ul>
-      <li><strong>User-Initiated Audits:</strong> Audits run strictly on-demand when you click the extension on an active tab. It never monitors, scans, or records browsing history in the background.</li>
-      <li><strong>Page Data Transmitted to Backend:</strong> When an audit is triggered, the extension sends page structure and visible text to our backend API (<code>https://auditpilot-dc8n.onrender.com</code>), including:
-        <ul>
-          <li>Page metadata: URL, hostname/domain, page title, language, meta description, canonical link, and robots directives.</li>
-          <li>Structural elements: Viewport dimensions, up to 50 heading elements (H1–H6), and up to 15 call-to-action buttons/links.</li>
-          <li>Page indicators: Up to 5 form summaries (field count and non-hidden input types), contact details found on the audited page (up to 10 phone numbers and email addresses extracted from <code>tel:</code>, <code>mailto:</code>, and contact links), scheduling/booking links (e.g. Calendly, HubSpot), pricing links, image counts, link counts, and Schema.org / OpenGraph structured data types.</li>
-          <li>Visible body text: Up to 6,000 characters of visible rendered text from the active page (from <code>innerText</code> or DOM TreeWalker, excluding scripts, styles, and hidden elements).</li>
-          <li>Viewport Screenshot (Optional): If enabled, a base64-encoded screenshot of the visible viewport (validated under 3.5MB).</li>
-        </ul>
-      </li>
-      <li><strong>External AI Transmission (Google Gemini):</strong>
-        <ul>
-          <li>Our backend wraps the sanitized page data and visible text excerpt into an untrusted passive data prompt and transmits it to the <strong>Google Gemini API</strong> (using the official Google GenAI SDK, calling <code>gemini-3.8-flash</code> / <code>gemini-3.6-flash</code>) to calculate category scores, identify conversion roadblocks, and generate copy suggestions.</li>
-          <li>If the external AI API is unreachable or times out, the backend falls back to an internal deterministic heuristic scoring engine.</li>
-          <li>Screenshots are <strong>never</strong> transmitted to Google Gemini; they are processed solely on our backend to embed into generated PDF audit deliverables.</li>
-        </ul>
-      </li>
-      <li><strong>Data Stored on Server:</strong>
-        <ul>
-          <li>User account identifier, API key, email (if provided), and audit credit balance.</li>
-          <li>Completed audit records: audited URL, domain, page title, generated scores, executive summary, findings, copy rewrites, a metadata snapshot (primary H1, title, meta description, top headings/CTAs, contact links), and the optional screenshot.</li>
-          <li>White-label agency branding settings, if configured (auditor name, agency name, contact info, logo URL).</li>
-          <li>Public share tokens: Random 16-byte cryptographic tokens enabling read-only web report sharing.</li>
-        </ul>
-      </li>
-      <li><strong>Hosting Infrastructure &amp; Database Providers:</strong>
-        <ul>
-          <li><strong>Backend Hosting:</strong> Hosted on <strong>Render</strong> (<code>onrender.com</code>), providing SSL/TLS termination and web service execution.</li>
-          <li><strong>Database Storage:</strong> Stored in a managed <strong>PostgreSQL</strong> database connected via Prisma ORM (specified by <code>DATABASE_URL</code> environment configuration).</li>
-        </ul>
-      </li>
-      <li><strong>Data Retention &amp; Security:</strong>
-        <ul>
-          <li>Signed PDF report download tokens expire automatically after <strong>15 minutes</strong> (15-minute TTL).</li>
-          <li>Audit records are persisted in PostgreSQL to allow auditors to review historical reports and export PDFs. <em>(Note: There is currently no automated expiration cron job for stored database audit records).</em></li>
-          <li>Target URLs are validated against Server-Side Request Forgery (SSRF), blocking requests to loopback addresses, private subnets (RFC 1918), and cloud metadata endpoints.</li>
-        </ul>
-      </li>
-    </ul>
-
     <h2>3. Contact &amp; Inquiries</h2>
     <p>If you have questions regarding data privacy or the source code of these extensions, please reach out directly:</p>
     <ul>
