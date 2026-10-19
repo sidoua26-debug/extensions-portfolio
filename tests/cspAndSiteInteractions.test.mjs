@@ -44,6 +44,8 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
         if (safeUrl === '/' || safeUrl === '/index.html') {
           headers['Content-Security-Policy'] = CSP_HEADER;
           headers['Cache-Control'] = 'no-cache, must-revalidate';
+        } else if (safeUrl === '/assets/js/site.js' || safeUrl === '/assets/css/styles.css') {
+          headers['Cache-Control'] = 'no-cache, must-revalidate';
         } else if (safeUrl.startsWith('/assets/js/')) {
           headers['Cache-Control'] = 'public, max-age=3600, must-revalidate';
         } else if (safeUrl.startsWith('/assets/css/')) {
@@ -195,6 +197,92 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     assert.equal(await page.evaluate(() => document.getElementById('lightboxModal').classList.contains('active')), false, 'Modal should close on backdrop click');
 
     assert.equal(cspViolations.length, 0, 'No CSP violations during lightbox interaction');
+  });
+
+  it('4b. Product Preview Modal: clicking Preview on all 5 products opens correct modal with loaded images, thumbnail nav, and closes cleanly', async () => {
+    const products = [
+      { id: 'word-to-latex', name: 'Word to LaTeX', storePrefix: 'https://microsoftedge.microsoft.com/addons/detail/lpehnpdkdiddlppobkcicdondaebijlf' },
+      { id: 'table-extractor', name: 'Table Extractor', storePrefix: 'https://microsoftedge.microsoft.com/addons/detail/pekammppimoaikllkhhebocbkbidoboe' },
+      { id: 'bulkgrab', name: 'BulkGrab', storePrefix: 'https://microsoftedge.microsoft.com/addons/detail/cphidoikhnjdkeldgelkpddnkojlfccc' },
+      { id: 'seo-inspector', name: 'SEO Inspector', storePrefix: 'https://microsoftedge.microsoft.com/addons/detail/jbnjjkfkcmfkjamakndojbkjanijlfmd' },
+      { id: 'bilexi', name: 'Bilexi', storePrefix: 'https://microsoftedge.microsoft.com/addons/detail/mheomahlcfddgjlemnolopfbhojfpmpb' },
+    ];
+
+    for (const prod of products) {
+      const previewBtn = page.locator(`[data-preview="${prod.id}"]`);
+      assert.equal(await previewBtn.isVisible(), true, `Preview button for ${prod.id} should be visible`);
+
+      await previewBtn.click();
+      await page.waitForTimeout(100);
+
+      // Verify modal is active
+      const isActive = await page.evaluate(() => document.getElementById('lightboxModal').classList.contains('active'));
+      assert.equal(isActive, true, `Modal should open when clicking Preview for ${prod.id}`);
+
+      // Verify title matches
+      const title = await page.textContent('#previewModalName');
+      assert.equal(title, prod.name, `Modal title should match ${prod.name}`);
+
+      // Verify main screenshot image is loaded
+      const imgInfo = await page.evaluate(() => {
+        const img = document.getElementById('lightboxLargeImg');
+        return {
+          src: img ? img.src : null,
+          complete: img ? img.complete : false,
+          naturalWidth: img ? img.naturalWidth : 0,
+          naturalHeight: img ? img.naturalHeight : 0,
+        };
+      });
+      assert.ok(imgInfo.src && imgInfo.src.length > 0, `Screenshot src should be non-empty for ${prod.id}`);
+      assert.equal(imgInfo.complete, true, `Screenshot should be complete for ${prod.id}`);
+      assert.ok(imgInfo.naturalWidth > 0, `Screenshot naturalWidth should be > 0 for ${prod.id}`);
+
+      // Verify store action link
+      const storeBtnHref = await page.getAttribute('#previewModalStoreBtn', 'href');
+      assert.ok(storeBtnHref.startsWith(prod.storePrefix), `Store button href should match ${prod.id}`);
+
+      // Test gallery thumbnail switching
+      const thumbs = page.locator('#previewGalleryStrip .gallery-thumb-btn');
+      const thumbCount = await thumbs.count();
+      assert.ok(thumbCount >= 3, `Expected at least 3 thumbnails for ${prod.id}, got ${thumbCount}`);
+
+      if (thumbCount > 1) {
+        // Click second thumbnail
+        await thumbs.nth(1).click();
+        await page.waitForTimeout(100);
+        const secondImgSrc = await page.getAttribute('#lightboxLargeImg', 'src');
+        assert.notEqual(secondImgSrc, imgInfo.src, `Screenshot src should change after clicking thumbnail 2 for ${prod.id}`);
+
+        // Test nav buttons
+        await page.click('#previewNavNext');
+        await page.waitForTimeout(100);
+        await page.click('#previewNavPrev');
+        await page.waitForTimeout(100);
+      }
+
+      // Close modal using close button
+      await page.click('#lightboxCloseBtn');
+      await page.waitForTimeout(100);
+      const isClosed = await page.evaluate(() => !document.getElementById('lightboxModal').classList.contains('active'));
+      assert.equal(isClosed, true, `Modal should close for ${prod.id}`);
+    }
+
+    // Verify mobile viewport interaction
+    await page.setViewportSize({ width: 390, height: 844 });
+    const bilexiBtn = page.locator('[data-preview="bilexi"]');
+    await bilexiBtn.click();
+    await page.waitForTimeout(100);
+    assert.equal(await page.evaluate(() => document.getElementById('lightboxModal').classList.contains('active')), true);
+
+    // Test footer close button on mobile
+    await page.click('#previewModalCloseFooter');
+    await page.waitForTimeout(100);
+    assert.equal(await page.evaluate(() => !document.getElementById('lightboxModal').classList.contains('active')), true);
+
+    // Restore desktop viewport
+    await page.setViewportSize({ width: 1280, height: 800 });
+
+    assert.equal(cspViolations.length, 0, 'No CSP violations during complete product preview testing');
   });
 
   it('5. Live Word-to-LaTeX Converter is positioned above the fold with calm Ready status and hidden file inputs', async () => {

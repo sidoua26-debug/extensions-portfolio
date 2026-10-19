@@ -14,6 +14,13 @@
 /index.html
   Cache-Control: no-cache, must-revalidate
 
+# Core portfolio UI scripts & styles: require freshness revalidation on updates
+/assets/js/site.js
+  Cache-Control: no-cache, must-revalidate
+
+/assets/css/styles.css
+  Cache-Control: no-cache, must-revalidate
+
 # Converter JavaScript bundles (stable non-fingerprinted filenames: 1-hour cache with must-revalidate)
 /assets/js/*
   Cache-Control: public, max-age=3600, must-revalidate

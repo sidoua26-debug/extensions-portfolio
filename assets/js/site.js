@@ -85,6 +85,7 @@
 // 4. Interactive Product Preview & Accessible Screenshot Lightbox
 (function initProductPreviewModal() {
   const modal = document.getElementById('lightboxModal');
+  if (!modal) return;
   const modalImg = document.getElementById('lightboxLargeImg');
   const closeBtn = document.getElementById('lightboxCloseBtn');
   const caption = document.getElementById('lightboxCaption');
@@ -244,8 +245,11 @@
   function setScreenshot(index) {
     if (!currentProductKey || !PRODUCT_PREVIEWS[currentProductKey]) return;
     const prod = PRODUCT_PREVIEWS[currentProductKey];
-    if (index < 0) index = 0;
-    if (index >= prod.screenshots.length) index = prod.screenshots.length - 1;
+    const total = prod.screenshots ? prod.screenshots.length : 0;
+    if (total === 0) return;
+    // Circular navigation: wrap around seamlessly
+    if (index < 0) index = total - 1;
+    if (index >= total) index = 0;
     currentScreenshotIndex = index;
 
     const shot = prod.screenshots[index];
@@ -315,17 +319,15 @@
     }
 
     renderGallery(prod, initialIdx);
+    setScreenshot(initialIdx);
 
-    if (initialImgSrc) {
-      if (modalImg) {
-        modalImg.src = initialImgSrc;
-        modalImg.alt = initialAlt || prod.screenshots[initialIdx].caption;
+    // If caller passed explicit trigger image src/alt, preserve them exactly for test seams
+    if (initialImgSrc && modalImg) {
+      modalImg.src = initialImgSrc;
+      if (initialAlt) {
+        modalImg.alt = initialAlt;
+        if (caption) caption.textContent = initialAlt;
       }
-      if (caption) {
-        caption.textContent = initialAlt || prod.screenshots[initialIdx].caption;
-      }
-    } else {
-      setScreenshot(initialIdx);
     }
 
     if (modal) {
