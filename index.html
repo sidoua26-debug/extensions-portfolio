@@ -117,7 +117,7 @@
        ======================================================================== -->
   <header class="navbar" role="banner" id="top">
     <div class="container nav-inner">
-      <a href="#top" class="brand" aria-label="Browser Extensions Portfolio">
+      <a href="#top" class="brand" aria-label="ExtensionGuy Portfolio">
         <div class="brand-mark" aria-hidden="true">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
@@ -125,7 +125,7 @@
             <line x1="12" y1="22.08" x2="12" y2="12"/>
           </svg>
         </div>
-        <span>Extensions</span>
+        <span>ExtensionGuy</span>
       </a>
 
       <nav aria-label="Main Navigation">
@@ -135,6 +135,7 @@
           <li><a href="#portfolio" class="nav-link">All 5 Add-ons</a></li>
           <li><a href="#install" class="nav-link">Installation</a></li>
           <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="privacy.html" class="nav-link">Privacy</a></li>
         </ul>
       </nav>
 
@@ -400,6 +401,49 @@
 
         <div class="portfolio-grid">
 
+          <article class="product-card" id="word-to-latex" aria-labelledby="cardTitleW2L">
+            <div class="card-header">
+              <img class="card-icon-img" src="assets/icons/word-to-latex-128.png" alt="Word to LaTeX icon" loading="lazy" width="128" height="128">
+              <div class="card-header-meta">
+                <h3 id="cardTitleW2L" class="card-product-name">Word to LaTeX</h3>
+                <p class="card-subheading">Offline Document &amp; Math Converter</p>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="card-pill-row">
+                <span class="badge badge-w2l">Flagship Project</span>
+                <span class="badge badge-subtle">100% Offline WASM</span>
+              </div>
+
+              <div class="card-benefit-quote">
+                <strong>Main Benefit:</strong> Converts Microsoft Word (.docx), equations, and complex tables into clean LaTeX snippets—100% offline.
+              </div>
+
+              <div class="card-screenshot-wrap">
+                <img class="lightbox-trigger" src="assets/screenshots/w2l-2-output.png" alt="Word to LaTeX output view with instant clipboard sync confirmation" loading="lazy" width="1280" height="800">
+              </div>
+
+              <ul class="card-points">
+                <li>Preserves headings, lists, tables, and nested formatting</li>
+                <li>Instant one-click clipboard sync for Overleaf &amp; TeXstudio</li>
+                <li>100% browser-local Pandoc WASM with zero data uploads</li>
+              </ul>
+            </div>
+
+            <div class="card-footer">
+              <span class="badge badge-edge">Edge Verified</span>
+              <div class="card-actions-group">
+                <button type="button" class="btn btn-preview btn-sm" data-preview="word-to-latex" aria-label="Explore interactive preview of Word to LaTeX">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  Preview
+                </button>
+                <a href="https://microsoftedge.microsoft.com/addons/detail/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Install Word to LaTeX on Microsoft Edge Add-ons">Get on Edge</a>
+                <a href="#flagship" class="btn btn-ghost btn-sm" aria-label="Read full details on Word to LaTeX">Deep Dive</a>
+              </div>
+            </div>
+          </article>
+
           <article class="product-card" id="table-extractor" aria-labelledby="cardTitleTable">
             <div class="card-header">
               <img class="card-icon-img" src="assets/icons/table-extractor-300.png" alt="Table Extractor icon" loading="lazy" width="300" height="300">
@@ -428,16 +472,15 @@
                 <li>UTF-8 BOM encoding for instant Excel opening</li>
                 <li>Granular row range &amp; hidden column recovery</li>
               </ul>
-
-              <!-- TODO: real numbers -->
-              <div class="card-social-proof" hidden aria-hidden="true" style="display: none;">
-                ★ [rating] on Edge Add-ons · [N] users
-              </div>
             </div>
 
             <div class="card-footer">
               <span class="badge badge-subtle">Edge &amp; Chrome</span>
               <div class="card-actions-group">
+                <button type="button" class="btn btn-preview btn-sm" data-preview="table-extractor" aria-label="Explore interactive preview of Table Extractor">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  Preview
+                </button>
                 <a href="https://microsoftedge.microsoft.com/addons/detail/pekammppimoaikllkhhebocbkbidoboe" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Install Table Extractor on Microsoft Edge Add-ons">Get on Edge</a>
                 <a href="https://chromewebstore.google.com/detail/fjpbjpmccomonleefghgalfoioekhlhm?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" class="btn btn-chrome btn-sm" aria-label="Install Table Extractor on Chrome Web Store">Get on Chrome</a>
               </div>
@@ -472,52 +515,17 @@
                 <li>Non-intrusive floating in-page selection panel</li>
                 <li>Files download directly to your device; no upload to my servers</li>
               </ul>
-
-              <!-- TODO: real numbers -->
-              <div class="card-social-proof" hidden aria-hidden="true" style="display: none;">
-                ★ [rating] on Edge Add-ons · [N] users
-              </div>
             </div>
 
             <div class="card-footer">
               <span class="badge badge-subtle">Edge &amp; Chrome</span>
               <div class="card-actions-group">
+                <button type="button" class="btn btn-preview btn-sm" data-preview="bulkgrab" aria-label="Explore interactive preview of BulkGrab">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  Preview
+                </button>
                 <a href="https://microsoftedge.microsoft.com/addons/detail/cphidoikhnjdkeldgelkpddnkojlfccc" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Install BulkGrab on Microsoft Edge Add-ons">Get on Edge</a>
                 <a href="https://chromewebstore.google.com/detail/lnmmneljpgdefilkokfpmiohjgfjcljn?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" class="btn btn-chrome btn-sm" aria-label="Install BulkGrab on Chrome Web Store">Get on Chrome</a>
-              </div>
-            </div>
-          </article>
-
-          <article class="product-card" id="word-to-latex" aria-labelledby="cardTitleW2L">
-            <div class="card-header">
-              <img class="card-icon-img" src="assets/icons/word-to-latex-128.png" alt="Word to LaTeX icon" loading="lazy" width="128" height="128">
-              <div class="card-header-meta">
-                <h3 id="cardTitleW2L" class="card-product-name">Word to LaTeX</h3>
-                <p class="card-subheading">Offline Document &amp; Math Converter</p>
-              </div>
-            </div>
-
-            <div class="card-body">
-              <div class="card-pill-row">
-                <span class="badge badge-w2l">Flagship Project</span>
-                <span class="badge badge-subtle">100% Offline WASM</span>
-              </div>
-
-              <p class="card-summary-text">
-                Converts Microsoft Word (.docx) documents, complex tables, and math equations into clean, publication-ready LaTeX: runs fully offline, nothing leaves your device.
-              </p>
-
-              <!-- TODO: real numbers -->
-              <div class="card-social-proof" hidden aria-hidden="true" style="display: none;">
-                ★ [rating] on Edge Add-ons · [N] users
-              </div>
-            </div>
-
-            <div class="card-footer">
-              <span class="badge badge-edge">Edge Verified</span>
-              <div class="card-actions-group">
-                <a href="https://microsoftedge.microsoft.com/addons/detail/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Install Word to LaTeX on Microsoft Edge Add-ons">Get on Edge</a>
-                <a href="#flagship" class="btn btn-ghost btn-sm" aria-label="Read full details on Word to LaTeX">Deep Dive</a>
               </div>
             </div>
           </article>
@@ -550,16 +558,15 @@
                 <li>JSON-LD structured data parser &amp; validator</li>
                 <li>Navigation Timing API benchmarks &amp; export</li>
               </ul>
-
-              <!-- TODO: real numbers -->
-              <div class="card-social-proof" hidden aria-hidden="true" style="display: none;">
-                ★ [rating] on Edge Add-ons · [N] users
-              </div>
             </div>
 
             <div class="card-footer">
               <span class="badge badge-edge">Edge Verified</span>
               <div class="card-actions-group">
+                <button type="button" class="btn btn-preview btn-sm" data-preview="seo-inspector" aria-label="Explore interactive preview of SEO Inspector">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  Preview
+                </button>
                 <a href="https://microsoftedge.microsoft.com/addons/detail/jbnjjkfkcmfkjamakndojbkjanijlfmd" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Install SEO Inspector on Microsoft Edge Add-ons">Get on Edge</a>
               </div>
             </div>
@@ -593,16 +600,15 @@
                 <li>Interactive suggestion strip with Alt+2 / Alt+3 hotkeys</li>
                 <li>100% offline binary dictionaries &amp; zero cloud telemetry</li>
               </ul>
-
-              <!-- TODO: real numbers -->
-              <div class="card-social-proof" hidden aria-hidden="true" style="display: none;">
-                ★ [rating] on Edge Add-ons · [N] users
-              </div>
             </div>
 
             <div class="card-footer">
               <span class="badge badge-edge">Edge Verified</span>
               <div class="card-actions-group">
+                <button type="button" class="btn btn-preview btn-sm" data-preview="bilexi" aria-label="Explore interactive preview of Bilexi">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  Preview
+                </button>
                 <a href="https://microsoftedge.microsoft.com/addons/detail/mheomahlcfddgjlemnolopfbhojfpmpb" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Install Bilexi on Microsoft Edge Add-ons">Get on Edge</a>
               </div>
             </div>
@@ -691,7 +697,7 @@
           <!-- Avatar: skipped (no local photo file provided) -->
 
           <p class="about-body-text">
-            I build focused browser extensions that do one job well and respect your privacy. I started with Word to LaTeX after losing hours reformatting a manuscript, and I didn't want to upload it to a random website. Word to LaTeX and Bilexi run fully offline; Table Extractor, BulkGrab, and SEO Inspector process all data locally inside your browser and don't send your data to any server.
+            I build focused browser extensions that do one job well and respect your privacy. I started with Word to LaTeX after losing hours reformatting a manuscript, and I didn't want to upload it to a random website. Word to LaTeX and Bilexi run fully offline; Table Extractor, BulkGrab, and SEO Inspector process all data locally inside your browser and don't send your data to any server. Every extension is designed for daily productivity without bloated tracking, unnecessary permissions, or intrusive account walls.
           </p>
 
           <div class="about-values-grid">
@@ -767,13 +773,73 @@
   </footer>
 
   <!-- ========================================================================
-       ACCESSIBLE LIGHTBOX ZOOM MODAL
+       ACCESSIBLE INTERACTIVE PRODUCT PREVIEW & LIGHTBOX MODAL
        ======================================================================== -->
-  <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Enlarged screenshot viewer" aria-describedby="lightboxCaption">
-    <button class="lightbox-close-btn" id="lightboxCloseBtn" type="button" aria-label="Close enlarged view">&times;</button>
+  <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Interactive Product Preview" aria-describedby="lightboxCaption">
     <div class="lightbox-window">
-      <img id="lightboxLargeImg" class="lightbox-large-img" src="assets/screenshots/placeholder-modal.png" alt="Enlarged screenshot preview" width="1280" height="800">
-      <p id="lightboxCaption" class="lightbox-caption">Enlarged screenshot preview</p>
+      <button class="lightbox-close-btn" id="lightboxCloseBtn" type="button" aria-label="Close enlarged view">&times;</button>
+
+      <!-- Preview Modal Header -->
+      <div class="preview-modal-header" id="previewModalHeader">
+        <div class="preview-modal-title-group">
+          <div class="preview-modal-badge-row">
+            <span class="badge badge-edge" id="previewModalBadge">Extension Preview</span>
+            <span class="preview-modal-tagline" id="previewModalTagline">Product Interface Showcase</span>
+          </div>
+          <h2 class="preview-modal-name" id="previewModalName">Product Name</h2>
+        </div>
+        <div class="preview-modal-actions">
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" id="previewModalStoreBtn">Get on Edge</a>
+        </div>
+      </div>
+
+      <!-- Main Visual Viewport with Nav Arrows -->
+      <div class="preview-viewport-wrap">
+        <button class="preview-nav-btn prev" id="previewNavPrev" type="button" aria-label="Previous screenshot">&lsaquo;</button>
+        <img id="lightboxLargeImg" class="lightbox-large-img" src="assets/screenshots/placeholder-modal.png" alt="Enlarged screenshot preview" width="1280" height="800">
+        <button class="preview-nav-btn next" id="previewNavNext" type="button" aria-label="Next screenshot">&rsaquo;</button>
+        <p id="lightboxCaption" class="lightbox-caption">Enlarged screenshot preview</p>
+      </div>
+
+      <!-- Gallery Thumbnail Navigation Strip -->
+      <div class="preview-gallery-strip" id="previewGalleryStrip" role="tablist" aria-label="Screenshot gallery thumbnails">
+        <!-- Dynamically rendered thumbnail buttons -->
+      </div>
+
+      <!-- Verified Product Capabilities & Privacy Brief -->
+      <div class="preview-modal-details" id="previewModalDetails">
+        <div class="preview-details-grid">
+          <div class="preview-detail-col">
+            <h3 class="preview-detail-title">What It Does</h3>
+            <p class="preview-detail-desc" id="previewModalDesc">Word to LaTeX is an offline document and mathematics converter that transforms Word (.docx) documents, embedded tables, and equations into clean, publication-ready LaTeX markup without external servers. Built for academic researchers, engineers, and students who require precise formatting, intact equation matrices, and strict data privacy.</p>
+            <div class="preview-privacy-chip" id="previewModalPrivacy">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span id="previewModalPrivacyText">Verified Privacy: Runs 100% offline, zero network requests, zero telemetry.</span>
+            </div>
+          </div>
+          <div class="preview-detail-col">
+            <h3 class="preview-detail-title">Key Capabilities</h3>
+            <ul class="preview-feature-list" id="previewModalFeatures">
+              <li>High-fidelity conversion of document headings, nested lists, and stylized text</li>
+              <li>Transforms Word OMML math equations into clean standard LaTeX expressions</li>
+              <li>Extracts embedded images, figures, and complex tables with intact alignments</li>
+              <li>Strict offline architecture: WebAssembly execution inside browser sandboxes</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="preview-modal-footer">
+        <div class="preview-footer-info">
+          <span>Verified Browser Store Distribution · No Ads · No Telemetry</span>
+        </div>
+        <div class="preview-footer-btns" id="previewModalFooterBtns">
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-edge" id="previewModalFooterPrimary">Get on Edge</a>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-chrome" id="previewModalFooterSecondary" style="display: none;">Get on Chrome</a>
+          <button type="button" class="btn btn-ghost" id="previewModalCloseFooter">Close Preview</button>
+        </div>
+      </div>
     </div>
   </div>
 
