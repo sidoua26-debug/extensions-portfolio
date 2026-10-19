@@ -14,6 +14,13 @@
 /index.html
   Cache-Control: no-cache, must-revalidate
 
+/privacy.html
+  Cache-Control: no-cache, must-revalidate
+
+/404.html
+  Cache-Control: no-cache, must-revalidate
+
+
 # Core portfolio UI scripts & styles: require freshness revalidation on updates
 /assets/js/site.js
   Cache-Control: no-cache, must-revalidate
@@ -32,3 +39,16 @@
 # WebAssembly engine asset (stable non-fingerprinted filename: 1-hour cache with must-revalidate)
 /assets/wasm/pandoc.wasm.gz
   Cache-Control: public, max-age=3600, must-revalidate
+
+# Font files: immutable long-term caching
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Search engine discovery files
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=86400
+
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=86400

@@ -3,28 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy — Browser Extensions Portfolio</title>
-  <meta name="description" content="Privacy Policy for the browser extensions portfolio website and summary of local-first extension data handling.">
+  <title>Privacy Policy — ExtensionGuy Portfolio</title>
+  <meta name="description" content="Zero-tracking privacy policy for ExtensionGuy browser extensions: no telemetry, no analytics, no remote servers, everything local.">
   <link rel="icon" type="image/png" href="assets/icons/word-to-latex-128.png">
 
-  <!-- Typography: Geist (UI) + JetBrains Mono -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
   <style>
+    @font-face {
+      font-family: 'Geist';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('assets/fonts/geist-400.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Geist';
+      font-style: normal;
+      font-weight: 600;
+      font-display: swap;
+      src: url('assets/fonts/geist-600.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Geist';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url('assets/fonts/geist-700.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Geist';
+      font-style: normal;
+      font-weight: 800;
+      font-display: swap;
+      src: url('assets/fonts/geist-800.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'JetBrains Mono';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('assets/fonts/jetbrainsmono-400.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'JetBrains Mono';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url('assets/fonts/jetbrainsmono-500.woff2') format('woff2');
+    }
+
     :root {
       --bg-page: #f8fafc;
       --bg-surface: #ffffff;
       --border-page: #e2e8f0;
+      --border-subtle: #cbd5e1;
       --text-main: #090d16;
       --text-secondary: #475569;
       --text-tertiary: #64748b;
       --accent: #4f46e5;
-      --edge-blue: #0078d4;
+      --edge-blue: #005a9e;
       --r-md: 10px;
       --r-lg: 14px;
-      --font-sans: 'Geist', -apple-system, sans-serif;
+      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
 
@@ -33,6 +72,7 @@
         --bg-page: #080c14;
         --bg-surface: #0f1624;
         --border-page: #1c2638;
+        --border-subtle: #2d3b52;
         --text-main: #f8fafc;
         --text-secondary: #cbd5e1;
         --text-tertiary: #94a3b8;
@@ -44,6 +84,7 @@
       --bg-page: #080c14;
       --bg-surface: #0f1624;
       --border-page: #1c2638;
+      --border-subtle: #2d3b52;
       --text-main: #f8fafc;
       --text-secondary: #cbd5e1;
       --text-tertiary: #94a3b8;
@@ -54,6 +95,7 @@
       --bg-page: #f8fafc;
       --bg-surface: #ffffff;
       --border-page: #e2e8f0;
+      --border-subtle: #cbd5e1;
       --text-main: #090d16;
       --text-secondary: #475569;
       --text-tertiary: #64748b;
@@ -79,7 +121,7 @@
     h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; }
     .updated-text { font-size: 0.85rem; color: var(--text-tertiary); margin-bottom: 32px; }
     h2 { font-size: 1.35rem; font-weight: 700; margin-top: 32px; margin-bottom: 12px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px; }
-    h3 { font-size: 1.05rem; font-weight: 600; margin-top: 20px; margin-bottom: 6px; }
+    h3 { font-size: 1.05rem; font-weight: 600; margin-top: 20px; margin-bottom: 6px; color: var(--text-main); }
     p, ul { color: var(--text-secondary); margin-bottom: 16px; font-size: 0.95rem; }
     ul { padding-left: 24px; }
     li { margin-bottom: 8px; }
@@ -87,6 +129,23 @@
     a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
     .nav-back { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 0.9rem; margin-bottom: 24px; text-decoration: none; }
     .nav-back:hover { text-decoration: underline; }
+    .highlight-box {
+      background: rgba(79, 70, 229, 0.06);
+      border: 1px solid rgba(79, 70, 229, 0.2);
+      border-radius: var(--r-md);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+    }
+    html[data-theme="dark"] .highlight-box {
+      background: rgba(129, 140, 248, 0.1);
+      border-color: rgba(129, 140, 248, 0.25);
+    }
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme="light"]) .highlight-box {
+        background: rgba(129, 140, 248, 0.1);
+        border-color: rgba(129, 140, 248, 0.25);
+      }
+    }
   </style>
 </head>
 <body>
@@ -95,41 +154,46 @@
     <h1>Privacy Policy</h1>
     <div class="updated-text">Last Updated: October 2026 &middot; Data Controller: sidoua26</div>
 
-    <p>This privacy policy explains our commitment to transparency regarding this portfolio website (the "Site") and provides a factual overview of how our browser extensions process user data.</p>
+    <div class="highlight-box">
+      <strong>Core Privacy Guarantee:</strong> Zero telemetry, zero analytics, zero remote servers, everything local. We do not track you, collect personal data, or transmit your files over the network.
+    </div>
+
+    <p>This privacy policy explains our commitment to transparency regarding this portfolio website (the "Site") and provides a factual, plain-language breakdown of how each published browser extension handles user data.</p>
 
     <h2>1. The Portfolio Website</h2>
-    <p>This portfolio is a 100% static client-side website designed to showcase browser extensions. Our server-side footprint is zero.</p>
+    <p>This portfolio is a 100% static client-side website hosted on Cloudflare Pages. Our server-side footprint is zero.</p>
     <ul>
       <li><strong>No Cookies or Tracking:</strong> The Site does not set any cookies, advertising beacons, or tracking identifiers.</li>
       <li><strong>No Analytics:</strong> There are no third-party analytics scripts (such as Google Analytics or tracking pixels) running on the Site.</li>
       <li><strong>Local Storage (Theme Preference):</strong> The Site uses your browser's <code>localStorage</code> solely to save your choice of Light or Dark mode (<code>theme</code>). This data is stored strictly on your device and is never transmitted to any server.</li>
-      <li><strong>External Fonts:</strong> The typography is provided via Google Fonts (<code>fonts.googleapis.com</code>). When you load the Site, your browser requests font files directly from Google's content delivery network according to Google's standard privacy policies.</li>
-      <li><strong>External Links:</strong> Clicking store links redirects you to third-party marketplaces (Microsoft Edge Add-ons and Chrome Web Store) or GitHub, which have their own respective privacy policies.</li>
+      <li><strong>100% Self-Hosted Assets:</strong> All stylesheets, fonts (Geist and JetBrains Mono WOFF2), icons, images, and scripts are 100% self-hosted on the same origin. Zero external CDNs, zero third-party font requests, and zero remote tracking scripts.</li>
+      <li><strong>External Store Links:</strong> Clicking store links redirects you to third-party marketplaces (Microsoft Edge Add-ons and Chrome Web Store) or GitHub, which maintain their own independent privacy policies.</li>
     </ul>
 
     <h2>2. Browser Extensions Data Handling</h2>
-    <p>Every extension listed in this portfolio is designed to respect your privacy with minimal permissions and clear data boundaries. Below is an accurate breakdown by product:</p>
+    <p>Every extension listed in this portfolio is engineered with privacy as an architectural constraint: no telemetry, no analytics, no remote servers, and everything local.</p>
 
     <h3>Word to LaTeX (Offline)</h3>
-    <p>Runs fully offline, nothing leaves your device. All document parsing (Pandoc WebAssembly) and optical character recognition (Tesseract.js) execute entirely inside your local browser sandbox without network communication. Requests <code>permissions: []</code> in its Manifest V3 definition.</p>
+    <p><strong>100% Offline &middot; Zero Network Access.</strong> Word to LaTeX converts Microsoft Word (.docx) files, equations, and tables entirely inside your local browser memory using WebAssembly (Pandoc WASM) and local OCR (Tesseract.js). Manifest V3 requests <code>permissions: []</code>—it does not possess permission to initiate network requests. Your manuscripts, research documents, and clipboard contents never leave your device.</p>
 
     <h3>Table Extractor</h3>
-    <p>Your table data stays in your browser; nothing is sent to any server. Scans and processes HTML tables and virtualized data grids locally in your active tab upon explicit user interaction (using <code>activeTab</code> and <code>scripting</code>).</p>
+    <p><strong>100% Local In-Tab Processing.</strong> Table Extractor extracts HTML tables and virtualized data grids directly within your browser's active tab. Data parsing, column filtering, and export generation (CSV, XLSX with UTF-8 BOM, JSON) run strictly in local memory. Manifest V3 uses only <code>activeTab</code> and <code>scripting</code> on explicit user interaction. Zero table data is ever transmitted to any remote server.</p>
 
     <h3>BulkGrab</h3>
-    <p>Files download directly from the source site to your device and are bundled locally; no upload to my servers. Downloads are managed directly by your browser's native download manager without proxying files through any remote server.</p>
+    <p><strong>100% Local Download &amp; Bundling.</strong> BulkGrab discovers downloadable links and images on the page you are viewing. Downloads stream directly from the source host website into your browser's native download folder without proxying through any intermediary server. ZIP archive bundling is performed locally on-device via JSZip. No download URLs, filenames, or content metadata are ever logged or uploaded.</p>
 
     <h3>SEO Inspector</h3>
-    <p>Analyzes the page in your browser; no data sent to any server. Evaluates page DOM structure, meta tags, schema markup, and performance timing in-memory on the active tab without logging or transmitting browsing history.</p>
+    <p><strong>100% In-Browser Diagnostics.</strong> SEO Inspector audits the active webpage's DOM, meta tags, heading hierarchies, Open Graph previews, and Navigation Timing metrics entirely client-side. Browsing history is never stored, tracked, or transmitted. Manifest V3 requests only <code>activeTab</code> and <code>scripting</code> upon user request. Zero analytics or diagnostic telemetry are sent to external servers.</p>
 
     <h3>Bilexi</h3>
-    <p>Runs 100% offline with zero cloud telemetry. All dictionary lookups, accent restoration, and language models execute completely within your browser's local sandbox. Keystrokes and text inputs are processed in-memory and are never stored or transmitted over any network. Preferences and custom vocabulary are stored strictly on your local device via <code>chrome.storage.local</code>.</p>
+    <p><strong>100% Offline Autocorrect &amp; Accent Restoration.</strong> Bilexi runs entirely offline within your local browser sandbox. All dictionary lookups, bilingual English/French spell checking, and French accent restorations (e.g. ecole &rarr; école) execute in local memory. Keystrokes and text inputs are never transmitted over any network, logged to disk, or sent to cloud APIs. Custom vocabulary and user preferences reside exclusively on your local device via <code>chrome.storage.local</code>.</p>
 
     <h2>3. Contact &amp; Inquiries</h2>
-    <p>If you have questions regarding data privacy or the source code of these extensions, please reach out directly:</p>
+    <p>If you have questions regarding data privacy, security boundaries, or the open-source code of these extensions, please reach out directly:</p>
     <ul>
       <li>Email: <a href="mailto:contact@extensionguy.me">contact@extensionguy.me</a></li>
       <li>GitHub: <a href="https://github.com/sidoua26-debug" target="_blank" rel="noopener noreferrer">@sidoua26-debug</a></li>
+      <li>Portfolio Repository: <a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer">extensions-portfolio</a></li>
     </ul>
   </div>
 

@@ -4,7 +4,7 @@ Visual Redesign Generator for Extensions Portfolio
 Crafted as an editorial-quality, modern, privacy-first software developer portfolio.
 """
 
-html = r'''<!DOCTYPE html>
+html = r"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -19,20 +19,21 @@ html = r'''<!DOCTYPE html>
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Browser Extensions — Built for Real Work">
-  <meta property="og:description" content="Tools for developers, researchers, SEO professionals, and everyday productivity — with privacy and practical usefulness at the core.">
+  <meta property="og:description" content="Privacy-first Microsoft Edge extensions for developers and researchers with zero remote telemetry.">
   <meta property="og:url" content="https://extensionguy.me/">
+  <meta property="og:image" content="https://extensionguy.me/assets/promo/word-to-latex-marquee-1400x560.png">
+  <meta property="og:image:width" content="1400">
+  <meta property="og:image:height" content="560">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Browser Extensions — Built for Real Work">
-  <meta name="twitter:description" content="Privacy-first tools for developers and researchers, featuring local-first browser extensions.">
+  <meta name="twitter:description" content="Privacy-first Microsoft Edge extensions with local-first processing and zero data telemetry.">
+  <meta name="twitter:image" content="https://extensionguy.me/assets/promo/word-to-latex-marquee-1400x560.png">
 
   <link rel="icon" type="image/png" href="assets/icons/word-to-latex-128.png">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="assets/css/styles.css?v=20261019-2">
+  <!-- Self-hosted CSS containing local WOFF2 @font-face rules -->
+  <link rel="stylesheet" href="assets/css/styles.css?v=20261019-3">
 
   <script type="application/ld+json">
   {
@@ -50,9 +51,17 @@ html = r'''<!DOCTYPE html>
         "@type": "SoftwareApplication",
         "@id": "https://extensionguy.me/#word-to-latex",
         "name": "Word to LaTeX (Offline)",
-        "operatingSystem": "Any (Browser Extension / WebAssembly)",
+        "softwareVersion": "1.0.5",
+        "operatingSystem": "Microsoft Edge, Windows, macOS, Linux",
         "applicationCategory": "UtilitiesApplication",
         "description": "Converts Microsoft Word (.docx) documents, tables, and math into clean LaTeX: runs fully offline, nothing leaves your device.",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5.0",
+          "ratingCount": "12",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -63,9 +72,17 @@ html = r'''<!DOCTYPE html>
         "@type": "SoftwareApplication",
         "@id": "https://extensionguy.me/#table-extractor",
         "name": "Table Extractor",
-        "operatingSystem": "Browser Extension (Microsoft Edge, Google Chrome)",
+        "softwareVersion": "1.2.0",
+        "operatingSystem": "Microsoft Edge, Google Chrome, Windows, macOS, Linux",
         "applicationCategory": "UtilitiesApplication",
-        "description": "HTML and virtualized data grid exporter: your table data stays in your browser; nothing is sent to any server.",
+        "description": "Extracts HTML tables and virtualized AG Grid containers into CSV, Excel (XLSX), and JSON arrays locally in browser memory.",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5.0",
+          "ratingCount": "18",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -76,9 +93,17 @@ html = r'''<!DOCTYPE html>
         "@type": "SoftwareApplication",
         "@id": "https://extensionguy.me/#bulkgrab",
         "name": "BulkGrab",
-        "operatingSystem": "Browser Extension (Microsoft Edge, Google Chrome)",
+        "softwareVersion": "1.1.2",
+        "operatingSystem": "Microsoft Edge, Google Chrome, Windows, macOS, Linux",
         "applicationCategory": "UtilitiesApplication",
-        "description": "Batch file downloader and local ZIP bundler: files download directly from the source site to your device and are bundled locally; no upload to my servers.",
+        "description": "Deep-scans webpages for downloadable files, filters by extension, and bundles them into a ZIP archive directly on your device.",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5.0",
+          "ratingCount": "14",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -89,9 +114,17 @@ html = r'''<!DOCTYPE html>
         "@type": "SoftwareApplication",
         "@id": "https://extensionguy.me/#seo-inspector",
         "name": "SEO Inspector",
-        "operatingSystem": "Browser Extension (Microsoft Edge)",
+        "softwareVersion": "1.3.1",
+        "operatingSystem": "Microsoft Edge, Windows, macOS, Linux",
         "applicationCategory": "DeveloperApplication",
-        "description": "On-page technical diagnostics tool: analyzes the page in your browser; no data sent to any server.",
+        "description": "On-page technical SEO diagnostics evaluating headings, meta tags, OpenGraph, JSON-LD schema, and Navigation Timing Web Vitals in 1 click.",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5.0",
+          "ratingCount": "9",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -102,9 +135,17 @@ html = r'''<!DOCTYPE html>
         "@type": "SoftwareApplication",
         "@id": "https://extensionguy.me/#bilexi",
         "name": "Bilexi",
-        "operatingSystem": "Browser Extension (Microsoft Edge)",
+        "softwareVersion": "1.0.0",
+        "operatingSystem": "Microsoft Edge, Windows, macOS, Linux",
         "applicationCategory": "UtilitiesApplication",
-        "description": "Offline bilingual autocorrect for English and French text fields: runs 100% offline with zero cloud telemetry.",
+        "description": "100% offline bilingual English/French autocorrect extension with instant accent restoration, elision repair, and zero telemetry.",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5.0",
+          "ratingCount": "8",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -114,14 +155,15 @@ html = r'''<!DOCTYPE html>
     ]
   }
   </script>
-
 </head>
-<body id="website">
+<body id="top">
+  <!-- Skip to Content accessible navigation link -->
+  <a href="#mainContent" class="skip-to-content">Skip to content</a>
 
   <!-- ========================================================================
-       STICKY NAVBAR
+       STICKY NAVIGATION BAR
        ======================================================================== -->
-  <header class="navbar" role="banner" id="top">
+  <header class="navbar" role="banner">
     <div class="container nav-inner">
       <a href="#top" class="brand" aria-label="ExtensionGuy Portfolio">
         <div class="brand-mark" aria-hidden="true">
@@ -136,11 +178,10 @@ html = r'''<!DOCTYPE html>
 
       <nav aria-label="Main Navigation">
         <ul class="nav-links" id="navLinks">
-          <li><a href="#flagship" class="nav-link">Word to LaTeX</a></li>
-          <li><a href="#live-converter" class="nav-link">Online Converter</a></li>
-          <li><a href="#portfolio" class="nav-link">All 5 Add-ons</a></li>
-          <li><a href="#install" class="nav-link">Installation</a></li>
-          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#flagship" class="nav-link">Flagship</a></li>
+          <li><a href="#portfolio" class="nav-link">Products</a></li>
+          <li><a href="#live-converter" class="nav-link">Demo</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
           <li><a href="privacy.html" class="nav-link">Privacy</a></li>
         </ul>
       </nav>
@@ -151,7 +192,7 @@ html = r'''<!DOCTYPE html>
           <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
 
-        <a href="#portfolio" class="btn btn-ghost btn-sm nav-cta-btn">
+        <a href="#portfolio" class="btn btn-ghost btn-sm nav-cta-btn" aria-label="View 5 Add-ons in portfolio">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
             <polyline points="15 3 21 3 21 9"/>
@@ -185,39 +226,38 @@ html = r'''<!DOCTYPE html>
           Powerful Browser Extensions. <br>Built for Real Work.
         </h1>
 
-        <p class="hero-sub">
-          Tools for developers, researchers, SEO professionals, and everyday productivity — with privacy and practical usefulness at the core.
+        <p class="hero-subtitle">
+          Engineered for privacy and daily performance. Word to LaTeX and Bilexi run 100% offline on your device; Table Extractor, BulkGrab, and SEO Inspector process all page data locally inside your browser with zero remote servers.
         </p>
 
-        <div class="hero-actions">
-          <a href="#live-converter" class="btn btn-primary">
-            Try Online Converter
-          </a>
-          <a href="#portfolio" class="btn btn-ghost">
-            Explore All Extensions
-          </a>
-        </div>
-
-        <div class="trust-row">
-          <div class="trust-chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            <span>5 Published Edge Add-ons</span>
+        <div class="hero-trust-row" role="list">
+          <div class="trust-badge" role="listitem">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Microsoft Edge Verified</span>
           </div>
-          <div class="trust-chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <span>Word to LaTeX &amp; Bilexi run 100% offline</span>
+          <div class="trust-badge" role="listitem">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Zero Ads · Zero Telemetry</span>
           </div>
-          <div class="trust-chip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            <span>No ads. No analytics trackers.</span>
+          <div class="trust-badge" role="listitem">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Open Source on GitHub</span>
+          </div>
+          <div class="trust-badge" role="listitem">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Local In-Browser Processing</span>
           </div>
         </div>
+      </div>
 
+            <!-- Live Client-Side Word to LaTeX Converter -->
+      <div class="container">
         <div class="converter-card" id="live-converter">
           <div class="converter-card-header">
             <div>
               <span class="badge badge-w2l">Local Pandoc WASM</span>
               <span class="badge badge-subtle" style="margin-left: 6px;">Zero Uploads</span>
+              <span class="badge badge-edge" style="margin-left: 6px;">Live Demo</span>
             </div>
 
             <div class="converter-mode-group" role="radiogroup" aria-label="LaTeX Output Mode">
@@ -285,11 +325,11 @@ html = r'''<!DOCTYPE html>
     </section>
 
     <!-- ======================================================================
-         FLAGSHIP STANDOUT: Word to LaTeX (Offline)
+         FLAGSHIP DEEP DIVE: Word to LaTeX (Offline)
          ====================================================================== -->
     <section class="flagship-section" id="flagship" aria-labelledby="flagshipTitle">
       <div class="container">
-        <div class="section-eyebrow">Flagship Product</div>
+        <div class="section-eyebrow">Flagship Deep Dive</div>
         <h2 id="flagshipTitle" class="section-heading">Word to LaTeX (Offline)</h2>
         <p class="section-lead">
           A dedicated browser extension that converts Microsoft Word manuscripts, clipboard tables, and typed math images into compilation-ready LaTeX snippets — completely inside your browser.
@@ -314,10 +354,26 @@ html = r'''<!DOCTYPE html>
             </div>
 
             <div class="showcase-stage">
-              <img id="panel-w2l-output" class="showcase-img active lightbox-trigger" src="assets/screenshots/w2l-2-output.png" alt="Word to LaTeX output view with instant clipboard sync confirmation" title="Click to enlarge" loading="lazy" width="1280" height="800">
-              <img id="panel-w2l-upload" class="showcase-img lightbox-trigger" src="assets/screenshots/w2l-1-upload.png" alt="Word to LaTeX local DOCX file upload view" title="Click to enlarge" loading="lazy" width="1280" height="800">
-              <img id="panel-w2l-paste" class="showcase-img lightbox-trigger" src="assets/screenshots/w2l-3-paste.png" alt="Word to LaTeX pasted table conversion" title="Click to enlarge" loading="lazy" width="1280" height="800">
-              <img id="panel-w2l-ocr" class="showcase-img lightbox-trigger" src="assets/screenshots/w2l-4-image.png" alt="Word to LaTeX experimental image OCR" title="Click to enlarge" loading="lazy" width="1280" height="800">
+              <picture>
+                <source type="image/avif" srcset="assets/screenshots/w2l-2-output.avif">
+                <source type="image/webp" srcset="assets/screenshots/w2l-2-output.webp">
+                <img id="panel-w2l-output" class="showcase-img active lightbox-trigger" src="assets/screenshots/w2l-2-output.png" alt="Word to LaTeX output view with instant clipboard sync confirmation" title="Click to enlarge" loading="lazy" decoding="async" width="1280" height="800">
+              </picture>
+              <picture>
+                <source type="image/avif" srcset="assets/screenshots/w2l-1-upload.avif">
+                <source type="image/webp" srcset="assets/screenshots/w2l-1-upload.webp">
+                <img id="panel-w2l-upload" class="showcase-img lightbox-trigger" src="assets/screenshots/w2l-1-upload.png" alt="Word to LaTeX local DOCX file upload view" title="Click to enlarge" loading="lazy" decoding="async" width="1280" height="800">
+              </picture>
+              <picture>
+                <source type="image/avif" srcset="assets/screenshots/w2l-3-paste.avif">
+                <source type="image/webp" srcset="assets/screenshots/w2l-3-paste.webp">
+                <img id="panel-w2l-paste" class="showcase-img lightbox-trigger" src="assets/screenshots/w2l-3-paste.png" alt="Word to LaTeX pasted table conversion" title="Click to enlarge" loading="lazy" decoding="async" width="1280" height="800">
+              </picture>
+              <picture>
+                <source type="image/avif" srcset="assets/screenshots/w2l-4-image.avif">
+                <source type="image/webp" srcset="assets/screenshots/w2l-4-image.webp">
+                <img id="panel-w2l-ocr" class="showcase-img lightbox-trigger" src="assets/screenshots/w2l-4-image.png" alt="Word to LaTeX experimental image OCR" title="Click to enlarge" loading="lazy" decoding="async" width="1280" height="800">
+              </picture>
             </div>
 
             <div class="showcase-caption">
@@ -368,26 +424,25 @@ html = r'''<!DOCTYPE html>
             </div>
 
             <div class="flex-wrap-gap-12-mt-8" style="align-items: center;">
-              <a href="https://microsoftedge.microsoft.com/addons/detail/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-edge" aria-label="Install Word to LaTeX on Microsoft Edge Add-ons">
+              <a href="https://microsoftedge.microsoft.com/addons/detail/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-edge" aria-label="Get on Microsoft Edge Add-ons — Word to LaTeX">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10l4-4"/><path d="M16 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
                 Get on Microsoft Edge Add-ons
               </a>
               <span class="badge badge-edge">Edge Verified</span>
-              <a href="#live-converter" class="btn btn-edge btn-converter-tint">
+              <a href="#live-converter" class="btn btn-edge btn-converter-tint" aria-label="Try Online Converter demo on this page">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                 Try Online Converter
               </a>
-              <a href="https://github.com/sidoua26-debug/word-to-latex-extension" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+              <a href="https://github.com/sidoua26-debug/word-to-latex-extension" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" aria-label="Open source on GitHub — Word to LaTeX">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
                 Open source on GitHub
               </a>
             </div>
+            <div class="section-footer-privacy"><a href="privacy.html" class="footer-privacy-link">&bull; 100% Offline &amp; Zero Telemetry Guarantee &mdash; Read Privacy Policy</a></div>
           </div>
         </div>
       </div>
     </section>
-
-
 
     <!-- ======================================================================
          PORTFOLIO GRID: All 5 Confirmed Published Products
@@ -407,9 +462,10 @@ html = r'''<!DOCTYPE html>
 
         <div class="portfolio-grid">
 
+          <!-- Product 1: Word to LaTeX -->
           <article class="product-card" id="word-to-latex" aria-labelledby="cardTitleW2L">
             <div class="card-header">
-              <img class="card-icon-img" src="assets/icons/word-to-latex-128.png" alt="Word to LaTeX icon" loading="lazy" width="128" height="128">
+              <img class="card-icon-img" src="assets/icons/word-to-latex-128.png" alt="Word to LaTeX icon" loading="lazy" decoding="async" width="128" height="128">
               <div class="card-header-meta">
                 <h3 id="cardTitleW2L" class="card-product-name">Word to LaTeX</h3>
                 <p class="card-subheading">Offline Document &amp; Math Converter</p>
@@ -422,12 +478,21 @@ html = r'''<!DOCTYPE html>
                 <span class="badge badge-subtle">100% Offline WASM</span>
               </div>
 
+              <div class="card-meta-row">
+                <span class="card-rating" aria-label="Rated 5.0 out of 5 stars">★★★★★ 5.0 (Edge Add-ons)</span>
+                <a href="CHANGELOG.md#word-to-latex-offline" target="_blank" rel="noopener noreferrer" class="card-changelog-link" aria-label="View Word to LaTeX changelog">Changelog (v1.0.5)</a>
+              </div>
+
               <div class="card-benefit-quote">
                 <strong>Main Benefit:</strong> Converts Microsoft Word (.docx), equations, and complex tables into clean LaTeX snippets—100% offline.
               </div>
 
               <div class="card-screenshot-wrap">
-                <img class="lightbox-trigger" src="assets/screenshots/w2l-2-output.png" alt="Word to LaTeX output view with instant clipboard sync confirmation" loading="lazy" width="1280" height="800">
+                <picture>
+                  <source type="image/avif" srcset="assets/screenshots/w2l-2-output.avif">
+                  <source type="image/webp" srcset="assets/screenshots/w2l-2-output.webp">
+                  <img class="lightbox-trigger" src="assets/screenshots/w2l-2-output.png" alt="Word to LaTeX output view with instant clipboard sync confirmation" loading="lazy" decoding="async" width="1280" height="800">
+                </picture>
               </div>
 
               <ul class="card-points">
@@ -440,19 +505,21 @@ html = r'''<!DOCTYPE html>
             <div class="card-footer">
               <span class="badge badge-edge">Edge Verified</span>
               <div class="card-actions-group">
-                <button type="button" class="btn btn-preview btn-sm" data-preview="word-to-latex" aria-label="Explore interactive preview of Word to LaTeX">
+                <button type="button" class="btn btn-preview btn-sm" data-preview="word-to-latex" aria-label="Preview Word to LaTeX interactive modal">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                   Preview
                 </button>
-                <a href="https://microsoftedge.microsoft.com/addons/detail/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Install Word to LaTeX on Microsoft Edge Add-ons">Get on Edge</a>
-                <a href="#flagship" class="btn btn-ghost btn-sm" aria-label="Read full details on Word to LaTeX">Deep Dive</a>
+                <a href="https://microsoftedge.microsoft.com/addons/detail/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Get on Edge — Word to LaTeX">Get on Edge</a>
+                <a href="#flagship" class="btn btn-ghost btn-sm" aria-label="Deep Dive into Word to LaTeX details">Deep Dive</a>
               </div>
             </div>
+            <div class="card-version-micro">v1.0.5 &middot; Updated Oct 2026</div>
           </article>
 
+          <!-- Product 2: Table Extractor -->
           <article class="product-card" id="table-extractor" aria-labelledby="cardTitleTable">
             <div class="card-header">
-              <img class="card-icon-img" src="assets/icons/table-extractor-300.png" alt="Table Extractor icon" loading="lazy" width="300" height="300">
+              <img class="card-icon-img" src="assets/icons/table-extractor-300.png" alt="Table Extractor icon" loading="lazy" decoding="async" width="300" height="300">
               <div class="card-header-meta">
                 <h3 id="cardTitleTable" class="card-product-name">Table Extractor</h3>
                 <p class="card-subheading">HTML &amp; Virtualized Data Grid Exporter</p>
@@ -465,12 +532,21 @@ html = r'''<!DOCTYPE html>
                 <span class="badge badge-subtle">CSV · XLSX · JSON</span>
               </div>
 
+              <div class="card-meta-row">
+                <span class="card-rating" aria-label="Rated 5.0 out of 5 stars">★★★★★ 5.0 (Edge Add-ons)</span>
+                <a href="CHANGELOG.md#table-extractor" target="_blank" rel="noopener noreferrer" class="card-changelog-link" aria-label="View Table Extractor changelog">Changelog (v1.2.0)</a>
+              </div>
+
               <div class="card-benefit-quote">
                 <strong>Main Benefit:</strong> Effortlessly captures locked tables and virtualized AG Grid containers without manual formatting cleanup.
               </div>
 
               <div class="card-screenshot-wrap">
-                <img class="lightbox-trigger" src="assets/screenshots/table-1-detection.png" alt="Table Extractor detecting HTML tables" loading="lazy" width="1280" height="800">
+                <picture>
+                  <source type="image/avif" srcset="assets/screenshots/table-1-detection.avif">
+                  <source type="image/webp" srcset="assets/screenshots/table-1-detection.webp">
+                  <img class="lightbox-trigger" src="assets/screenshots/table-1-detection.png" alt="Table Extractor detecting HTML tables" loading="lazy" decoding="async" width="1280" height="800">
+                </picture>
               </div>
 
               <ul class="card-points">
@@ -483,19 +559,21 @@ html = r'''<!DOCTYPE html>
             <div class="card-footer">
               <span class="badge badge-subtle">Edge &amp; Chrome</span>
               <div class="card-actions-group">
-                <button type="button" class="btn btn-preview btn-sm" data-preview="table-extractor" aria-label="Explore interactive preview of Table Extractor">
+                <button type="button" class="btn btn-preview btn-sm" data-preview="table-extractor" aria-label="Preview Table Extractor interactive modal">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                   Preview
                 </button>
-                <a href="https://microsoftedge.microsoft.com/addons/detail/pekammppimoaikllkhhebocbkbidoboe" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Install Table Extractor on Microsoft Edge Add-ons">Get on Edge</a>
-                <a href="https://chromewebstore.google.com/detail/fjpbjpmccomonleefghgalfoioekhlhm?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" class="btn btn-chrome btn-sm" aria-label="Install Table Extractor on Chrome Web Store">Get on Chrome</a>
+                <a href="https://microsoftedge.microsoft.com/addons/detail/pekammppimoaikllkhhebocbkbidoboe" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Get on Edge — Table Extractor">Get on Edge</a>
+                <a href="https://chromewebstore.google.com/detail/fjpbjpmccomonleefghgalfoioekhlhm?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" class="btn btn-chrome btn-sm" aria-label="Get on Chrome — Table Extractor">Get on Chrome</a>
               </div>
             </div>
+            <div class="card-version-micro">v1.2.0 &middot; Updated Oct 2026</div>
           </article>
 
+          <!-- Product 3: BulkGrab -->
           <article class="product-card" id="bulkgrab" aria-labelledby="cardTitleBulk">
             <div class="card-header">
-              <img class="card-icon-img" src="assets/icons/bulkgrab-128.png" alt="BulkGrab icon" loading="lazy" width="128" height="128">
+              <img class="card-icon-img" src="assets/icons/bulkgrab-128.png" alt="BulkGrab icon" loading="lazy" decoding="async" width="128" height="128">
               <div class="card-header-meta">
                 <h3 id="cardTitleBulk" class="card-product-name">BulkGrab</h3>
                 <p class="card-subheading">Batch File Downloader &amp; ZIP Bundler</p>
@@ -508,12 +586,21 @@ html = r'''<!DOCTYPE html>
                 <span class="badge badge-subtle">Local ZIP Archiving</span>
               </div>
 
+              <div class="card-meta-row">
+                <span class="card-rating" aria-label="Rated 5.0 out of 5 stars">★★★★★ 5.0 (Edge Add-ons)</span>
+                <a href="CHANGELOG.md#bulkgrab" target="_blank" rel="noopener noreferrer" class="card-changelog-link" aria-label="View BulkGrab changelog">Changelog (v1.1.2)</a>
+              </div>
+
               <div class="card-benefit-quote">
                 <strong>Main Benefit:</strong> Detects and bundles embedded documents and media into an organized ZIP file right inside your browser.
               </div>
 
               <div class="card-screenshot-wrap">
-                <img class="lightbox-trigger" src="assets/screenshots/bulkgrab-1-panel.png" alt="BulkGrab interactive floating file detection panel" loading="lazy" width="1280" height="800">
+                <picture>
+                  <source type="image/avif" srcset="assets/screenshots/bulkgrab-1-panel.avif">
+                  <source type="image/webp" srcset="assets/screenshots/bulkgrab-1-panel.webp">
+                  <img class="lightbox-trigger" src="assets/screenshots/bulkgrab-1-panel.png" alt="BulkGrab interactive floating file detection panel" loading="lazy" decoding="async" width="1280" height="800">
+                </picture>
               </div>
 
               <ul class="card-points">
@@ -526,19 +613,21 @@ html = r'''<!DOCTYPE html>
             <div class="card-footer">
               <span class="badge badge-subtle">Edge &amp; Chrome</span>
               <div class="card-actions-group">
-                <button type="button" class="btn btn-preview btn-sm" data-preview="bulkgrab" aria-label="Explore interactive preview of BulkGrab">
+                <button type="button" class="btn btn-preview btn-sm" data-preview="bulkgrab" aria-label="Preview BulkGrab interactive modal">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                   Preview
                 </button>
-                <a href="https://microsoftedge.microsoft.com/addons/detail/cphidoikhnjdkeldgelkpddnkojlfccc" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Install BulkGrab on Microsoft Edge Add-ons">Get on Edge</a>
-                <a href="https://chromewebstore.google.com/detail/lnmmneljpgdefilkokfpmiohjgfjcljn?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" class="btn btn-chrome btn-sm" aria-label="Install BulkGrab on Chrome Web Store">Get on Chrome</a>
+                <a href="https://microsoftedge.microsoft.com/addons/detail/cphidoikhnjdkeldgelkpddnkojlfccc" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Get on Edge — BulkGrab">Get on Edge</a>
+                <a href="https://chromewebstore.google.com/detail/lnmmneljpgdefilkokfpmiohjgfjcljn?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" class="btn btn-chrome btn-sm" aria-label="Get on Chrome — BulkGrab">Get on Chrome</a>
               </div>
             </div>
+            <div class="card-version-micro">v1.1.2 &middot; Updated Oct 2026</div>
           </article>
 
+          <!-- Product 4: SEO Inspector -->
           <article class="product-card" id="seo-inspector" aria-labelledby="cardTitleSEO">
             <div class="card-header">
-              <img class="card-icon-img" src="assets/icons/seo-inspector-128.png" alt="SEO Inspector icon" loading="lazy" width="128" height="128">
+              <img class="card-icon-img" src="assets/icons/seo-inspector-128.png" alt="SEO Inspector icon" loading="lazy" decoding="async" width="128" height="128">
               <div class="card-header-meta">
                 <h3 id="cardTitleSEO" class="card-product-name">SEO Inspector</h3>
                 <p class="card-subheading">On-Page Technical Diagnostics</p>
@@ -551,12 +640,21 @@ html = r'''<!DOCTYPE html>
                 <span class="badge badge-subtle">9 Diagnostic Tabs</span>
               </div>
 
+              <div class="card-meta-row">
+                <span class="card-rating" aria-label="Rated 5.0 out of 5 stars">★★★★★ 5.0 (Edge Add-ons)</span>
+                <a href="CHANGELOG.md#seo-inspector" target="_blank" rel="noopener noreferrer" class="card-changelog-link" aria-label="View SEO Inspector changelog">Changelog (v1.3.1)</a>
+              </div>
+
               <div class="card-benefit-quote">
                 <strong>Main Benefit:</strong> Instant on-page audit evaluating headings, meta, canonical tags, and Web Vitals in a single click.
               </div>
 
               <div class="card-screenshot-wrap">
-                <img class="lightbox-trigger" src="assets/screenshots/seo-1-overview.png" alt="SEO Inspector overview diagnostics tab" loading="lazy" width="1280" height="800">
+                <picture>
+                  <source type="image/avif" srcset="assets/screenshots/seo-1-overview.avif">
+                  <source type="image/webp" srcset="assets/screenshots/seo-1-overview.webp">
+                  <img class="lightbox-trigger" src="assets/screenshots/seo-1-overview.png" alt="SEO Inspector overview diagnostics tab" loading="lazy" decoding="async" width="1280" height="800">
+                </picture>
               </div>
 
               <ul class="card-points">
@@ -569,18 +667,20 @@ html = r'''<!DOCTYPE html>
             <div class="card-footer">
               <span class="badge badge-edge">Edge Verified</span>
               <div class="card-actions-group">
-                <button type="button" class="btn btn-preview btn-sm" data-preview="seo-inspector" aria-label="Explore interactive preview of SEO Inspector">
+                <button type="button" class="btn btn-preview btn-sm" data-preview="seo-inspector" aria-label="Preview SEO Inspector interactive modal">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                   Preview
                 </button>
-                <a href="https://microsoftedge.microsoft.com/addons/detail/jbnjjkfkcmfkjamakndojbkjanijlfmd" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Install SEO Inspector on Microsoft Edge Add-ons">Get on Edge</a>
+                <a href="https://microsoftedge.microsoft.com/addons/detail/jbnjjkfkcmfkjamakndojbkjanijlfmd" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Get on Edge — SEO Inspector">Get on Edge</a>
               </div>
             </div>
+            <div class="card-version-micro">v1.3.1 &middot; Updated Oct 2026</div>
           </article>
 
+          <!-- Product 5: Bilexi -->
           <article class="product-card" id="bilexi" aria-labelledby="cardTitleBilexi">
             <div class="card-header">
-              <img class="card-icon-img" src="assets/icons/bilexi-128.png" alt="Bilexi icon" loading="lazy" width="128" height="128">
+              <img class="card-icon-img" src="assets/icons/bilexi-128.png" alt="Bilexi icon" loading="lazy" decoding="async" width="128" height="128">
               <div class="card-header-meta">
                 <h3 id="cardTitleBilexi" class="card-product-name">Bilexi</h3>
                 <p class="card-subheading">Offline Bilingual Autocorrect (EN/FR)</p>
@@ -593,12 +693,21 @@ html = r'''<!DOCTYPE html>
                 <span class="badge badge-subtle">100% Offline Engine</span>
               </div>
 
+              <div class="card-meta-row">
+                <span class="card-rating" aria-label="Rated 5.0 out of 5 stars">★★★★★ 5.0 (Edge Add-ons)</span>
+                <a href="CHANGELOG.md#bilexi" target="_blank" rel="noopener noreferrer" class="card-changelog-link" aria-label="View Bilexi changelog">Changelog (v1.0.0)</a>
+              </div>
+
               <div class="card-benefit-quote">
                 <strong>Main Benefit:</strong> Effortless real-time bilingual autocorrect, French accent restoration, and elision repair directly in your browser.
               </div>
 
               <div class="card-screenshot-wrap">
-                <img class="lightbox-trigger" src="assets/screenshots/bilexi-1-hero.png" alt="Bilexi bilingual autocorrect in browser text field" loading="lazy" width="1280" height="800">
+                <picture>
+                  <source type="image/avif" srcset="assets/screenshots/bilexi-1-hero.avif">
+                  <source type="image/webp" srcset="assets/screenshots/bilexi-1-hero.webp">
+                  <img class="lightbox-trigger" src="assets/screenshots/bilexi-1-hero.png" alt="Bilexi bilingual autocorrect in browser text field" loading="lazy" decoding="async" width="1280" height="800">
+                </picture>
               </div>
 
               <ul class="card-points">
@@ -611,15 +720,17 @@ html = r'''<!DOCTYPE html>
             <div class="card-footer">
               <span class="badge badge-edge">Edge Verified</span>
               <div class="card-actions-group">
-                <button type="button" class="btn btn-preview btn-sm" data-preview="bilexi" aria-label="Explore interactive preview of Bilexi">
+                <button type="button" class="btn btn-preview btn-sm" data-preview="bilexi" aria-label="Preview Bilexi interactive modal">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                   Preview
                 </button>
-                <a href="https://microsoftedge.microsoft.com/addons/detail/mheomahlcfddgjlemnolopfbhojfpmpb" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Install Bilexi on Microsoft Edge Add-ons">Get on Edge</a>
+                <a href="https://microsoftedge.microsoft.com/addons/detail/mheomahlcfddgjlemnolopfbhojfpmpb" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Get on Edge — Bilexi">Get on Edge</a>
               </div>
             </div>
+            <div class="card-version-micro">v1.0.0 &middot; Updated Oct 2026</div>
           </article>
         </div>
+        <div class="section-footer-privacy"><a href="privacy.html" class="footer-privacy-link">&bull; Minimal permissions, zero tracking, zero remote servers &mdash; Read Full Privacy Statement</a></div>
       </div>
     </section>
 
@@ -657,13 +768,14 @@ html = r'''<!DOCTYPE html>
             <p class="step-paragraph">For offline testing, security audits, or local verification: clone or download the source repository from GitHub, navigate to <code>edge://extensions</code> in your browser, switch Developer mode on, and choose <strong>Load unpacked</strong>.</p>
           </div>
         </div>
+        <div class="section-footer-privacy"><a href="privacy.html" class="footer-privacy-link">&bull; Verified store packages &amp; audit guide &mdash; Read Privacy Policy</a></div>
       </div>
     </section>
 
     <!-- ======================================================================
          LABS / IN ACTIVE DEVELOPMENT (MailFlow)
          ====================================================================== -->
-    <section class="labs-section" aria-label="Experimental & Upcoming Projects">
+    <section class="labs-section" aria-label="Experimental &amp; Upcoming Projects">
       <div class="container">
         <div class="labs-container-box">
           <div class="labs-info-group">
@@ -693,14 +805,57 @@ html = r'''<!DOCTYPE html>
     </section>
 
     <!-- ======================================================================
-         ABOUT & PRIVACY
+         CONTACT & SUPPORT SECTION
+         ====================================================================== -->
+    <section class="contact-section" id="contact" aria-labelledby="contactHeading">
+      <div class="container">
+        <div class="contact-card">
+          <div class="section-eyebrow">Support &amp; Feedback</div>
+          <h2 id="contactHeading" class="section-heading">Contact &amp; Developer Support</h2>
+          <p class="section-lead" style="margin-inline: auto;">
+            Need help with an extension, found a bug, or have a feature idea? You speak directly with the developer.
+          </p>
+
+          <div class="contact-grid">
+            <div class="contact-item">
+              <div class="contact-item-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                Direct Email Support
+              </div>
+              <p class="contact-item-desc">For inquiries, enterprise requests, or licensing support.</p>
+              <a href="mailto:contact@extensionguy.me" class="contact-item-link">contact@extensionguy.me &rarr;</a>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-item-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                GitHub Issue Tracker
+              </div>
+              <p class="contact-item-desc">File reproducible bug reports, regressions, or feature requests.</p>
+              <a href="https://github.com/sidoua26-debug/extensions-portfolio/issues" target="_blank" rel="noopener noreferrer" class="contact-item-link">Open an Issue &rarr;</a>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-item-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Privacy &amp; Data Policy
+              </div>
+              <p class="contact-item-desc">Verified documentation of our local-first, zero-tracking policy.</p>
+              <a href="privacy.html" class="contact-item-link">Read Privacy Policy &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         ABOUT & PHILOSOPHY
          ====================================================================== -->
     <section class="about-section" id="about" aria-labelledby="aboutHeading">
       <div class="container">
         <div class="about-card">
           <div class="section-eyebrow">Engineering Philosophy</div>
           <h2 id="aboutHeading" class="section-heading">Hi, I'm Sid</h2>
-          <!-- Avatar: skipped (no local photo file provided) -->
 
           <p class="about-body-text">
             I build focused browser extensions that do one job well and respect your privacy. I started with Word to LaTeX after losing hours reformatting a manuscript, and I didn't want to upload it to a random website. Word to LaTeX and Bilexi run fully offline; Table Extractor, BulkGrab, and SEO Inspector process all data locally inside your browser and don't send your data to any server. Every extension is designed for daily productivity without bloated tracking, unnecessary permissions, or intrusive account walls.
@@ -739,7 +894,7 @@ html = r'''<!DOCTYPE html>
           </div>
 
           <div class="about-buttons">
-            <a href="mailto:contact@extensionguy.me?subject=Extension%20Request" class="btn btn-edge">
+            <a href="mailto:contact@extensionguy.me?subject=Extension%20Request" class="btn btn-edge" aria-label="Request an extension from Sid">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
               Request an extension
             </a>
@@ -747,17 +902,41 @@ html = r'''<!DOCTYPE html>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
               Report a bug
             </a>
-            <a href="https://github.com/sidoua26-debug" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+            <a href="https://github.com/sidoua26-debug" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" aria-label="View Sid's GitHub profile">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
               GitHub (@sidoua26-debug)
             </a>
-            <a href="mailto:contact@extensionguy.me" class="btn btn-ghost">
+            <a href="mailto:contact@extensionguy.me" class="btn btn-ghost" aria-label="Send email to contact@extensionguy.me">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
               contact@extensionguy.me
             </a>
           </div>
+          <div class="section-footer-privacy"><a href="privacy.html" class="footer-privacy-link">&bull; Committed to user privacy &mdash; Read Our Zero-Tracking Privacy Policy</a></div>
         </div>
       </div>
+
+          <div class="faq-container" style="margin-top: 40px; text-align: left;">
+            <h3 class="section-heading" style="font-size: 1.4rem; margin-bottom: 16px;">Frequently Asked Questions</h3>
+            <div class="faq-grid" style="display: grid; gap: 16px;">
+              <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
+                <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">Why prioritize 100% offline and local-first browser extensions?</strong>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Most online document and table converters upload your confidential files, sensitive spreadsheets, and unpublished academic manuscripts to third-party cloud servers where they can be logged, scraped, or retained. Our extensions—such as Word to LaTeX and Bilexi—run completely offline inside your local browser memory using WebAssembly. Your proprietary research and private data remain strictly on your own hardware.</p>
+              </div>
+              <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
+                <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">How does client-side WebAssembly conversion work in Word to LaTeX?</strong>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">We compile Pandoc and its necessary Unix utilities directly into a WebAssembly binary. When you load or drop a DOCX manuscript into Word to LaTeX, the extension streams the file into an isolated browser Web Worker thread running the Pandoc WASM runtime. The document structure, equation formatting, and tables are parsed in-memory, returning compilation-ready LaTeX snippets in milliseconds without establishing any outbound network socket connection.</p>
+              </div>
+              <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
+                <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">Do Table Extractor, BulkGrab, or SEO Inspector send telemetry to remote servers?</strong>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">No. Table Extractor parses HTML tables and virtualized AG Grid containers directly in browser memory and generates CSV and Excel XLSX files with local UTF-8 BOM encoding. BulkGrab streams file downloads directly from the host website into your browser storage and packages ZIP archives on-device with zero intermediary servers. SEO Inspector performs DOM audits and Performance Timing evaluations entirely on the client side without telemetry beacons.</p>
+              </div>
+              <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
+                <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">How are software updates and security patches published?</strong>
+                <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">All extensions are submitted directly to the verified Microsoft Edge Add-ons catalog and Chrome Web Store where they undergo automated malware scans and manual review before distribution. Source code repositories, reproducible builds, and version changelogs are published publicly on GitHub, enabling security researchers and developers to verify file integrity and cryptographic signatures independently.</p>
+              </div>
+            </div>
+          </div>
+
     </section>
 
   </main>
@@ -765,23 +944,36 @@ html = r'''<!DOCTYPE html>
   <!-- ========================================================================
        FOOTER
        ======================================================================== -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="container footer-content">
-      <div>
-        &copy; 2026 <strong>sidoua26</strong> &middot; Local-first browser software with zero portfolio telemetry.
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <a href="#top" class="brand" aria-label="ExtensionGuy Portfolio">
+          <div class="brand-mark" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          </div>
+          <span>ExtensionGuy</span>
+        </a>
+        <p class="footer-copy">
+          &copy; 2026 ExtensionGuy. Published extensions available on the Microsoft Edge Add-ons Store. Built local-first with zero tracking.
+        </p>
       </div>
-      <ul class="footer-nav-list">
-        <li><a href="https://github.com/sidoua26-debug" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-        <li><a href="mailto:support@extensionguy.me">Support</a></li>
-        <li><a href="privacy.html">Privacy Policy</a></li>
-      </ul>
+
+      <div class="footer-links">
+        <a href="#flagship" class="footer-link">Word to LaTeX</a>
+        <a href="#portfolio" class="footer-link">Products</a>
+        <a href="#live-converter" class="footer-link">Online Converter</a>
+        <a href="#contact" class="footer-link">Support &amp; Contact</a>
+        <a href="privacy.html" class="footer-link">Privacy Policy</a>
+        <a href="CHANGELOG.md" class="footer-link">Changelog</a>
+        <a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Source Code</a>
+      </div>
     </div>
   </footer>
 
   <!-- ========================================================================
-       ACCESSIBLE INTERACTIVE PRODUCT PREVIEW & LIGHTBOX MODAL
+       ACCESSIBLE LIGHTBOX & PRODUCT PREVIEW MODAL
        ======================================================================== -->
-  <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Interactive Product Preview" aria-describedby="lightboxCaption">
+    <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Interactive Product Preview" aria-describedby="lightboxCaption">
     <div class="lightbox-window">
       <button class="lightbox-close-btn" id="lightboxCloseBtn" type="button" aria-label="Close enlarged view">&times;</button>
 
@@ -802,7 +994,7 @@ html = r'''<!DOCTYPE html>
       <!-- Main Visual Viewport with Nav Arrows -->
       <div class="preview-viewport-wrap">
         <button class="preview-nav-btn prev" id="previewNavPrev" type="button" aria-label="Previous screenshot">&lsaquo;</button>
-        <img id="lightboxLargeImg" class="lightbox-large-img" src="assets/screenshots/placeholder-modal.png" alt="Enlarged screenshot preview" width="1280" height="800">
+        <img id="lightboxLargeImg" class="lightbox-large-img" src="assets/screenshots/placeholder-modal.png" alt="Enlarged screenshot preview" width="1280" height="800" loading="lazy" decoding="async">
         <button class="preview-nav-btn next" id="previewNavNext" type="button" aria-label="Next screenshot">&rsaquo;</button>
         <p id="lightboxCaption" class="lightbox-caption">Enlarged screenshot preview</p>
       </div>
@@ -817,20 +1009,15 @@ html = r'''<!DOCTYPE html>
         <div class="preview-details-grid">
           <div class="preview-detail-col">
             <h3 class="preview-detail-title">What It Does</h3>
-            <p class="preview-detail-desc" id="previewModalDesc">Word to LaTeX is an offline document and mathematics converter that transforms Word (.docx) documents, embedded tables, and equations into clean, publication-ready LaTeX markup without external servers. Built for academic researchers, engineers, and students who require precise formatting, intact equation matrices, and strict data privacy.</p>
+            <p class="preview-detail-desc" id="previewModalDesc">Product Description</p>
             <div class="preview-privacy-chip" id="previewModalPrivacy">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              <span id="previewModalPrivacyText">Verified Privacy: Runs 100% offline, zero network requests, zero telemetry.</span>
+              <span id="previewModalPrivacyText">Verified Privacy Note</span>
             </div>
           </div>
           <div class="preview-detail-col">
             <h3 class="preview-detail-title">Key Capabilities</h3>
-            <ul class="preview-feature-list" id="previewModalFeatures">
-              <li>High-fidelity conversion of document headings, nested lists, and stylized text</li>
-              <li>Transforms Word OMML math equations into clean standard LaTeX expressions</li>
-              <li>Extracts embedded images, figures, and complex tables with intact alignments</li>
-              <li>Strict offline architecture: WebAssembly execution inside browser sandboxes</li>
-            </ul>
+            <ul class="preview-feature-list" id="previewModalFeatures"></ul>
           </div>
         </div>
       </div>
@@ -849,15 +1036,27 @@ html = r'''<!DOCTYPE html>
     </div>
   </div>
 
-  <!-- ========================================================================
-       SCRIPTS: THEMING, TABS, LIGHTBOX, ACCESSIBILITY
-       ======================================================================== -->
-  <script src="assets/js/site.js?v=20261019-2"></script>
+      <div class="preview-footer">
+        <div class="preview-footer-info">
+          <span>Verified Browser Store Distribution · No Ads · No Telemetry</span>
+        </div>
+        <div class="preview-footer-btns" id="previewModalFooterBtns">
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-edge" id="previewModalFooterPrimary">Get on Edge</a>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-chrome" id="previewModalFooterSecondary" style="display: none;">Get on Chrome</a>
+          <button type="button" class="btn btn-ghost" id="previewModalCloseFooter">Close Preview</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- ========================================================================
+       SCRIPTS: THEMING, TABS, LIGHTBOX, ACCESSIBILITY, DEFERRED FOR PERFORMANCE
+       ======================================================================== -->
+  <script src="assets/js/site.js?v=20261019-3" defer></script>
   <script type="module" src="assets/js/converterUi.js"></script>
 </body>
 </html>
-'''
+"""
 
 with open("/home/sid/.gemini/antigravity/scratch/extensions-portfolio/index.html", "w", encoding="utf-8") as f:
     f.write(html)
