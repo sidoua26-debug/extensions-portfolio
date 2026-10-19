@@ -11,7 +11,7 @@ html = r'''<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Browser Extensions — Built for Real Work</title>
   <meta name="description" content="Privacy-first Microsoft Edge extensions for developers and researchers, featuring a free in-browser Word-to-LaTeX converter with zero telemetry.">
-  <meta name="keywords" content="Word to LaTeX, Table Extractor, BulkGrab, SEO Inspector, Microsoft Edge Add-ons, browser extensions, offline converter, privacy">
+  <meta name="keywords" content="Word to LaTeX, Table Extractor, BulkGrab, SEO Inspector, Bilexi, Microsoft Edge Add-ons, browser extensions, offline converter, privacy">
 
   <link rel="canonical" href="https://extensionguy.me/">
   <link rel="alternate" hreflang="en" href="https://extensionguy.me/">
@@ -97,6 +97,19 @@ html = r'''<!DOCTYPE html>
           "price": "0",
           "priceCurrency": "USD"
         }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://extensionguy.me/#bilexi",
+        "name": "Bilexi",
+        "operatingSystem": "Browser Extension (Microsoft Edge)",
+        "applicationCategory": "UtilitiesApplication",
+        "description": "Offline bilingual autocorrect for English and French text fields: runs 100% offline with zero cloud telemetry.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
       }
     ]
   }
@@ -125,7 +138,7 @@ html = r'''<!DOCTYPE html>
         <ul class="nav-links" id="navLinks">
           <li><a href="#flagship" class="nav-link">Word to LaTeX</a></li>
           <li><a href="#live-converter" class="nav-link">Online Converter</a></li>
-          <li><a href="#portfolio" class="nav-link">All 4 Add-ons</a></li>
+          <li><a href="#portfolio" class="nav-link">All 5 Add-ons</a></li>
           <li><a href="#install" class="nav-link">Installation</a></li>
           <li><a href="#about" class="nav-link">About</a></li>
         </ul>
@@ -143,7 +156,7 @@ html = r'''<!DOCTYPE html>
             <polyline points="15 3 21 3 21 9"/>
             <line x1="10" y1="14" x2="21" y2="3"/>
           </svg>
-          View 4 Add-ons
+          View 5 Add-ons
         </a>
 
         <button class="mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="Open mobile navigation menu" aria-expanded="false" aria-controls="navLinks">
@@ -187,11 +200,11 @@ html = r'''<!DOCTYPE html>
         <div class="trust-row">
           <div class="trust-chip">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            <span>4 Published Edge Add-ons</span>
+            <span>5 Published Edge Add-ons</span>
           </div>
           <div class="trust-chip">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <span>Word to LaTeX works 100% offline</span>
+            <span>Word to LaTeX &amp; Bilexi run 100% offline</span>
           </div>
           <div class="trust-chip">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -384,10 +397,10 @@ html = r'''<!DOCTYPE html>
           <div>
             <div class="section-eyebrow">Extension Portfolio</div>
             <h2 id="portfolioHeading" class="section-heading">Published Edge Add-ons</h2>
-            <p class="section-lead">Each tool is designed with a specific workflow purpose and minimal permissions. Word to LaTeX runs fully offline, while Table Extractor, BulkGrab, and SEO Inspector process your data locally in your browser with zero remote servers.</p>
+            <p class="section-lead">Each tool is designed with a specific workflow purpose and minimal permissions. Word to LaTeX and Bilexi run fully offline, while Table Extractor, BulkGrab, and SEO Inspector process your data locally in your browser with zero remote servers.</p>
           </div>
           <div>
-            <span class="badge badge-edge">4 Live Add-ons</span>
+            <span class="badge badge-edge">5 Live Add-ons</span>
           </div>
         </div>
 
@@ -557,6 +570,49 @@ html = r'''<!DOCTYPE html>
               </div>
             </div>
           </article>
+
+          <article class="product-card" id="bilexi" aria-labelledby="cardTitleBilexi">
+            <div class="card-header">
+              <img class="card-icon-img" src="assets/icons/bilexi-128.png" alt="Bilexi icon" loading="lazy" width="128" height="128">
+              <div class="card-header-meta">
+                <h3 id="cardTitleBilexi" class="card-product-name">Bilexi</h3>
+                <p class="card-subheading">Offline Bilingual Autocorrect (EN/FR)</p>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="card-pill-row">
+                <span class="badge badge-bilexi">Productivity &amp; Typing</span>
+                <span class="badge badge-subtle">100% Offline Engine</span>
+              </div>
+
+              <div class="card-benefit-quote">
+                <strong>Main Benefit:</strong> Effortless real-time bilingual autocorrect, French accent restoration, and elision repair directly in your browser.
+              </div>
+
+              <div class="card-screenshot-wrap">
+                <img class="lightbox-trigger" src="assets/screenshots/bilexi-1-hero.png" alt="Bilexi bilingual autocorrect in browser text field" loading="lazy" width="1280" height="800">
+              </div>
+
+              <ul class="card-points">
+                <li>Instant accent restoration (ecole → école, deja → déjà)</li>
+                <li>Interactive suggestion strip with Alt+2 / Alt+3 hotkeys</li>
+                <li>100% offline binary dictionaries &amp; zero cloud telemetry</li>
+              </ul>
+
+              <!-- TODO: real numbers -->
+              <div class="card-social-proof" hidden aria-hidden="true" style="display: none;">
+                ★ [rating] on Edge Add-ons · [N] users
+              </div>
+            </div>
+
+            <div class="card-footer">
+              <span class="badge badge-edge">Edge Verified</span>
+              <div class="card-actions-group">
+                <a href="https://microsoftedge.microsoft.com/addons/detail/mheomahlcfddgjlemnolopfbhojfpmpb" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Install Bilexi on Microsoft Edge Add-ons">Get on Edge</a>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -641,7 +697,7 @@ html = r'''<!DOCTYPE html>
           <!-- Avatar: skipped (no local photo file provided) -->
 
           <p class="about-body-text">
-            I build focused browser extensions that do one job well and respect your privacy. I started with Word to LaTeX after losing hours reformatting a manuscript, and I didn't want to upload it to a random website. Word to LaTeX runs fully offline; Table Extractor, BulkGrab, and SEO Inspector process all data locally inside your browser and don't send your data to any server.
+            I build focused browser extensions that do one job well and respect your privacy. I started with Word to LaTeX after losing hours reformatting a manuscript, and I didn't want to upload it to a random website. Word to LaTeX and Bilexi run fully offline; Table Extractor, BulkGrab, and SEO Inspector process all data locally inside your browser and don't send your data to any server.
           </p>
 
           <div class="about-values-grid">

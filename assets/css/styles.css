@@ -41,6 +41,10 @@
       --tint-seo-subtle: rgba(5, 150, 105, 0.08);
       --tint-seo-border: rgba(5, 150, 105, 0.22);
 
+      --tint-bilexi: #0284c7;
+      --tint-bilexi-subtle: rgba(2, 132, 199, 0.08);
+      --tint-bilexi-border: rgba(2, 132, 199, 0.22);
+
       --tint-audit: #d97706;
       --tint-audit-subtle: rgba(217, 119, 6, 0.08);
       --tint-audit-border: rgba(217, 119, 6, 0.22);
@@ -110,6 +114,10 @@
         --tint-seo: #34d399;
         --tint-seo-subtle: rgba(52, 211, 153, 0.12);
         --tint-seo-border: rgba(52, 211, 153, 0.28);
+
+        --tint-bilexi: #38bdf8;
+        --tint-bilexi-subtle: rgba(56, 189, 248, 0.12);
+        --tint-bilexi-border: rgba(56, 189, 248, 0.28);
 
         --tint-audit: #fbbf24;
         --tint-audit-subtle: rgba(251, 191, 36, 0.12);
@@ -423,6 +431,12 @@
       background: var(--tint-seo-subtle);
       color: var(--tint-seo);
       border-color: var(--tint-seo-border);
+    }
+
+    .badge-bilexi {
+      background: var(--tint-bilexi-subtle);
+      color: var(--tint-bilexi);
+      border-color: var(--tint-bilexi-border);
     }
 
     .badge-audit {

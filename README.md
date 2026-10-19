@@ -1,6 +1,6 @@
 # Browser Extensions Portfolio
 
-A single-page, privacy-first static website showcasing your 4 confirmed published Microsoft Edge Add-ons with Word to LaTeX (Offline) as the flagship featured product.
+A single-page, privacy-first static website showcasing your 5 confirmed published Microsoft Edge Add-ons with Word to LaTeX (Offline) as the flagship featured product.
 
 ## 🚀 Published Add-ons Featured
 
@@ -8,7 +8,8 @@ A single-page, privacy-first static website showcasing your 4 confirmed publishe
 2. **Table Extractor** — HTML table and virtualized data grid (AG Grid, React) exporter to CSV, Excel (XLSX), and JSON.
 3. **BulkGrab** — Bulk file downloader and browser-local ZIP bundler.
 4. **SEO Inspector** — 9-tab on-page technical SEO diagnostics tool.
-5. **MailFlow** — In-development Gmail templates & scheduled sending companion (Labs preview).
+5. **Bilexi** — 100% offline bilingual autocorrect for English and French text fields. [Edge Add-on](https://microsoftedge.microsoft.com/addons/detail/mheomahlcfddgjlemnolopfbhojfpmpb)
+6. **MailFlow** — In-development Gmail templates & scheduled sending companion (Labs preview).
 
 ## 🛠️ Tech Stack & Architecture
 
