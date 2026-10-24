@@ -4,20 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Privacy Policy — ExtensionGuy Portfolio</title>
-  <meta name="description" content="Zero-tracking privacy policy for ExtensionGuy browser extensions: no telemetry, no analytics, no remote servers, everything local.">
+  <meta name="description" content="Privacy policy for ExtensionGuy and its browser extensions: Word to LaTeX, Table Extractor, BulkGrab, SEO Inspector, Bilexi, and Tab Vault.">
   <link rel="canonical" href="https://extensionguy.me/privacy">
   <link rel="alternate" hreflang="en" href="https://extensionguy.me/privacy">
   <link rel="alternate" hreflang="x-default" href="https://extensionguy.me/privacy">
 
   <meta property="og:type" content="article">
   <meta property="og:title" content="Privacy Policy — ExtensionGuy">
-  <meta property="og:description" content="Zero-tracking privacy policy for ExtensionGuy browser extensions: no telemetry, no analytics, no remote servers, everything local.">
+  <meta property="og:description" content="Privacy policy for ExtensionGuy and its browser extensions: Word to LaTeX, Table Extractor, BulkGrab, SEO Inspector, Bilexi, and Tab Vault.">
   <meta property="og:url" content="https://extensionguy.me/privacy">
   <meta property="og:image" content="https://extensionguy.me/assets/promo/word-to-latex-marquee-1400x560.png">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Privacy Policy — ExtensionGuy">
-  <meta name="twitter:description" content="Zero-tracking privacy policy for ExtensionGuy browser extensions: no telemetry, no remote servers.">
+  <meta name="twitter:description" content="Privacy policy for ExtensionGuy and its browser extensions: local processing, zero application telemetry, and transparent data practices.">
   <meta name="twitter:image" content="https://extensionguy.me/assets/promo/word-to-latex-marquee-1400x560.png">
 
   <link rel="icon" type="image/png" href="assets/icons/word-to-latex-128.png">
@@ -167,56 +167,139 @@
   <div class="prose-container">
     <a href="index.html" class="nav-back">&larr; Back to Extensions Portfolio</a>
     <h1>Privacy Policy</h1>
-    <div class="updated-text">Last Updated: October 2026 &middot; Data Controller: sidoua26</div>
+    <div class="updated-text">Last Updated: October 24, 2026 &middot; Data Controller / Developer: Sid (@sidoua26-debug)</div>
 
     <div class="highlight-box">
-      <strong>Core Privacy Guarantee:</strong> Zero telemetry, zero analytics, zero remote servers, everything local. We do not track you, collect personal data, or transmit your files over the network.
+      <strong>Core Privacy Principle:</strong> Privacy-first design and local data processing. We do not operate user accounts, track individuals across websites, sell personal data, or deploy application-level telemetry. Our extensions are designed to process user content locally wherever possible. Website hosting infrastructure and optional licensing services may process the limited information described in this policy.
     </div>
 
-    <p>This privacy policy explains our commitment to transparency regarding this portfolio website (the "Site") and provides a factual, plain-language breakdown of how each published browser extension handles user data.</p>
+    <p>This Privacy Policy provides clear, transparent disclosures regarding how data is handled when you visit this website (the "Site") and when you install and use our browser extensions. This document explains the exact scope of data processing, device storage, browser permissions, and third-party infrastructure.</p>
 
-    <h2>1. The Portfolio Website</h2>
-    <p>This portfolio is a 100% static client-side website hosted on Cloudflare Pages. Our server-side footprint is zero.</p>
+    <h2>1. Scope &amp; Distinction</h2>
+    <p>It is important to distinguish between:</p>
     <ul>
-      <li><strong>No Cookies or Tracking:</strong> The Site does not set any cookies, advertising beacons, or tracking identifiers.</li>
-      <li><strong>No Analytics:</strong> There are no third-party analytics scripts (such as Google Analytics or tracking pixels) running on the Site.</li>
-      <li><strong>Local Storage (Theme Preference):</strong> The Site uses your browser's <code>localStorage</code> solely to save your choice of Light or Dark mode (<code>theme</code>). This data is stored strictly on your device and is never transmitted to any server.</li>
-      <li><strong>100% Self-Hosted Assets:</strong> All stylesheets, fonts (Geist and JetBrains Mono WOFF2), icons, images, and scripts are 100% self-hosted on the same origin. Zero external CDNs, zero third-party font requests, and zero remote tracking scripts.</li>
-      <li><strong>External Store Links:</strong> Clicking store links redirects you to third-party marketplaces (Microsoft Edge Add-ons and Chrome Web Store) or GitHub, which maintain their own independent privacy policies.</li>
+      <li><strong>The ExtensionGuy Portfolio Website (<code>extensionguy.me</code>):</strong> A static, publicly accessible website presenting extension documentation, interactive previews, and an in-browser WebAssembly converter demo.</li>
+      <li><strong>The Published Browser Extensions:</strong> Independent client software packages installed into your browser from official add-on marketplaces (Microsoft Edge Add-ons and Google Chrome Web Store). Each extension runs under its own distinct permission model within your browser sandbox.</li>
     </ul>
 
-    <h2>2. Browser Extensions Data Handling</h2>
-    <p>Every extension listed in this portfolio is engineered with privacy as an architectural constraint: no telemetry, no analytics, no remote servers, and everything local.</p>
+    <h2>2. Website Visitors (extensionguy.me)</h2>
+    <p>The Site is built as a static client-side web application. We have engineered the site to minimize data exposure:</p>
+    <ul>
+      <li><strong>No First-Party Analytics or Advertising Trackers:</strong> We do not embed first-party analytics scripts, Google Analytics, tracking pixels, marketing cookies, or fingerprinting scripts.</li>
+      <li><strong>Local Storage (Theme Preference):</strong> When you toggle between Light and Dark mode on pages with theme controls, the site saves your choice (<code>theme</code>) in your browser's local storage (<code>localStorage</code>). This value remains on your device and is not transmitted to server endpoints.</li>
+      <li><strong>In-Browser Converter Demo:</strong> The live Word-to-LaTeX demonstration on the homepage executes entirely on your hardware. It downloads the Pandoc WebAssembly binary (<code>assets/wasm/pandoc.wasm.gz</code>) from our static host, starts an in-browser Web Worker, and converts documents in memory. No document content, extracted text, or generated LaTeX snippets are transmitted to remote servers.</li>
+      <li><strong>Hosting and Infrastructure Server Logs:</strong> The Site is hosted on and served through Cloudflare Pages. When your browser requests static files, Cloudflare automatically processes standard HTTP request metadata necessary for content delivery, DDoS mitigation, security, and edge caching (such as your IP address, browser User-Agent, request URL, and timestamp). Cloudflare handles this operational data in accordance with its own <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>. We do not combine these infrastructure logs with personal profiles.</li>
+      <li><strong>Self-Hosted Fonts &amp; Assets:</strong> All stylesheets, typography (Geist and JetBrains Mono WOFF2 font files), icons, images, and WebAssembly binaries are served directly from the same static origin or edge cache. There are no runtime requests to Google Fonts, remote CDNs, or external script hosts.</li>
+    </ul>
+
+    <h2>3. Browser Extensions: Data Processing &amp; Storage</h2>
+    <p>Every browser extension published by ExtensionGuy is designed to operate locally on your computer without application-level telemetry or background user tracking. The specific data practices for each extension are detailed below:</p>
 
     <h3>Word to LaTeX (Offline)</h3>
-    <p><strong>100% Offline &middot; Zero Network Access.</strong> Word to LaTeX converts Microsoft Word (.docx) files, equations, and tables entirely inside your local browser memory using WebAssembly (Pandoc WASM) and local OCR (Tesseract.js). Manifest V3 requests <code>permissions: []</code>—it does not possess permission to initiate network requests. Your manuscripts, research documents, and clipboard contents never leave your device.</p>
+    <ul>
+      <li><strong>Data Processed:</strong> Word documents (<code>.docx</code>), XML markup, mathematical equations (OMML/MathML), document tables, and plain text pasted or dropped into the interface.</li>
+      <li><strong>Processing Location:</strong> Processed locally in browser memory via WebAssembly (Pandoc WASM) and a dedicated Web Worker.</li>
+      <li><strong>Network Transmission:</strong> None. The extension declares no host permissions (<code>host_permissions: []</code>) and no background network permissions, designed to operate without remote server communication.</li>
+      <li><strong>Storage &amp; Retention:</strong> Temporary in-memory processing. Document buffers and parsed results are cleared when the conversion tab or modal is closed. No files are uploaded or stored remotely.</li>
+    </ul>
 
     <h3>Table Extractor</h3>
-    <p><strong>100% Local In-Tab Processing.</strong> Table Extractor extracts HTML tables and virtualized data grids directly within your browser's active tab. Data parsing, column filtering, and export generation (CSV, XLSX with UTF-8 BOM, JSON) run strictly in local memory. Manifest V3 uses only <code>activeTab</code> and <code>scripting</code> on explicit user interaction. Zero table data is ever transmitted to any remote server.</p>
+    <ul>
+      <li><strong>Data Processed:</strong> HTML table elements and virtualized data grid structures (such as AG Grid or handsontable) rendered in the active browser tab you select.</li>
+      <li><strong>Processing Location:</strong> Client-side execution in the active tab context. Table DOM elements are parsed in memory, and export files (CSV, XLSX with UTF-8 BOM, and JSON) are compiled directly on-device.</li>
+      <li><strong>Network Transmission:</strong> Extracted table data, cell values, and compiled spreadsheets are never transmitted to external servers. Ordinary table extraction runs 100% locally on your machine. The extension includes optional Pro licensing functionality:
+        <ul>
+          <li><strong>Attempted Invoice Creation (Optional):</strong> If you choose to initiate a license purchase by clicking "Pay with Crypto", the client-side code attempts to send a <code>POST</code> request containing only the JSON payload <code>{"product": "table-extractor"}</code> to an intermediary licensing proxy (a Cloudflare Worker at <code>bulkgrab-licensing.sidoua26.workers.dev</code>), which is designed to interface with NOWPayments to generate a checkout URL.</li>
+          <li><strong>Payment Verification &amp; Gift Codes (Optional):</strong> Submitting an online NOWPayments payment ID or server-side gift code attempts to send a <code>GET</code> request with query parameters (<code>payment_id=&lt;id&gt;&amp;product=table-extractor</code>) solely to check activation status. Offline promotional gift codes matching <code>TE-GIFT-</code> are validated directly in local JavaScript without contacting external servers or transmitting network requests.</li>
+          <li><strong>Documented Permission Constraints vs. Runtime Status:</strong> Under official Chrome Manifest V3 documentation, cross-origin <code>fetch()</code> requests require explicit host permissions matching the target URL; a server's permissive CORS headers do not satisfy or bypass this extension permission requirement. Because the audited Table Extractor manifest omits both <code>host_permissions</code> and <code>optional_host_permissions</code>, documented extension security rules indicate that outbound online licensing requests will be blocked by the browser sandbox before reaching the server in standard installations (though this specific network failure has not been independently reproduced in an active end-to-end browser runtime test). We do not claim that remote requests successfully reach the licensing proxy. Under no circumstances does either flow transmit table contents, cell data, page URLs, or browsing history.</li>
+        </ul>
+      </li>
+      <li><strong>Storage &amp; Permissions:</strong> Uses <code>activeTab</code> and <code>scripting</code> on demand when invoked. Uses <code>storage</code> to save display preferences and license tier status in <code>chrome.storage.local</code>. No table contents are written to persistent remote storage.</li>
+    </ul>
 
     <h3>BulkGrab</h3>
-    <p><strong>100% Local Download &amp; Bundling.</strong> BulkGrab discovers downloadable links and images on the page you are viewing. Downloads stream directly from the source host website into your browser's native download folder without proxying through any intermediary server. ZIP archive bundling is performed locally on-device via JSZip. No download URLs, filenames, or content metadata are ever logged or uploaded.</p>
+    <ul>
+      <li><strong>Data Processed:</strong> Publicly accessible media URLs, image links, and downloadable document links discovered in the DOM of the active tab you choose to inspect.</li>
+      <li><strong>Processing Location:</strong> On-device link filtering and client-side ZIP packaging using bundled client libraries (JSZip).</li>
+      <li><strong>Network Transmission:</strong> When you initiate individual downloads, your browser requests files directly from their original host web servers via standard browser downloads; BulkGrab does not route or proxy downloads through intermediary servers. When bundling files from external domains into a local ZIP archive, the extension requests the optional <code>&lt;all_urls&gt;</code> permission to fetch the binary file content directly into local memory. The extension also includes optional Pro licensing functionality:
+        <ul>
+          <li><strong>Attempted License Verification (Optional):</strong> Submitting a payment ID or promotional code in the options interface sends an internal extension message to the background service worker, which attempts to dispatch a <code>GET</code> request with <code>payment_id=&lt;id&gt;</code> to the Cloudflare Worker licensing proxy (<code>bulkgrab-licensing.sidoua26.workers.dev</code>) to check NOWPayments transaction status or server-side gift code eligibility. BulkGrab does not include offline client-side gift code redemption; all non-test activations query the licensing proxy.</li>
+          <li><strong>Documented Permission Constraints vs. Runtime Status:</strong> BulkGrab does not declare a dedicated host permission for the licensing Worker in <code>host_permissions</code>; it only declares <code>&lt;all_urls&gt;</code> under <code>optional_host_permissions</code>. Based on documented Manifest V3 security requirements, the licensing request may be blocked by the browser by default unless the user has explicitly granted this optional multi-site permission during previous ZIP export workflows (this distinction is based on documented platform permission models rather than runtime-reproduced validation). If executed, the request transmits only the payment identifier. Under no circumstances do licensing requests transmit discovered media URLs, download selections, or file contents.</li>
+        </ul>
+      </li>
+      <li><strong>Storage &amp; Permissions:</strong> Uses <code>downloads</code> to save files to your local download directory, <code>activeTab</code> and <code>scripting</code> to detect page links on demand, <code>storage</code> for user options, and optional <code>&lt;all_urls&gt;</code> for cross-site ZIP bundling.</li>
+    </ul>
 
     <h3>SEO Inspector</h3>
-    <p><strong>100% In-Browser Diagnostics.</strong> SEO Inspector audits the active webpage's DOM, meta tags, heading hierarchies, Open Graph previews, and Navigation Timing metrics entirely client-side. Browsing history is never stored, tracked, or transmitted. Manifest V3 requests only <code>activeTab</code> and <code>scripting</code> upon user request. Zero analytics or diagnostic telemetry are sent to external servers.</p>
+    <ul>
+      <li><strong>Data Processed:</strong> On-page technical metadata from the active tab: title tags, meta descriptions, canonical URLs, heading structure (H1–H6), Open Graph tags, JSON-LD structured data scripts, and browser Performance / Navigation Timing benchmarks.</li>
+      <li><strong>Processing Location:</strong> Client-side inspection within browser memory.</li>
+      <li><strong>Network Transmission:</strong> None. Evaluates active tab DOM and Performance APIs locally; declares no host permissions or remote telemetry endpoints.</li>
+      <li><strong>Storage &amp; Permissions:</strong> Uses <code>activeTab</code> and <code>scripting</code> on demand. User preferences (such as display options) are saved locally via <code>chrome.storage.local</code>, remaining on your device.</li>
+    </ul>
 
     <h3>Bilexi</h3>
-    <p><strong>100% Offline Autocorrect &amp; Accent Restoration.</strong> Bilexi runs entirely offline within your local browser sandbox. All dictionary lookups, bilingual English/French spell checking, and French accent restorations (e.g. ecole &rarr; école) execute in local memory. Keystrokes and text inputs are never transmitted over any network, logged to disk, or sent to cloud APIs. Custom vocabulary and user preferences reside exclusively on your local device via <code>chrome.storage.local</code>.</p>
-
-    <h2>3. Contact &amp; Inquiries</h2>
-    <p>If you have questions regarding data privacy, security boundaries, or the open-source code of these extensions, please reach out directly:</p>
     <ul>
-      <li>Email: <a href="mailto:contact@extensionguy.me">contact@extensionguy.me</a></li>
-      <li>GitHub: <a href="https://github.com/sidoua26-debug" target="_blank" rel="noopener noreferrer">@sidoua26-debug</a></li>
-      <li>Portfolio Repository: <a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer">extensions-portfolio</a></li>
+      <li><strong>Data Processed:</strong> Text typed or edited in browser input fields, textareas, or content-editable elements where autocorrect is enabled, specifically for French accent restoration and bilingual English/French spelling checks.</li>
+      <li><strong>Processing Location:</strong> Local memory processing against bundled binary dictionary files. Keystrokes are evaluated locally without contacting remote language APIs or third-party spellcheck servers.</li>
+      <li><strong>Network Transmission:</strong> None. Requests no remote host permissions (<code>host_permissions: []</code>). Text inputs and corrections are processed locally within the active element.</li>
+      <li><strong>Storage &amp; Retention:</strong> User-defined custom dictionary words, ignored words, and user preferences are stored strictly on your device via <code>chrome.storage.local</code>. You can view or clear this custom vocabulary at any time through the extension settings.</li>
+    </ul>
+
+    <h3>Tab Vault</h3>
+    <ul>
+      <li><strong>Data Processed:</strong> URLs, page titles, and window groupings of open browser tabs that you explicitly choose to stash, suspend, or organize.</li>
+      <li><strong>Processing Location:</strong> Local execution within the browser runtime. Tab grouping, memory suspension, and omnibox search queries (<code>tv &lt;query&gt;</code>) operate on-device.</li>
+      <li><strong>Network Transmission:</strong> None. Operates without remote backend servers or cloud sync APIs; tab data remains in local browser storage.</li>
+      <li><strong>Storage &amp; Retention:</strong> Stashed tab collections, Quick Lists, and rolling auto-snapshots are stored on-device in your browser's local IndexedDB and <code>chrome.storage.local</code>. Deleted tabs are moved to a local 30-day soft trash archive managed on your device, which you can purge immediately. You can export or import your entire vault as a local JSON file at any time.</li>
+      <li><strong>Permissions:</strong> Declares <code>tabs</code> (to read and restore open tab titles and URLs), <code>storage</code> and <code>unlimitedStorage</code> (for IndexedDB and local preference persistence), <code>alarms</code> (for scheduled local rolling snapshots), <code>downloads</code> (for manual JSON backup exports), <code>offscreen</code> (to create local Blob URLs for large backup exports exceeding 2MB without freezing the service worker), and <code>contextMenus</code> (for right-click tab-stashing shortcuts).</li>
+    </ul>
+
+    <h2>4. Files, Content &amp; Telemetry Commitments</h2>
+    <p>Across all products, we adhere to clear standards regarding your content:</p>
+    <ul>
+      <li><strong>No Content Scraping or Reselling:</strong> We do not view, sell, rent, license, or monetize the documents, spreadsheets, files, tab lists, or text you process through our extensions.</li>
+      <li><strong>No Behavioral Tracking:</strong> We do not track your browsing habits across different websites, construct advertising profiles, or monetize user data.</li>
+      <li><strong>Zero Telemetry Beacons:</strong> Our extensions are authored without embedded third-party analytics or crash-reporting SDKs (such as Google Analytics, Segment, or Sentry). Diagnostic logs remain within your local browser developer console.</li>
+    </ul>
+
+    <h2>5. Third-Party Services &amp; External Links</h2>
+    <p>When you interact with external services, their respective privacy policies govern your data:</p>
+    <ul>
+      <li><strong>Browser Add-on Marketplaces:</strong> Installing extensions through the <a href="https://microsoftedge.microsoft.com/addons/" target="_blank" rel="noopener noreferrer">Microsoft Edge Add-ons catalog</a> or the <a href="https://chromewebstore.google.com/" target="_blank" rel="noopener noreferrer">Chrome Web Store</a> is governed by Microsoft's and Google's store terms and privacy statements. Marketplaces may collect installation counts and crash telemetry according to your browser settings.</li>
+      <li><strong>Cryptocurrency Licensing Gateway (NOWPayments):</strong> For users who optionally choose to initiate invoice creation or submit a payment ID in Table Extractor or BulkGrab, licensing features attempt communication across two separate technical stages:
+        <ul>
+          <li><strong>Stage A — Extension to Cloudflare Worker Proxy:</strong> The extensions attempt to contact an intermediary Cloudflare Worker (<code>bulkgrab-licensing.sidoua26.workers.dev</code>). For invoice creation, Table Extractor transmits <code>{"product": "table-extractor"}</code>, while BulkGrab sends a POST request without a product payload. For payment verification, Table Extractor submits query parameters containing the user-provided payment ID and product identifier (<code>payment_id=&lt;id&gt;&amp;product=table-extractor</code>), while BulkGrab transmits <code>payment_id=&lt;id&gt;</code> (promotional gift codes with prefix <code>TE-GIFT-</code> are validated strictly in local JavaScript and generate no network requests). As disclosed in Section 3, these outbound requests may be blocked by browser extension sandbox policies before reaching the network (Table Extractor lacks required host permissions, and BulkGrab lacks active permissions unless optional multi-site access was granted). When a request reaches the Worker, Cloudflare processes standard HTTP connection metadata (client IP address, request timestamp, and headers); we make no unverified claims regarding Cloudflare's internal log retention schedules.</li>
+          <li><strong>Stage B — Cloudflare Worker to NOWPayments:</strong> When an invoice creation request reaches the Worker proxy, the Worker generates the order metadata (order ID, price amount of $9.99, and currency) and submits invoice parameters to NOWPayments (<a href="https://nowpayments.io/privacy-policy" target="_blank" rel="noopener noreferrer">NOWPayments Privacy Policy</a>). For verification requests, the Worker first checks internal server-side gift codes; if a code is validated internally by the Worker, NOWPayments is not contacted and does not receive that code. For standard payment verification, the Worker queries NOWPayments using the payment ID. Neither stage ever transmits table contents, extracted files, page URLs, or browsing history.</li>
+        </ul>
+      </li>
+      <li><strong>GitHub:</strong> Links to source code repositories or developer profiles point to <a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a>, which collects visitor and account information under GitHub's Privacy Statement.</li>
+      <li><strong>External Websites:</strong> Our extensions operate on web pages you navigate to (such as Table Extractor or BulkGrab). Those target websites maintain their own independent terms and data practices.</li>
+    </ul>
+
+    <h2>6. User Control &amp; Data Deletion</h2>
+    <p>You retain full control over your software and local data at all times:</p>
+    <ul>
+      <li><strong>Clearing Extension Data:</strong> You can clear all locally stored data, dictionaries, tab vaults, and configuration settings by clearing your browser's extension data or storage in browser settings.</li>
+      <li><strong>Uninstalling Extensions:</strong> You can remove any extension at any time via your browser's extension management page (<code>edge://extensions</code> or <code>chrome://extensions</code>). Uninstalling an extension prompts the browser to remove the extension's local storage database and stops all background script execution.</li>
+      <li><strong>Site Preferences:</strong> You can clear the website theme preference at any time by clearing your browser cookies and site data for <code>extensionguy.me</code>.</li>
+    </ul>
+
+    <h2>7. Children's Privacy</h2>
+    <p>Neither the Site nor our browser extensions are directed to children under 13 years of age. We do not knowingly collect, solicit, or maintain personal information from children.</p>
+
+    <h2>8. Policy Updates &amp; Notifications</h2>
+    <p>We may update this Privacy Policy periodically to reflect new extensions, feature enhancements, or architectural modifications. When updates are published, the "Last Updated" date at the top of this document will be revised accordingly. We encourage you to review this page periodically.</p>
+
+    <h2>9. Contact &amp; Inquiries</h2>
+    <p>If you have questions regarding this Privacy Policy or wish to inspect technical implementations, you can refer to the published contact channels below:</p>
+    <ul>
+      <li><strong>Published Contact Address:</strong> <a href="mailto:contact@extensionguy.me">contact@extensionguy.me</a></li>
+      <li><strong>GitHub Developer Profile:</strong> <a href="https://github.com/sidoua26-debug" target="_blank" rel="noopener noreferrer">@sidoua26-debug</a></li>
+      <li><strong>Portfolio Source Repository:</strong> <a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer">extensions-portfolio</a></li>
     </ul>
   </div>
 
-  <script>
-    (function() {
-      const saved = localStorage.getItem('theme');
-      if (saved) document.documentElement.setAttribute('data-theme', saved);
-    })();
-  </script>
+  <script src="assets/js/site.js" defer></script>
 </body>
 </html>
