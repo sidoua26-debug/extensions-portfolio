@@ -162,7 +162,7 @@ html = r"""<!DOCTYPE html>
         "softwareVersion": "1.0.0",
         "operatingSystem": "Microsoft Edge, Windows, macOS, Linux",
         "applicationCategory": "UtilitiesApplication",
-        "description": "Local tab manager and memory saver for Microsoft Edge that suspends inactive tabs, reduces RAM usage by up to 95%, and stores sessions entirely on-device.",
+        "description": "Local tab manager and memory saver for Microsoft Edge that suspends inactive tabs, reclaims browser memory, and stores sessions entirely on-device.",
         "downloadUrl": "https://microsoftedge.microsoft.com/addons/detail/paedfgpjmkmmodbcimbkjkkdlfibfpbc",
         "offers": {
           "@type": "Offer",
@@ -198,7 +198,7 @@ html = r"""<!DOCTYPE html>
             "name": "Do Table Extractor, BulkGrab, or SEO Inspector send telemetry to remote servers?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. Table Extractor parses HTML tables and virtualized AG Grid containers directly in browser memory and generates CSV and Excel XLSX files with local UTF-8 BOM encoding. BulkGrab streams file downloads directly from the host website into your browser storage and packages ZIP archives on-device with zero intermediary servers. SEO Inspector performs DOM audits and Performance Timing evaluations entirely on the client side without telemetry beacons."
+              "text": "No. Table Extractor parses HTML tables and virtualized AG Grid containers directly in browser memory and generates CSV and Excel XLSX files with local UTF-8 BOM encoding. BulkGrab streams file downloads directly from the host website into your browser storage and packages ZIP archives on-device with zero intermediary servers. SEO Inspector performs DOM audits and Performance Timing evaluations entirely on the client side without telemetry beacons. Optional Pro licensing for Table Extractor and BulkGrab attempts to verify payment IDs via an intermediary proxy when browser permissions allow; under no circumstances are table contents, extracted spreadsheets, downloaded files, or media URLs transmitted to the licensing service, as disclosed in our Privacy Policy."
             }
           },
           {
@@ -206,7 +206,7 @@ html = r"""<!DOCTYPE html>
             "name": "How are software updates and security patches published?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "All extensions are submitted directly to the verified Microsoft Edge Add-ons catalog and Chrome Web Store where they undergo automated malware scans and manual review before distribution. Source code repositories, reproducible builds, and version changelogs are published publicly on GitHub, enabling security researchers and developers to verify file integrity and cryptographic signatures independently."
+              "text": "All extensions are submitted directly to the official Microsoft Edge Add-ons catalog and Chrome Web Store where they undergo store review and security scans before distribution. Source code repositories and version changelogs are published publicly on GitHub, enabling developers and researchers to inspect source code and extension manifests independently."
             }
           }
         ]
@@ -286,13 +286,13 @@ html = r"""<!DOCTYPE html>
         </h1>
 
         <p class="hero-subtitle">
-          Engineered for privacy and daily productivity. Convert Word to LaTeX and autocorrect bilingual text 100% offline; extract tables, batch-download files, and audit on-page SEO locally in your browser with zero remote servers.
+          Engineered for privacy and daily productivity. Convert Word to LaTeX and autocorrect bilingual text 100% offline; extract tables, batch-download files, and audit on-page SEO locally in your browser with zero application telemetry.
         </p>
 
         <div class="hero-trust-row" role="list">
           <div class="trust-badge" role="listitem">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>Microsoft Edge Verified</span>
+            <span>Published on Edge Add-ons</span>
           </div>
           <div class="trust-badge" role="listitem">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -443,7 +443,7 @@ html = r"""<!DOCTYPE html>
 
           <div class="flagship-benefits">
             <div class="flex-wrap-gap-8">
-              <span class="badge badge-edge">Microsoft Edge Verified</span>
+              <span class="badge badge-edge">Published on Edge Add-ons</span>
               <span class="badge badge-subtle">Zero Permissions Requested</span>
               <span class="badge badge-w2l">Version 1.0.5</span>
             </div>
@@ -487,7 +487,7 @@ html = r"""<!DOCTYPE html>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10l4-4"/><path d="M16 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
                 Get on Microsoft Edge Add-ons
               </a>
-              <span class="badge badge-edge">Edge Verified</span>
+              <span class="badge badge-edge">Edge Add-on</span>
               <a href="#live-converter" class="btn btn-edge btn-converter-tint" aria-label="Try Online Converter demo on this page">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                 Try Online Converter
@@ -504,7 +504,7 @@ html = r"""<!DOCTYPE html>
     </section>
 
     <!-- ======================================================================
-         PORTFOLIO GRID: All 5 Confirmed Published Products
+         PORTFOLIO GRID: All 6 Confirmed Published Products
          ====================================================================== -->
     <section class="portfolio-section" id="portfolio" aria-labelledby="portfolioHeading">
       <div class="container">
@@ -512,7 +512,7 @@ html = r"""<!DOCTYPE html>
           <div>
             <div class="section-eyebrow">Extension Portfolio</div>
             <h2 id="portfolioHeading" class="section-heading">Published Edge Add-ons</h2>
-            <p class="section-lead">Each tool is designed with a specific workflow purpose and minimal permissions. Word to LaTeX, Bilexi, and Tab Vault run locally or fully offline, while Table Extractor, BulkGrab, and SEO Inspector process your data directly in your browser with zero remote servers.</p>
+            <p class="section-lead">Each tool is designed with a specific workflow purpose and minimal permissions. Word to LaTeX, Bilexi, and Tab Vault run locally or fully offline, while Table Extractor, BulkGrab, and SEO Inspector process your data directly in your browser with zero application telemetry.</p>
           </div>
           <div>
             <span class="badge badge-edge">6 Live Add-ons</span>
@@ -561,7 +561,7 @@ html = r"""<!DOCTYPE html>
             </div>
 
             <div class="card-footer">
-              <span class="badge badge-edge">Edge Verified</span>
+              <span class="badge badge-edge">Edge Add-on</span>
               <div class="card-actions-group">
                 <button type="button" class="btn btn-preview btn-sm" data-preview="word-to-latex" aria-label="Preview Word to LaTeX interactive modal">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -724,7 +724,7 @@ html = r"""<!DOCTYPE html>
             </div>
 
             <div class="card-footer">
-              <span class="badge badge-edge">Edge Verified</span>
+              <span class="badge badge-edge">Edge Add-on</span>
               <div class="card-actions-group">
                 <button type="button" class="btn btn-preview btn-sm" data-preview="seo-inspector" aria-label="Preview SEO Inspector interactive modal">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -777,7 +777,7 @@ html = r"""<!DOCTYPE html>
             </div>
 
             <div class="card-footer">
-              <span class="badge badge-edge">Edge Verified</span>
+              <span class="badge badge-edge">Edge Add-on</span>
               <div class="card-actions-group">
                 <button type="button" class="btn btn-preview btn-sm" data-preview="bilexi" aria-label="Preview Bilexi interactive modal">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -803,7 +803,7 @@ html = r"""<!DOCTYPE html>
             <div class="card-body">
               <div class="card-pill-row">
                 <span class="badge badge-tabvault">Productivity &amp; Tabs</span>
-                <span class="badge badge-subtle">Up to 95% RAM Saved</span>
+                <span class="badge badge-subtle">Memory Saver</span>
               </div>
 
               <div class="card-meta-row">
@@ -811,7 +811,7 @@ html = r"""<!DOCTYPE html>
               </div>
 
               <div class="card-benefit-quote">
-                <strong>Main Benefit:</strong> Convert clutter into organized, searchable tab groups to cut browser memory use by up to 95% with zero cloud storage.
+                <strong>Main Benefit:</strong> Convert clutter into organized, searchable tab groups to reclaim browser memory with zero cloud storage.
               </div>
 
               <div class="card-screenshot-wrap">
@@ -823,14 +823,14 @@ html = r"""<!DOCTYPE html>
               </div>
 
               <ul class="card-points">
-                <li>Instant tab suspension saving up to 95% browser memory</li>
+                <li>Instant tab suspension reclaiming browser memory</li>
                 <li>Searchable vaults, rolling crash-resilient auto-snapshots</li>
-                <li>100% on-device IndexedDB storage &amp; zero external network requests</li>
+                <li>100% on-device IndexedDB storage &amp; zero external telemetry requests</li>
               </ul>
             </div>
 
             <div class="card-footer">
-              <span class="badge badge-edge">Edge Verified</span>
+              <span class="badge badge-edge">Edge Add-on</span>
               <div class="card-actions-group">
                 <button type="button" class="btn btn-preview btn-sm" data-preview="tab-vault" aria-label="Preview Tab Vault interactive modal">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
@@ -843,7 +843,7 @@ html = r"""<!DOCTYPE html>
             <div class="card-version-micro">v1.0.0 &middot; Updated Oct 2026</div>
           </article>
         </div>
-        <div class="section-footer-privacy"><a href="privacy.html" class="footer-privacy-link">&bull; Minimal permissions, zero tracking, zero remote servers &mdash; Read Full Privacy Statement</a></div>
+        <div class="section-footer-privacy"><a href="privacy.html" class="footer-privacy-link">&bull; Minimal permissions, zero tracking, local processing &mdash; Read Full Privacy Statement</a></div>
       </div>
     </section>
 
@@ -860,7 +860,7 @@ html = r"""<!DOCTYPE html>
           <div class="install-step-box">
             <div class="step-badge">1</div>
             <h3 class="step-heading">Open Store Page</h3>
-            <p class="step-paragraph">Click "Get on Edge" on any extension above to navigate directly to its official listing on the verified Microsoft Edge Add-ons store catalog.</p>
+            <p class="step-paragraph">Click "Get on Edge" on any extension above to navigate directly to its official listing on the Microsoft Edge Add-ons store catalog.</p>
           </div>
 
           <div class="install-step-box">
@@ -908,9 +908,9 @@ html = r"""<!DOCTYPE html>
           </div>
 
           <div class="labs-action-group">
-            <a href="mailto:contact@extensionguy.me?subject=MailFlow%20launch%20notification" class="btn btn-edge btn-sm" aria-label="Notify me when MailFlow launches">
+            <a href="mailto:contact@extensionguy.me?subject=MailFlow%20launch%20notification" class="btn btn-edge btn-sm" aria-label="Notify via email when MailFlow launches">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-              Notify me
+              Notify via email
             </a>
             <span class="badge badge-subtle">Coming Soon to Edge Add-ons</span>
           </div>
@@ -1049,11 +1049,11 @@ html = r"""<!DOCTYPE html>
             </div>
             <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
               <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">Do Table Extractor, BulkGrab, or SEO Inspector send telemetry to remote servers?</strong>
-              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">No. Table Extractor parses HTML tables and virtualized AG Grid containers directly in browser memory and generates CSV and Excel XLSX files with local UTF-8 BOM encoding. BulkGrab streams file downloads directly from the host website into your browser storage and packages ZIP archives on-device with zero intermediary servers. SEO Inspector performs DOM audits and Performance Timing evaluations entirely on the client side without telemetry beacons.</p>
+              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">No. Table Extractor parses HTML tables and virtualized AG Grid containers directly in browser memory and generates CSV and Excel XLSX files with local UTF-8 BOM encoding. BulkGrab streams file downloads directly from the host website into your browser storage and packages ZIP archives on-device with zero intermediary servers. SEO Inspector performs DOM audits and Performance Timing evaluations entirely on the client side without telemetry beacons. Optional Pro licensing for Table Extractor and BulkGrab attempts to verify payment IDs via an intermediary proxy when browser permissions allow; under no circumstances are table contents, extracted spreadsheets, downloaded files, or media URLs transmitted to the licensing service, as disclosed in our Privacy Policy.</p>
             </div>
             <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
               <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">How are software updates and security patches published?</strong>
-              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">All extensions are submitted directly to the verified Microsoft Edge Add-ons catalog and Chrome Web Store where they undergo automated malware scans and manual review before distribution. Source code repositories, reproducible builds, and version changelogs are published publicly on GitHub, enabling security researchers and developers to verify file integrity and cryptographic signatures independently.</p>
+              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">All extensions are submitted directly to the official Microsoft Edge Add-ons catalog and Chrome Web Store where they undergo store review and security scans before distribution. Source code repositories and version changelogs are published publicly on GitHub, enabling developers and researchers to inspect source code and extension manifests independently.</p>
             </div>
           </div>
         </div>
@@ -1105,7 +1105,7 @@ html = r"""<!DOCTYPE html>
             <span class="badge badge-edge" id="previewModalBadge">Extension Preview</span>
             <span class="preview-modal-tagline" id="previewModalTagline">Product Interface Showcase</span>
           </div>
-          <h2 class="preview-modal-name" id="previewModalName">Product Name</h2>
+          <h2 class="preview-modal-name" id="previewModalName"></h2>
         </div>
         <div class="preview-modal-actions">
           <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" id="previewModalStoreBtn">Get on Edge</a>
@@ -1130,10 +1130,10 @@ html = r"""<!DOCTYPE html>
         <div class="preview-details-grid">
           <div class="preview-detail-col">
             <h3 class="preview-detail-title">What It Does</h3>
-            <p class="preview-detail-desc" id="previewModalDesc">Product Description</p>
+            <p class="preview-detail-desc" id="previewModalDesc"></p>
             <div class="preview-privacy-chip" id="previewModalPrivacy">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              <span id="previewModalPrivacyText">Verified Privacy Note</span>
+              <span id="previewModalPrivacyText"></span>
             </div>
           </div>
           <div class="preview-detail-col">

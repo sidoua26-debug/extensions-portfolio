@@ -220,9 +220,26 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
       const isActive = await page.evaluate(() => document.getElementById('lightboxModal').classList.contains('active'));
       assert.equal(isActive, true, `Modal should open when clicking Preview for ${prod.id}`);
 
-      // Verify title matches
+      // Verify title and description are populated from product data without placeholders
       const title = await page.textContent('#previewModalName');
       assert.equal(title, prod.name, `Modal title should match ${prod.name}`);
+      assert.notEqual(title, 'Product Name', 'Modal title must not be placeholder text');
+
+      const desc = await page.textContent('#previewModalDesc');
+      assert.ok(desc && desc.length > 20, `Modal description should be populated for ${prod.id}`);
+      assert.notEqual(desc, 'Product Description', 'Modal description must not be placeholder text');
+
+      const privacyText = await page.textContent('#previewModalPrivacyText');
+      assert.ok(privacyText && privacyText.length > 20, `Modal privacy text should be populated for ${prod.id}`);
+      assert.notEqual(privacyText, 'Verified Privacy Note', 'Modal privacy note must not be placeholder text');
+
+      // Verify secondary store button is hidden unless product has secondaryInstallUrl
+      const secBtnDisplay = await page.evaluate(() => document.getElementById('previewModalFooterSecondary').style.display);
+      if (prod.id === 'table-extractor' || prod.id === 'bulkgrab') {
+        assert.equal(secBtnDisplay, 'inline-flex', `Secondary store button should be visible for dual-store product ${prod.id}`);
+      } else {
+        assert.equal(secBtnDisplay, 'none', `Secondary store button should be hidden for single-store product ${prod.id}`);
+      }
 
       // Verify main screenshot image is loaded
       const imgInfo = await page.evaluate(() => {
@@ -235,6 +252,7 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
         };
       });
       assert.ok(imgInfo.src && imgInfo.src.length > 0, `Screenshot src should be non-empty for ${prod.id}`);
+      assert.ok(!imgInfo.src.includes('placeholder-modal.png'), `Screenshot must not be placeholder image for ${prod.id}`);
       assert.equal(imgInfo.complete, true, `Screenshot should be complete for ${prod.id}`);
       assert.ok(imgInfo.naturalWidth > 0, `Screenshot naturalWidth should be > 0 for ${prod.id}`);
 

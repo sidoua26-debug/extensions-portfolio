@@ -62,7 +62,7 @@ All official release milestones for extensions published by ExtensionGuy.
 ## Tab Vault
 - **v1.0.0** (Current)
   - Initial public release on Microsoft Edge Add-ons.
-  - One-click window collapse and restore saving up to 95% browser memory.
+  - One-click window collapse and restore reclaiming browser memory.
   - Defense-in-depth disaster recovery with rolling snapshots and JSON backup rotation.
   - Omnibox `tv <query>` integration and real-time instant search.
   - 100% local storage with zero cloud telemetry.
