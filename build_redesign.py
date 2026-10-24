@@ -10,7 +10,7 @@ html = r"""<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Word to LaTeX Converter &amp; Privacy-First Browser Extensions — ExtensionGuy</title>
-  <meta name="description" content="Privacy-first Microsoft Edge extensions: in-browser Word-to-LaTeX converter, Table Extractor, BulkGrab, SEO Inspector, and Bilexi with zero remote telemetry.">
+  <meta name="description" content="Privacy-first Microsoft Edge extensions: Word-to-LaTeX offline converter, Tab Vault memory saver, Table Extractor, BulkGrab, SEO Inspector, and Bilexi.">
 
   <link rel="canonical" href="https://extensionguy.me/">
   <link rel="alternate" hreflang="en" href="https://extensionguy.me/">
@@ -156,6 +156,24 @@ html = r"""<!DOCTYPE html>
         }
       },
       {
+        "@type": "SoftwareApplication",
+        "@id": "https://extensionguy.me/#tab-vault",
+        "name": "Tab Vault",
+        "softwareVersion": "1.0.0",
+        "operatingSystem": "Microsoft Edge, Windows, macOS, Linux",
+        "applicationCategory": "UtilitiesApplication",
+        "description": "Local tab manager and memory saver for Microsoft Edge that suspends inactive tabs, reduces RAM usage by up to 95%, and stores sessions entirely on-device.",
+        "downloadUrl": "https://microsoftedge.microsoft.com/addons/detail/paedfgpjmkmmodbcimbkjkkdlfibfpbc",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@id": "https://extensionguy.me/#author"
+        }
+      },
+      {
         "@type": "FAQPage",
         "@id": "https://extensionguy.me/#faq",
         "mainEntity": [
@@ -233,13 +251,13 @@ html = r"""<!DOCTYPE html>
           <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
 
-        <a href="#portfolio" class="btn btn-ghost btn-sm nav-cta-btn" aria-label="View 5 Add-ons in portfolio">
+        <a href="#portfolio" class="btn btn-ghost btn-sm nav-cta-btn" aria-label="View 6 Add-ons in portfolio">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
             <polyline points="15 3 21 3 21 9"/>
             <line x1="10" y1="14" x2="21" y2="3"/>
           </svg>
-          View 5 Add-ons
+          View 6 Add-ons
         </a>
 
         <button class="mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="Open mobile navigation menu" aria-expanded="false" aria-controls="navLinks">
@@ -494,10 +512,10 @@ html = r"""<!DOCTYPE html>
           <div>
             <div class="section-eyebrow">Extension Portfolio</div>
             <h2 id="portfolioHeading" class="section-heading">Published Edge Add-ons</h2>
-            <p class="section-lead">Each tool is designed with a specific workflow purpose and minimal permissions. Word to LaTeX and Bilexi run fully offline, while Table Extractor, BulkGrab, and SEO Inspector process your data locally in your browser with zero remote servers.</p>
+            <p class="section-lead">Each tool is designed with a specific workflow purpose and minimal permissions. Word to LaTeX, Bilexi, and Tab Vault run locally or fully offline, while Table Extractor, BulkGrab, and SEO Inspector process your data directly in your browser with zero remote servers.</p>
           </div>
           <div>
-            <span class="badge badge-edge">5 Live Add-ons</span>
+            <span class="badge badge-edge">6 Live Add-ons</span>
           </div>
         </div>
 
@@ -772,6 +790,58 @@ html = r"""<!DOCTYPE html>
             <div class="card-version-micro">v1.0.0 &middot; Updated Oct 2026</div>
           </article>
 
+          <!-- Product 6: Tab Vault -->
+          <article class="product-card" id="tab-vault" aria-labelledby="cardTitleTabVault">
+            <div class="card-header">
+              <img class="card-icon-img" src="assets/icons/tab-vault-128.png" alt="Tab Vault icon" loading="lazy" decoding="async" width="128" height="128">
+              <div class="card-header-meta">
+                <h3 id="cardTitleTabVault" class="card-product-name">Tab Vault</h3>
+                <p class="card-subheading">Local Tab Manager &amp; Memory Saver</p>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="card-pill-row">
+                <span class="badge badge-tabvault">Productivity &amp; Tabs</span>
+                <span class="badge badge-subtle">Up to 95% RAM Saved</span>
+              </div>
+
+              <div class="card-meta-row">
+                <a href="CHANGELOG.md#tab-vault" target="_blank" rel="noopener noreferrer" class="card-changelog-link" aria-label="View Tab Vault changelog">Changelog (v1.0.0)</a>
+              </div>
+
+              <div class="card-benefit-quote">
+                <strong>Main Benefit:</strong> Convert clutter into organized, searchable tab groups to cut browser memory use by up to 95% with zero cloud storage.
+              </div>
+
+              <div class="card-screenshot-wrap">
+                <picture>
+                  <source type="image/avif" srcset="assets/screenshots/tab-vault-1-collapse.avif">
+                  <source type="image/webp" srcset="assets/screenshots/tab-vault-1-collapse.webp">
+                  <img class="lightbox-trigger" src="assets/screenshots/tab-vault-1-collapse.png" alt="Tab Vault dashboard collapsing open tabs into organized groups" loading="lazy" decoding="async" width="1280" height="800">
+                </picture>
+              </div>
+
+              <ul class="card-points">
+                <li>Instant tab suspension saving up to 95% browser memory</li>
+                <li>Searchable vaults, rolling crash-resilient auto-snapshots</li>
+                <li>100% on-device IndexedDB storage &amp; zero external network requests</li>
+              </ul>
+            </div>
+
+            <div class="card-footer">
+              <span class="badge badge-edge">Edge Verified</span>
+              <div class="card-actions-group">
+                <button type="button" class="btn btn-preview btn-sm" data-preview="tab-vault" aria-label="Preview Tab Vault interactive modal">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  Preview
+                </button>
+                <a href="https://microsoftedge.microsoft.com/addons/detail/paedfgpjmkmmodbcimbkjkkdlfibfpbc" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Get on Edge — Tab Vault">Get on Edge</a>
+                <a href="/tab-vault/" class="btn btn-ghost btn-sm" aria-label="Tab Vault product details">Product details</a>
+              </div>
+            </div>
+            <div class="card-version-micro">v1.0.0 &middot; Updated Oct 2026</div>
+          </article>
         </div>
         <div class="section-footer-privacy"><a href="privacy.html" class="footer-privacy-link">&bull; Minimal permissions, zero tracking, zero remote servers &mdash; Read Full Privacy Statement</a></div>
       </div>

@@ -199,13 +199,14 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     assert.equal(cspViolations.length, 0, 'No CSP violations during lightbox interaction');
   });
 
-  it('4b. Product Preview Modal: clicking Preview on all 5 products opens correct modal with loaded images, thumbnail nav, and closes cleanly', async () => {
+  it('4b. Product Preview Modal: clicking Preview on all 6 products opens correct modal with loaded images, thumbnail nav, and closes cleanly', async () => {
     const products = [
       { id: 'word-to-latex', name: 'Word to LaTeX', storePrefix: 'https://microsoftedge.microsoft.com/addons/detail/lpehnpdkdiddlppobkcicdondaebijlf' },
       { id: 'table-extractor', name: 'Table Extractor', storePrefix: 'https://microsoftedge.microsoft.com/addons/detail/pekammppimoaikllkhhebocbkbidoboe' },
       { id: 'bulkgrab', name: 'BulkGrab', storePrefix: 'https://microsoftedge.microsoft.com/addons/detail/cphidoikhnjdkeldgelkpddnkojlfccc' },
       { id: 'seo-inspector', name: 'SEO Inspector', storePrefix: 'https://microsoftedge.microsoft.com/addons/detail/jbnjjkfkcmfkjamakndojbkjanijlfmd' },
       { id: 'bilexi', name: 'Bilexi', storePrefix: 'https://microsoftedge.microsoft.com/addons/detail/mheomahlcfddgjlemnolopfbhojfpmpb' },
+      { id: 'tab-vault', name: 'Tab Vault', storePrefix: 'https://microsoftedge.microsoft.com/addons/detail/paedfgpjmkmmodbcimbkjkkdlfibfpbc' },
     ];
 
     for (const prod of products) {
