@@ -20,6 +20,9 @@
 /404.html
   Cache-Control: no-cache, must-revalidate
 
+/word-to-latex-converter/*
+  Cache-Control: no-cache, must-revalidate
+
 
 # Core portfolio UI scripts & styles: require freshness revalidation on updates
 /assets/js/site.js

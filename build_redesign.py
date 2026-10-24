@@ -488,7 +488,7 @@ html = r"""<!DOCTYPE html>
                 Get on Microsoft Edge Add-ons
               </a>
               <span class="badge badge-edge">Edge Add-on</span>
-              <a href="#live-converter" class="btn btn-edge btn-converter-tint" aria-label="Try Online Converter demo on this page">
+              <a href="/word-to-latex-converter/" class="btn btn-edge btn-converter-tint" aria-label="Try Online Converter on dedicated landing page">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                 Try Online Converter
               </a>
@@ -1080,9 +1080,9 @@ html = r"""<!DOCTYPE html>
       </div>
 
       <div class="footer-links">
-        <a href="#flagship" class="footer-link">Word to LaTeX</a>
+        <a href="/word-to-latex/" class="footer-link">Word to LaTeX</a>
         <a href="#portfolio" class="footer-link">Products</a>
-        <a href="#live-converter" class="footer-link">Online Converter</a>
+        <a href="/word-to-latex-converter/" class="footer-link">Online Converter</a>
         <a href="#contact" class="footer-link">Support &amp; Contact</a>
         <a href="privacy.html" class="footer-link">Privacy Policy</a>
         <a href="CHANGELOG.md" class="footer-link">Changelog</a>

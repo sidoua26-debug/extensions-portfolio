@@ -25,6 +25,9 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     server = http.createServer((req, res) => {
       const safeUrl = new URL(req.url, 'http://localhost').pathname;
       let localPath = path.join(PORTFOLIO_ROOT, safeUrl === '/' ? 'index.html' : safeUrl);
+      if (fs.existsSync(localPath) && fs.statSync(localPath).isDirectory()) {
+        localPath = path.join(localPath, 'index.html');
+      }
 
       if (fs.existsSync(localPath) && fs.statSync(localPath).isFile()) {
         const mime = safeUrl.endsWith('.js') ? 'application/javascript'
@@ -32,6 +35,7 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
           : safeUrl.endsWith('.docx') ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
           : safeUrl.endsWith('.png') ? 'image/png'
           : safeUrl.endsWith('.css') ? 'text/css'
+          : safeUrl.endsWith('.xml') ? 'application/xml'
           : 'text/html';
 
         const headers = {
@@ -41,7 +45,7 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
           'Referrer-Policy': 'strict-origin-when-cross-origin',
         };
 
-        if (safeUrl === '/' || safeUrl === '/index.html') {
+        if (mime === 'text/html') {
           headers['Content-Security-Policy'] = CSP_HEADER;
           headers['Cache-Control'] = 'no-cache, must-revalidate';
         } else if (safeUrl === '/assets/js/site.js' || safeUrl === '/assets/css/styles.css') {
@@ -431,6 +435,59 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
       };
     });
     assert.ok(ratioInfo.ratio > 15, `Text-to-HTML ratio should exceed 15%, got ${ratioInfo.ratio.toFixed(2)}%`);
+  });
+
+  it('7b. Dedicated landing page /word-to-latex-converter/ passes SEO, Schema, accessibility, and functional conversion', async () => {
+    const convPage = await browserContext.newPage();
+    convPage.on('console', (msg) => {
+      const text = msg.text();
+      if (text.toLowerCase().includes('content security policy') || text.toLowerCase().includes('violates')) {
+        cspViolations.push(text);
+      }
+      if (msg.type() === 'error' && !text.includes('ERR_NETWORK_CHANGED')) {
+        consoleErrors.push(text);
+      }
+    });
+
+    await convPage.goto(`${serverUrl}/word-to-latex-converter/`, { waitUntil: 'networkidle' });
+
+    // 1. Title, meta description, and canonical
+    const title = await convPage.title();
+    assert.ok(title.includes('Convert Word Documents to LaTeX Online'), `Title should match, got: ${title}`);
+
+    const metaDesc = await convPage.$eval('meta[name="description"]', (el) => el.getAttribute('content'));
+    assert.ok(metaDesc.length <= 160 && metaDesc.length >= 120, `Meta description should be between 120-160 chars, got ${metaDesc.length}`);
+
+    const canonicalHref = await convPage.$eval('link[rel="canonical"]', (el) => el.getAttribute('href'));
+    assert.equal(canonicalHref, 'https://extensionguy.me/word-to-latex-converter/');
+
+    // 2. Structured Data (WebApplication + FAQPage)
+    const jsonLdContent = await convPage.$eval('script[type="application/ld+json"]', (el) => el.textContent);
+    assert.ok(jsonLdContent, 'JSON-LD script exists');
+    const parsedJsonLd = JSON.parse(jsonLdContent);
+    assert.ok(parsedJsonLd['@graph'].some((item) => item['@type'] === 'WebApplication'), 'Has WebApplication structured data');
+    assert.ok(parsedJsonLd['@graph'].some((item) => item['@type'] === 'FAQPage'), 'Has FAQPage structured data');
+
+    // 3. Functional Conversion on the new page
+    const fileInput = await convPage.$('#docxFileInput');
+    await fileInput.setInputFiles(FIXTURE_DOCX);
+
+    await convPage.waitForSelector('#converterOutputContainer:not([hidden])', { timeout: 15000 });
+    const outputText = await convPage.$eval('#converterOutputArea', (ta) => ta.value);
+    assert.ok(outputText.includes('Heading Level 1'), 'Output contains converted heading');
+    assert.ok(outputText.includes('\\textbf{Bold Text}'), 'Output contains LaTeX bold tag');
+
+    // 4. Copy and Download actions
+    const copyDisabled = await convPage.$eval('#converterCopyBtn', (btn) => btn.disabled);
+    const downloadDisabled = await convPage.$eval('#converterDownloadBtn', (btn) => btn.disabled);
+    assert.equal(copyDisabled, false, 'Copy button is enabled after conversion');
+    assert.equal(downloadDisabled, false, 'Download button is enabled after conversion');
+
+    // 5. Check sitemap contains /word-to-latex-converter/
+    const sitemapContent = fs.readFileSync(path.join(PORTFOLIO_ROOT, 'sitemap.xml'), 'utf-8');
+    assert.ok(sitemapContent.includes('https://extensionguy.me/word-to-latex-converter/'), 'sitemap.xml lists word-to-latex-converter');
+
+    await convPage.close();
   });
 
   it('8. Zero CSP violations or console errors were recorded across entire test run', () => {
