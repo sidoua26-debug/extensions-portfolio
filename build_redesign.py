@@ -241,7 +241,7 @@ html = r"""<!DOCTYPE html>
           <li><a href="#portfolio" class="nav-link">Products</a></li>
           <li><a href="#live-converter" class="nav-link">Demo</a></li>
           <li><a href="#contact" class="nav-link">Contact</a></li>
-          <li><a href="privacy.html" class="nav-link">Privacy</a></li>
+          <li><a href="/privacy" class="nav-link">Privacy</a></li>
         </ul>
       </nav>
 
@@ -372,6 +372,16 @@ html = r"""<!DOCTYPE html>
                 </div>
               </div>
               <textarea id="converterOutputArea" class="output-textarea" readonly spellcheck="false" aria-label="LaTeX Output"></textarea>
+              <div id="converterSuccessCTA" class="post-conversion-banner" style="margin-top: 16px; padding: 16px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; font-size: 0.88rem;">
+                <div>
+                  <strong style="color: var(--text-main); display: block; margin-bottom: 2px;">Need conversion directly in your browser toolbar?</strong>
+                  <span style="color: var(--text-secondary);">Install Word to LaTeX (Offline) for permanent offline access and clipboard table support.</span>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                  <a href="https://microsoftedge.microsoft.com/addons/detail/word-to-latex-offline/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm">Get on Edge</a>
+                  <a href="https://github.com/sidoua26-debug/extensions-portfolio/issues" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">Report an Issue</a>
+                </div>
+              </div>
             </div>
 
             <div class="converter-attribution">
@@ -621,7 +631,7 @@ html = r"""<!DOCTYPE html>
                   Preview
                 </button>
                 <a href="https://microsoftedge.microsoft.com/addons/detail/pekammppimoaikllkhhebocbkbidoboe" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Get on Edge — Table Extractor">Get on Edge</a>
-                <a href="https://chromewebstore.google.com/detail/fjpbjpmccomonleefghgalfoioekhlhm?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" class="btn btn-chrome btn-sm" aria-label="Get on Chrome — Table Extractor">Get on Chrome</a>
+                <a href="https://chromewebstore.google.com/detail/fjpbjpmccomonleefghgalfoioekhlhm" target="_blank" rel="noopener noreferrer" class="btn btn-chrome btn-sm" aria-label="Get on Chrome — Table Extractor">Get on Chrome</a>
                 <a href="/table-extractor/" class="btn btn-ghost btn-sm" aria-label="Table Extractor product details">Product details</a>
               </div>
             </div>
@@ -676,7 +686,7 @@ html = r"""<!DOCTYPE html>
                   Preview
                 </button>
                 <a href="https://microsoftedge.microsoft.com/addons/detail/cphidoikhnjdkeldgelkpddnkojlfccc" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" aria-label="Get on Edge — BulkGrab">Get on Edge</a>
-                <a href="https://chromewebstore.google.com/detail/lnmmneljpgdefilkokfpmiohjgfjcljn?utm_source=item-share-cb" target="_blank" rel="noopener noreferrer" class="btn btn-chrome btn-sm" aria-label="Get on Chrome — BulkGrab">Get on Chrome</a>
+                <a href="https://chromewebstore.google.com/detail/lnmmneljpgdefilkokfpmiohjgfjcljn" target="_blank" rel="noopener noreferrer" class="btn btn-chrome btn-sm" aria-label="Get on Chrome — BulkGrab">Get on Chrome</a>
                 <a href="/bulkgrab/" class="btn btn-ghost btn-sm" aria-label="BulkGrab product details">Product details</a>
               </div>
             </div>
@@ -847,6 +857,106 @@ html = r"""<!DOCTYPE html>
     </section>
 
     <!-- ======================================================================
+         ABOUT & PHILOSOPHY
+         ====================================================================== -->
+    <section class="about-section" id="about" aria-labelledby="aboutHeading">
+      <div class="container">
+        <div class="about-card">
+          <div class="section-eyebrow">Engineering Philosophy</div>
+          <h2 id="aboutHeading" class="section-heading">Hi, I'm Sid</h2>
+
+          <p class="about-body-text">
+            I build focused browser extensions that do one job well and respect your privacy. I started with Word to LaTeX after losing hours reformatting a manuscript, and I didn't want to upload it to a random website. Word to LaTeX and Bilexi run fully offline; Table Extractor, BulkGrab, and SEO Inspector process all data locally inside your browser and don't send your data to any server. Every extension is designed for daily productivity without bloated tracking, unnecessary permissions, or intrusive account walls.
+          </p>
+
+          <div class="about-values-grid">
+            <div class="about-value-item">
+              <h3 class="about-value-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Private by design
+              </h3>
+              <p class="about-value-text">
+                All heavy compute and file transformations—including Pandoc WebAssembly compilation and table parsing—execute entirely inside your local browser sandbox. Your private documents, research manuscripts, and clipboard contents never leave your device.
+              </p>
+            </div>
+
+            <div class="about-value-item">
+              <h3 class="about-value-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Minimal permissions
+              </h3>
+              <p class="about-value-text">
+                Each extension requests only the permissions it needs; they are listed on its store page. There is zero browsing activity monitoring and zero third-party telemetry SDKs.
+              </p>
+            </div>
+
+            <div class="about-value-item">
+              <h3 class="about-value-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                Open to check
+              </h3>
+              <p class="about-value-text">
+                Transparent, open-source codebases hosted on GitHub. Anyone can inspect the implementation, audit security boundaries, verify dependency manifests, and confirm zero-telemetry claims firsthand.
+              </p>
+            </div>
+          </div>
+
+          <div class="about-buttons">
+            <a href="mailto:contact@extensionguy.me?subject=Extension%20Request" class="btn btn-edge" aria-label="Request an extension from Sid">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Request an extension
+            </a>
+            <a href="https://github.com/sidoua26-debug/extensions-portfolio/issues" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" aria-label="Report a bug on GitHub for any extension">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Report a bug
+            </a>
+            <a href="https://github.com/sidoua26-debug" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" aria-label="View Sid's GitHub profile">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              GitHub (@sidoua26-debug)
+            </a>
+            <a href="mailto:contact@extensionguy.me" class="btn btn-ghost" aria-label="Send email to contact@extensionguy.me">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              contact@extensionguy.me
+            </a>
+          </div>
+          <div class="section-footer-privacy"><a href="privacy.html" class="footer-privacy-link">&bull; Committed to user privacy &mdash; Read Our Zero-Tracking Privacy Policy</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         FREQUENTLY ASKED QUESTIONS
+         ====================================================================== -->
+    <section class="faq-section" id="faq" aria-labelledby="faqHeading" style="padding: clamp(32px, 5vw, 64px) 0; border-top: 1px solid var(--border-page); background: var(--bg-surface);">
+      <div class="container">
+        <div class="faq-container" style="max-width: 820px; margin-inline: auto; text-align: left;">
+          <div class="section-eyebrow" style="text-align: center;">Common Questions</div>
+          <h2 id="faqHeading" class="section-heading" style="text-align: center; margin-bottom: 24px;">Frequently Asked Questions</h2>
+          <div class="faq-grid" style="display: grid; gap: 16px;">
+            <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
+              <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">Why prioritize 100% offline and local-first browser extensions?</strong>
+              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Most online document and table converters upload your confidential files, sensitive spreadsheets, and unpublished academic manuscripts to third-party cloud servers where they can be logged, scraped, or retained. Our extensions—such as Word to LaTeX and Bilexi—run completely offline inside your local browser memory using WebAssembly. Your proprietary research and private data remain strictly on your own hardware.</p>
+            </div>
+            <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
+              <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">How does client-side WebAssembly conversion work in Word to LaTeX?</strong>
+              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">We compile Pandoc and its necessary Unix utilities directly into a WebAssembly binary. When you load or drop a DOCX manuscript into Word to LaTeX, the extension streams the file into an isolated browser Web Worker thread running the Pandoc WASM runtime. The document structure, equation formatting, and tables are parsed in-memory, returning compilation-ready LaTeX snippets in milliseconds without establishing any outbound network socket connection.</p>
+            </div>
+            <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
+              <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">Do Table Extractor, BulkGrab, or SEO Inspector send telemetry to remote servers?</strong>
+              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">No. Table Extractor parses HTML tables and virtualized AG Grid containers directly in browser memory and generates CSV and Excel XLSX files with local UTF-8 BOM encoding. BulkGrab streams file downloads directly from the host website into your browser storage and packages ZIP archives on-device with zero intermediary servers. SEO Inspector performs DOM audits and Performance Timing evaluations entirely on the client side without telemetry beacons. Optional Pro licensing for Table Extractor and BulkGrab attempts to verify payment IDs via an intermediary proxy when browser permissions allow; under no circumstances are table contents, extracted spreadsheets, downloaded files, or media URLs transmitted to the licensing service, as disclosed in our Privacy Policy.</p>
+            </div>
+            <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
+              <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">How are software updates and security patches published?</strong>
+              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">All extensions are submitted directly to the official Microsoft Edge Add-ons catalog and Chrome Web Store where they undergo store review and security scans before distribution. Source code repositories and version changelogs are published publicly on GitHub, enabling developers and researchers to inspect source code and extension manifests independently.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======================================================================
          INSTALLATION GUIDE
          ====================================================================== -->
     <section class="install-section" id="install" aria-labelledby="installHeading">
@@ -961,107 +1071,7 @@ html = r"""<!DOCTYPE html>
       </div>
     </section>
 
-    <!-- ======================================================================
-         ABOUT & PHILOSOPHY
-         ====================================================================== -->
-    <section class="about-section" id="about" aria-labelledby="aboutHeading">
-      <div class="container">
-        <div class="about-card">
-          <div class="section-eyebrow">Engineering Philosophy</div>
-          <h2 id="aboutHeading" class="section-heading">Hi, I'm Sid</h2>
-
-          <p class="about-body-text">
-            I build focused browser extensions that do one job well and respect your privacy. I started with Word to LaTeX after losing hours reformatting a manuscript, and I didn't want to upload it to a random website. Word to LaTeX and Bilexi run fully offline; Table Extractor, BulkGrab, and SEO Inspector process all data locally inside your browser and don't send your data to any server. Every extension is designed for daily productivity without bloated tracking, unnecessary permissions, or intrusive account walls.
-          </p>
-
-          <div class="about-values-grid">
-            <div class="about-value-item">
-              <h3 class="about-value-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                Private by design
-              </h3>
-              <p class="about-value-text">
-                All heavy compute and file transformations—including Pandoc WebAssembly compilation and table parsing—execute entirely inside your local browser sandbox. Your private documents, research manuscripts, and clipboard contents never leave your device.
-              </p>
-            </div>
-
-            <div class="about-value-item">
-              <h3 class="about-value-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                Minimal permissions
-              </h3>
-              <p class="about-value-text">
-                Each extension requests only the permissions it needs; they are listed on its store page. There is zero browsing activity monitoring and zero third-party telemetry SDKs.
-              </p>
-            </div>
-
-            <div class="about-value-item">
-              <h3 class="about-value-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-                Open to check
-              </h3>
-              <p class="about-value-text">
-                Transparent, open-source codebases hosted on GitHub. Anyone can inspect the implementation, audit security boundaries, verify dependency manifests, and confirm zero-telemetry claims firsthand.
-              </p>
-            </div>
-          </div>
-
-          <div class="about-buttons">
-            <a href="mailto:contact@extensionguy.me?subject=Extension%20Request" class="btn btn-edge" aria-label="Request an extension from Sid">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              Request an extension
-            </a>
-            <a href="https://github.com/sidoua26-debug/extensions-portfolio/issues" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" aria-label="Report a bug on GitHub for any extension">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-              Report a bug
-            </a>
-            <a href="https://github.com/sidoua26-debug" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" aria-label="View Sid's GitHub profile">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-              GitHub (@sidoua26-debug)
-            </a>
-            <a href="mailto:contact@extensionguy.me" class="btn btn-ghost" aria-label="Send email to contact@extensionguy.me">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              contact@extensionguy.me
-            </a>
-          </div>
-          <div class="section-footer-privacy"><a href="privacy.html" class="footer-privacy-link">&bull; Committed to user privacy &mdash; Read Our Zero-Tracking Privacy Policy</a></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ======================================================================
-         FREQUENTLY ASKED QUESTIONS
-         ====================================================================== -->
-    <section class="faq-section" id="faq" aria-labelledby="faqHeading" style="padding: clamp(32px, 5vw, 64px) 0; border-top: 1px solid var(--border-page); background: var(--bg-surface);">
-      <div class="container">
-        <div class="faq-container" style="max-width: 820px; margin-inline: auto; text-align: left;">
-          <div class="section-eyebrow" style="text-align: center;">Common Questions</div>
-          <h2 id="faqHeading" class="section-heading" style="text-align: center; margin-bottom: 24px;">Frequently Asked Questions</h2>
-          <div class="faq-grid" style="display: grid; gap: 16px;">
-            <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
-              <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">Why prioritize 100% offline and local-first browser extensions?</strong>
-              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Most online document and table converters upload your confidential files, sensitive spreadsheets, and unpublished academic manuscripts to third-party cloud servers where they can be logged, scraped, or retained. Our extensions—such as Word to LaTeX and Bilexi—run completely offline inside your local browser memory using WebAssembly. Your proprietary research and private data remain strictly on your own hardware.</p>
-            </div>
-            <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
-              <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">How does client-side WebAssembly conversion work in Word to LaTeX?</strong>
-              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">We compile Pandoc and its necessary Unix utilities directly into a WebAssembly binary. When you load or drop a DOCX manuscript into Word to LaTeX, the extension streams the file into an isolated browser Web Worker thread running the Pandoc WASM runtime. The document structure, equation formatting, and tables are parsed in-memory, returning compilation-ready LaTeX snippets in milliseconds without establishing any outbound network socket connection.</p>
-            </div>
-            <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
-              <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">Do Table Extractor, BulkGrab, or SEO Inspector send telemetry to remote servers?</strong>
-              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">No. Table Extractor parses HTML tables and virtualized AG Grid containers directly in browser memory and generates CSV and Excel XLSX files with local UTF-8 BOM encoding. BulkGrab streams file downloads directly from the host website into your browser storage and packages ZIP archives on-device with zero intermediary servers. SEO Inspector performs DOM audits and Performance Timing evaluations entirely on the client side without telemetry beacons. Optional Pro licensing for Table Extractor and BulkGrab attempts to verify payment IDs via an intermediary proxy when browser permissions allow; under no circumstances are table contents, extracted spreadsheets, downloaded files, or media URLs transmitted to the licensing service, as disclosed in our Privacy Policy.</p>
-            </div>
-            <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
-              <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">How are software updates and security patches published?</strong>
-              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">All extensions are submitted directly to the official Microsoft Edge Add-ons catalog and Chrome Web Store where they undergo store review and security scans before distribution. Source code repositories and version changelogs are published publicly on GitHub, enabling developers and researchers to inspect source code and extension manifests independently.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ========================================================================
+    <!-- ========================================================================
        FOOTER
        ======================================================================== -->
   <footer class="footer" role="contentinfo">
