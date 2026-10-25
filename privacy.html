@@ -106,27 +106,16 @@
       --accent: #818cf8;
     }
 
-    html[data-theme="light"] {
-      --bg-page: #f8fafc;
-      --bg-surface: #ffffff;
-      --border-page: #e2e8f0;
-      --border-subtle: #cbd5e1;
-      --text-main: #090d16;
-      --text-secondary: #475569;
-      --text-tertiary: #64748b;
-      --accent: #4f46e5;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: var(--font-sans);
-      background-color: var(--bg-page);
+      background: var(--bg-page);
       color: var(--text-main);
       line-height: 1.7;
-      padding: clamp(24px, 5vw, 64px) 16px;
+      padding: 40px 20px 80px;
     }
     .prose-container {
-      max-width: 780px;
+      max-width: 820px;
       margin-inline: auto;
       background: var(--bg-surface);
       border: 1px solid var(--border-page);
@@ -135,8 +124,8 @@
     }
     h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; }
     .updated-text { font-size: 0.85rem; color: var(--text-tertiary); margin-bottom: 32px; }
-    h2 { font-size: 1.35rem; font-weight: 700; margin-top: 32px; margin-bottom: 12px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px; }
-    h3 { font-size: 1.05rem; font-weight: 600; margin-top: 20px; margin-bottom: 6px; color: var(--text-main); }
+    h2 { font-size: 1.35rem; font-weight: 700; margin-top: 32px; margin-bottom: 12px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px; scroll-margin-top: 24px; }
+    h3 { font-size: 1.05rem; font-weight: 600; margin-top: 20px; margin-bottom: 6px; color: var(--text-main); scroll-margin-top: 24px; }
     p, ul { color: var(--text-secondary); margin-bottom: 16px; font-size: 0.95rem; }
     ul { padding-left: 24px; }
     li { margin-bottom: 8px; }
@@ -161,17 +150,58 @@
         border-color: rgba(129, 140, 248, 0.25);
       }
     }
+    .toc-box {
+      background: var(--bg-page);
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-md);
+      padding: 18px 22px;
+      margin-bottom: 32px;
+    }
+    .toc-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+    .toc-list {
+      list-style-type: none;
+      padding-left: 0;
+      margin-bottom: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 6px 16px;
+      font-size: 0.9rem;
+    }
+    .toc-list li {
+      margin-bottom: 0;
+    }
   </style>
 </head>
 <body>
-  <div class="prose-container">
-    <a href="index.html" class="nav-back">&larr; Back to Extensions Portfolio</a>
+  <main class="prose-container">
+    <a href="/" class="nav-back">&larr; Back to Extensions Portfolio</a>
     <h1>Privacy Policy</h1>
-    <div class="updated-text">Last Updated: October 24, 2026 &middot; Data Controller / Developer: Sid (@sidoua26-debug)</div>
+    <div class="updated-text">Last Updated: October 25, 2026 &middot; Data Controller / Developer: Sid (@sidoua26-debug)</div>
 
     <div class="highlight-box">
-      <strong>Core Privacy Principle:</strong> Privacy-first design and local data processing. We do not operate user accounts, track individuals across websites, sell personal data, or deploy application-level telemetry. Our extensions are designed to process user content locally wherever possible. Website hosting infrastructure and optional licensing services may process the limited information described in this policy.
+      <strong>Core Privacy Principle:</strong> Privacy-first design and local data processing. We do not operate user accounts, track individuals across websites, sell personal data, or deploy application-level telemetry. Our extensions are designed to process user content locally wherever possible. Website hosting infrastructure and optional licensing services process only the limited technical information described in this policy.
     </div>
+
+    <nav class="toc-box" aria-label="Privacy Policy Sections">
+      <div class="toc-title">Table of Contents</div>
+      <ul class="toc-list">
+        <li><a href="#website">1. Website &amp; Infrastructure</a></li>
+        <li><a href="#word-to-latex">2. Word to LaTeX (Offline)</a></li>
+        <li><a href="#table-extractor">3. Table Extractor</a></li>
+        <li><a href="#bulkgrab">4. BulkGrab</a></li>
+        <li><a href="#seo-inspector">5. SEO Inspector</a></li>
+        <li><a href="#bilexi">6. Bilexi</a></li>
+        <li><a href="#tab-vault">7. Tab Vault</a></li>
+        <li><a href="#optional-pro-licensing">8. Optional Pro Licensing</a></li>
+        <li><a href="#hosting-and-third-parties">9. Hosting &amp; Third Parties</a></li>
+        <li><a href="#contact">10. Contact &amp; Inquiries</a></li>
+      </ul>
+    </nav>
 
     <p>This Privacy Policy provides clear, transparent disclosures regarding how data is handled when you visit this website (the "Site") and when you install and use our browser extensions. This document explains the exact scope of data processing, device storage, browser permissions, and third-party infrastructure.</p>
 
@@ -182,12 +212,12 @@
       <li><strong>The Published Browser Extensions:</strong> Independent client software packages installed into your browser from official add-on marketplaces (Microsoft Edge Add-ons and Google Chrome Web Store). Each extension runs under its own distinct permission model within your browser sandbox.</li>
     </ul>
 
-    <h2>2. Website Visitors (extensionguy.me)</h2>
+    <h2 id="website">2. Website Visitors (extensionguy.me)</h2>
     <p>The Site is built as a static client-side web application. We have engineered the site to minimize data exposure:</p>
     <ul>
       <li><strong>No First-Party Analytics or Advertising Trackers:</strong> We do not embed first-party analytics scripts, Google Analytics, tracking pixels, marketing cookies, or fingerprinting scripts.</li>
       <li><strong>Local Storage (Theme Preference):</strong> When you toggle between Light and Dark mode on pages with theme controls, the site saves your choice (<code>theme</code>) in your browser's local storage (<code>localStorage</code>). This value remains on your device and is not transmitted to server endpoints.</li>
-      <li><strong>In-Browser Converter Demo:</strong> The live Word-to-LaTeX demonstration on the homepage executes entirely on your hardware. It downloads the Pandoc WebAssembly binary (<code>assets/wasm/pandoc.wasm.gz</code>) from our static host, starts an in-browser Web Worker, and converts documents in memory. No document content, extracted text, or generated LaTeX snippets are transmitted to remote servers.</li>
+      <li><strong>In-Browser Converter Demo:</strong> The live Word-to-LaTeX demonstration executes entirely on your hardware. It downloads the Pandoc WebAssembly binary (<code>assets/wasm/pandoc.wasm.gz</code>) from our static host, starts an in-browser Web Worker, and converts documents in memory. No document content, extracted text, or generated LaTeX snippets are transmitted to remote servers.</li>
       <li><strong>Hosting and Infrastructure Server Logs:</strong> The Site is hosted on and served through Cloudflare Pages. When your browser requests static files, Cloudflare automatically processes standard HTTP request metadata necessary for content delivery, DDoS mitigation, security, and edge caching (such as your IP address, browser User-Agent, request URL, and timestamp). Cloudflare handles this operational data in accordance with its own <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>. We do not combine these infrastructure logs with personal profiles.</li>
       <li><strong>Self-Hosted Fonts &amp; Assets:</strong> All stylesheets, typography (Geist and JetBrains Mono WOFF2 font files), icons, images, and WebAssembly binaries are served directly from the same static origin or edge cache. There are no runtime requests to Google Fonts, remote CDNs, or external script hosts.</li>
     </ul>
@@ -195,7 +225,7 @@
     <h2>3. Browser Extensions: Data Processing &amp; Storage</h2>
     <p>Every browser extension published by ExtensionGuy is designed to operate locally on your computer without application-level telemetry or background user tracking. The specific data practices for each extension are detailed below:</p>
 
-    <h3>Word to LaTeX (Offline)</h3>
+    <h3 id="word-to-latex">Word to LaTeX (Offline)</h3>
     <ul>
       <li><strong>Data Processed:</strong> Word documents (<code>.docx</code>), XML markup, mathematical equations (OMML/MathML), document tables, and plain text pasted or dropped into the interface.</li>
       <li><strong>Processing Location:</strong> Processed locally in browser memory via WebAssembly (Pandoc WASM) and a dedicated Web Worker.</li>
@@ -203,50 +233,39 @@
       <li><strong>Storage &amp; Retention:</strong> Temporary in-memory processing. Document buffers and parsed results are cleared when the conversion tab or modal is closed. No files are uploaded or stored remotely.</li>
     </ul>
 
-    <h3>Table Extractor</h3>
+    <h3 id="table-extractor">Table Extractor</h3>
     <ul>
       <li><strong>Data Processed:</strong> HTML table elements and virtualized data grid structures (such as AG Grid or handsontable) rendered in the active browser tab you select.</li>
       <li><strong>Processing Location:</strong> Client-side execution in the active tab context. Table DOM elements are parsed in memory, and export files (CSV, XLSX with UTF-8 BOM, and JSON) are compiled directly on-device.</li>
-      <li><strong>Network Transmission:</strong> Extracted table data, cell values, and compiled spreadsheets are never transmitted to external servers. Ordinary table extraction runs 100% locally on your machine. The extension includes optional Pro licensing functionality:
-        <ul>
-          <li><strong>Attempted Invoice Creation (Optional):</strong> If you choose to initiate a license purchase by clicking "Pay with Crypto", the client-side code attempts to send a <code>POST</code> request containing only the JSON payload <code>{"product": "table-extractor"}</code> to an intermediary licensing proxy (a Cloudflare Worker at <code>bulkgrab-licensing.sidoua26.workers.dev</code>), which is designed to interface with NOWPayments to generate a checkout URL.</li>
-          <li><strong>Payment Verification &amp; Gift Codes (Optional):</strong> Submitting an online NOWPayments payment ID or server-side gift code attempts to send a <code>GET</code> request with query parameters (<code>payment_id=&lt;id&gt;&amp;product=table-extractor</code>) solely to check activation status. Offline promotional gift codes matching <code>TE-GIFT-</code> are validated directly in local JavaScript without contacting external servers or transmitting network requests.</li>
-          <li><strong>Documented Permission Constraints vs. Runtime Status:</strong> Under official Chrome Manifest V3 documentation, cross-origin <code>fetch()</code> requests require explicit host permissions matching the target URL; a server's permissive CORS headers do not satisfy or bypass this extension permission requirement. Because the audited Table Extractor manifest omits both <code>host_permissions</code> and <code>optional_host_permissions</code>, documented extension security rules indicate that outbound online licensing requests will be blocked by the browser sandbox before reaching the server in standard installations (though this specific network failure has not been independently reproduced in an active end-to-end browser runtime test). We do not claim that remote requests successfully reach the licensing proxy. Under no circumstances does either flow transmit table contents, cell data, page URLs, or browsing history.</li>
-        </ul>
-      </li>
+      <li><strong>Network Transmission:</strong> Extracted table data, cell values, and compiled spreadsheets are never transmitted to external servers. Ordinary table extraction runs locally on your machine with no accounts or cloud API keys required. Optional Pro licensing functionality is described in Section 4 below.</li>
       <li><strong>Storage &amp; Permissions:</strong> Uses <code>activeTab</code> and <code>scripting</code> on demand when invoked. Uses <code>storage</code> to save display preferences and license tier status in <code>chrome.storage.local</code>. No table contents are written to persistent remote storage.</li>
     </ul>
 
-    <h3>BulkGrab</h3>
+    <h3 id="bulkgrab">BulkGrab</h3>
     <ul>
       <li><strong>Data Processed:</strong> Publicly accessible media URLs, image links, and downloadable document links discovered in the DOM of the active tab you choose to inspect.</li>
       <li><strong>Processing Location:</strong> On-device link filtering and client-side ZIP packaging using bundled client libraries (JSZip).</li>
-      <li><strong>Network Transmission:</strong> When you initiate individual downloads, your browser requests files directly from their original host web servers via standard browser downloads; BulkGrab does not route or proxy downloads through intermediary servers. When bundling files from external domains into a local ZIP archive, the extension requests the optional <code>&lt;all_urls&gt;</code> permission to fetch the binary file content directly into local memory. The extension also includes optional Pro licensing functionality:
-        <ul>
-          <li><strong>Attempted License Verification (Optional):</strong> Submitting a payment ID or promotional code in the options interface sends an internal extension message to the background service worker, which attempts to dispatch a <code>GET</code> request with <code>payment_id=&lt;id&gt;</code> to the Cloudflare Worker licensing proxy (<code>bulkgrab-licensing.sidoua26.workers.dev</code>) to check NOWPayments transaction status or server-side gift code eligibility. BulkGrab does not include offline client-side gift code redemption; all non-test activations query the licensing proxy.</li>
-          <li><strong>Documented Permission Constraints vs. Runtime Status:</strong> BulkGrab does not declare a dedicated host permission for the licensing Worker in <code>host_permissions</code>; it only declares <code>&lt;all_urls&gt;</code> under <code>optional_host_permissions</code>. Based on documented Manifest V3 security requirements, the licensing request may be blocked by the browser by default unless the user has explicitly granted this optional multi-site permission during previous ZIP export workflows (this distinction is based on documented platform permission models rather than runtime-reproduced validation). If executed, the request transmits only the payment identifier. Under no circumstances do licensing requests transmit discovered media URLs, download selections, or file contents.</li>
-        </ul>
-      </li>
+      <li><strong>Network Transmission:</strong> Your browser requests downloads directly from the source site; they do not pass through our servers. When bundling files from external domains into a local ZIP archive, the extension requests the optional <code>&lt;all_urls&gt;</code> permission to fetch the binary file content directly into local memory. Optional Pro licensing functionality is described in Section 4 below.</li>
       <li><strong>Storage &amp; Permissions:</strong> Uses <code>downloads</code> to save files to your local download directory, <code>activeTab</code> and <code>scripting</code> to detect page links on demand, <code>storage</code> for user options, and optional <code>&lt;all_urls&gt;</code> for cross-site ZIP bundling.</li>
     </ul>
 
-    <h3>SEO Inspector</h3>
+    <h3 id="seo-inspector">SEO Inspector</h3>
     <ul>
-      <li><strong>Data Processed:</strong> On-page technical metadata from the active tab: title tags, meta descriptions, canonical URLs, heading structure (H1–H6), Open Graph tags, JSON-LD structured data scripts, and browser Performance / Navigation Timing benchmarks.</li>
+      <li><strong>Data Processed:</strong> On-page technical metadata from the active tab: title tags, meta descriptions, canonical URLs, heading structure (H1–H6), Open Graph tags, JSON-LD structured data scripts, and browser Performance / Navigation Timing benchmarks (TTFB, DOMContentLoaded, load time).</li>
       <li><strong>Processing Location:</strong> Client-side inspection within browser memory.</li>
-      <li><strong>Network Transmission:</strong> None. Evaluates active tab DOM and Performance APIs locally; declares no host permissions or remote telemetry endpoints.</li>
+      <li><strong>Network Transmission:</strong> None. Evaluates active tab DOM and Performance Navigation Timing APIs locally; declares no host permissions or remote telemetry endpoints.</li>
       <li><strong>Storage &amp; Permissions:</strong> Uses <code>activeTab</code> and <code>scripting</code> on demand. User preferences (such as display options) are saved locally via <code>chrome.storage.local</code>, remaining on your device.</li>
     </ul>
 
-    <h3>Bilexi</h3>
+    <h3 id="bilexi">Bilexi</h3>
     <ul>
       <li><strong>Data Processed:</strong> Text typed or edited in browser input fields, textareas, or content-editable elements where autocorrect is enabled, specifically for French accent restoration and bilingual English/French spelling checks.</li>
       <li><strong>Processing Location:</strong> Local memory processing against bundled binary dictionary files. Keystrokes are evaluated locally without contacting remote language APIs or third-party spellcheck servers.</li>
-      <li><strong>Network Transmission:</strong> None. Requests no remote host permissions (<code>host_permissions: []</code>). Text inputs and corrections are processed locally within the active element.</li>
+      <li><strong>Network Transmission:</strong> Evaluates text locally against bundled offline dictionaries without contacting remote language APIs. Declares optional host permissions (<code>optional_host_permissions: ["*://*/*"]</code>) strictly for on-page text element inspection across web pages.</li>
       <li><strong>Storage &amp; Retention:</strong> User-defined custom dictionary words, ignored words, and user preferences are stored strictly on your device via <code>chrome.storage.local</code>. You can view or clear this custom vocabulary at any time through the extension settings.</li>
     </ul>
 
-    <h3>Tab Vault</h3>
+    <h3 id="tab-vault">Tab Vault</h3>
     <ul>
       <li><strong>Data Processed:</strong> URLs, page titles, and window groupings of open browser tabs that you explicitly choose to stash, suspend, or organize.</li>
       <li><strong>Processing Location:</strong> Local execution within the browser runtime. Tab grouping, memory suspension, and omnibox search queries (<code>tv &lt;query&gt;</code>) operate on-device.</li>
@@ -255,26 +274,22 @@
       <li><strong>Permissions:</strong> Declares <code>tabs</code> (to read and restore open tab titles and URLs), <code>storage</code> and <code>unlimitedStorage</code> (for IndexedDB and local preference persistence), <code>alarms</code> (for scheduled local rolling snapshots), <code>downloads</code> (for manual JSON backup exports), <code>offscreen</code> (to create local Blob URLs for large backup exports exceeding 2MB without freezing the service worker), and <code>contextMenus</code> (for right-click tab-stashing shortcuts).</li>
     </ul>
 
-    <h2>4. Files, Content &amp; Telemetry Commitments</h2>
-    <p>Across all products, we adhere to clear standards regarding your content:</p>
+    <h2 id="optional-pro-licensing">4. Optional Pro Licensing (Table Extractor &amp; BulkGrab)</h2>
+    <p>Optional Pro licensing for Table Extractor and BulkGrab attempts to verify payment IDs via an intermediary proxy when browser permissions allow; under no circumstances are table contents, extracted spreadsheets, downloaded files, or media URLs transmitted to the licensing service, as disclosed in our Privacy Policy.</p>
     <ul>
-      <li><strong>No Content Scraping or Reselling:</strong> We do not view, sell, rent, license, or monetize the documents, spreadsheets, files, tab lists, or text you process through our extensions.</li>
-      <li><strong>No Behavioral Tracking:</strong> We do not track your browsing habits across different websites, construct advertising profiles, or monetize user data.</li>
-      <li><strong>Zero Telemetry Beacons:</strong> Our extensions are authored without embedded third-party analytics or crash-reporting SDKs (such as Google Analytics, Segment, or Sentry). Diagnostic logs remain within your local browser developer console.</li>
+      <li><strong>Scope:</strong> Pro licensing is strictly optional and applies only to Table Extractor and BulkGrab. All core table extraction, spreadsheet compiling, link discovery, and downloading features operate without licensing.</li>
+      <li><strong>Stage A — Extension to Cloudflare Worker Proxy:</strong> The extensions attempt to contact an intermediary Cloudflare Worker (<code>bulkgrab-licensing.sidoua26.workers.dev</code>). For invoice creation, Table Extractor transmits <code>{"product": "table-extractor"}</code>. For payment verification, Table Extractor submits query parameters containing the user-provided payment ID and product identifier (<code>payment_id=&lt;id&gt;&amp;product=table-extractor</code>), while BulkGrab transmits <code>payment_id=&lt;id&gt;</code>. Promotional gift codes with prefix <code>TE-GIFT-</code> are validated strictly in local JavaScript and generate no network requests. When an outbound request reaches the Worker proxy, Cloudflare processes standard HTTP connection metadata (client IP address, request timestamp, and headers).</li>
+      <li><strong>Stage B — Cloudflare Worker to NOWPayments:</strong> When an invoice creation request reaches the Worker proxy, the Worker generates the order metadata and submits invoice parameters to NOWPayments (<a href="https://nowpayments.io/privacy-policy" target="_blank" rel="noopener noreferrer">NOWPayments Privacy Policy</a>). For verification requests, the Worker queries NOWPayments using the payment ID. Neither stage ever transmits table contents, extracted files, page URLs, or browsing history.</li>
     </ul>
 
-    <h2>5. Third-Party Services &amp; External Links</h2>
+    <h2 id="hosting-and-third-parties">5. Hosting &amp; Third-Party Infrastructure</h2>
     <p>When you interact with external services, their respective privacy policies govern your data:</p>
     <ul>
+      <li><strong>Cloudflare Pages (Website Hosting):</strong> The Site is hosted on Cloudflare Pages. Content delivery, DDoS mitigation, and edge caching are handled in accordance with the <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Cloudflare Privacy Policy</a>.</li>
       <li><strong>Browser Add-on Marketplaces:</strong> Installing extensions through the <a href="https://microsoftedge.microsoft.com/addons/" target="_blank" rel="noopener noreferrer">Microsoft Edge Add-ons catalog</a> or the <a href="https://chromewebstore.google.com/" target="_blank" rel="noopener noreferrer">Chrome Web Store</a> is governed by Microsoft's and Google's store terms and privacy statements. Marketplaces may collect installation counts and crash telemetry according to your browser settings.</li>
-      <li><strong>Cryptocurrency Licensing Gateway (NOWPayments):</strong> For users who optionally choose to initiate invoice creation or submit a payment ID in Table Extractor or BulkGrab, licensing features attempt communication across two separate technical stages:
-        <ul>
-          <li><strong>Stage A — Extension to Cloudflare Worker Proxy:</strong> The extensions attempt to contact an intermediary Cloudflare Worker (<code>bulkgrab-licensing.sidoua26.workers.dev</code>). For invoice creation, Table Extractor transmits <code>{"product": "table-extractor"}</code>, while BulkGrab sends a POST request without a product payload. For payment verification, Table Extractor submits query parameters containing the user-provided payment ID and product identifier (<code>payment_id=&lt;id&gt;&amp;product=table-extractor</code>), while BulkGrab transmits <code>payment_id=&lt;id&gt;</code> (promotional gift codes with prefix <code>TE-GIFT-</code> are validated strictly in local JavaScript and generate no network requests). As disclosed in Section 3, these outbound requests may be blocked by browser extension sandbox policies before reaching the network (Table Extractor lacks required host permissions, and BulkGrab lacks active permissions unless optional multi-site access was granted). When a request reaches the Worker, Cloudflare processes standard HTTP connection metadata (client IP address, request timestamp, and headers); we make no unverified claims regarding Cloudflare's internal log retention schedules.</li>
-          <li><strong>Stage B — Cloudflare Worker to NOWPayments:</strong> When an invoice creation request reaches the Worker proxy, the Worker generates the order metadata (order ID, price amount of $9.99, and currency) and submits invoice parameters to NOWPayments (<a href="https://nowpayments.io/privacy-policy" target="_blank" rel="noopener noreferrer">NOWPayments Privacy Policy</a>). For verification requests, the Worker first checks internal server-side gift codes; if a code is validated internally by the Worker, NOWPayments is not contacted and does not receive that code. For standard payment verification, the Worker queries NOWPayments using the payment ID. Neither stage ever transmits table contents, extracted files, page URLs, or browsing history.</li>
-        </ul>
-      </li>
+      <li><strong>Cryptocurrency Licensing Gateway (NOWPayments):</strong> For users who optionally choose to initiate license purchases in Table Extractor or BulkGrab, payment processing is handled through NOWPayments (<a href="https://nowpayments.io/privacy-policy" target="_blank" rel="noopener noreferrer">NOWPayments Privacy Policy</a>).</li>
       <li><strong>GitHub:</strong> Links to source code repositories or developer profiles point to <a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a>, which collects visitor and account information under GitHub's Privacy Statement.</li>
-      <li><strong>External Websites:</strong> Our extensions operate on web pages you navigate to (such as Table Extractor or BulkGrab). Those target websites maintain their own independent terms and data practices.</li>
+      <li><strong>External Target Websites:</strong> When you use extensions like Table Extractor or BulkGrab on target websites, those websites maintain their own independent privacy policies and terms.</li>
     </ul>
 
     <h2>6. User Control &amp; Data Deletion</h2>
@@ -291,14 +306,14 @@
     <h2>8. Policy Updates &amp; Notifications</h2>
     <p>We may update this Privacy Policy periodically to reflect new extensions, feature enhancements, or architectural modifications. When updates are published, the "Last Updated" date at the top of this document will be revised accordingly. We encourage you to review this page periodically.</p>
 
-    <h2>9. Contact &amp; Inquiries</h2>
+    <h2 id="contact">9. Contact &amp; Inquiries</h2>
     <p>If you have questions regarding this Privacy Policy or wish to inspect technical implementations, you can refer to the published contact channels below:</p>
     <ul>
       <li><strong>Published Contact Address:</strong> <a href="mailto:contact@extensionguy.me">contact@extensionguy.me</a></li>
       <li><strong>GitHub Developer Profile:</strong> <a href="https://github.com/sidoua26-debug" target="_blank" rel="noopener noreferrer">@sidoua26-debug</a></li>
       <li><strong>Portfolio Source Repository:</strong> <a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer">extensions-portfolio</a></li>
     </ul>
-  </div>
+  </main>
 
   <script src="assets/js/site.js" defer></script>
 </body>
