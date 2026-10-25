@@ -31,6 +31,11 @@ html = r"""<!DOCTYPE html>
 
   <link rel="icon" type="image/png" href="assets/icons/word-to-latex-128.png">
 
+  <!-- Preload critical local typography fonts -->
+  <link rel="preload" href="assets/fonts/geist-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/geist-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/geist-700.woff2" as="font" type="font/woff2" crossorigin>
+
   <!-- Self-hosted CSS containing local WOFF2 @font-face rules -->
   <link rel="stylesheet" href="assets/css/styles.css?v=20261019-3">
 

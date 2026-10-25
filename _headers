@@ -5,7 +5,7 @@
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self'; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none';
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self'; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none';
 
 # HTML documents: require freshness revalidation on updates
 /
@@ -55,3 +55,17 @@
 /sitemap.xml
   Content-Type: application/xml; charset=utf-8
   Cache-Control: public, max-age=86400
+
+
+# Static images and brand assets: 30-day cache
+/assets/icons/*
+  Cache-Control: public, max-age=2592000, immutable
+
+/assets/screenshots/*
+  Cache-Control: public, max-age=2592000, immutable
+
+/assets/og/*
+  Cache-Control: public, max-age=2592000, immutable
+
+/assets/promo/*
+  Cache-Control: public, max-age=2592000, immutable
