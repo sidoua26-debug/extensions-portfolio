@@ -5,14 +5,14 @@ All official release milestones for extensions published by ExtensionGuy.
 ---
 
 ## Word to LaTeX (Offline)
-- **v1.0.5** (Current)
+- **v1.0.6** (Current)
   - Upgraded Pandoc WebAssembly engine with streaming decompression.
   - Added experimental offline math OCR with local Tesseract.js.
   - Enhanced table conversion with `booktabs` and `longtable` environments.
   - Fixed `\tightlist` and `\pandocbounded{}` wrapper normalization.
 - **v1.0.0**
   - Initial public release on Microsoft Edge Add-ons.
-  - Air-gapped client-side DOCX to LaTeX conversion.
+  - Offline client-side DOCX to LaTeX conversion.
 
 ---
 
