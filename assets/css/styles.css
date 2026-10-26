@@ -3,3 +3,36 @@
 .section-footer-privacy{margin-top:24px;padding-top:14px;border-top:1px dashed var(--border-page);text-align:center;font-size:.825rem;color:var(--text-tertiary)}
 .footer-privacy-link{color:var(--accent);text-decoration:underline;text-underline-offset:3px;font-weight:500}
 .footer-privacy-link:hover{color:var(--accent-hover)}
+
+/* Post-Conversion Success Banner */
+.post-conversion-banner {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-page);
+  border-radius: var(--r-md);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.88rem;
+}
+.post-conversion-banner[hidden] {
+  display: none !important;
+}
+.post-conversion-banner-title {
+  color: var(--text-main);
+  display: block;
+  margin-bottom: 2px;
+  font-weight: 600;
+}
+.post-conversion-banner-desc {
+  color: var(--text-secondary);
+}
+.post-conversion-banner-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}

@@ -34,6 +34,7 @@ export interface ConverterUIElements {
   copyBtn: HTMLButtonElement;
   downloadBtn: HTMLButtonElement;
   resetBtn: HTMLButtonElement;
+  successBanner?: HTMLElement;
 }
 
 export class ConverterUI {
@@ -163,8 +164,14 @@ export class ConverterUI {
     this.elements.outputContainer.setAttribute('hidden', '');
     this.elements.copyBtn.disabled = true;
     this.elements.downloadBtn.disabled = true;
+    if (this.elements.successBanner) {
+      this.elements.successBanner.setAttribute('hidden', '');
+    }
     this.elements.fileNameDisplay.textContent = '';
     this.elements.fileNameDisplay.setAttribute('hidden', '');
+    if (this.elements.successBanner) {
+      this.elements.successBanner.setAttribute('hidden', '');
+    }
 
     // 3. File validation: Empty file (0 bytes)
     if (!file || file.size === 0) {
@@ -195,6 +202,9 @@ export class ConverterUI {
     this.elements.outputContainer.setAttribute('hidden', '');
     this.elements.copyBtn.disabled = true;
     this.elements.downloadBtn.disabled = true;
+    if (this.elements.successBanner) {
+      this.elements.successBanner.setAttribute('hidden', '');
+    }
 
     // Show status indicator with active spinner
     this.updateStatus('Reading', `Reading ${file.name}...`, true);
@@ -241,10 +251,16 @@ export class ConverterUI {
       this.elements.copyBtn.disabled = false;
       this.elements.downloadBtn.disabled = false;
 
+      if (this.elements.successBanner) {
+        this.elements.successBanner.removeAttribute('hidden');
+      }
       this.elements.outputArea.focus({ preventScroll: true });
     } catch (err: any) {
       if (generation !== this.activeGeneration) return;
       this.updateStatus('Error', 'Conversion failed', false);
+      if (this.elements.successBanner) {
+        this.elements.successBanner.setAttribute('hidden', '');
+      }
       const message = err?.message || 'Conversion failed with an unspecified error.';
       this.showError(message);
     }
@@ -307,6 +323,9 @@ export class ConverterUI {
     this.elements.outputContainer.setAttribute('hidden', '');
     this.elements.copyBtn.disabled = true;
     this.elements.downloadBtn.disabled = true;
+    if (this.elements.successBanner) {
+      this.elements.successBanner.setAttribute('hidden', '');
+    }
     this.clearError();
     // Calm, non-spinning ready state on load and reset
     this.updateStatus('Ready', 'Select or drop a .docx file to convert', false);
@@ -391,6 +410,7 @@ export function initConverterUI(): ConverterUI | null {
   const copyBtn = document.getElementById('converterCopyBtn') as HTMLButtonElement;
   const downloadBtn = document.getElementById('converterDownloadBtn') as HTMLButtonElement;
   const resetBtn = document.getElementById('converterResetBtn') as HTMLButtonElement;
+  const successBanner = document.getElementById('converterSuccessCTA');
 
   if (
     !container ||
@@ -431,6 +451,7 @@ export function initConverterUI(): ConverterUI | null {
     copyBtn,
     downloadBtn,
     resetBtn,
+    successBanner: successBanner || undefined,
   });
 }
 

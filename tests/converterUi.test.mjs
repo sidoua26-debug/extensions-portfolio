@@ -533,4 +533,52 @@ describe('Step 6C: Strengthened Converter UI Integration & Race Tests (Playwrigh
 
     await page.close();
   });
+
+  it('Test 10 — Post-conversion success banner is stateful across 4 states (hidden by default, visible on success, hidden on reset/error/new file)', async () => {
+    const page = await browserContext.newPage();
+    await page.goto(`${serverUrl}/`);
+    await page.waitForSelector('#live-converter');
+
+    // State 1: Initial load — banner is hidden
+    const initialHidden = await page.$eval('#converterSuccessCTA', (el) => el.hasAttribute('hidden'));
+    assert.equal(initialHidden, true, 'State 1: Banner must be hidden initially');
+
+    // State 2: Conversion success — banner becomes visible
+    const fileInput = await page.$('#docxFileInput');
+    await fileInput.setInputFiles(FIXTURE_DOCX);
+    await page.waitForSelector('#converterOutputContainer:not([hidden])', { timeout: 15000 });
+    await page.waitForSelector('#converterSuccessCTA:not([hidden])', { timeout: 2000 });
+
+    const successHidden = await page.$eval('#converterSuccessCTA', (el) => el.hasAttribute('hidden'));
+    assert.equal(successHidden, false, 'State 2: Banner must be visible upon successful conversion');
+
+    // Verify banner link contains prefilled issue URL
+    const issueLink = await page.$eval('#converterSuccessCTA a[href*="issues"]', (el) => el.href);
+    assert.ok(issueLink.includes('issues/new'), 'Issue link points to issue creation template');
+
+    // State 3: Reset UI — banner becomes hidden again
+    await page.click('#converterResetBtn');
+    await page.waitForTimeout(300);
+    const resetHidden = await page.$eval('#converterSuccessCTA', (el) => el.hasAttribute('hidden'));
+    assert.equal(resetHidden, true, 'State 3: Banner must be hidden upon reset');
+
+    // Reconvert to set visible, then test State 4: Error hides banner
+    await fileInput.setInputFiles(FIXTURE_DOCX);
+    await page.waitForSelector('#converterSuccessCTA:not([hidden])', { timeout: 15000 });
+
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'w2l-test-banner-'));
+    const emptyFile = path.join(tempDir, 'empty.docx');
+    fs.writeFileSync(emptyFile, Buffer.alloc(0));
+    try {
+      await fileInput.setInputFiles(emptyFile);
+      await page.waitForSelector('#converterError:not([hidden])', { timeout: 5000 });
+      const errorHidden = await page.$eval('#converterSuccessCTA', (el) => el.hasAttribute('hidden'));
+      assert.equal(errorHidden, true, 'State 4: Banner must be hidden when error occurs');
+    } finally {
+      if (fs.existsSync(emptyFile)) fs.unlinkSync(emptyFile);
+      if (fs.existsSync(tempDir)) fs.rmdirSync(tempDir);
+    }
+
+    await page.close();
+  });
 });

@@ -427,8 +427,14 @@ var ConverterUI = class {
     this.elements.outputContainer.setAttribute("hidden", "");
     this.elements.copyBtn.disabled = true;
     this.elements.downloadBtn.disabled = true;
+    if (this.elements.successBanner) {
+      this.elements.successBanner.setAttribute("hidden", "");
+    }
     this.elements.fileNameDisplay.textContent = "";
     this.elements.fileNameDisplay.setAttribute("hidden", "");
+    if (this.elements.successBanner) {
+      this.elements.successBanner.setAttribute("hidden", "");
+    }
     if (!file || file.size === 0) {
       this.showError("Selected file is empty (0 bytes). Please choose a valid Word document.");
       this.elements.fileInput.value = "";
@@ -451,6 +457,9 @@ var ConverterUI = class {
     this.elements.outputContainer.setAttribute("hidden", "");
     this.elements.copyBtn.disabled = true;
     this.elements.downloadBtn.disabled = true;
+    if (this.elements.successBanner) {
+      this.elements.successBanner.setAttribute("hidden", "");
+    }
     this.updateStatus("Reading", `Reading ${file.name}...`, true);
     this.clearError();
     let arrayBuffer;
@@ -487,10 +496,16 @@ var ConverterUI = class {
       this.elements.outputContainer.removeAttribute("hidden");
       this.elements.copyBtn.disabled = false;
       this.elements.downloadBtn.disabled = false;
+      if (this.elements.successBanner) {
+        this.elements.successBanner.removeAttribute("hidden");
+      }
       this.elements.outputArea.focus({ preventScroll: true });
     } catch (err) {
       if (generation !== this.activeGeneration) return;
       this.updateStatus("Error", "Conversion failed", false);
+      if (this.elements.successBanner) {
+        this.elements.successBanner.setAttribute("hidden", "");
+      }
       const message = err?.message || "Conversion failed with an unspecified error.";
       this.showError(message);
     }
@@ -544,6 +559,9 @@ var ConverterUI = class {
     this.elements.outputContainer.setAttribute("hidden", "");
     this.elements.copyBtn.disabled = true;
     this.elements.downloadBtn.disabled = true;
+    if (this.elements.successBanner) {
+      this.elements.successBanner.setAttribute("hidden", "");
+    }
     this.clearError();
     this.updateStatus("Ready", "Select or drop a .docx file to convert", false);
   }
@@ -614,6 +632,7 @@ function initConverterUI() {
   const copyBtn = document.getElementById("converterCopyBtn");
   const downloadBtn = document.getElementById("converterDownloadBtn");
   const resetBtn = document.getElementById("converterResetBtn");
+  const successBanner = document.getElementById("converterSuccessCTA");
   if (!container || !dropZone || !fileInput || !fileNameDisplay || !modeFragmentBtn || !modeDocumentBtn || !statusContainer || !statusStage || !statusMessage || !errorAlert || !outputContainer || !outputArea || !copyBtn || !downloadBtn || !resetBtn) {
     return null;
   }
@@ -635,7 +654,8 @@ function initConverterUI() {
     outputArea,
     copyBtn,
     downloadBtn,
-    resetBtn
+    resetBtn,
+    successBanner: successBanner || void 0
   });
 }
 if (typeof document !== "undefined") {
