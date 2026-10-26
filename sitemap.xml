@@ -55,7 +55,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://extensionguy.me/changelog/</loc>
+    <loc>https://extensionguy.me/changelog</loc>
     <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
