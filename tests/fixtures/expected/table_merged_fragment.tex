@@ -1,0 +1,40 @@
+% Required packages (add to your preamble):
+% \usepackage{array}
+% \usepackage{booktabs}
+% \usepackage{calc}
+% \usepackage{longtable}
+
+% For unnumbered longtables: \newcounter{none}
+
+\section{Performance Metrics}\label{performance-metrics}
+
+Table 2 displays response time breakdown across server configurations.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\multirow{2}{=}{\begin{minipage}[b]{\linewidth}\raggedright
+Config
+\end{minipage}} & \multicolumn{2}{>{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.5000} + 2\tabcolsep}}{%
+\begin{minipage}[b]{\linewidth}\raggedright
+Latency (ms)
+\end{minipage}} & \multirow{2}{=}{\begin{minipage}[b]{\linewidth}\raggedright
+Throughput (rps)
+\end{minipage}} \\
+& \begin{minipage}[b]{\linewidth}\raggedright
+p50
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+p99
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Standard & 14.2 & 45.8 & 1,200 \\
+Optimized & 6.8 & 18.4 & 3,450 \\
+\end{longtable}
+}

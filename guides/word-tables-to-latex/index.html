@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Convert Word Tables to LaTeX: booktabs, longtable, and Troubleshooting — ExtensionGuy</title>
+  <meta name="description" content="Learn how to convert Word tables to LaTeX cleanly. Master booktabs rules, longtable environments, column alignments, and package dependencies.">
+
+  <link rel="canonical" href="https://extensionguy.me/guides/word-tables-to-latex/">
+  <link rel="alternate" hreflang="en" href="https://extensionguy.me/guides/word-tables-to-latex/">
+  <link rel="alternate" hreflang="x-default" href="https://extensionguy.me/guides/word-tables-to-latex/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How to Convert Word Tables to LaTeX: booktabs, longtable, and Troubleshooting">
+  <meta property="og:description" content="Learn how to convert Word tables to LaTeX cleanly. Master booktabs rules, longtable environments, column alignments, and package dependencies.">
+  <meta property="og:url" content="https://extensionguy.me/guides/word-tables-to-latex/">
+  <meta property="og:image" content="https://extensionguy.me/assets/og/guide-word-tables-to-latex-1200x630.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How to Convert Word Tables to LaTeX: booktabs, longtable, and Troubleshooting">
+  <meta name="twitter:description" content="Learn how to convert Word tables to LaTeX cleanly. Master booktabs rules, longtable environments, column alignments, and package dependencies.">
+  <meta name="twitter:image" content="https://extensionguy.me/assets/og/guide-word-tables-to-latex-1200x630.png">
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="icon" type="image/png" href="../../assets/icons/word-to-latex-128.png">
+  <link rel="apple-touch-icon" href="../../assets/icons/word-to-latex-128.png">
+  <meta name="theme-color" content="#0f172a">
+
+  <link rel="stylesheet" href="../../assets/css/styles.css?v=20261019-3">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://extensionguy.me/guides/word-tables-to-latex/#article",
+      "headline": "How to Convert Word Tables to LaTeX: booktabs, longtable, and Troubleshooting",
+      "description": "Learn how to convert Word tables to LaTeX cleanly. Master booktabs rules, longtable environments, column alignments, and package dependencies.",
+      "datePublished": "2026-10-26",
+      "dateModified": "2026-10-26",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://extensionguy.me/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://extensionguy.me/#guides"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Word Tables to LaTeX Guide",
+          "item": "https://extensionguy.me/guides/word-tables-to-latex/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body id="top">
+  <a href="#mainContent" class="skip-to-content">Skip to content</a>
+
+  <header class="navbar" role="banner">
+    <div class="container nav-inner">
+      <a href="../../" class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <span>ExtensionGuy</span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="../../#flagship" class="nav-link">Flagship</a></li>
+          <li><a href="../../#portfolio" class="nav-link">All Extensions</a></li>
+          <li><a href="../../word-to-latex-converter/" class="nav-link">Web Converter</a></li>
+          <li><a href="../../privacy" class="nav-link">Privacy</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle visual theme" title="Toggle theme">
+          <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="mainContent">
+    <article class="container" style="max-width: 900px; padding: clamp(32px, 5vw, 64px) 16px;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.85rem; margin-bottom: 24px; color: var(--text-tertiary);">
+        <a href="../../" style="color: var(--accent); text-decoration: underline;">Home</a> &rsaquo; <a href="../../#guides" style="color: var(--accent); text-decoration: underline;">Guides</a> &rsaquo; <span>Word Tables to LaTeX Guide</span>
+      </nav>
+
+      <header style="margin-bottom: 36px;">
+        <span class="badge badge-subtle" style="margin-bottom: 12px; display: inline-block;">Technical Guide</span>
+        <h1 style="font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; letter-spacing: -0.025em; margin-bottom: 16px; line-height: 1.2;">
+          How to Convert Word Tables to LaTeX: booktabs, longtable, and Troubleshooting
+        </h1>
+        <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+          Word tables often prove challenging to reproduce in LaTeX. Automatic exports can result in text running past the page margin, unresolved command errors, or misaligned merged headers.
+        </p>
+      </header>
+
+      <div style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7;">
+        <p style="margin-bottom: 20px;">
+          This guide demonstrates how Microsoft Word tables translate into LaTeX, analyzes actual output generated by the in-browser Pandoc WebAssembly engine, explains package requirements, and provides solutions for common compilation errors.
+        </p>
+
+        <!-- Section 1: Worked Example from Real Fixture -->
+        <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          Worked Example: Simple Word Table Conversion
+        </h2>
+        <p style="margin-bottom: 14px;">
+          To understand how Word tables translate into LaTeX markup, consider a standard three-column experimental results table generated from our test fixture (<code>table_simple.docx</code>):
+        </p>
+
+        <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-main); margin-bottom: 8px;">
+          Source Table Content (from DOCX Fixture)
+        </h3>
+        <div style="overflow-x: auto; margin-bottom: 20px;" tabindex="0" role="region" aria-label="Source Table Content from DOCX Fixture">
+          <table style="width: 100%; max-width: 480px; border-collapse: collapse; font-size: 0.9rem; text-align: left; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border-page); background: rgba(125, 125, 125, 0.05);">
+                <th style="padding: 10px 14px; font-weight: 700; color: var(--text-main);">Trial</th>
+                <th style="padding: 10px 14px; font-weight: 700; color: var(--text-main);">Voltage (V)</th>
+                <th style="padding: 10px 14px; font-weight: 700; color: var(--text-main);">Current (mA)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 8px 14px;">1</td>
+                <td style="padding: 8px 14px;">3.30</td>
+                <td style="padding: 8px 14px;">12.4</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 8px 14px;">2</td>
+                <td style="padding: 8px 14px;">5.00</td>
+                <td style="padding: 8px 14px;">28.1</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 14px;">3</td>
+                <td style="padding: 8px 14px;">12.00</td>
+                <td style="padding: 8px 14px;">64.5</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-main); margin-bottom: 8px;">
+          Actual Converter Output (Verbatim)
+        </h3>
+        <p style="margin-bottom: 10px; font-size: 0.9rem;">
+          Passing this document through the <a href="../../word-to-latex-converter/" style="color: var(--accent); text-decoration: underline;">Word to LaTeX converter</a> produced the following LaTeX markup:
+        </p>
+
+        <div style="overflow-x: auto; margin-bottom: 24px;" tabindex="0" role="region" aria-label="Generated LaTeX Output for Simple Table">
+          <pre style="background: var(--bg-surface); padding: 16px; border-radius: var(--r-md); border: 1px solid var(--border-page); font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.5; color: var(--text-main);"><code>{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Trial
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Voltage (V)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Current (mA)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 3.30 & 12.4 \\
+2 & 5.00 & 28.1 \\
+3 & 12.00 & 64.5 \\
+\end{longtable}
+}</code></pre>
+        </div>
+
+        <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">
+          Structural Breakdown of the Generated Markup
+        </h3>
+        <ul style="padding-left: 24px; margin-bottom: 28px;">
+          <li style="margin-bottom: 8px;"><strong>Environment:</strong> The output uses <code>longtable</code> rather than basic <code>tabular</code>. In Pandoc's model, tables are wrapped in <code>longtable</code> so that multi-page data sets break across pages automatically.</li>
+          <li style="margin-bottom: 8px;"><strong>Rule Commands:</strong> It uses <code>\toprule</code>, <code>\midrule</code>, and <code>\bottomrule</code> from the <code>booktabs</code> package. Notice that vertical grid lines (such as <code>|l|c|r|</code>) are avoided in accordance with typographical standards.</li>
+          <li style="margin-bottom: 8px;"><strong>Column Specifications:</strong> Columns use <code>p{...}</code> paragraph widths computed with <code>\real{0.3333}</code>. This requires the <code>calc</code> and <code>array</code> packages to evaluate mathematical lengths relative to <code>\linewidth</code>.</li>
+          <li style="margin-bottom: 8px;"><strong>Header Repeating:</strong> <code>\endhead</code> marks the repeating header row on subsequent pages, while <code>\endlastfoot</code> defines the terminating rule.</li>
+        </ul>
+
+        <!-- Section 2: Ways to Convert -->
+        <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          Approaches to Table Conversion
+        </h2>
+        <div style="display: grid; gap: 16px; margin-bottom: 28px;">
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 18px;">
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">1. Full Document Conversion</h3>
+            <p style="margin: 0; font-size: 0.9rem; line-height: 1.6;">
+              When migrating an entire paper, convert the complete DOCX file using either desktop Pandoc CLI (as documented in the Pandoc User's Manual: <code>pandoc input.docx -o output.tex</code>) or the web-based <a href="../../word-to-latex-converter/" style="color: var(--accent); text-decoration: underline;">Word to LaTeX converter</a>. Inspect the output to verify whether tables were emitted as <code>longtable</code> or <code>table</code> floats.
+            </p>
+          </div>
+
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 18px;">
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">2. Isolated Single-Table Conversion</h3>
+            <p style="margin: 0; font-size: 0.9rem; line-height: 1.6;">
+              If you only need to extract one table from a large manuscript, copying that table into a temporary Word document and running it through the converter avoids sorting through hundreds of lines of prose.
+            </p>
+          </div>
+
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 18px;">
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">3. Direct Manual Adjustments</h3>
+            <p style="margin: 0; font-size: 0.9rem; line-height: 1.6;">
+              For concise tables with few rows, replacing computed <code>p{(\linewidth - ...)}</code> specs with simple alignment characters (such as <code>\begin{tabular}{lrr}</code>) is often faster than debugging complex layout dimensions.
+            </p>
+          </div>
+        </div>
+
+        <!-- Section 3: Package Requirements Table -->
+        <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          Package Requirements Derived from Real Output
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Rather than guessing preamble requirements, the commands present in the generated LaTeX dictate the necessary LaTeX packages:
+        </p>
+
+        <div style="overflow-x: auto; margin-bottom: 28px;" tabindex="0" role="region" aria-label="Package Requirements Derived from Real Output">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
+            <thead>
+              <tr style="border-bottom: 1px solid var(--border-page); background: rgba(125, 125, 125, 0.05);">
+                <th style="padding: 10px 14px; font-weight: 700; color: var(--text-main);">Command or Environment</th>
+                <th style="padding: 10px 14px; font-weight: 700; color: var(--text-main);">Required LaTeX Package</th>
+                <th style="padding: 10px 14px; font-weight: 700; color: var(--text-main);">Observed in Test Fixtures</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 10px 14px;"><code>\toprule</code>, <code>\midrule</code>, <code>\bottomrule</code></td>
+                <td style="padding: 10px 14px;"><code>\usepackage{booktabs}</code></td>
+                <td style="padding: 10px 14px;">Yes (in all 3 fixtures)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 10px 14px;"><code>\begin{longtable}</code></td>
+                <td style="padding: 10px 14px;"><code>\usepackage{longtable}</code></td>
+                <td style="padding: 10px 14px;">Yes (in all 3 fixtures)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 10px 14px;"><code>\real{0.3333}</code> (fractional width calculation)</td>
+                <td style="padding: 10px 14px;"><code>\usepackage{calc}</code></td>
+                <td style="padding: 10px 14px;">Yes (in all 3 fixtures)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 10px 14px;"><code>>{\raggedright\arraybackslash}</code></td>
+                <td style="padding: 10px 14px;"><code>\usepackage{array}</code></td>
+                <td style="padding: 10px 14px;">Yes (in all 3 fixtures)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 10px 14px;"><code>\multirow{2}{=}{...}</code> (vertical cell merging)</td>
+                <td style="padding: 10px 14px;"><code>\usepackage{multirow}</code></td>
+                <td style="padding: 10px 14px;">Yes (in <code>table_merged.docx</code>)</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 14px;"><code>\multicolumn{2}{...}{...}</code> (horizontal cell merging)</td>
+                <td style="padding: 10px 14px;">Built-in LaTeX primitive</td>
+                <td style="padding: 10px 14px;">Yes (in <code>table_merged.docx</code>)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Section 4: Common Errors and Explicit Fixes -->
+        <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          Common Errors and Explicit Solutions
+        </h2>
+
+        <div style="overflow-x: auto; margin-bottom: 28px;" tabindex="0" role="region" aria-label="Common Errors and Explicit Solutions">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
+            <thead>
+              <tr style="border-bottom: 1px solid var(--border-page); background: rgba(125, 125, 125, 0.05);">
+                <th style="padding: 10px 14px; font-weight: 700; color: var(--text-main);">Error Message</th>
+                <th style="padding: 10px 14px; font-weight: 700; color: var(--text-main);">Underlying Cause</th>
+                <th style="padding: 10px 14px; font-weight: 700; color: var(--text-main);">Explicit Fix</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 10px 14px; font-family: var(--font-mono); font-size: 0.84rem;">Undefined control sequence \toprule</td>
+                <td style="padding: 10px 14px;">The <code>booktabs</code> package is not loaded in the preamble.</td>
+                <td style="padding: 10px 14px;">Add <code>\usepackage{booktabs}</code> to your document preamble.</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 10px 14px; font-family: var(--font-mono); font-size: 0.84rem;">Undefined control sequence \multirow</td>
+                <td style="padding: 10px 14px;">Table contains vertically merged cells without the required package.</td>
+                <td style="padding: 10px 14px;">Add <code>\usepackage{multirow}</code> to your document preamble.</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 10px 14px; font-family: var(--font-mono); font-size: 0.84rem;">Undefined control sequence \real</td>
+                <td style="padding: 10px 14px;">Pandoc emitted fractional column widths using the <code>calc</code> syntax.</td>
+                <td style="padding: 10px 14px;">Add <code>\usepackage{calc}</code> to your document preamble.</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 10px 14px; font-family: var(--font-mono); font-size: 0.84rem;">Misplaced alignment tab character &</td>
+                <td style="padding: 10px 14px;">An unescaped ampersand appears in text, or a row contains more cells than declared.</td>
+                <td style="padding: 10px 14px;">Escape literal ampersands as <code>\&amp;</code> and confirm the count of <code>&amp;</code> delimiters matches (columns &minus; 1).</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 10px 14px; font-family: var(--font-mono); font-size: 0.84rem;">Missing $ inserted</td>
+                <td style="padding: 10px 14px;">An unescaped underscore (<code>_</code>) or caret (<code>^</code>) appears in text outside math mode.</td>
+                <td style="padding: 10px 14px;">Escape as <code>\_</code> or wrap mathematical expressions in dollar signs (<code>$x_1$</code>).</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 14px; font-family: var(--font-mono); font-size: 0.84rem;">Table runs past the right margin</td>
+                <td style="padding: 10px 14px;">Table has many columns or long text strings without flexible line wrapping.</td>
+                <td style="padding: 10px 14px;">Use <code>\small</code> font size, replace column declarations with <code>tabularx</code> and <code>X</code> columns, or rotate wide tables using <code>\usepackage{pdflscape}</code> with <code>\begin{landscape}</code>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Section 5: Merged Cells Analysis -->
+        <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          Merged Cells: What Our Test Fixture Produced
+        </h2>
+        <p style="margin-bottom: 14px;">
+          Merged cells require particular attention because Word and LaTeX handle cell spans differently. When testing our merged-header fixture (<code>table_merged.docx</code>), the converter generated both horizontal and vertical merge commands:
+        </p>
+
+        <div style="overflow-x: auto; margin-bottom: 20px;" tabindex="0" role="region" aria-label="Generated LaTeX Output for Merged Cells">
+          <pre style="background: var(--bg-surface); padding: 16px; border-radius: var(--r-md); border: 1px solid var(--border-page); font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.5; color: var(--text-main);"><code>\multirow{2}{=}{\begin{minipage}[b]{\linewidth}\raggedright
+Config
+\end{minipage}} & \multicolumn{2}{>{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.5000} + 2\tabcolsep}}{%
+\begin{minipage}[b]{\linewidth}\raggedright
+Latency (ms)
+\end{minipage}} & \multirow{2}{=}{\begin{minipage}[b]{\linewidth}\raggedright
+Throughput (rps)
+\end{minipage}} \\
+& \begin{minipage}[b]{\linewidth}\raggedright
+p50
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+p99
+\end{minipage} \\</code></pre>
+        </div>
+
+        <ul style="padding-left: 24px; margin-bottom: 24px;">
+          <li style="margin-bottom: 8px;"><strong>Column Merges:</strong> Handled using standard <code>\multicolumn{2}{spec}{content}</code>.</li>
+          <li style="margin-bottom: 8px;"><strong>Row Merges:</strong> Generated using <code>\multirow{2}{=}{content}</code>, which requires <code>\usepackage{multirow}</code> in your preamble. Notice that the subsequent row begins with an empty cell (<code>&amp;</code>) to account for the vertically spanning column.</li>
+        </ul>
+
+        <!-- Section 6: Special Characters, Math, Captions -->
+        <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          Special Characters, Math, and Table Captions
+        </h2>
+        <ul style="padding-left: 24px; margin-bottom: 28px;">
+          <li style="margin-bottom: 10px;">
+            <strong>Special Characters in Cells:</strong> Characters like <code>%</code>, <code>&amp;</code>, <code>_</code>, and <code>#</code> carry syntactic meaning in LaTeX. The converter automatically escapes them (for example, our wide table fixture converted <code>0.02%</code> into <code>0.02\%</code>). Check that literal symbols were not converted into layout separators.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Captions and Cross-References:</strong> In Word, table captions are often plain paragraphs placed above or below the grid. In LaTeX, tables within floats should use <code>\caption{Table Title}</code> and <code>\label{tab:results}</code> so they can be referenced with <code>\ref{tab:results}</code> in the text.
+          </li>
+        </ul>
+
+        <!-- Section 7: Limitations and Checklist -->
+        <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          Limitations
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Automated conversion cannot infer specialized journal formatting guidelines, nor can it resolve extreme table widths without human intervention. In our testing environment, no native TeX compiler was present; verify table syntax and packages in your TeX editor or Overleaf before submitting.
+        </p>
+
+        <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          Final Table Checklist
+        </h2>
+        <ul style="padding-left: 24px; margin-bottom: 32px;">
+          <li style="margin-bottom: 8px;">Inspect column count: verify that the number of <code>&amp;</code> delimiters per row equals the declared column count minus one.</li>
+          <li style="margin-bottom: 8px;">Check for <code>booktabs</code> commands: include <code>\usepackage{booktabs}</code> whenever <code>\toprule</code>, <code>\midrule</code>, or <code>\bottomrule</code> appear.</li>
+          <li style="margin-bottom: 8px;">Confirm <code>longtable</code>, <code>array</code>, and <code>calc</code> packages are included in your preamble for computed width tables.</li>
+          <li style="margin-bottom: 8px;">If your table includes vertically merged cells, ensure <code>\usepackage{multirow}</code> is loaded.</li>
+          <li style="margin-bottom: 8px;">Verify special character escaping (<code>\%</code>, <code>\&amp;</code>, <code>\_</code>).</li>
+          <li style="margin-bottom: 8px;">Compile the document and inspect visual alignment and page margins.</li>
+        </ul>
+      </div>
+
+      <!-- Navigation & Related Links -->
+      <footer style="margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border-page); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+        <a href="../docx-to-latex-offline/" style="color: var(--accent); font-weight: 600; text-decoration: underline;">
+          &larr; Guide: Convert DOCX to LaTeX Offline
+        </a>
+        <a href="../../word-to-latex-converter/" style="color: var(--accent); font-weight: 600; text-decoration: underline;">
+          Try the Online Word to LaTeX Converter &rarr;
+        </a>
+      </footer>
+    </article>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-col brand-col">
+        <a href="../../" class="brand footer-brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+          </div>
+          <span>ExtensionGuy</span>
+        </a>
+        <p class="footer-tagline">Privacy-first browser extensions with client-side execution.</p>
+        <p class="copyright">&copy; 2026 ExtensionGuy. Published under MIT &amp; GPL-2.0+ licenses.</p>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-heading" style="font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; color: var(--text-main);">Add-ons</div>
+        <ul class="footer-links">
+          <li><a href="../../word-to-latex/">Word to LaTeX (Offline)</a></li>
+          <li><a href="../../word-to-latex-converter/">Word to LaTeX Online</a></li>
+          <li><a href="../../table-extractor/">Table Extractor</a></li>
+          <li><a href="../../bulkgrab/">BulkGrab</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-heading" style="font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; color: var(--text-main);">Guides</div>
+        <ul class="footer-links">
+          <li><a href="../docx-to-latex-offline/">DOCX to LaTeX Offline</a></li>
+          <li><a href="./">Word Tables to LaTeX</a></li>
+          <li><a href="../../changelog/">Product Changelog</a></li>
+          <li><a href="../../privacy">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/site.js?v=20261019-3" defer></script>
+</body>
+</html>

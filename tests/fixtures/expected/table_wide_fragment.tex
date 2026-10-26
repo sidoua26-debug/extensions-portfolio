@@ -1,0 +1,52 @@
+% Required packages (add to your preamble):
+% \usepackage{array}
+% \usepackage{booktabs}
+% \usepackage{calc}
+% \usepackage{longtable}
+
+% For unnumbered longtables: \newcounter{none}
+
+\section{Quarterly Regional Summary}\label{quarterly-regional-summary}
+
+Table 3 presents comprehensive performance statistics across all measured geographic regions.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+ID
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Region
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Nodes
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Active Users
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+P95 Latency
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Error \%
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Bandwidth
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Uptime
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Score
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+US-E & US East (VA) & 128 & 45,200 & 18.4 ms & 0.02\% & 1.4 TB & 99.98\% & 98.2 \\
+EU-C & EU Central (DE) & 96 & 38,100 & 22.1 ms & 0.01\% & 980 GB & 99.99\% & 97.8 \\
+AP-S & AP South (SG) & 64 & 24,500 & 34.6 ms & 0.05\% & 640 GB & 99.94\% & 95.4 \\
+\end{longtable}
+}

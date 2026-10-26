@@ -1,0 +1,34 @@
+% Required packages (add to your preamble):
+% \usepackage{array}
+% \usepackage{booktabs}
+% \usepackage{calc}
+% \usepackage{longtable}
+
+% For unnumbered longtables: \newcounter{none}
+
+\section{Sample Experiment Results}\label{sample-experiment-results}
+
+Table 1 summarizes measured voltage and current across trials.
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Trial
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Voltage (V)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Current (mA)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 3.30 & 12.4 \\
+2 & 5.00 & 28.1 \\
+3 & 12.00 & 64.5 \\
+\end{longtable}
+}
