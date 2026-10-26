@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Convert Word Documents to LaTeX Online — Free &amp; Private</title>
-  <meta name="description" content="Free online Word to LaTeX converter running locally in your browser via WebAssembly. Convert DOCX manuscripts, tables, and equations with zero cloud uploads.">
+  <meta name="description" content="Free online Word to LaTeX converter running in your browser via WebAssembly. Convert DOCX manuscripts, tables, and equations without cloud file uploads.">
 
   <link rel="canonical" href="https://extensionguy.me/word-to-latex-converter/">
   <link rel="alternate" hreflang="en" href="https://extensionguy.me/word-to-latex-converter/">
@@ -12,7 +12,7 @@
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Convert Word Documents to LaTeX Online — Free and Private | ExtensionGuy">
-  <meta property="og:description" content="Free online Word to LaTeX converter running locally in your browser via WebAssembly. Convert DOCX manuscripts, tables, and equations with zero cloud uploads.">
+  <meta property="og:description" content="Free online Word to LaTeX converter running in your browser via WebAssembly. Convert DOCX manuscripts, tables, and equations without cloud file uploads.">
   <meta property="og:url" content="https://extensionguy.me/word-to-latex-converter/">
   <meta property="og:image" content="https://extensionguy.me/assets/og/word-to-latex-converter-1200x630.png">
   <meta property="og:image:width" content="1200">
@@ -20,7 +20,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Convert Word Documents to LaTeX Online — Free and Private | ExtensionGuy">
-  <meta name="twitter:description" content="Free online Word to LaTeX converter running locally in your browser via WebAssembly. Convert DOCX manuscripts, tables, and equations with zero cloud uploads.">
+  <meta name="twitter:description" content="Free online Word to LaTeX converter running in your browser via WebAssembly. Convert DOCX manuscripts, tables, and equations without cloud file uploads.">
   <meta name="twitter:image" content="https://extensionguy.me/assets/og/word-to-latex-converter-1200x630.png">
 
   <link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
@@ -83,7 +83,7 @@
             "name": "Are my Word documents or manuscripts uploaded to a remote server?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. The converter runs Pandoc 3.10 compiled to WebAssembly inside a dedicated Web Worker thread in your browser. Document parsing, XML extraction, and LaTeX generation take place 100% on your device. Zero document bytes are ever uploaded or transmitted over the network."
+              "text": "No. The converter runs Pandoc 3.10 compiled to WebAssembly inside a dedicated Web Worker thread in your browser. Document parsing, XML extraction, and LaTeX generation take place directly on your device. Document bytes are not uploaded or transmitted over the network."
             }
           },
           {
@@ -91,7 +91,7 @@
             "name": "How does this online converter differ from the Word to LaTeX browser extension?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The online converter runs on this webpage and handles DOCX file conversions through your web browser. The installable Word to LaTeX (Offline) Microsoft Edge extension bundles the entire engine offline, integrates directly into your browser toolbar, supports clipboard table conversions, includes experimental local OCR, and works completely offline without needing to visit a website."
+              "text": "The online converter runs on this webpage and handles DOCX file conversions through your web browser. The installable Word to LaTeX (Offline) Microsoft Edge extension bundles the entire engine offline, integrates directly into your browser toolbar, supports clipboard table conversions, includes experimental local OCR, and works offline without needing to visit a website."
             }
           },
           {
@@ -188,7 +188,7 @@
       <div class="container hero-content">
         <div class="hero-badge-pill">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          100% In-Browser WebAssembly &middot; Zero Cloud Uploads
+          100% In-Browser WebAssembly &middot; No Cloud Uploads
         </div>
 
         <h1 id="converterHeadline" class="hero-title" style="margin-bottom: 16px;">
@@ -196,13 +196,13 @@
         </h1>
 
         <p class="hero-subtitle" style="margin-bottom: 24px;">
-          Transform Microsoft Word (.docx) manuscripts, complex mathematical equations, and structured tables into clean, compilation-ready LaTeX snippets or complete documents. Powered by Pandoc compiled to WebAssembly, executing entirely on your computer.
+          Transform Microsoft Word (.docx) manuscripts, complex mathematical equations, and structured tables into clean, compilation-ready LaTeX snippets or complete documents. Powered by Pandoc compiled to WebAssembly, executing on your computer.
         </p>
 
         <div class="hero-trust-row" role="list">
           <div class="trust-badge" role="listitem">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>Zero Cloud Uploads</span>
+            <span>No Cloud Uploads</span>
           </div>
           <div class="trust-badge" role="listitem">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -226,7 +226,7 @@
         <div class="converter-card-header">
           <div>
             <span class="badge badge-w2l">Local Pandoc WASM</span>
-            <span class="badge badge-subtle" style="margin-left: 6px;">Zero Uploads</span>
+            <span class="badge badge-subtle" style="margin-left: 6px;">Local Processing</span>
             <span class="badge badge-edge" style="margin-left: 6px;">Client-Side Engine</span>
           </div>
 
@@ -286,7 +286,7 @@
               <div id="converterSuccessCTA" class="post-conversion-banner" style="margin-top: 16px; padding: 16px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; font-size: 0.88rem;">
                 <div>
                   <strong style="color: var(--text-main); display: block; margin-bottom: 2px;">Need conversion directly in your browser toolbar?</strong>
-                  <span style="color: var(--text-secondary);">Install Word to LaTeX (Offline) for permanent offline access and clipboard table support.</span>
+                  <span style="color: var(--text-secondary);">Install Word to LaTeX (Offline) for offline access and clipboard table support.</span>
                 </div>
                 <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                   <a href="https://microsoftedge.microsoft.com/addons/detail/word-to-latex-offline/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm">Get on Edge</a>
@@ -310,13 +310,13 @@
           <div>
             <div style="display: flex; gap: 8px; margin-bottom: 8px; align-items: center;">
               <span class="badge badge-edge">Installable Browser Extension</span>
-              <span class="badge badge-subtle">Zero Permissions</span>
+              <span class="badge badge-subtle">No Special Permissions</span>
             </div>
             <h2 id="extensionComparisonHeading" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; color: var(--text-main);">
               Need Offline Conversion Directly in Microsoft Edge?
             </h2>
             <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px;">
-              While this web page requires an initial page visit, the official <strong>Word to LaTeX (Offline)</strong> browser extension bundles the complete WebAssembly engine directly in Microsoft Edge. Convert documents completely offline without an internet connection, convert pasted clipboard tables, and run experimental math image OCR.
+              While this web page requires an initial page visit, the official <strong>Word to LaTeX (Offline)</strong> browser extension bundles the complete WebAssembly engine directly in Microsoft Edge. Convert documents offline without an internet connection, convert pasted clipboard tables, and run experimental math image OCR.
             </p>
             <div style="display: flex; gap: 12px; flex-wrap: wrap;">
               <a href="https://microsoftedge.microsoft.com/addons/detail/word-to-latex-offline/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm">
@@ -333,15 +333,15 @@
             <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-size: 0.875rem; color: var(--text-secondary);">
               <li style="display: flex; gap: 8px; align-items: flex-start;">
                 <span style="color: var(--color-success); font-weight: bold;">&bull;</span>
-                <span><strong>Online Converter:</strong> Zero installation, instant access from any modern browser, local WebAssembly processing.</span>
+                <span><strong>Online Converter:</strong> No installation required, instant access from any modern browser, local WebAssembly processing.</span>
               </li>
               <li style="display: flex; gap: 8px; align-items: flex-start;">
                 <span style="color: var(--color-success); font-weight: bold;">&bull;</span>
-                <span><strong>Offline Extension:</strong> 100% offline without internet, persistent toolbar access, clipboard table paste, and experimental math OCR.</span>
+                <span><strong>Offline Extension:</strong> Offline without internet, persistent toolbar access, clipboard table paste, and experimental math OCR.</span>
               </li>
               <li style="display: flex; gap: 8px; align-items: flex-start;">
                 <span style="color: var(--color-success); font-weight: bold;">&bull;</span>
-                <span><strong>Shared Guarantee:</strong> Zero remote document transmission, zero tracking cookies, zero ads, zero telemetry.</span>
+                <span><strong>Shared Assurance:</strong> No remote document transmission, no tracking cookies, no ads, no telemetry.</span>
               </li>
             </ul>
           </div>
@@ -426,11 +426,11 @@
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
           <strong style="display: block; font-size: 1rem; margin-bottom: 6px; color: var(--text-main);">Are my Word documents or manuscripts uploaded to a remote server?</strong>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">No. The converter runs Pandoc 3.10 compiled to WebAssembly inside a dedicated Web Worker thread in your browser. Document parsing, XML extraction, and LaTeX generation take place 100% on your device. Zero document bytes are ever uploaded or transmitted over the network.</p>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">No. The converter runs Pandoc 3.10 compiled to WebAssembly inside a dedicated Web Worker thread in your browser. Document parsing, XML extraction, and LaTeX generation take place directly on your device. Document bytes are not uploaded or transmitted over the network.</p>
         </div>
         <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
           <strong style="display: block; font-size: 1rem; margin-bottom: 6px; color: var(--text-main);">How does this online converter differ from the Word to LaTeX browser extension?</strong>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">The online converter runs on this webpage and handles DOCX file conversions through your web browser. The installable Word to LaTeX (Offline) Microsoft Edge extension bundles the entire engine offline, integrates directly into your browser toolbar, supports clipboard table conversions, includes experimental local OCR, and works completely offline without needing to visit a website.</p>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">The online converter runs on this webpage and handles DOCX file conversions through your web browser. The installable Word to LaTeX (Offline) Microsoft Edge extension bundles the entire engine offline, integrates directly into your browser toolbar, supports clipboard table conversions, includes experimental local OCR, and works offline without needing to visit a website.</p>
         </div>
         <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
           <strong style="display: block; font-size: 1rem; margin-bottom: 6px; color: var(--text-main);">What Word formatting elements are preserved during conversion?</strong>
@@ -476,7 +476,7 @@
           </div>
           <span>ExtensionGuy</span>
         </a>
-        <p class="footer-copy">&copy; 2026 ExtensionGuy. Published extensions available on the Microsoft Edge Add-ons Store. Built local-first with zero tracking.</p>
+        <p class="footer-copy">&copy; 2026 ExtensionGuy. Published extensions available on the Microsoft Edge Add-ons Store. Built local-first with no tracking.</p>
       </div>
       <div class="footer-links">
         <a href="../" class="footer-link">Home</a>

@@ -18,7 +18,7 @@ html = r"""<!DOCTYPE html>
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Word to LaTeX Converter &amp; Privacy-First Browser Extensions — ExtensionGuy">
-  <meta property="og:description" content="Privacy-first Microsoft Edge extensions for developers and researchers with 100% offline local processing and zero telemetry.">
+  <meta property="og:description" content="Privacy-first Microsoft Edge extensions for developers and researchers with browser-local processing and no telemetry SDKs.">
   <meta property="og:url" content="https://extensionguy.me/">
   <meta property="og:image" content="https://extensionguy.me/assets/og/home-1200x630.png">
   <meta property="og:image:width" content="1200">
@@ -26,7 +26,7 @@ html = r"""<!DOCTYPE html>
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Word to LaTeX Converter &amp; Privacy-First Browser Extensions — ExtensionGuy">
-  <meta name="twitter:description" content="Privacy-first Microsoft Edge extensions with local-first processing and zero data telemetry.">
+  <meta name="twitter:description" content="Privacy-first Microsoft Edge extensions with local-first processing and no data telemetry.">
   <meta name="twitter:image" content="https://extensionguy.me/assets/og/home-1200x630.png">
 
 <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
@@ -152,7 +152,7 @@ html = r"""<!DOCTYPE html>
         "softwareVersion": "1.0.0",
         "operatingSystem": "Microsoft Edge, Windows, macOS, Linux",
         "applicationCategory": "UtilitiesApplication",
-        "description": "100% offline bilingual English/French autocorrect extension with instant accent restoration, elision repair, and zero telemetry.",
+        "description": "100% offline bilingual English/French autocorrect extension with instant accent restoration, elision repair, and no telemetry.",
         "downloadUrl": "https://microsoftedge.microsoft.com/addons/detail/mheomahlcfddgjlemnolopfbhojfpmpb",
         "offers": {
           "@type": "Offer",
@@ -170,7 +170,7 @@ html = r"""<!DOCTYPE html>
         "softwareVersion": "1.0.0",
         "operatingSystem": "Microsoft Edge, Windows, macOS, Linux",
         "applicationCategory": "UtilitiesApplication",
-        "description": "Local tab manager and memory saver for Microsoft Edge that suspends inactive tabs, reclaims browser memory, and stores sessions entirely on-device.",
+        "description": "Local tab manager and memory saver for Microsoft Edge that suspends inactive tabs, reclaims browser memory, and stores sessions locally on-device.",
         "downloadUrl": "https://microsoftedge.microsoft.com/addons/detail/paedfgpjmkmmodbcimbkjkkdlfibfpbc",
         "offers": {
           "@type": "Offer",
@@ -190,7 +190,7 @@ html = r"""<!DOCTYPE html>
             "name": "Why prioritize 100% offline and local-first browser extensions?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Most online document and table converters upload your confidential files, sensitive spreadsheets, and unpublished academic manuscripts to third-party cloud servers where they can be logged, scraped, or retained. Our extensions—such as Word to LaTeX and Bilexi—run completely offline inside your local browser memory using WebAssembly. Your proprietary research and private data remain strictly on your own hardware."
+              "text": "Most online document and table converters upload your confidential files, sensitive spreadsheets, and unpublished academic manuscripts to third-party cloud servers where they can be logged, scraped, or retained. Our extensions—such as Word to LaTeX and Bilexi—run offline inside your local browser memory using WebAssembly. Your proprietary research and private data remain strictly on your own hardware."
             }
           },
           {
@@ -206,7 +206,7 @@ html = r"""<!DOCTYPE html>
             "name": "Do Table Extractor, BulkGrab, or SEO Inspector send telemetry to remote servers?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. Table Extractor parses HTML tables and virtualized AG Grid containers directly in browser memory and generates CSV and Excel XLSX files with local UTF-8 BOM encoding. BulkGrab streams file downloads directly from the host website into your browser storage and packages ZIP archives on-device with zero intermediary servers. SEO Inspector performs DOM audits and Performance Timing evaluations entirely on the client side without telemetry beacons. Optional Pro licensing for Table Extractor and BulkGrab attempts to verify payment IDs via an intermediary proxy when browser permissions allow; under no circumstances are table contents, extracted spreadsheets, downloaded files, or media URLs transmitted to the licensing service, as disclosed in our Privacy Policy."
+              "text": "No. Table Extractor parses HTML tables and virtualized AG Grid containers directly in browser memory and generates CSV and Excel XLSX files with local UTF-8 BOM encoding. BulkGrab streams file downloads directly from the host website into your browser storage and packages ZIP archives on-device with no intermediary servers. SEO Inspector performs DOM audits and Performance Timing evaluations locally on the client side without telemetry beacons. Optional Pro licensing for Table Extractor and BulkGrab attempts to verify payment IDs via an intermediary proxy when browser permissions allow; under no circumstances are table contents, extracted spreadsheets, downloaded files, or media URLs transmitted to the licensing service, as disclosed in our Privacy Policy."
             }
           },
           {
@@ -294,7 +294,7 @@ html = r"""<!DOCTYPE html>
         </h1>
 
         <p class="hero-subtitle">
-          Engineered for privacy and daily productivity. Convert Word to LaTeX and autocorrect bilingual text 100% offline; extract tables, batch-download files, and audit on-page SEO locally in your browser with zero application telemetry.
+          Engineered for privacy and daily productivity. Convert Word to LaTeX and autocorrect bilingual text 100% offline; extract tables, batch-download files, and audit on-page SEO locally in your browser with no application telemetry.
         </p>
 
         <div class="hero-trust-row" role="list">
@@ -304,7 +304,7 @@ html = r"""<!DOCTYPE html>
           </div>
           <div class="trust-badge" role="listitem">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>Zero Ads · Zero Telemetry</span>
+            <span>No Ads · No Telemetry</span>
           </div>
           <div class="trust-badge" role="listitem">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -323,7 +323,7 @@ html = r"""<!DOCTYPE html>
           <div class="converter-card-header">
             <div>
               <span class="badge badge-w2l">Local Pandoc WASM</span>
-              <span class="badge badge-subtle" style="margin-left: 6px;">Zero Uploads</span>
+              <span class="badge badge-subtle" style="margin-left: 6px;">Local Processing</span>
               <span class="badge badge-edge" style="margin-left: 6px;">Live Demo</span>
             </div>
 
@@ -383,7 +383,7 @@ html = r"""<!DOCTYPE html>
               <div id="converterSuccessCTA" class="post-conversion-banner" style="margin-top: 16px; padding: 16px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; font-size: 0.88rem;">
                 <div>
                   <strong style="color: var(--text-main); display: block; margin-bottom: 2px;">Need conversion directly in your browser toolbar?</strong>
-                  <span style="color: var(--text-secondary);">Install Word to LaTeX (Offline) for permanent offline access and clipboard table support.</span>
+                  <span style="color: var(--text-secondary);">Install Word to LaTeX (Offline) for offline access and clipboard table support.</span>
                 </div>
                 <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                   <a href="https://microsoftedge.microsoft.com/addons/detail/word-to-latex-offline/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm">Get on Edge</a>
@@ -409,7 +409,7 @@ html = r"""<!DOCTYPE html>
         <div class="section-eyebrow">Flagship Deep Dive</div>
         <h2 id="flagshipTitle" class="section-heading">Word to LaTeX (Offline)</h2>
         <p class="section-lead">
-          A dedicated browser extension that converts Microsoft Word manuscripts, clipboard tables, and typed math images into compilation-ready LaTeX snippets — completely inside your browser.
+          A dedicated browser extension that converts Microsoft Word manuscripts, clipboard tables, and typed math images into compilation-ready LaTeX snippets — directly inside your browser.
         </p>
 
         <div class="flagship-grid">
@@ -461,7 +461,7 @@ html = r"""<!DOCTYPE html>
           <div class="flagship-benefits">
             <div class="flex-wrap-gap-8">
               <span class="badge badge-edge">Published on Edge Add-ons</span>
-              <span class="badge badge-subtle">Zero Permissions Requested</span>
+              <span class="badge badge-subtle">No Special Permissions</span>
               <span class="badge badge-w2l">Version 1.0.6</span>
             </div>
 
@@ -496,7 +496,7 @@ html = r"""<!DOCTYPE html>
             </div>
 
             <div class="experimental-notice" role="note">
-              <strong>Transparent Scope &amp; Limitations:</strong> Image OCR is experimental and tested against an 80-sample golden evaluation corpus (97.5% compile rate, measuring whether output compiles, not semantic correctness). Radicals (√) are often read as V, matrix grids are unreliable, and handwriting is unsupported. Always review OCR output before publication.
+              <strong>Transparent Scope &amp; Limitations:</strong> Image OCR is experimental and tested against an 80-sample golden evaluation corpus (97.5% compile rate, measuring whether output compiles, not semantic correctness). Radicals (√) are often read as V, matrix grids are unreliable, and handwriting is unsupported. Review OCR output before publication.
             </div>
 
             <div class="flex-wrap-gap-12-mt-8" style="align-items: center;">
@@ -514,7 +514,7 @@ html = r"""<!DOCTYPE html>
                 Open source on GitHub
               </a>
             </div>
-            <div class="section-footer-privacy"><a href="/privacy#word-to-latex" class="footer-privacy-link">&bull; 100% Offline &amp; Zero Telemetry Guarantee &mdash; Read Privacy Details</a></div>
+            <div class="section-footer-privacy"><a href="/privacy#word-to-latex" class="footer-privacy-link">&bull; 100% Offline &amp; No Telemetry Assurance &mdash; Read Privacy Details</a></div>
           </div>
         </div>
       </div>
@@ -529,7 +529,7 @@ html = r"""<!DOCTYPE html>
           <div>
             <div class="section-eyebrow">Extension Portfolio</div>
             <h2 id="portfolioHeading" class="section-heading">Published Edge Add-ons</h2>
-            <p class="section-lead">Each tool is designed with a specific workflow purpose and minimal permissions. Word to LaTeX, Bilexi, and Tab Vault run locally or fully offline, while Table Extractor, BulkGrab, and SEO Inspector process your data directly in your browser with zero application telemetry.</p>
+            <p class="section-lead">Each tool is designed with a specific workflow purpose and minimal permissions. Word to LaTeX, Bilexi, and Tab Vault run locally or fully offline, while Table Extractor, BulkGrab, and SEO Inspector process your data directly in your browser with no application telemetry.</p>
           </div>
           <div>
             <span class="badge badge-edge">6 Live Add-ons</span>
@@ -573,7 +573,7 @@ html = r"""<!DOCTYPE html>
               <ul class="card-points">
                 <li>Preserves headings, lists, tables, and nested formatting</li>
                 <li>Instant one-click clipboard sync for Overleaf &amp; TeXstudio</li>
-                <li>100% browser-local Pandoc WASM with zero data uploads</li>
+                <li>Browser-local Pandoc WASM without remote uploads</li>
               </ul>
             </div>
 
@@ -789,7 +789,7 @@ html = r"""<!DOCTYPE html>
               <ul class="card-points">
                 <li>Instant accent restoration (ecole &rarr; <span lang="fr">école</span>, deja &rarr; <span lang="fr">déjà</span>)</li>
                 <li>Interactive suggestion strip with Alt+2 / Alt+3 hotkeys</li>
-                <li>100% offline binary dictionaries &amp; zero cloud telemetry</li>
+                <li>100% offline binary dictionaries &amp; no cloud telemetry</li>
               </ul>
             </div>
 
@@ -828,7 +828,7 @@ html = r"""<!DOCTYPE html>
               </div>
 
               <div class="card-benefit-quote">
-                <strong>Main Benefit:</strong> Convert clutter into organized, searchable tab groups to reclaim browser memory with zero cloud storage.
+                <strong>Main Benefit:</strong> Convert clutter into organized, searchable tab groups to reclaim browser memory with no cloud storage.
               </div>
 
               <div class="card-screenshot-wrap">
@@ -842,7 +842,7 @@ html = r"""<!DOCTYPE html>
               <ul class="card-points">
                 <li>Instant tab suspension reclaiming browser memory</li>
                 <li>Searchable vaults, rolling crash-resilient auto-snapshots</li>
-                <li>100% on-device IndexedDB storage &amp; zero external telemetry requests</li>
+                <li>100% on-device IndexedDB storage &amp; no external telemetry requests</li>
               </ul>
             </div>
 
@@ -860,7 +860,7 @@ html = r"""<!DOCTYPE html>
             <div class="card-version-micro">v1.0.0 &middot; Updated Oct 2026</div>
           </article>
         </div>
-        <div class="section-footer-privacy"><a href="privacy.html" class="footer-privacy-link">&bull; Minimal permissions, zero tracking, local processing &mdash; Read Full Privacy Statement</a></div>
+        <div class="section-footer-privacy"><a href="privacy.html" class="footer-privacy-link">&bull; Minimal permissions, no tracking, local processing &mdash; Read Full Privacy Statement</a></div>
       </div>
     </section>
 
@@ -884,7 +884,7 @@ html = r"""<!DOCTYPE html>
                 Private by design
               </h3>
               <p class="about-value-text">
-                All heavy compute and file transformations—including Pandoc WebAssembly compilation and table parsing—execute entirely inside your local browser sandbox. Your private documents, research manuscripts, and clipboard contents never leave your device.
+                All heavy compute and file transformations—including Pandoc WebAssembly compilation and table parsing—execute in your local browser sandbox. Your private documents, research manuscripts, and clipboard contents do not leave your device during local conversion.
               </p>
             </div>
 
@@ -894,7 +894,7 @@ html = r"""<!DOCTYPE html>
                 Minimal permissions
               </h3>
               <p class="about-value-text">
-                Each extension requests only the permissions it needs; they are listed on its store page. There is zero browsing activity monitoring and zero third-party telemetry SDKs.
+                Each extension requests only the permissions it needs; they are listed on its store page. No browsing activity monitoring or third-party telemetry SDKs are included.
               </p>
             </div>
 
@@ -904,7 +904,7 @@ html = r"""<!DOCTYPE html>
                 Open to check
               </h3>
               <p class="about-value-text">
-                Transparent, open-source codebases hosted on GitHub. Anyone can inspect the implementation, audit security boundaries, verify dependency manifests, and confirm zero-telemetry claims firsthand.
+                Transparent, open-source codebases hosted on GitHub. Anyone can inspect the implementation, audit security boundaries, verify dependency manifests, and confirm telemetry-free operation firsthand.
               </p>
             </div>
           </div>
@@ -927,7 +927,7 @@ html = r"""<!DOCTYPE html>
               contact@extensionguy.me
             </a>
           </div>
-          <div class="section-footer-privacy"><a href="privacy.html" class="footer-privacy-link">&bull; Committed to user privacy &mdash; Read Our Zero-Tracking Privacy Policy</a></div>
+          <div class="section-footer-privacy"><a href="privacy.html" class="footer-privacy-link">&bull; Committed to user privacy &mdash; Read Our Privacy Policy</a></div>
         </div>
       </div>
     </section>
@@ -943,7 +943,7 @@ html = r"""<!DOCTYPE html>
           <div class="faq-grid" style="display: grid; gap: 16px;">
             <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
               <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">Why prioritize 100% offline and local-first browser extensions?</strong>
-              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Most online document and table converters upload your confidential files, sensitive spreadsheets, and unpublished academic manuscripts to third-party cloud servers where they can be logged, scraped, or retained. Our extensions—such as Word to LaTeX and Bilexi—run completely offline inside your local browser memory using WebAssembly. Your proprietary research and private data remain strictly on your own hardware.</p>
+              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Most online document and table converters upload your confidential files, sensitive spreadsheets, and unpublished academic manuscripts to third-party cloud servers where they can be logged, scraped, or retained. Our extensions—such as Word to LaTeX and Bilexi—run offline inside your local browser memory using WebAssembly. Your proprietary research and private data remain strictly on your own hardware.</p>
             </div>
             <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
               <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">How does client-side WebAssembly conversion work in Word to LaTeX?</strong>
@@ -951,7 +951,7 @@ html = r"""<!DOCTYPE html>
             </div>
             <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
               <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">Do Table Extractor, BulkGrab, or SEO Inspector send telemetry to remote servers?</strong>
-              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">No. Table Extractor parses HTML tables and virtualized AG Grid containers directly in browser memory and generates CSV and Excel XLSX files with local UTF-8 BOM encoding. BulkGrab streams file downloads directly from the host website into your browser storage and packages ZIP archives on-device with zero intermediary servers. SEO Inspector performs DOM audits and Performance Timing evaluations entirely on the client side without telemetry beacons. Optional Pro licensing for Table Extractor and BulkGrab attempts to verify payment IDs via an intermediary proxy when browser permissions allow; under no circumstances are table contents, extracted spreadsheets, downloaded files, or media URLs transmitted to the licensing service, as disclosed in our Privacy Policy.</p>
+              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">No. Table Extractor parses HTML tables and virtualized AG Grid containers directly in browser memory and generates CSV and Excel XLSX files with local UTF-8 BOM encoding. BulkGrab streams file downloads directly from the host website into your browser storage and packages ZIP archives on-device with no intermediary servers. SEO Inspector performs DOM audits and Performance Timing evaluations locally on the client side without telemetry beacons. Optional Pro licensing for Table Extractor and BulkGrab attempts to verify payment IDs via an intermediary proxy when browser permissions allow; under no circumstances are table contents, extracted spreadsheets, downloaded files, or media URLs transmitted to the licensing service, as disclosed in our Privacy Policy.</p>
             </div>
             <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
               <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">How are software updates and security patches published?</strong>
@@ -1071,7 +1071,7 @@ html = r"""<!DOCTYPE html>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                 Privacy &amp; Data Policy
               </div>
-              <p class="contact-item-desc">Verified documentation of our local-first, zero-tracking policy.</p>
+              <p class="contact-item-desc">Verified documentation of our local-first, telemetry-free policy.</p>
               <a href="privacy.html" class="contact-item-link">Read Privacy Policy &rarr;</a>
             </div>
           </div>
@@ -1092,7 +1092,7 @@ html = r"""<!DOCTYPE html>
           <span>ExtensionGuy</span>
         </a>
         <p class="footer-copy">
-          &copy; 2026 ExtensionGuy. Published extensions available on Microsoft Edge Add-ons and Chrome Web Store. Built local-first with zero tracking.
+          &copy; 2026 ExtensionGuy. Published extensions available on Microsoft Edge Add-ons and Chrome Web Store. Built local-first with no tracking.
         </p>
       </div>
 

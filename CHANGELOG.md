@@ -32,7 +32,7 @@ All official release milestones for extensions published by ExtensionGuy.
   - Non-intrusive Shadow DOM floating download panel.
   - Instant category filtering for PDFs, archives, images, and audio.
   - Client-side ZIP bundling via JSZip on-device.
-  - Zero cloud telemetry; direct-to-disk stream downloads.
+  - No cloud telemetry; direct-to-disk stream downloads.
 - **v1.0.0**
   - Initial release on Microsoft Edge Add-ons and Chrome Web Store.
 
@@ -52,10 +52,10 @@ All official release milestones for extensions published by ExtensionGuy.
 ## Bilexi
 - **v1.0.0** (Current)
   - Initial public release on Microsoft Edge Add-ons.
-  - 100% offline bilingual English/French autocorrect engine.
+  - Offline bilingual English/French autocorrect engine.
   - Instant French accent restoration (ecole → école).
   - Interactive Alt+2 / Alt+3 hotkey replacement strip.
-  - Zero cloud telemetry, zero remote dictionary lookups.
+  - No cloud telemetry, no remote dictionary lookups.
 
 ---
 
@@ -65,4 +65,4 @@ All official release milestones for extensions published by ExtensionGuy.
   - One-click window collapse and restore reclaiming browser memory.
   - Defense-in-depth disaster recovery with rolling snapshots and JSON backup rotation.
   - Omnibox `tv <query>` integration and real-time instant search.
-  - 100% local storage with zero cloud telemetry.
+  - local storage with no cloud telemetry.
