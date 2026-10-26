@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convert DOCX to LaTeX Offline: Pandoc and Browser-Local Options — ExtensionGuy</title>
+  <meta name="description" content="Compare Pandoc CLI and browser-local options for converting DOCX manuscripts to LaTeX offline. Learn network verification steps and post-conversion checks.">
+
+  <link rel="canonical" href="https://extensionguy.me/guides/docx-to-latex-offline/">
+  <link rel="alternate" hreflang="en" href="https://extensionguy.me/guides/docx-to-latex-offline/">
+  <link rel="alternate" hreflang="x-default" href="https://extensionguy.me/guides/docx-to-latex-offline/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Convert DOCX to LaTeX Offline: Pandoc and Browser-Local Options">
+  <meta property="og:description" content="Compare Pandoc CLI and browser-local options for converting DOCX manuscripts to LaTeX offline. Learn network verification steps and post-conversion checks.">
+  <meta property="og:url" content="https://extensionguy.me/guides/docx-to-latex-offline/">
+  <meta property="og:image" content="https://extensionguy.me/assets/og/guide-docx-to-latex-offline-1200x630.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Convert DOCX to LaTeX Offline: Pandoc and Browser-Local Options">
+  <meta name="twitter:description" content="Compare Pandoc CLI and browser-local options for converting DOCX manuscripts to LaTeX offline. Learn network verification steps and post-conversion checks.">
+  <meta name="twitter:image" content="https://extensionguy.me/assets/og/guide-docx-to-latex-offline-1200x630.png">
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="icon" type="image/png" href="../../assets/icons/word-to-latex-128.png">
+  <link rel="apple-touch-icon" href="../../assets/icons/word-to-latex-128.png">
+  <meta name="theme-color" content="#0f172a">
+
+  <link rel="stylesheet" href="../../assets/css/styles.css?v=20261019-3">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://extensionguy.me/guides/docx-to-latex-offline/#article",
+      "headline": "Convert DOCX to LaTeX Offline: Pandoc and Browser-Local Options",
+      "description": "Compare Pandoc CLI and browser-local options for converting DOCX manuscripts to LaTeX offline. Learn network verification steps and post-conversion checks.",
+      "datePublished": "2026-10-26",
+      "dateModified": "2026-10-26",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://extensionguy.me/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://extensionguy.me/#guides"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Convert DOCX to LaTeX Offline",
+          "item": "https://extensionguy.me/guides/docx-to-latex-offline/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body id="top">
+  <a href="#mainContent" class="skip-to-content">Skip to content</a>
+
+  <header class="navbar" role="banner">
+    <div class="container nav-inner">
+      <a href="../../" class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <span>ExtensionGuy</span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="../../#flagship" class="nav-link">Flagship</a></li>
+          <li><a href="../../#portfolio" class="nav-link">All Extensions</a></li>
+          <li><a href="../../word-to-latex-converter/" class="nav-link">Web Converter</a></li>
+          <li><a href="../../privacy" class="nav-link">Privacy</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle visual theme" title="Toggle theme">
+          <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="mainContent">
+    <article class="container" style="max-width: 900px; padding: clamp(32px, 5vw, 64px) 16px;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.85rem; margin-bottom: 24px; color: var(--text-tertiary);">
+        <a href="../../" style="color: var(--accent); text-decoration: underline;">Home</a> &rsaquo; <a href="../../#guides" style="color: var(--accent); text-decoration: underline;">Guides</a> &rsaquo; <span>Convert DOCX to LaTeX Offline</span>
+      </nav>
+
+      <header style="margin-bottom: 36px;">
+        <span class="badge badge-subtle" style="margin-bottom: 12px; display: inline-block;">Technical Guide</span>
+        <h1 style="font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; letter-spacing: -0.025em; margin-bottom: 16px; line-height: 1.2;">
+          Convert DOCX to LaTeX Offline: Pandoc and Browser-Local Options
+        </h1>
+        <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+          Converting a Word document to LaTeX can be straightforward for simple prose, but academic manuscripts often contain mathematical equations, multi-column tables, figure embeds, citations, and specific typography that require careful attention after conversion.
+        </p>
+      </header>
+
+      <div style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7;">
+        <p style="margin-bottom: 20px;">
+          When working with unpublished manuscripts, proprietary research, clinical summaries, or legal contracts, understanding where file data travels is essential. This guide outlines how local desktop processing compares to browser-based conversion, demonstrates how to audit network activity using browser tools, and provides a structured checklist for reviewing generated LaTeX markup.
+        </p>
+
+        <!-- Section 1: Compare Methods Table -->
+        <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          Choose a Conversion Method
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Depending on your system environment and privacy requirements, different conversion approaches offer distinct trade-offs between setup effort and control over data handling:
+        </p>
+
+        <div style="overflow-x: auto; margin-bottom: 28px;" tabindex="0" role="region" aria-label="Comparison of DOCX to LaTeX conversion methods">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
+            <thead>
+              <tr style="border-bottom: 1px solid var(--border-page); background: rgba(125, 125, 125, 0.05);">
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Method</th>
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Setup Required</th>
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Processing Location</th>
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Best Suited For</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 12px 16px; font-weight: 600; color: var(--text-main);">Pandoc CLI</td>
+                <td style="padding: 12px 16px;">Install native binary on OS</td>
+                <td style="padding: 12px 16px;">Local computer storage</td>
+                <td style="padding: 12px 16px;">Automated build scripts, batch CLI conversion</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 12px 16px; font-weight: 600; color: var(--text-main);">Browser-Local Web Tool</td>
+                <td style="padding: 12px 16px;">Open URL in standard browser</td>
+                <td style="padding: 12px 16px;">Client memory via WebAssembly</td>
+                <td style="padding: 12px 16px;">Quick manuscript conversion without installing desktop tools</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 12px 16px; font-weight: 600; color: var(--text-main);">Installed Browser Add-on</td>
+                <td style="padding: 12px 16px;">Install from browser store</td>
+                <td style="padding: 12px 16px;">Local extension sandbox</td>
+                <td style="padding: 12px 16px;">Frequent conversions with packaged offline engine</td>
+              </tr>
+              <tr>
+                <td style="padding: 12px 16px; font-weight: 600; color: var(--text-main);">Remote Hosted Service</td>
+                <td style="padding: 12px 16px;">Upload file to cloud endpoint</td>
+                <td style="padding: 12px 16px;">Remote third-party server</td>
+                <td style="padding: 12px 16px;">Public documents where data transmission is acceptable</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Section 2: Pandoc CLI -->
+        <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          Option 1: Desktop Conversion with Pandoc CLI
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Pandoc is a widely respected open-source document converter. As described in the official Pandoc User's Manual, running Pandoc locally executes on your personal machine. Common command-line invocations include:
+        </p>
+
+        <div style="overflow-x: auto; margin-bottom: 20px;" tabindex="0" role="region" aria-label="Pandoc CLI commands example">
+          <pre style="background: var(--bg-surface); padding: 16px; border-radius: var(--r-md); border: 1px solid var(--border-page); font-family: var(--font-mono); font-size: 0.88rem; line-height: 1.5; color: var(--text-main);"><code># 1. Generate a body fragment (ideal for pasting into an Overleaf chapter):
+pandoc manuscript.docx -o manuscript.tex
+
+# 2. Generate a complete standalone document with full LaTeX preamble:
+pandoc manuscript.docx -s -o manuscript.tex
+
+# 3. Extract embedded media files into a dedicated subfolder:
+pandoc manuscript.docx -s --extract-media=./media -o manuscript.tex
+
+# 4. Prevent hard-wrapped line breaks in paragraph prose:
+pandoc manuscript.docx -s --wrap=none -o manuscript.tex
+
+# 5. Handle Word tracked changes (options: accept, reject, or all):
+pandoc manuscript.docx -s --track-changes=accept -o manuscript.tex</code></pre>
+        </div>
+
+        <p style="margin-bottom: 16px;">
+          <strong>When to use a fragment vs. a standalone document:</strong>
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 24px;">
+          <li style="margin-bottom: 8px;"><strong>Fragment (default, omitting <code>-s</code>):</strong> Produces only the structural LaTeX elements (sections, paragraphs, equations, tables) without <code>\documentclass</code> or <code>\begin{document}</code>. This is convenient when inserting a converted section into an established institutional template or Overleaf thesis project.</li>
+          <li style="margin-bottom: 8px;"><strong>Standalone (with <code>-s</code>):</strong> Generates an independent <code>.tex</code> file including document class declarations, geometric dimensions, and required <code>\usepackage{}</code> calls.</li>
+        </ul>
+
+        <!-- Section 3: Browser-Local Option -->
+        <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          Option 2: Browser-Local Web Tool and Extension
+        </h2>
+        <p style="margin-bottom: 16px;">
+          For users who cannot install command-line software on restricted workstations, our browser-based tools provide an alternative:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 8px;">The web-based <a href="../../word-to-latex-converter/" style="color: var(--accent); text-decoration: underline;">Word to LaTeX converter</a> loads a compiled WebAssembly binary into your browser window on demand.</li>
+          <li style="margin-bottom: 8px;">The <a href="../../word-to-latex/" style="color: var(--accent); text-decoration: underline;">Word to LaTeX Edge Add-on</a> packages the 58.5 MB uncompressed WebAssembly engine directly inside the extension archive (version 1.0.6), declaring an empty permissions array (<code>"permissions": []</code>) with no host permissions.</li>
+        </ul>
+
+        <div style="background: rgba(14, 165, 233, 0.06); border: 1px solid rgba(14, 165, 233, 0.3); border-radius: var(--r-md); padding: 20px; margin-bottom: 28px;">
+          <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 10px;">
+            Audited Network Behavior and Data Handling
+          </h3>
+          <p style="margin-bottom: 12px; font-size: 0.92rem; line-height: 1.6;">
+            In our test, loading the converter page and converting a sample DOCX produced only GET requests to extensionguy.me for static files: the page, fonts, scripts, and the conversion engine. We observed no upload requests, and the site's Content-Security-Policy limits connections to its own origin.
+          </p>
+          <p style="margin-bottom: 0; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+            <strong>Important Technical Nuances:</strong> On first use, the web converter downloads the compressed <code>pandoc.wasm.gz</code> engine (15,978,996 bytes on disk, served over HTTP GET) and decompresses it in browser memory. During automated testing, while the page session remained active, subsequent conversions operated when simulated network access was disabled. However, reloading a fresh browser tab while disconnected produced a network error because the static web tool does not currently register a service worker cache. In contrast, the installed browser add-on bundles the binary locally within the extension directory.
+          </p>
+        </div>
+
+        <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin: 24px 0 12px;">
+          How to Verify Network Traffic Yourself
+        </h3>
+        <p style="margin-bottom: 14px;">
+          You can inspect the network behavior of any web converter using your browser's built-in developer tools:
+        </p>
+        <ol style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 8px;">Open your browser's Developer Tools (press <kbd>F12</kbd> or <kbd>Ctrl+Shift+I</kbd>) and select the <strong>Network</strong> tab.</li>
+          <li style="margin-bottom: 8px;">Filter requests by <strong>Fetch/XHR</strong> and select a DOCX file to convert.</li>
+          <li style="margin-bottom: 8px;">Inspect the request log: verify whether requests use <code>GET</code> for local script/engine assets rather than <code>POST</code> or <code>PUT</code> methods directed to third-party endpoints.</li>
+        </ol>
+        <p style="font-size: 0.88rem; color: var(--text-tertiary); margin-bottom: 24px;">
+          <em>Note:</em> Observing no outbound upload requests in developer tools demonstrates that no standard network calls were dispatched during that specific interaction, though it does not replace reading the application's source code or verifying security policies.
+        </p>
+
+        <!-- Section 4: What to check after conversion -->
+        <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          What Converts Well and What Needs a Manual Pass
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Document parsers reconstruct formatting through intermediate syntax trees. Review these five areas before finalizing your LaTeX source:
+        </p>
+
+        <div style="display: grid; gap: 16px; margin-bottom: 28px;">
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 18px;">
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">1. Mathematical Equations</h3>
+            <p style="margin: 0; font-size: 0.9rem; line-height: 1.6;">
+              Word equations built with the native equation editor (OMML) convert into standard LaTeX math syntax (e.g. <code>$...$</code> for inline expressions and <code>\[...\]</code> for display math). Check complex structures such as multi-line matrices, custom piecewise brackets, radicals, and non-standard summation limits against your original document.
+            </p>
+          </div>
+
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 18px;">
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">2. Tables and Alignment</h3>
+            <p style="margin: 0; font-size: 0.9rem; line-height: 1.6;">
+              Inspect column widths, horizontal rules, and multi-column headers. Complex Word tables often require explicit column definitions (such as <code>p{...}</code> or <code>tabularx</code>) to avoid margin overflow. For step-by-step table troubleshooting, see our companion <a href="../word-tables-to-latex/" style="color: var(--accent); text-decoration: underline;">Word tables to LaTeX guide</a>.
+            </p>
+          </div>
+
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 18px;">
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">3. Embedded Figures and Images</h3>
+            <p style="margin: 0; font-size: 0.9rem; line-height: 1.6;">
+              When converting locally with Pandoc CLI using <code>--extract-media=./media</code>, verify that graphic assets were written to disk and that the generated <code>\includegraphics{}</code> paths align with your TeX project structure.
+            </p>
+          </div>
+
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 18px;">
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">4. Citations and Cross-References</h3>
+            <p style="margin: 0; font-size: 0.9rem; line-height: 1.6;">
+              Fields inserted by reference managers (Zotero, EndNote, Mendeley) and Word cross-references typically convert as static plain text rather than functional <code>\cite{}</code> or <code>\ref{}</code> keys. Plan to link citation keys with your <code>.bib</code> file manually.
+            </p>
+          </div>
+
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 18px;">
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">5. Complex Layouts and Text Boxes</h3>
+            <p style="margin: 0; font-size: 0.9rem; line-height: 1.6;">
+              Floating text boxes, WordArt, callout sidebars, and multicolumn section breaks cannot map directly to linear LaTeX code and will need manual restructuring into appropriate environments.
+            </p>
+          </div>
+        </div>
+
+        <!-- Section 5: Engineering Notes -->
+        <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          Engineering Notes: Post-Processing Cleanup
+        </h2>
+        <p style="margin-bottom: 14px;">
+          When using standard Pandoc, generated LaTeX fragments frequently include Pandoc-specific macros that cause compilation failures unless additional packages or custom definitions are loaded in the preamble. In our converter implementation (<a href="https://github.com/sidoua26-debug/extensions-portfolio/blob/main/src/converter/cleanup.ts" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;"><code>src/converter/cleanup.ts</code></a>), the post-processing pipeline addresses these artifacts:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 24px;">
+          <li style="margin-bottom: 10px;">
+            <strong>Removing <code>\tightlist</code>:</strong> Pandoc inserts <code>\tightlist</code> inside itemize and enumerate lists to suppress item spacing. However, standard LaTeX document classes do not recognize this command by default, throwing an <code>Undefined control sequence \tightlist</code> error. The pipeline removes lines matching <code>^[ \t]*\\tightlist[ \t]*$</code> so list items compile cleanly.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Unwrapping <code>\pandocbounded{...}</code>:</strong> In newer Pandoc versions (such as Pandoc 3.2.1+), figures are wrapped in <code>\pandocbounded{\includegraphics{...}}</code> to scale oversized images. Because older or standard TeX installations lack this command, our cleanup pipeline uses a depth-aware balanced-brace scanner to safely remove the wrapper while keeping the enclosed graphic declaration intact.
+          </li>
+        </ul>
+
+        <!-- Section 6: Limitations & Checklist -->
+        <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          Limitations
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Automated conversion converts structural semantics, but no software can anticipate journal-specific submission guidelines, custom bibliography styles, or macro configurations. Complex mathematical formulations and elaborate tabular alignments require manual review.
+        </p>
+
+        <h2 style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          Final Verification Checklist
+        </h2>
+        <ul style="padding-left: 24px; margin-bottom: 32px;">
+          <li style="margin-bottom: 8px;">Inspect the generated LaTeX fragment or standalone document in your editor.</li>
+          <li style="margin-bottom: 8px;">Cross-check display equations, fractions, and symbols against the original DOCX file.</li>
+          <li style="margin-bottom: 8px;">Inspect tables for column overflow and verify required packages (e.g. <code>booktabs</code>, <code>longtable</code>, <code>calc</code>).</li>
+          <li style="margin-bottom: 8px;">Confirm that extracted images exist on disk and paths match <code>\includegraphics{}</code>.</li>
+          <li style="margin-bottom: 8px;">Reconstruct bibliography citation keys and section cross-references.</li>
+          <li style="margin-bottom: 8px;">For sensitive manuscripts, verify your conversion tool's network behavior using browser developer tools before converting files.</li>
+        </ul>
+      </div>
+
+      <!-- Navigation & Related Links -->
+      <footer style="margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border-page); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+        <a href="../../word-to-latex/" style="color: var(--accent); font-weight: 600; text-decoration: underline;">
+          &larr; Word to LaTeX Extension Details
+        </a>
+        <a href="../../word-to-latex-converter/" style="color: var(--accent); font-weight: 600; text-decoration: underline;">
+          Try the Online Word to LaTeX Converter &rarr;
+        </a>
+      </footer>
+    </article>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-col brand-col">
+        <a href="../../" class="brand footer-brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+          </div>
+          <span>ExtensionGuy</span>
+        </a>
+        <p class="footer-tagline">Privacy-first browser extensions with client-side execution.</p>
+        <p class="copyright">&copy; 2026 ExtensionGuy. Published under MIT &amp; GPL-2.0+ licenses.</p>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-heading" style="font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; color: var(--text-main);">Add-ons</div>
+        <ul class="footer-links">
+          <li><a href="../../word-to-latex/">Word to LaTeX (Offline)</a></li>
+          <li><a href="../../word-to-latex-converter/">Word to LaTeX Online</a></li>
+          <li><a href="../../table-extractor/">Table Extractor</a></li>
+          <li><a href="../../bulkgrab/">BulkGrab</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-heading" style="font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; color: var(--text-main);">Guides</div>
+        <ul class="footer-links">
+          <li><a href="./">DOCX to LaTeX Offline</a></li>
+          <li><a href="../../word-to-latex/">Word to LaTeX Details</a></li>
+          <li><a href="../../changelog/">Product Changelog</a></li>
+          <li><a href="../../privacy">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/site.js?v=20261019-3" defer></script>
+</body>
+</html>
