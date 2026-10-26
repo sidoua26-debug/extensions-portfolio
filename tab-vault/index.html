@@ -31,78 +31,49 @@
   <link rel="stylesheet" href="../assets/css/styles.css?v=20261019-3">
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "SoftwareApplication",
-        "@id": "https://extensionguy.me/tab-vault/#software",
-        "name": "Tab Vault",
-        "softwareVersion": "1.0.0",
-        "operatingSystem": "Microsoft Edge, Windows, macOS, Linux",
-        "applicationCategory": "ProductivityApplication",
-        "description": "Fast, privacy-first browser tab manager reclaiming browser memory with rolling snapshots, auto-backup, and instant search.",
-        "downloadUrl": "https://microsoftedge.microsoft.com/addons/detail/paedfgpjmkmmodbcimbkjkkdlfibfpbc",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        },
-        "author": {
-          "@type": "Person",
-          "name": "Sid",
-          "url": "https://extensionguy.me/#about"
-        }
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://extensionguy.me/tab-vault/#software",
+      "name": "Tab Vault",
+      "softwareVersion": "1.0.0",
+      "operatingSystem": "Any, with Microsoft Edge",
+      "applicationCategory": "BrowserApplication",
+      "description": "Fast, privacy-first browser tab manager reclaiming browser memory with rolling snapshots, auto-backup, and instant search.",
+      "downloadUrl": "https://microsoftedge.microsoft.com/addons/detail/paedfgpjmkmmodbcimbkjkkdlfibfpbc",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
       },
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://extensionguy.me/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Tab Vault",
-            "item": "https://extensionguy.me/tab-vault/"
-          }
-        ]
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "How does Tab Vault reduce browser memory usage?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Open browser tabs consume significant RAM and CPU cycles for DOM trees, running scripts, and cached media. Tab Vault converts open tabs into lightweight, persistent list items, freeing system memory while keeping your links instantly searchable and restorable."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Does Tab Vault transmit my tabs or browsing history to any server?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Tab Vault operates 100% locally on your machine with no remote network calls, no analytics trackers, and no external servers. All saved tab collections remain in your browser local storage."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How does Tab Vault protect against tab loss and browser profile crashes?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Tab Vault features defense-in-depth disaster recovery, maintaining a 5-state rolling snapshot buffer and automated rotating backups in your local Downloads folder to protect your research sessions against unexpected loss."
-            }
-          }
-        ]
+      "author": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
       }
-    ]
-  }
-  </script>
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://extensionguy.me/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Tab Vault",
+          "item": "https://extensionguy.me/tab-vault/"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body id="top">
   <a href="#mainContent" class="skip-to-content">Skip to content</a>

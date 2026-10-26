@@ -36,93 +36,48 @@
     <link rel="stylesheet" href="../assets/css/styles.css?v=20261019-3">
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebApplication",
-        "@id": "https://extensionguy.me/word-to-latex-converter/#webapp",
-        "name": "Online Word to LaTeX Converter",
-        "url": "https://extensionguy.me/word-to-latex-converter/",
-        "applicationCategory": "UtilitiesApplication",
-        "operatingSystem": "All modern browsers (Chromium, Firefox, Safari)",
-        "description": "Free, client-side WebAssembly Word to LaTeX converter. Parses DOCX documents, equations, and tables directly in browser memory with zero file uploads.",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        },
-        "author": {
-          "@type": "Person",
-          "name": "Sid",
-          "url": "https://extensionguy.me/#about"
-        }
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://extensionguy.me/word-to-latex-converter/#webapp",
+      "name": "Online Word to LaTeX Converter",
+      "url": "https://extensionguy.me/word-to-latex-converter/",
+      "applicationCategory": "BrowserApplication",
+      "operatingSystem": "Any, with Microsoft Edge",
+      "description": "Free, client-side WebAssembly Word to LaTeX converter. Parses DOCX documents, equations, and tables directly in browser memory with zero file uploads.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
       },
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://extensionguy.me/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Word to LaTeX Online Converter",
-            "item": "https://extensionguy.me/word-to-latex-converter/"
-          }
-        ]
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "Are my Word documents or manuscripts uploaded to a remote server?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No. The converter runs Pandoc 3.10 compiled to WebAssembly inside a dedicated Web Worker thread in your browser. Document parsing, XML extraction, and LaTeX generation take place directly on your device. Document bytes are not uploaded or transmitted over the network."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How does this online converter differ from the Word to LaTeX browser extension?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "The online converter runs on this webpage and handles DOCX file conversions through your web browser. The installable Word to LaTeX (Offline) Microsoft Edge extension bundles the entire engine offline, integrates directly into your browser toolbar, supports clipboard table conversions, includes experimental local OCR, and works offline without needing to visit a website."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What Word formatting elements are preserved during conversion?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "The converter preserves heading levels (H1-H6), bold and italic typography, bulleted and numbered lists, text alignments, inline math, display equations, and data tables formatted as clean booktabs or longtable LaTeX environments."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What are the limitations of the converter?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "The converter is optimized for standard scholarly, technical, and business DOCX documents. Unusually complex nested drawing canvas shapes, non-standard equation objects from legacy Word versions, custom macros, or deeply embedded OLE objects may require minor manual adjustment in your LaTeX editor."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can I use the generated LaTeX code in Overleaf or TeXstudio?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. In LaTeX Fragment mode, the output provides clean body code ready to paste directly into existing Overleaf or TeXstudio documents. In Complete Document mode, it includes a compilable LaTeX preamble with documentclass and standard packages."
-            }
-          }
-        ]
+      "author": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
       }
-    ]
-  }
-  </script>
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://extensionguy.me/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Word to LaTeX Online Converter",
+          "item": "https://extensionguy.me/word-to-latex-converter/"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body id="top">
   <!-- Skip to Content accessible navigation link -->
