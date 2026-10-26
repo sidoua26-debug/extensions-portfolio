@@ -122,6 +122,71 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     assert.equal(cspViolations.length, 0, 'No CSP violations during theme toggling');
   });
 
+  it('1b. Theme toggle displays exactly ONE symbol at a time across routes, updates aria-label dynamically, and has focus outline', async () => {
+    const routesToTest = [
+      '/',
+      '/guides/docx-to-latex-offline/',
+      '/guides/word-tables-to-latex/',
+      '/word-to-latex-converter/',
+      '/changelog/'
+    ];
+
+    for (const route of routesToTest) {
+      const testPage = await browserContext.newPage();
+      await testPage.goto(`${serverUrl}${route}`, { waitUntil: 'networkidle' });
+
+      // Check toggle exists
+      const toggle = testPage.locator('#themeToggle');
+      assert.equal(await toggle.count(), 1, `Toggle exists on ${route}`);
+
+      // Helper to count visible SVGs inside toggle
+      async function getVisibleSvgCount() {
+        return await testPage.evaluate(() => {
+          const btn = document.getElementById('themeToggle');
+          if (!btn) return 0;
+          const svgs = btn.querySelectorAll('svg');
+          let visible = 0;
+          svgs.forEach(s => {
+            const style = window.getComputedStyle(s);
+            if (style.display !== 'none' && style.visibility !== 'hidden') {
+              visible++;
+            }
+          });
+          return visible;
+        });
+      }
+
+      // 1. Initial state: exactly 1 icon visible
+      const initialVisible = await getVisibleSvgCount();
+      assert.equal(initialVisible, 1, `Route ${route} should show exactly 1 theme icon initially`);
+
+      const initialAria = await toggle.getAttribute('aria-label');
+      assert.ok(
+        initialAria === 'Switch to dark mode' || initialAria === 'Switch to light mode',
+        `Route ${route} aria-label should be dynamic, got "${initialAria}"`
+      );
+
+      // 2. Toggle theme: click and verify exactly 1 icon visible and inverted aria-label
+      await toggle.click();
+      const toggledVisible = await getVisibleSvgCount();
+      assert.equal(toggledVisible, 1, `Route ${route} should show exactly 1 theme icon after toggle`);
+
+      const toggledAria = await toggle.getAttribute('aria-label');
+      assert.notEqual(toggledAria, initialAria, `Route ${route} aria-label should invert after click`);
+      assert.ok(
+        toggledAria === 'Switch to dark mode' || toggledAria === 'Switch to light mode',
+        `Route ${route} new aria-label valid: "${toggledAria}"`
+      );
+
+      // 3. Focus state check
+      await toggle.focus();
+      const hasFocus = await testPage.evaluate(() => document.activeElement && document.activeElement.id === 'themeToggle');
+      assert.equal(hasFocus, true, `Route ${route} themeToggle receives keyboard focus`);
+
+      await testPage.close();
+    }
+  });
+
   it('2. Mobile menu button toggles nav menu visibility and aria-expanded', async () => {
     await page.setViewportSize({ width: 375, height: 667 });
     const isExpandedBefore = await page.getAttribute('#mobileMenuBtn', 'aria-expanded');
@@ -489,6 +554,22 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     assert.ok(sitemapContent.includes('https://extensionguy.me/word-to-latex-converter/'), 'sitemap.xml lists word-to-latex-converter');
 
     await convPage.close();
+  });
+
+  it('7c. Both technical guides load cleanly with HTTP 200, valid single H1, and zero CSP violations', async () => {
+    const guideHrefs = [
+      '/guides/docx-to-latex-offline/',
+      '/guides/word-tables-to-latex/'
+    ];
+
+    for (const href of guideHrefs) {
+      const guidePage = await browserContext.newPage();
+      const response = await guidePage.goto(`${serverUrl}${href}`, { waitUntil: 'networkidle' });
+      assert.equal(response.status(), 200, `Guide link ${href} returns HTTP 200`);
+      const h1Count = await guidePage.locator('h1').count();
+      assert.equal(h1Count, 1, `Guide page ${href} has exactly one H1`);
+      await guidePage.close();
+    }
   });
 
   it('8. Zero CSP violations or console errors were recorded across entire test run', () => {
