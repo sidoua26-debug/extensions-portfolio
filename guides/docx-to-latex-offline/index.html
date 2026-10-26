@@ -232,7 +232,7 @@ pandoc manuscript.docx -s --track-changes=accept -o manuscript.tex</code></pre>
         </p>
         <ul style="padding-left: 24px; margin-bottom: 20px;">
           <li style="margin-bottom: 8px;">The web-based <a href="../../word-to-latex-converter/" style="color: var(--accent); text-decoration: underline;">Word to LaTeX converter</a> loads a compiled WebAssembly binary into your browser window on demand.</li>
-          <li style="margin-bottom: 8px;">The <a href="../../word-to-latex/" style="color: var(--accent); text-decoration: underline;">Word to LaTeX Edge Add-on</a> packages the 58.5 MB uncompressed WebAssembly engine directly inside the extension archive — in the packaged build we inspected (version 1.0.5), declaring an empty permissions array (<code>"permissions": []</code>) with no host permissions.</li>
+          <li style="margin-bottom: 8px;">The <a href="../../word-to-latex/" style="color: var(--accent); text-decoration: underline;">Word to LaTeX Edge Add-on</a> packages the uncompressed WebAssembly engine directly inside the extension archive — in the packaged build we inspected (version 1.0.6, bundling <code>pandoc.wasm</code> at 58,580,800 bytes), declaring an empty permissions array (<code>"permissions": []</code>) with no host permissions.</li>
         </ul>
 
         <!-- Embedded Screenshots -->
