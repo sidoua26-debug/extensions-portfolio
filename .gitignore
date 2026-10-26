@@ -22,3 +22,9 @@ npm-debug.log*
 # Test run and audit output artifacts
 tests/*_results.json
 test-results/
+
+# Local tooling & audit reports
+.wrangler/
+PRE_DEPLOYMENT_AUDIT.md
+ANTIGRAVITY_EXECUTION_REPORT*.md
+
