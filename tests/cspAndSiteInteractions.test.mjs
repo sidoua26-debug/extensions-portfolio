@@ -572,6 +572,29 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     }
   });
 
+  it('7d. Homepage discovers technical guides via navigation and dedicated cards', async () => {
+    // 1. Navigation link in header
+    const navGuideLink = page.locator('#navLinks a[href="#guides"]');
+    assert.equal(await navGuideLink.count(), 1, 'Header navigation contains #guides link');
+    assert.equal((await navGuideLink.textContent()).trim(), 'Guides');
+
+    // 2. Footer link
+    const footerGuideLink = page.locator('footer a[href="#guides"]');
+    assert.equal(await footerGuideLink.count(), 1, 'Footer navigation contains #guides link');
+
+    // 3. Guides section presence and accessibility
+    const guidesSection = page.locator('section#guides');
+    assert.equal(await guidesSection.count(), 1, '#guides section exists');
+    const heading = await page.textContent('#guidesHeading');
+    assert.ok(heading.includes('Technical Guides'), 'Section heading contains "Technical Guides"');
+
+    // 4. Guide cards linking to both guide URLs
+    const guide1Links = page.locator('#guides a[href="/guides/docx-to-latex-offline/"]');
+    const guide2Links = page.locator('#guides a[href="/guides/word-tables-to-latex/"]');
+    assert.ok(await guide1Links.count() >= 2, 'DOCX to LaTeX guide has title and CTA links');
+    assert.ok(await guide2Links.count() >= 2, 'Word Tables guide has title and CTA links');
+  });
+
   it('8. Zero CSP violations or console errors were recorded across entire test run', () => {
     assert.deepEqual(cspViolations, [], `Expected 0 CSP violations, got: ${JSON.stringify(cspViolations)}`);
     assert.deepEqual(consoleErrors, [], `Expected 0 console errors, got: ${JSON.stringify(consoleErrors)}`);

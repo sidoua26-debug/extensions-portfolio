@@ -200,6 +200,7 @@ html = r"""<!DOCTYPE html>
           <li><a href="#flagship" class="nav-link">Flagship</a></li>
           <li><a href="#portfolio" class="nav-link">Products</a></li>
           <li><a href="#live-converter" class="nav-link">Demo</a></li>
+          <li><a href="#guides" class="nav-link">Guides</a></li>
           <li><a href="#contact" class="nav-link">Contact</a></li>
           <li><a href="/privacy" class="nav-link">Privacy</a></li>
         </ul>
@@ -817,6 +818,57 @@ html = r"""<!DOCTYPE html>
     </section>
 
     <!-- ======================================================================
+         TECHNICAL GUIDES & DOCUMENTATION
+         ====================================================================== -->
+    <section class="guides-section" id="guides" aria-labelledby="guidesHeading" style="padding: clamp(48px, 6vw, 80px) 0; border-top: 1px solid var(--border-page); background: var(--bg-surface);">
+      <div class="container">
+        <div class="section-eyebrow">Documentation &amp; Tutorials</div>
+        <h2 id="guidesHeading" class="section-heading">Technical Guides</h2>
+        <p class="section-lead">Step-by-step documentation for offline document conversion and tabular data handling.</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 32px;">
+          <!-- Card 1: DOCX to LaTeX Offline -->
+          <article style="background: var(--bg-page); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 24px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: var(--shadow-sm);">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span class="badge badge-subtle">Conversion Guide</span>
+                <span style="font-size: 0.8rem; color: var(--text-tertiary);">October 2026</span>
+              </div>
+              <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; line-height: 1.35;">
+                <a href="/guides/docx-to-latex-offline/" style="color: var(--text-main); text-decoration: none;">Convert DOCX to LaTeX Offline</a>
+              </h3>
+              <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px;">
+                Compare Pandoc CLI and browser-local options for converting DOCX manuscripts to LaTeX offline. Learn network verification steps and post-conversion checks.
+              </p>
+            </div>
+            <div>
+              <a href="/guides/docx-to-latex-offline/" class="btn btn-ghost btn-sm" style="width: 100%; justify-content: center;">Read Guide &rarr;</a>
+            </div>
+          </article>
+
+          <!-- Card 2: Word Tables to LaTeX -->
+          <article style="background: var(--bg-page); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 24px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: var(--shadow-sm);">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span class="badge badge-subtle">Formatting Guide</span>
+                <span style="font-size: 0.8rem; color: var(--text-tertiary);">October 2026</span>
+              </div>
+              <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; line-height: 1.35;">
+                <a href="/guides/word-tables-to-latex/" style="color: var(--text-main); text-decoration: none;">How to Convert Word Tables to LaTeX</a>
+              </h3>
+              <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px;">
+                Learn how to convert Word tables to LaTeX cleanly. Master booktabs rules, longtable environments, column alignments, and package dependencies.
+              </p>
+            </div>
+            <div>
+              <a href="/guides/word-tables-to-latex/" class="btn btn-ghost btn-sm" style="width: 100%; justify-content: center;">Read Guide &rarr;</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
          ABOUT & PHILOSOPHY
          ====================================================================== -->
     <section class="about-section" id="about" aria-labelledby="aboutHeading">
@@ -1052,6 +1104,7 @@ html = r"""<!DOCTYPE html>
         <a href="/word-to-latex/" class="footer-link">Word to LaTeX</a>
         <a href="#portfolio" class="footer-link">Products</a>
         <a href="/word-to-latex-converter/" class="footer-link">Online Converter</a>
+        <a href="#guides" class="footer-link">Guides</a>
         <a href="#contact" class="footer-link">Support &amp; Contact</a>
         <a href="/privacy" class="footer-link">Privacy Policy</a>
         <a href="/changelog/" class="footer-link">Changelog</a>
