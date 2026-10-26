@@ -466,7 +466,8 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     assert.ok(jsonLdContent, 'JSON-LD script exists');
     const parsedJsonLd = JSON.parse(jsonLdContent);
     assert.ok(parsedJsonLd['@graph'].some((item) => item['@type'] === 'WebApplication'), 'Has WebApplication structured data');
-    assert.ok(parsedJsonLd['@graph'].some((item) => item['@type'] === 'FAQPage'), 'Has FAQPage structured data');
+    // Note: G7 mandates zero FAQPage schemas across all pages
+    assert.ok(!parsedJsonLd['@graph'].some((item) => item['@type'] === 'FAQPage'), 'Must not have forbidden FAQPage structured data per G7');
 
     // 3. Functional Conversion on the new page
     const fileInput = await convPage.$('#docxFileInput');
