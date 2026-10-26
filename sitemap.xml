@@ -61,6 +61,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://extensionguy.me/guides/</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://extensionguy.me/guides/docx-to-latex-offline/</loc>
     <lastmod>2026-10-26</lastmod>
     <changefreq>weekly</changefreq>

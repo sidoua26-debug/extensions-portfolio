@@ -125,6 +125,7 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
   it('1b. Theme toggle displays exactly ONE symbol at a time across routes, updates aria-label dynamically, and has focus outline', async () => {
     const routesToTest = [
       '/',
+      '/guides/',
       '/guides/docx-to-latex-offline/',
       '/guides/word-tables-to-latex/',
       '/word-to-latex-converter/',
@@ -556,8 +557,9 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     await convPage.close();
   });
 
-  it('7c. Both technical guides load cleanly with HTTP 200, valid single H1, and zero CSP violations', async () => {
+  it('7c. Guides hub and technical guides load cleanly with HTTP 200, valid single H1, and 3-level breadcrumbs', async () => {
     const guideHrefs = [
+      '/guides/',
       '/guides/docx-to-latex-offline/',
       '/guides/word-tables-to-latex/'
     ];
@@ -568,6 +570,27 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
       assert.equal(response.status(), 200, `Guide link ${href} returns HTTP 200`);
       const h1Count = await guidePage.locator('h1').count();
       assert.equal(h1Count, 1, `Guide page ${href} has exactly one H1`);
+
+      if (href !== '/guides/') {
+        // Verify 3-level breadcrumb navigation on child guides
+        const breadcrumbNav = guidePage.locator('nav[aria-label="Breadcrumb"]');
+        assert.equal(await breadcrumbNav.count(), 1, `Breadcrumb nav exists on ${href}`);
+        const breadcrumbLinks = breadcrumbNav.locator('a');
+        assert.equal(await breadcrumbLinks.count(), 2, `Child guide ${href} has Home and Guides links`);
+        const homeLinkText = (await breadcrumbLinks.nth(0).textContent()).trim();
+        const guidesLinkText = (await breadcrumbLinks.nth(1).textContent()).trim();
+        assert.equal(homeLinkText, 'Home');
+        assert.equal(guidesLinkText, 'Guides');
+        const guidesLinkHref = await breadcrumbLinks.nth(1).getAttribute('href');
+        assert.ok(guidesLinkHref === '../' || guidesLinkHref.includes('/guides'), `Guides link points to hub: ${guidesLinkHref}`);
+      } else {
+        // Verify Guides Hub cards link to both guides
+        const card1 = guidePage.locator('a[href="./docx-to-latex-offline/"]');
+        const card2 = guidePage.locator('a[href="./word-tables-to-latex/"]');
+        assert.ok(await card1.count() >= 1, 'Guides hub links to docx-to-latex-offline');
+        assert.ok(await card2.count() >= 1, 'Guides hub links to word-tables-to-latex');
+      }
+
       await guidePage.close();
     }
   });
@@ -593,6 +616,11 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     const guide2Links = page.locator('#guides a[href="/guides/word-tables-to-latex/"]');
     assert.ok(await guide1Links.count() >= 2, 'DOCX to LaTeX guide has title and CTA links');
     assert.ok(await guide2Links.count() >= 2, 'Word Tables guide has title and CTA links');
+
+    // 5. Section header link to Guides Hub
+    const viewAllGuidesLink = page.locator('#guides a[href="/guides/"]');
+    assert.equal(await viewAllGuidesLink.count(), 1, 'Technical Guides section contains link to /guides/');
+    assert.ok((await viewAllGuidesLink.textContent()).includes('View all guides'), 'Link text includes "View all guides"');
   });
 
   it('8. Zero CSP violations or console errors were recorded across entire test run', () => {
