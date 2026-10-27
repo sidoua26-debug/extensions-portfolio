@@ -205,3 +205,84 @@ html[data-theme="light"] .moon-icon {
   }
 }
 
+/* ==========================================================================
+   Modern Studio Layout & Component Refinements
+   ========================================================================== */
+.studio-header {
+  margin-bottom: clamp(32px, 5vw, 48px);
+}
+
+.studio-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+@media (min-width: 880px) {
+  .studio-grid-2col {
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+  }
+}
+
+/* Polished Feature Cards */
+.feature-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-page);
+  border-radius: var(--r-md);
+  padding: 24px;
+  transition: transform var(--ease), border-color var(--ease), box-shadow var(--ease);
+}
+.feature-card:hover {
+  border-color: var(--border-subtle);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Unified Breadcrumb */
+.site-breadcrumb {
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.site-breadcrumb a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.site-breadcrumb a:hover {
+  color: var(--accent-hover);
+}
+
+/* Touch target optimizations for mobile */
+@media (max-width: 480px) {
+  .btn {
+    min-height: 44px;
+  }
+  .theme-toggle, .mobile-menu-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+
+/* Responsive code blocks and inline URLs to prevent horizontal viewport overflow */
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+code {
+  word-break: break-word;
+}
+pre code {
+  word-break: normal;
+  white-space: pre;
+}
+a {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
