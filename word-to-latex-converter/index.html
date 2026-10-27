@@ -45,7 +45,7 @@
       "name": "Online Word to LaTeX Converter",
       "url": "https://extensionguy.me/word-to-latex-converter/",
       "applicationCategory": "BrowserApplication",
-      "operatingSystem": "Any, with Microsoft Edge",
+      "operatingSystem": "Any",
       "description": "Free, client-side WebAssembly Word to LaTeX converter. Parses DOCX documents, equations, and tables directly in browser memory with zero file uploads.",
       "offers": {
         "@type": "Offer",
@@ -203,9 +203,14 @@
             </div>
             <div class="drop-title">Select or drop a Microsoft Word (.docx) document</div>
             <div class="drop-subtitle">Processed locally on your machine via WebAssembly. Press Enter or click to browse.</div>
-            <button type="button" class="btn btn-edge btn-sm" id="converterChooseBtn">
-              Choose .docx File
-            </button>
+            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+              <button type="button" class="btn btn-edge btn-sm" id="converterChooseBtn">
+                Choose .docx File
+              </button>
+              <button type="button" class="btn btn-ghost btn-sm" id="converterSampleBtn">
+                Try with sample .docx
+              </button>
+            </div>
             <div id="converterFileName" class="file-name-tag" hidden></div>
           </div>
 

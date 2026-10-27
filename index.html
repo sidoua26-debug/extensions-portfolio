@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Word to LaTeX Converter &amp; Privacy-First Browser Extensions — ExtensionGuy</title>
+  <title>Browser Extensions &amp; Word to LaTeX — ExtensionGuy</title>
   <meta name="description" content="Privacy-first browser extensions for Edge and Chrome: Word-to-LaTeX converter, Tab Vault, Table Extractor, BulkGrab, SEO Inspector, and Bilexi.">
 
   <link rel="canonical" href="https://extensionguy.me/">
@@ -136,7 +136,7 @@
       "softwareVersion": "1.0.0",
       "operatingSystem": "Any, with Microsoft Edge",
       "applicationCategory": "BrowserApplication",
-      "description": "100% offline bilingual English/French autocorrect extension with instant accent restoration, elision repair, and no telemetry.",
+      "description": "Offline bilingual English/French autocorrect extension with instant accent restoration, elision repair, and no telemetry.",
       "downloadUrl": "https://microsoftedge.microsoft.com/addons/detail/mheomahlcfddgjlemnolopfbhojfpmpb",
       "offers": {
         "@type": "Offer",
@@ -292,9 +292,14 @@
               </div>
               <div class="drop-title">Select or drop a Microsoft Word (.docx) document</div>
               <div class="drop-subtitle">Processed locally on your machine via WebAssembly. Press Enter or click to browse.</div>
-              <button type="button" class="btn btn-edge btn-sm" id="converterChooseBtn">
-                Choose .docx File
-              </button>
+              <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                <button type="button" class="btn btn-edge btn-sm" id="converterChooseBtn">
+                  Choose .docx File
+                </button>
+                <button type="button" class="btn btn-ghost btn-sm" id="converterSampleBtn">
+                  Try with sample .docx
+                </button>
+              </div>
               <div id="converterFileName" class="file-name-tag" hidden></div>
             </div>
 

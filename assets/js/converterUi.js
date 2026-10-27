@@ -335,6 +335,7 @@ var ConverterUI = class {
   client = null;
   currentMode = "fragment";
   activeGeneration = 0;
+  sampleFetchGeneration = 0;
   currentResult = null;
   currentFile = null;
   objectUrl = null;
@@ -397,9 +398,52 @@ var ConverterUI = class {
         fileInput.click();
       });
     }
+    if (this.elements.sampleBtn) {
+      this.elements.sampleBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        this.handleSampleRequested();
+      });
+    }
     copyBtn.addEventListener("click", () => this.handleCopy());
     downloadBtn.addEventListener("click", () => this.handleDownload());
     resetBtn.addEventListener("click", () => this.resetUI());
+  }
+  async handleSampleRequested() {
+    const sampleBtn = this.elements.sampleBtn;
+    if (sampleBtn && sampleBtn.disabled) return;
+    const fetchGen = ++this.sampleFetchGeneration;
+    if (sampleBtn) {
+      sampleBtn.disabled = true;
+    }
+    this.clearError();
+    this.updateStatus("Loading", "Loading sample manuscript...", true);
+    try {
+      const sampleUrl = new URL("../samples/sample-manuscript.docx", import.meta.url).href;
+      const resp = await fetch(sampleUrl);
+      if (fetchGen !== this.sampleFetchGeneration) {
+        return;
+      }
+      if (!resp.ok) {
+        throw new Error(`Failed to load sample document (HTTP ${resp.status} ${resp.statusText})`);
+      }
+      const blob = await resp.blob();
+      if (fetchGen !== this.sampleFetchGeneration) {
+        return;
+      }
+      const sampleFile = new File([blob], "sample-manuscript.docx", {
+        type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      });
+      this.handleFileSelected(sampleFile);
+    } catch (err) {
+      if (fetchGen === this.sampleFetchGeneration) {
+        this.updateStatus("Error", "Failed to load sample document", false);
+        this.showError(`Error loading sample document: ${err?.message || String(err)}`);
+      }
+    } finally {
+      if (sampleBtn) {
+        sampleBtn.disabled = false;
+      }
+    }
   }
   setMode(mode) {
     if (this.currentMode === mode) return;
@@ -418,6 +462,7 @@ var ConverterUI = class {
   }
   handleFileSelected(file) {
     const generation = ++this.activeGeneration;
+    this.sampleFetchGeneration++;
     this.currentResult = null;
     this.currentFile = null;
     this.revokeObjectUrl();
@@ -549,6 +594,7 @@ var ConverterUI = class {
   }
   resetUI() {
     this.activeGeneration++;
+    this.sampleFetchGeneration++;
     this.currentResult = null;
     this.currentFile = null;
     this.revokeObjectUrl();
@@ -619,6 +665,7 @@ function initConverterUI() {
   const fileInput = document.getElementById("docxFileInput");
   const fileNameDisplay = document.getElementById("converterFileName");
   const chooseBtn = document.getElementById("converterChooseBtn");
+  const sampleBtn = document.getElementById("converterSampleBtn");
   const statusDot = document.getElementById("converterStatusDot");
   const statusSpinner = document.getElementById("converterStatusSpinner");
   const modeFragmentBtn = document.getElementById("modeFragmentBtn");
@@ -642,6 +689,7 @@ function initConverterUI() {
     fileInput,
     fileNameDisplay,
     chooseBtn: chooseBtn || void 0,
+    sampleBtn: sampleBtn || void 0,
     statusDot: statusDot || void 0,
     statusSpinner: statusSpinner || void 0,
     modeFragmentBtn,

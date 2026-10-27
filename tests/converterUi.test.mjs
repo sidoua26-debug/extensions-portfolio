@@ -581,4 +581,123 @@ describe('Step 6C: Strengthened Converter UI Integration & Race Tests (Playwrigh
 
     await page.close();
   });
+
+  it('Test 11 — Sample DOCX file integrity and content verification', () => {
+    const samplePath = path.join(PORTFOLIO_ROOT, 'assets/samples/sample-manuscript.docx');
+    assert.ok(fs.existsSync(samplePath), 'assets/samples/sample-manuscript.docx exists');
+    const stats = fs.statSync(samplePath);
+    assert.ok(stats.size > 1000 && stats.size < 50000, `Sample file size ${stats.size} bytes is within valid 1KB-50KB range`);
+  });
+
+  it('Test 12 — Try with sample .docx button executes real conversion with headings, table, accents, and math', async () => {
+    const page = await browserContext.newPage();
+    await page.goto(serverUrl);
+
+    const sampleBtn = page.locator('#converterSampleBtn');
+    assert.equal(await sampleBtn.count(), 1, 'Sample button is present');
+    assert.equal(await sampleBtn.isVisible(), true, 'Sample button is visible');
+    assert.equal((await sampleBtn.textContent()).trim(), 'Try with sample .docx');
+
+    // Click sample button
+    await sampleBtn.click();
+
+    // Verify conversion completes and displays clean LaTeX
+    await page.waitForSelector('#converterOutputContainer:not([hidden])', { timeout: 20000 });
+    const outputText = await page.$eval('#converterOutputArea', (el) => el.value);
+
+    // Verify Title & Headings
+    assert.ok(outputText.includes('Document Structure and Typographic Elements'), 'Output contains title');
+    assert.ok(outputText.includes('1. Structural Overview'), 'Output contains heading 1');
+    assert.ok(outputText.includes('\\textbf{bold typographic emphasis}'), 'Output contains bold formatting');
+    assert.ok(outputText.includes('\\emph{italicised text runs}'), 'Output contains italic formatting');
+
+    // Verify French Accents
+    assert.ok(outputText.includes('déjà vu'), 'Output preserves déjà vu');
+    assert.ok(outputText.includes('fenêtre'), 'Output preserves fenêtre');
+    assert.ok(outputText.includes('élève'), 'Output preserves élève');
+    assert.ok(outputText.includes('garçon'), 'Output preserves garçon');
+    assert.ok(outputText.includes('œuvrant'), 'Output preserves œ ligature');
+
+    // Verify Table Conversion
+    assert.ok(outputText.includes('\\begin{longtable}'), 'Output generates longtable for sample table');
+    assert.ok(outputText.includes('\\textbf{Element}'), 'Table header Element is bold');
+    assert.ok(outputText.includes('Title'), 'Table data Title present');
+
+    // Verify Math Notation
+    assert.ok(outputText.includes('\\(E\\  = \\ mc^{2}\\)') || outputText.includes('E = mc'), 'Output contains mathematical expression');
+
+    // Verify file tag shows sample-manuscript.docx
+    const fileNameText = await page.$eval('#converterFileName', (el) => el.textContent);
+    assert.ok(fileNameText.includes('sample-manuscript.docx'), `File tag shows sample name, got: ${fileNameText}`);
+
+    // Verify action buttons enabled
+    const copyDisabled = await page.$eval('#converterCopyBtn', (btn) => btn.disabled);
+    const downloadDisabled = await page.$eval('#converterDownloadBtn', (btn) => btn.disabled);
+    assert.equal(copyDisabled, false, 'Copy button is enabled');
+    assert.equal(downloadDisabled, false, 'Download button is enabled');
+
+    await page.close();
+  });
+
+  it('Test 13 — Race protection: User file selection while sample is fetching supersedes sample', async () => {
+    const page = await browserContext.newPage();
+    await page.goto(serverUrl);
+
+    // Intercept sample fetch and delay it
+    let resumeFetch;
+    const fetchHold = new Promise((resolve) => { resumeFetch = resolve; });
+    await page.route('**/assets/samples/sample-manuscript.docx', async (route) => {
+      await fetchHold;
+      await route.continue();
+    });
+
+    // 1. Click sample button (fetch begins and pauses)
+    await page.click('#converterSampleBtn');
+
+    // Verify button is disabled during fetch
+    const sampleDisabledDuringFetch = await page.$eval('#converterSampleBtn', (btn) => btn.disabled);
+    assert.equal(sampleDisabledDuringFetch, true, 'Sample button is disabled while fetch is pending');
+
+    // 2. User immediately selects fixture DOCX before sample completes
+    const fileInput = await page.$('#docxFileInput');
+    await fileInput.setInputFiles(FIXTURE_DOCX);
+
+    // 3. Resume the delayed sample fetch
+    resumeFetch();
+
+    // 4. Wait for conversion to complete
+    await page.waitForSelector('#converterOutputContainer:not([hidden])', { timeout: 20000 });
+    const outputText = await page.$eval('#converterOutputArea', (el) => el.value);
+
+    // Assert output is from headings_bold_italic.docx, NOT sample-manuscript.docx
+    assert.ok(outputText.includes('Heading Level 1'), 'Output contains headings_bold_italic content');
+    assert.ok(!outputText.includes('Document Structure and Typographic Elements'), 'Output does NOT contain superseded sample content');
+
+    const fileNameText = await page.$eval('#converterFileName', (el) => el.textContent);
+    assert.ok(fileNameText.includes('headings_bold_italic.docx'), 'File tag displays user-selected file');
+
+    await page.close();
+  });
+
+  it('Test 14 — Error handling: Sample fetch failure displays actionable error without crashing UI', async () => {
+    const page = await browserContext.newPage();
+    await page.goto(serverUrl);
+
+    // Route sample request to 404
+    await page.route('**/assets/samples/sample-manuscript.docx', (route) => {
+      route.fulfill({ status: 404, body: 'Not Found' });
+    });
+
+    await page.click('#converterSampleBtn');
+
+    await page.waitForSelector('#converterError:not([hidden])', { timeout: 5000 });
+    const errorText = await page.$eval('#converterError', (el) => el.textContent);
+    assert.ok(errorText.includes('Failed to load sample document') || errorText.includes('404'), `Error message is actionable: ${errorText}`);
+
+    // Verify sample button is re-enabled after error
+    const sampleDisabled = await page.$eval('#converterSampleBtn', (btn) => btn.disabled);
+    assert.equal(sampleDisabled, false, 'Sample button is re-enabled after error');
+
+    await page.close();
+  });
 });

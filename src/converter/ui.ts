@@ -21,6 +21,7 @@ export interface ConverterUIElements {
   fileInput: HTMLInputElement;
   fileNameDisplay: HTMLElement;
   chooseBtn?: HTMLButtonElement;
+  sampleBtn?: HTMLButtonElement;
   statusDot?: HTMLElement;
   statusSpinner?: HTMLElement;
   modeFragmentBtn: HTMLButtonElement;
@@ -41,6 +42,7 @@ export class ConverterUI {
   private client: ConverterClient | null = null;
   private currentMode: OutputMode = 'fragment';
   private activeGeneration = 0;
+  private sampleFetchGeneration = 0;
   private currentResult: ConversionResult | null = null;
   private currentFile: File | null = null;
   private objectUrl: string | null = null;
@@ -125,9 +127,66 @@ export class ConverterUI {
         fileInput.click();
       });
     }
+    if (this.elements.sampleBtn) {
+      this.elements.sampleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.handleSampleRequested();
+      });
+    }
     copyBtn.addEventListener('click', () => this.handleCopy());
     downloadBtn.addEventListener('click', () => this.handleDownload());
     resetBtn.addEventListener('click', () => this.resetUI());
+  }
+
+  public async handleSampleRequested(): Promise<void> {
+    const sampleBtn = this.elements.sampleBtn;
+    if (sampleBtn && sampleBtn.disabled) return;
+
+    // Advance sampleFetchGeneration so any previous pending fetch is invalidated
+    const fetchGen = ++this.sampleFetchGeneration;
+
+    if (sampleBtn) {
+      sampleBtn.disabled = true;
+    }
+
+    this.clearError();
+    this.updateStatus('Loading', 'Loading sample manuscript...', true);
+
+    try {
+      const sampleUrl = new URL('../samples/sample-manuscript.docx', import.meta.url).href;
+      const resp = await fetch(sampleUrl);
+
+      if (fetchGen !== this.sampleFetchGeneration) {
+        // A newer sample request or user file selection superseded this fetch
+        return;
+      }
+
+      if (!resp.ok) {
+        throw new Error(`Failed to load sample document (HTTP ${resp.status} ${resp.statusText})`);
+      }
+
+      const blob = await resp.blob();
+
+      if (fetchGen !== this.sampleFetchGeneration) {
+        return;
+      }
+
+      const sampleFile = new File([blob], 'sample-manuscript.docx', {
+        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      });
+
+      // Pass directly to the validated handleFileSelected pipeline
+      this.handleFileSelected(sampleFile);
+    } catch (err: any) {
+      if (fetchGen === this.sampleFetchGeneration) {
+        this.updateStatus('Error', 'Failed to load sample document', false);
+        this.showError(`Error loading sample document: ${err?.message || String(err)}`);
+      }
+    } finally {
+      if (sampleBtn) {
+        sampleBtn.disabled = false;
+      }
+    }
   }
 
   private setMode(mode: OutputMode): void {
@@ -150,8 +209,9 @@ export class ConverterUI {
   }
 
   public handleFileSelected(file: File): void {
-    // 1. Immediately advance generation token to invalidate any running conversions
+    // 1. Immediately advance generation token to invalidate any running conversions and sample fetches
     const generation = ++this.activeGeneration;
+    this.sampleFetchGeneration++;
 
     // 2. Clear previous conversion state, output, and status immediately
     this.currentResult = null;
@@ -312,6 +372,7 @@ export class ConverterUI {
 
   public resetUI(): void {
     this.activeGeneration++;
+    this.sampleFetchGeneration++;
     this.currentResult = null;
     this.currentFile = null;
     this.revokeObjectUrl();
@@ -397,6 +458,7 @@ export function initConverterUI(): ConverterUI | null {
   const fileInput = document.getElementById('docxFileInput') as HTMLInputElement;
   const fileNameDisplay = document.getElementById('converterFileName');
   const chooseBtn = document.getElementById('converterChooseBtn') as HTMLButtonElement | null;
+  const sampleBtn = document.getElementById('converterSampleBtn') as HTMLButtonElement | null;
   const statusDot = document.getElementById('converterStatusDot');
   const statusSpinner = document.getElementById('converterStatusSpinner');
   const modeFragmentBtn = document.getElementById('modeFragmentBtn') as HTMLButtonElement;
@@ -438,6 +500,7 @@ export function initConverterUI(): ConverterUI | null {
     fileInput,
     fileNameDisplay,
     chooseBtn: chooseBtn || undefined,
+    sampleBtn: sampleBtn || undefined,
     statusDot: statusDot || undefined,
     statusSpinner: statusSpinner || undefined,
     modeFragmentBtn,
