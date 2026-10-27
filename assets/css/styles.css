@@ -198,3 +198,10 @@ html[data-theme="light"] .moon-icon {
   color: var(--accent-hover);
 }
 
+/* Responsive Nav Action Chrome Button */
+@media (max-width: 768px) {
+  .nav-actions .btn-chrome {
+    display: none;
+  }
+}
+

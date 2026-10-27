@@ -129,7 +129,13 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
       '/guides/docx-to-latex-offline/',
       '/guides/word-tables-to-latex/',
       '/word-to-latex-converter/',
-      '/changelog/'
+      '/changelog/',
+      '/table-extractor/',
+      '/bulkgrab/',
+      '/seo-inspector/',
+      '/bilexi/',
+      '/tab-vault/',
+      '/word-to-latex/'
     ];
 
     for (const route of routesToTest) {
@@ -477,13 +483,51 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     });
     assert.deepEqual(insecureLinks, [], 'Zero insecure http:// links in DOM');
 
-    // 5. JSON-LD Structured Data
+    // 5. Title verification and generator parity
+    const homepageTitle = await page.title();
+    assert.equal(homepageTitle, 'Browser Extensions & Word to LaTeX — ExtensionGuy', 'Homepage title matches target');
+    const generatorContent = fs.readFileSync(path.join(PORTFOLIO_ROOT, 'build_redesign.py'), 'utf-8');
+    assert.ok(generatorContent.includes('<title>Browser Extensions &amp; Word to LaTeX — ExtensionGuy</title>'), 'build_redesign.py title matches index.html');
+
+    // 6. JSON-LD Structured Data
     const jsonLdContent = await page.$eval('script[type="application/ld+json"]', (el) => el.textContent);
     assert.ok(jsonLdContent, 'JSON-LD script exists');
     const parsedJsonLd = JSON.parse(jsonLdContent);
     assert.equal(parsedJsonLd['@context'], 'https://schema.org');
     assert.ok(parsedJsonLd['@graph'].some((item) => item['@type'] === 'WebSite'));
     assert.ok(parsedJsonLd['@graph'].some((item) => item['@type'] === 'SoftwareApplication'));
+
+    // Check Bilexi schema in homepage does not contain '100%'
+    const bilexiApp = parsedJsonLd['@graph'].find((item) => item['@id'] && item['@id'].includes('bilexi'));
+    assert.ok(bilexiApp, 'Bilexi SoftwareApplication exists in homepage schema');
+    assert.ok(!bilexiApp.description.includes('100%'), 'Homepage Bilexi description has no 100% absolute claim');
+    assert.ok(bilexiApp.description.startsWith('Offline bilingual'), 'Homepage Bilexi description begins with Offline bilingual');
+
+    // Check Bilexi product page JSON-LD description does not contain '100%'
+    const bilexiHtml = fs.readFileSync(path.join(PORTFOLIO_ROOT, 'bilexi/index.html'), 'utf-8');
+    const bilexiJsonMatch = bilexiHtml.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+    assert.ok(bilexiJsonMatch, 'Bilexi page contains JSON-LD block');
+    const bilexiProductSchema = JSON.parse(bilexiJsonMatch[1]);
+    const bilexiProductApp = bilexiProductSchema['@graph'].find((item) => item['@type'] === 'SoftwareApplication');
+    assert.ok(bilexiProductApp, 'Bilexi product page contains SoftwareApplication schema');
+    assert.ok(!bilexiProductApp.description.includes('100%'), 'Bilexi product page description has no 100% absolute claim');
+    assert.ok(bilexiProductApp.description.startsWith('Offline bilingual'), 'Bilexi product page description begins with Offline bilingual');
+
+    // 7. Sitemap consistency check
+    const sitemapXml = fs.readFileSync(path.join(PORTFOLIO_ROOT, 'sitemap.xml'), 'utf-8');
+    assert.ok(sitemapXml.includes('<loc>https://extensionguy.me/changelog/</loc>'), 'sitemap.xml includes changelog with trailing slash');
+    assert.ok(!sitemapXml.includes('<loc>https://extensionguy.me/changelog</loc>'), 'sitemap.xml does not include non-slash changelog');
+    assert.ok(sitemapXml.includes('<loc>https://extensionguy.me/privacy</loc>'), 'sitemap.xml includes privacy without trailing slash');
+
+    // 8. Distinct titles across homepage, online converter, and product page
+    const wtlHtml = fs.readFileSync(path.join(PORTFOLIO_ROOT, 'word-to-latex/index.html'), 'utf-8');
+    const convHtml = fs.readFileSync(path.join(PORTFOLIO_ROOT, 'word-to-latex-converter/index.html'), 'utf-8');
+    const wtlTitleMatch = wtlHtml.match(/<title>(.*?)<\/title>/);
+    const convTitleMatch = convHtml.match(/<title>(.*?)<\/title>/);
+    assert.ok(wtlTitleMatch && convTitleMatch, 'Both product and converter pages have titles');
+    const titles = [homepageTitle, wtlTitleMatch[1], convTitleMatch[1]];
+    const uniqueTitles = new Set(titles);
+    assert.equal(uniqueTitles.size, 3, 'Homepage, online converter, and Word to LaTeX product have 3 distinct titles');
 
     // 6. Text-to-HTML code ratio > 15% and H1 spacing
     const h1Text = await page.evaluate(() => document.getElementById('heroHeadline').innerHTML);
@@ -531,7 +575,9 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     const jsonLdContent = await convPage.$eval('script[type="application/ld+json"]', (el) => el.textContent);
     assert.ok(jsonLdContent, 'JSON-LD script exists');
     const parsedJsonLd = JSON.parse(jsonLdContent);
-    assert.ok(parsedJsonLd['@graph'].some((item) => item['@type'] === 'WebApplication'), 'Has WebApplication structured data');
+    const webApp = parsedJsonLd['@graph'].find((item) => item['@type'] === 'WebApplication');
+    assert.ok(webApp, 'Has WebApplication structured data');
+    assert.equal(webApp.operatingSystem, 'Any', 'WebApplication operatingSystem is Any');
     // Note: G7 mandates zero FAQPage schemas across all pages
     assert.ok(!parsedJsonLd['@graph'].some((item) => item['@type'] === 'FAQPage'), 'Must not have forbidden FAQPage structured data per G7');
 
@@ -550,7 +596,13 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     assert.equal(copyDisabled, false, 'Copy button is enabled after conversion');
     assert.equal(downloadDisabled, false, 'Download button is enabled after conversion');
 
-    // 5. Check sitemap contains /word-to-latex-converter/
+    // 5. Check sample button presence and functioning
+    const sampleBtn = convPage.locator('#converterSampleBtn');
+    assert.equal(await sampleBtn.count(), 1, 'Sample button exists on /word-to-latex-converter/');
+    assert.equal(await sampleBtn.isVisible(), true, 'Sample button is visible on /word-to-latex-converter/');
+    assert.equal((await sampleBtn.textContent()).trim(), 'Try with sample .docx');
+
+    // 6. Check sitemap contains /word-to-latex-converter/
     const sitemapContent = fs.readFileSync(path.join(PORTFOLIO_ROOT, 'sitemap.xml'), 'utf-8');
     assert.ok(sitemapContent.includes('https://extensionguy.me/word-to-latex-converter/'), 'sitemap.xml lists word-to-latex-converter');
 
@@ -621,6 +673,236 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     const viewAllGuidesLink = page.locator('#guides a[href="/guides/"]');
     assert.equal(await viewAllGuidesLink.count(), 1, 'Technical Guides section contains link to /guides/');
     assert.ok((await viewAllGuidesLink.textContent()).includes('View all guides'), 'Link text includes "View all guides"');
+  });
+
+  it('7e. Product pages standard navigation, footers, related extensions, and browser-aware CTAs', async () => {
+    const productRoutes = [
+      { route: '/table-extractor/', name: 'table-extractor', dualStore: true },
+      { route: '/bulkgrab/', name: 'bulkgrab', dualStore: true },
+      { route: '/seo-inspector/', name: 'seo-inspector', dualStore: false },
+      { route: '/bilexi/', name: 'bilexi', dualStore: false },
+      { route: '/tab-vault/', name: 'tab-vault', dualStore: false },
+      { route: '/word-to-latex/', name: 'word-to-latex', dualStore: false }
+    ];
+
+    for (const prod of productRoutes) {
+      const prodPage = await browserContext.newPage();
+      const resp = await prodPage.goto(`${serverUrl}${prod.route}`, { waitUntil: 'networkidle' });
+      assert.equal(resp.status(), 200, `${prod.route} returned 200`);
+
+      // 1. Navigation Brand and Links
+      const brandLink = prodPage.locator('header.navbar a.brand');
+      assert.equal(await brandLink.count(), 1, `Brand link exists in header on ${prod.route}`);
+      assert.equal(await brandLink.getAttribute('href'), '../', `Brand link points to ../ on ${prod.route}`);
+
+      const requiredNavHrefs = [
+        '../#flagship',
+        '../#portfolio',
+        '../word-to-latex-converter/',
+        '../guides/',
+        '../#contact',
+        '../privacy'
+      ];
+      for (const nhref of requiredNavHrefs) {
+        const link = prodPage.locator(`#navLinks a[href="${nhref}"]`);
+        assert.ok(await link.count() >= 1, `Nav link ${nhref} exists on ${prod.route}`);
+      }
+
+      // Mobile menu toggle
+      const mobileBtn = prodPage.locator('#mobileMenuBtn');
+      assert.equal(await mobileBtn.count(), 1, `Mobile menu button exists on ${prod.route}`);
+      assert.equal(await mobileBtn.getAttribute('aria-expanded'), 'false', `Mobile menu begins collapsed`);
+      await prodPage.setViewportSize({ width: 375, height: 667 });
+      await mobileBtn.click();
+      assert.equal(await mobileBtn.getAttribute('aria-expanded'), 'true', `Mobile menu expands after click`);
+      const navLinksClass = await prodPage.locator('#navLinks').getAttribute('class');
+      assert.ok(navLinksClass.includes('open'), `navLinks has open class when expanded on ${prod.route}`);
+      await mobileBtn.click();
+      assert.equal(await mobileBtn.getAttribute('aria-expanded'), 'false', `Mobile menu collapses after second click`);
+      await prodPage.setViewportSize({ width: 1280, height: 800 });
+
+      // 2. Footer Links
+      const requiredFooterHrefs = [
+        '../',
+        '../#portfolio',
+        '../word-to-latex-converter/',
+        '../guides/',
+        '../#contact',
+        '../privacy',
+        '../changelog/'
+      ];
+      for (const fhref of requiredFooterHrefs) {
+        const link = prodPage.locator(`footer a[href="${fhref}"]`);
+        assert.ok(await link.count() >= 1, `Footer link ${fhref} exists on ${prod.route}`);
+      }
+      const githubLink = prodPage.locator('footer a[href^="https://github.com/"]');
+      assert.ok(await githubLink.count() >= 1, `Footer GitHub source link exists on ${prod.route}`);
+
+      // 3. Related Extensions Section
+      const relatedSection = prodPage.locator('section[aria-labelledby="relatedHeading"]');
+      assert.equal(await relatedSection.count(), 1, `Related extensions section exists on ${prod.route}`);
+      const relatedHeading = (await prodPage.locator('#relatedHeading').textContent()).trim();
+      assert.equal(relatedHeading, 'More Local-First Extensions', `Related heading is "More Local-First Extensions" on ${prod.route}`);
+
+      // Check cards do not link to self or online converter
+      const cardLinks = await relatedSection.locator('h3 a').evaluateAll(nodes => nodes.map(n => n.getAttribute('href')));
+      assert.equal(cardLinks.length, 3, `Exactly 3 related extension card links on ${prod.route}`);
+      for (const clink of cardLinks) {
+        assert.ok(!clink.includes(prod.name), `Related card does not link to self on ${prod.route}: ${clink}`);
+        assert.ok(!clink.includes('word-to-latex-converter'), `Related card does not link to converter on ${prod.route}: ${clink}`);
+      }
+
+      // 4. Browser-Aware CTAs for table-extractor and bulkgrab
+      if (prod.dualStore) {
+        const ctaGroups = prodPage.locator('[data-browser-cta-group]');
+        assert.ok(await ctaGroups.count() >= 2, `At least 2 dual store CTA groups (hero + bottom) on ${prod.route}`);
+
+        const chromeLinks = prodPage.locator('[data-cta-store="chrome"]');
+        const edgeLinks = prodPage.locator('[data-cta-store="edge"]');
+        assert.ok(await chromeLinks.count() >= 2, `Chrome store CTAs present on ${prod.route}`);
+        assert.ok(await edgeLinks.count() >= 2, `Edge store CTAs present on ${prod.route}`);
+
+        // Verify Chrome store URL
+        const chromeHref = await chromeLinks.first().getAttribute('href');
+        assert.ok(chromeHref.startsWith('https://chromewebstore.google.com/detail/'), `Chrome href valid on ${prod.route}`);
+        // Verify Edge store URL
+        const edgeHref = await edgeLinks.first().getAttribute('href');
+        assert.ok(edgeHref.startsWith('https://microsoftedge.microsoft.com/addons/detail/'), `Edge href valid on ${prod.route}`);
+
+        // Verify browser CTA adaptation under Chromium: site.js detects Chrome and swaps primary/ghost classes
+        const heroGroup = prodPage.locator('[data-browser-cta-group]').first();
+        const heroChrome = heroGroup.locator('[data-cta-store="chrome"]');
+        const heroEdge = heroGroup.locator('[data-cta-store="edge"]');
+        const chromeClass = await heroChrome.getAttribute('class');
+        const edgeClass = await heroEdge.getAttribute('class');
+        assert.ok(chromeClass.includes('btn-chrome'), `Chrome CTA promoted to btn-chrome on Chromium on ${prod.route}`);
+        assert.ok(edgeClass.includes('btn-ghost'), `Edge CTA demoted to btn-ghost on Chromium on ${prod.route}`);
+      }
+
+      await prodPage.close();
+    }
+  });
+
+  it('7f. Browser-aware CTA behavior validates across Edge (Desktop/Android/iOS), Chrome (Desktop/iOS), Fallback (Firefox/Safari), and JS-disabled', async () => {
+    const testCases = [
+      {
+        name: 'Google Chrome Desktop',
+        ua: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        jsEnabled: true,
+        expectedPrimary: 'chrome',
+        expectedEdgeClass: 'btn-ghost',
+        expectedChromeClass: 'btn-chrome'
+      },
+      {
+        name: 'Chrome on iOS (CriOS)',
+        ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.0.0 Mobile/15E148 Safari/604.1',
+        jsEnabled: true,
+        expectedPrimary: 'chrome',
+        expectedEdgeClass: 'btn-ghost',
+        expectedChromeClass: 'btn-chrome'
+      },
+      {
+        name: 'Microsoft Edge Desktop (Edg/)',
+        ua: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0',
+        jsEnabled: true,
+        expectedPrimary: 'edge',
+        expectedEdgeClass: 'btn-edge',
+        expectedChromeClass: 'btn-ghost'
+      },
+      {
+        name: 'Microsoft Edge on Android (EdgA/)',
+        ua: 'Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36 EdgA/120.0.0.0',
+        jsEnabled: true,
+        expectedPrimary: 'edge',
+        expectedEdgeClass: 'btn-edge',
+        expectedChromeClass: 'btn-ghost'
+      },
+      {
+        name: 'Microsoft Edge on iOS (EdgiOS/)',
+        ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 EdgiOS/120.0.0.0 Mobile/15E148 Safari/605.1.15',
+        jsEnabled: true,
+        expectedPrimary: 'edge',
+        expectedEdgeClass: 'btn-edge',
+        expectedChromeClass: 'btn-ghost'
+      },
+      {
+        name: 'Fallback Firefox',
+        ua: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0',
+        jsEnabled: true,
+        expectedPrimary: 'edge',
+        expectedEdgeClass: 'btn-edge',
+        expectedChromeClass: 'btn-ghost'
+      },
+      {
+        name: 'Fallback Safari',
+        ua: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15',
+        jsEnabled: true,
+        expectedPrimary: 'edge',
+        expectedEdgeClass: 'btn-edge',
+        expectedChromeClass: 'btn-ghost'
+      },
+      {
+        name: 'JavaScript Disabled (HTML baseline)',
+        ua: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        jsEnabled: false,
+        expectedPrimary: 'edge',
+        expectedEdgeClass: 'btn-edge',
+        expectedChromeClass: 'btn-ghost'
+      }
+    ];
+
+    for (const tc of testCases) {
+      const customContext = await browser.newContext({
+        userAgent: tc.ua,
+        javaScriptEnabled: tc.jsEnabled
+      });
+      const customPage = await customContext.newPage();
+
+      for (const route of ['/table-extractor/', '/bulkgrab/']) {
+        await customPage.goto(`${serverUrl}${route}`, { waitUntil: 'networkidle' });
+
+        const heroGroup = customPage.locator('[data-browser-cta-group]').first();
+        const chromeBtn = heroGroup.locator('[data-cta-store="chrome"]');
+        const edgeBtn = heroGroup.locator('[data-cta-store="edge"]');
+
+        // Both store destinations must exist and have working links
+        assert.equal(await chromeBtn.count(), 1, `Chrome store button exists on ${route} under ${tc.name}`);
+        assert.equal(await edgeBtn.count(), 1, `Edge store button exists on ${route} under ${tc.name}`);
+
+        const chromeClass = await chromeBtn.getAttribute('class');
+        const edgeClass = await edgeBtn.getAttribute('class');
+
+        assert.ok(
+          chromeClass.includes(tc.expectedChromeClass),
+          `Expected Chrome button on ${route} under ${tc.name} to have ${tc.expectedChromeClass}, got: ${chromeClass}`
+        );
+        assert.ok(
+          edgeClass.includes(tc.expectedEdgeClass),
+          `Expected Edge button on ${route} under ${tc.name} to have ${tc.expectedEdgeClass}, got: ${edgeClass}`
+        );
+
+        // Verify order in DOM
+        const buttons = heroGroup.locator('a[data-cta-store]');
+        const firstStore = await buttons.nth(0).getAttribute('data-cta-store');
+        assert.equal(firstStore, tc.expectedPrimary, `Expected ${tc.expectedPrimary} button first on ${route} under ${tc.name}`);
+
+        // Verify navbar CTA behavior
+        const navCta = customPage.locator('.nav-actions [data-nav-cta]');
+        if (await navCta.count() > 0) {
+          const navText = (await navCta.textContent()).trim();
+          const navHref = await navCta.getAttribute('href');
+          if (tc.expectedPrimary === 'chrome') {
+            assert.ok(navText.includes('Chrome'), `Nav CTA shows Chrome for ${tc.name} on ${route}`);
+            assert.ok(navHref.includes('chromewebstore.google.com'), `Nav CTA links to Chrome Web Store for ${tc.name} on ${route}`);
+          } else {
+            assert.ok(navText.includes('Edge'), `Nav CTA remains Edge for ${tc.name} on ${route}`);
+            assert.ok(navHref.includes('microsoftedge.microsoft.com'), `Nav CTA links to Edge for ${tc.name} on ${route}`);
+          }
+        }
+      }
+
+      await customContext.close();
+    }
   });
 
   it('8. Zero CSP violations or console errors were recorded across entire test run', () => {

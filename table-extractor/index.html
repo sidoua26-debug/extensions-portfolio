@@ -87,18 +87,29 @@
       </a>
 
       <nav aria-label="Main Navigation">
-        <ul class="nav-links">
+        <ul class="nav-links" id="navLinks">
           <li><a href="../#flagship" class="nav-link">Flagship</a></li>
           <li><a href="../#portfolio" class="nav-link">All Extensions</a></li>
-          <li><a href="../#live-converter" class="nav-link">Live Web Demo</a></li>
+          <li><a href="../word-to-latex-converter/" class="nav-link">Online Converter</a></li>
+          <li><a href="../guides/" class="nav-link">Guides</a></li>
+          <li><a href="../#contact" class="nav-link">Contact</a></li>
           <li><a href="../privacy" class="nav-link">Privacy</a></li>
         </ul>
       </nav>
 
       <div class="nav-actions">
-        <a href="https://microsoftedge.microsoft.com/addons/detail/table-extractor-export-h/pekammppimoaikllkhhebocbkbidoboe" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle color theme">
+          <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+
+        <a href="https://microsoftedge.microsoft.com/addons/detail/table-extractor-export-h/pekammppimoaikllkhhebocbkbidoboe" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm" data-nav-cta="table-extractor">
           Get on Edge
         </a>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="Open mobile navigation menu" aria-expanded="false" aria-controls="navLinks">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
       </div>
     </div>
   </header>
@@ -125,12 +136,12 @@
         </div>
       </div>
 
-      <div style="display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap;">
-        <a href="https://microsoftedge.microsoft.com/addons/detail/table-extractor-export-h/pekammppimoaikllkhhebocbkbidoboe" target="_blank" rel="noopener noreferrer" class="btn btn-edge">
+      <div style="display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap;" data-browser-cta-group>
+        <a href="https://microsoftedge.microsoft.com/addons/detail/table-extractor-export-h/pekammppimoaikllkhhebocbkbidoboe" target="_blank" rel="noopener noreferrer" class="btn btn-edge" data-cta-store="edge">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           Install Free on Microsoft Edge
         </a>
-        <a href="https://chromewebstore.google.com/detail/table-extractor-export-h/fjpbjpmccomonleefghgalfoioekhlhm" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Chrome Web Store &rarr;</a>
+        <a href="https://chromewebstore.google.com/detail/table-extractor-export-h/fjpbjpmccomonleefghgalfoioekhlhm" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" data-cta-store="chrome">Chrome Web Store &rarr;</a>
         <a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
           GitHub (@sidoua26-debug)
         </a>
@@ -257,7 +268,7 @@
       <!-- Related Extensions Section -->
       <section style="margin-bottom: 40px;" aria-labelledby="relatedHeading">
         <h2 id="relatedHeading" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
-          Related Extensions
+          More Local-First Extensions
         </h2>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
 
@@ -266,7 +277,7 @@
                 <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 6px;">
                   <a href="../word-to-latex/" style="color: var(--accent); text-decoration: underline;">Word to LaTeX (Offline)</a>
                 </h3>
-                <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0 0 12px 0;">Convert DOCX documents and tables directly into publication-ready LaTeX.</p>
+                <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0 0 12px 0;">Convert DOCX documents and complex tables into clean LaTeX markup directly in your browser.</p>
               </div>
               <a href="../word-to-latex/" style="font-size: 0.85rem; font-weight: 600; color: var(--accent);">Learn more &rarr;</a>
             </div>
@@ -276,7 +287,7 @@
                 <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 6px;">
                   <a href="../bulkgrab/" style="color: var(--accent); text-decoration: underline;">BulkGrab</a>
                 </h3>
-                <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0 0 12px 0;">Batch download documents, PDFs, and media assets in a single click.</p>
+                <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0 0 12px 0;">Batch download documents, media, and linked assets with on-device ZIP archive bundling.</p>
               </div>
               <a href="../bulkgrab/" style="font-size: 0.85rem; font-weight: 600; color: var(--accent);">Learn more &rarr;</a>
             </div>
@@ -286,19 +297,24 @@
                 <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 6px;">
                   <a href="../seo-inspector/" style="color: var(--accent); text-decoration: underline;">SEO Inspector</a>
                 </h3>
-                <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0 0 12px 0;">Inspect on-page markup, table tags, and structured data hierarchy.</p>
+                <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0 0 12px 0;">Run on-page technical SEO audits covering heading hierarchies, meta tags, and structured data in memory.</p>
               </div>
               <a href="../seo-inspector/" style="font-size: 0.85rem; font-weight: 600; color: var(--accent);">Learn more &rarr;</a>
             </div>
 
         </div>
       </section>
-  <div style="text-align: center; padding: 32px 16px; background: var(--bg-muted); border-radius: var(--r-lg); border: 1px solid var(--border-page);">
+      <div style="text-align: center; padding: 32px 16px; background: var(--bg-muted); border-radius: var(--r-lg); border: 1px solid var(--border-page);">
         <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 8px;">Ready to use Table Extractor?</h3>
-        <p style="color: var(--text-secondary); margin-bottom: 20px;">Install directly from the official Microsoft Edge Add-ons catalog in 1 click.</p>
-        <a href="https://microsoftedge.microsoft.com/addons/detail/table-extractor-export-h/pekammppimoaikllkhhebocbkbidoboe" target="_blank" rel="noopener noreferrer" class="btn btn-edge">
-          Get on Microsoft Edge &rarr;
-        </a>
+        <p style="color: var(--text-secondary); margin-bottom: 20px;">Install from the official Microsoft Edge Add-ons catalog or Chrome Web Store.</p>
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;" data-browser-cta-group>
+          <a href="https://microsoftedge.microsoft.com/addons/detail/table-extractor-export-h/pekammppimoaikllkhhebocbkbidoboe" target="_blank" rel="noopener noreferrer" class="btn btn-edge" data-cta-store="edge">
+            Get on Microsoft Edge &rarr;
+          </a>
+          <a href="https://chromewebstore.google.com/detail/table-extractor-export-h/fjpbjpmccomonleefghgalfoioekhlhm" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" data-cta-store="chrome">
+            Get on Chrome Web Store &rarr;
+          </a>
+        </div>
       </div>
     </article>
   </main>
@@ -312,16 +328,23 @@
           </div>
           <span>ExtensionGuy</span>
         </a>
-        <p class="footer-copy">&copy; 2026 ExtensionGuy. Fast, privacy-first browser extensions.</p>
+        <p class="footer-copy">
+          &copy; 2026 ExtensionGuy. Published extensions available on Microsoft Edge Add-ons and Chrome Web Store. Built local-first with no tracking.
+        </p>
       </div>
       <div class="footer-links">
         <a href="../" class="footer-link">Home</a>
-        <a href="/privacy" class="footer-link">Privacy Policy</a>
-        <a href="/changelog/" class="footer-link">Changelog</a>
-        <a href="/privacy#table-extractor" class="footer-link">Privacy details</a>
-        <a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">GitHub</a>
+        <a href="../#portfolio" class="footer-link">Products</a>
+        <a href="../word-to-latex-converter/" class="footer-link">Online Converter</a>
+        <a href="../guides/" class="footer-link">Guides</a>
+        <a href="../#contact" class="footer-link">Support &amp; Contact</a>
+        <a href="../privacy" class="footer-link">Privacy Policy</a>
+        <a href="../changelog/" class="footer-link">Changelog</a>
+        <a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Source Code</a>
       </div>
     </div>
   </footer>
+
+  <script src="../assets/js/site.js?v=20261019-3" defer></script>
 </body>
 </html>
