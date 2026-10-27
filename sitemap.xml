@@ -55,7 +55,7 @@
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://extensionguy.me/changelog</loc>
+    <loc>https://extensionguy.me/changelog/</loc>
     <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -75,6 +75,24 @@
   <url>
     <loc>https://extensionguy.me/guides/word-tables-to-latex/</loc>
     <lastmod>2026-10-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://extensionguy.me/guides/export-virtualized-tables-to-excel/</loc>
+    <lastmod>2026-10-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://extensionguy.me/guides/prevent-browser-tab-loss-local-backups/</loc>
+    <lastmod>2026-10-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://extensionguy.me/guides/type-french-accents-on-qwerty-offline/</loc>
+    <lastmod>2026-10-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

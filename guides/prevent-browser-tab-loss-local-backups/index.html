@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Back Up Browser Tabs and Recover Lost Sessions — ExtensionGuy</title>
+  <meta name="description" content="Learn why browser crash recovery fails and how local extension storage, Web Locks, and 3-slot rolling JSON backups protect against tab session loss.">
+
+  <link rel="canonical" href="https://extensionguy.me/guides/prevent-browser-tab-loss-local-backups/">
+  <link rel="alternate" hreflang="en" href="https://extensionguy.me/guides/prevent-browser-tab-loss-local-backups/">
+  <link rel="alternate" hreflang="x-default" href="https://extensionguy.me/guides/prevent-browser-tab-loss-local-backups/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How to Back Up Browser Tabs and Recover Lost Sessions">
+  <meta property="og:description" content="Learn why browser crash recovery fails and how local extension storage, Web Locks, and 3-slot rolling JSON backups protect against tab session loss.">
+  <meta property="og:url" content="https://extensionguy.me/guides/prevent-browser-tab-loss-local-backups/">
+  <meta property="og:image" content="https://extensionguy.me/assets/og/home-1200x630.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How to Back Up Browser Tabs and Recover Lost Sessions">
+  <meta name="twitter:description" content="Learn why browser crash recovery fails and how local extension storage, Web Locks, and 3-slot rolling JSON backups protect against tab session loss.">
+  <meta name="twitter:image" content="https://extensionguy.me/assets/og/home-1200x630.png">
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="icon" type="image/png" href="../../assets/icons/word-to-latex-128.png">
+  <link rel="apple-touch-icon" href="../../assets/icons/word-to-latex-128.png">
+  <meta name="theme-color" content="#0f172a">
+
+  <link rel="stylesheet" href="../../assets/css/styles.css?v=20261019-3">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://extensionguy.me/guides/prevent-browser-tab-loss-local-backups/#article",
+      "headline": "How to Back Up Browser Tabs and Recover Lost Sessions",
+      "description": "Learn why browser crash recovery fails and how local extension storage, Web Locks, and 3-slot rolling JSON backups protect against tab session loss.",
+      "datePublished": "2026-10-27",
+      "dateModified": "2026-10-27",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://extensionguy.me/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://extensionguy.me/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "How to Back Up Browser Tabs",
+          "item": "https://extensionguy.me/guides/prevent-browser-tab-loss-local-backups/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body id="top">
+  <a href="#mainContent" class="skip-to-content">Skip to content</a>
+
+  <header class="navbar" role="banner">
+    <div class="container nav-inner">
+      <a href="../../" class="brand" aria-label="ExtensionGuy Portfolio">
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <span>ExtensionGuy</span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="../../#flagship" class="nav-link">Flagship</a></li>
+          <li><a href="../../#portfolio" class="nav-link">All Extensions</a></li>
+          <li><a href="../../word-to-latex-converter/" class="nav-link">Web Converter</a></li>
+          <li><a href="../../privacy" class="nav-link">Privacy</a></li>
+          <li><a href="../" class="nav-link">Guides</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" title="Switch to dark mode">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="mainContent">
+    <article class="container" style="max-width: 900px; padding: clamp(32px, 5vw, 64px) 16px;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.85rem; margin-bottom: 24px; color: var(--text-tertiary);"><a href="../../" style="color: var(--accent); text-decoration: underline;">Home</a> &rsaquo; <a href="../" style="color: var(--accent); text-decoration: underline;">Guides</a> &rsaquo; <span>How to Back Up Browser Tabs</span></nav>
+
+      <header style="margin-bottom: 36px;">
+        <span class="badge badge-subtle" style="margin-bottom: 12px; display: inline-block;">Technical Guide</span>
+        <h1 style="font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; letter-spacing: -0.025em; margin-bottom: 16px; line-height: 1.2;">
+          How to Back Up Browser Tabs and Recover Lost Sessions
+        </h1>
+        <div style="font-size: 0.85rem; color: var(--text-tertiary); margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+          <span>Last updated: October 2026</span>
+          <span aria-hidden="true">&bull;</span>
+          <span>Verified against Manifest V3 storage and Tab Vault v1.0 source</span>
+        </div>
+        <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+          Accidental window closures, operating system reboots, and local browser cache conflicts can lead to the unexpected loss of active browser tabs. Relying solely on a browser's native session restorer leaves research sessions vulnerable to sudden data loss.
+        </p>
+      </header>
+
+      <div style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7;">
+        <p style="margin-bottom: 20px;">
+          For users who maintain dozens or hundreds of open tabs across multiple browser windows, session preservation requires more than an in-memory history log. This guide examines why built-in restore mechanisms fail, compares storage architectures in browser extensions, and explains how defense-in-depth measures&mdash;including Web Locks, write-verify staging, shrink safeguards, and rolling JSON file backups&mdash;protect critical tab data.
+        </p>
+
+        <!-- Table of Contents -->
+        <nav class="toc-box" aria-label="Table of contents" style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 20px; margin-bottom: 32px;">
+          <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 12px;">Table of Contents</div>
+          <ul style="list-style: none; padding-left: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; font-size: 0.88rem;">
+            <li><a href="#why-sessions-get-lost" style="color: var(--accent); text-decoration: underline;">1. Why Browser Tabs and Sessions Get Lost</a></li>
+            <li><a href="#persistence-mechanisms" style="color: var(--accent); text-decoration: underline;">2. Comparing Persistence Mechanisms</a></li>
+            <li><a href="#granular-storage-and-locks" style="color: var(--accent); text-decoration: underline;">3. Group Records and Write Coordination</a></li>
+            <li><a href="#rotating-backup-files" style="color: var(--accent); text-decoration: underline;">4. Rotating Backup Files and Export Mechanics</a></li>
+            <li><a href="#shrink-and-empty-safeguards" style="color: var(--accent); text-decoration: underline;">5. Empty and Shrinking-Session Safeguards</a></li>
+            <li><a href="#recovery-runbook" style="color: var(--accent); text-decoration: underline;">6. Practical Recovery Runbook</a></li>
+            <li><a href="#privacy-and-operational-limits" style="color: var(--accent); text-decoration: underline;">7. Privacy, Security, and Operational Limits</a></li>
+            <li><a href="#tab-vault-workflow" style="color: var(--accent); text-decoration: underline;">8. Workflow with Tab Vault</a></li>
+            <li><a href="#primary-references" style="color: var(--accent); text-decoration: underline;">9. Primary Documentation References</a></li>
+          </ul>
+        </nav>
+
+        <div class="callout callout-info" style="background: var(--bg-surface); border-left: 4px solid var(--accent); padding: 16px 20px; margin-bottom: 32px; border-radius: 0 var(--r-md) var(--r-md) 0; border-top: 1px solid var(--border-page); border-right: 1px solid var(--border-page); border-bottom: 1px solid var(--border-page);">
+          <strong style="color: var(--text-main); display: block; margin-bottom: 6px;">Scope &amp; Architecture Boundaries:</strong>
+          <span>This guide focuses on preserving tab URLs, page titles, favicons, and group relationships. It is essential to distinguish between live browser sessions and saved metadata records. Neither browser storage APIs nor tab extensions preserve ephemeral client state such as unsaved form inputs, temporary DOM modifications, active WebSockets, or authenticated session cookies. Furthermore, local extension storage is separate from standalone JSON files exported to the filesystem.</span>
+        </div>
+
+        <!-- Section 1 -->
+        <h2 id="why-sessions-get-lost" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          1. Why Browser Tabs and Sessions Get Lost
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Modern web browsers provide built-in session restore capabilities. When you reopen Chrome or Edge after an orderly shutdown, open windows and tabs can often reload automatically. However, browser-native recovery depends on user startup configuration (such as &ldquo;Continue where you left off&rdquo; versus opening a new tab page), retained session cache data, and the specific circumstances of the shutdown or crash. Relying on native restoration carries distinct operational risks:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 10px;">
+            <strong>Multi-Window and Shutdown Variances:</strong> In multi-window workflows, closing windows separately or experiencing unexpected shutdowns can result in some or all windows failing to reopen on subsequent launches. While Chromium provides history mechanisms for recently closed tabs and windows (as documented in the <a href="https://developer.chrome.com/docs/extensions/reference/api/sessions" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Chrome Sessions API documentation</a>), accessing recently closed sessions from browsing history is distinct from automatic startup session restoration. Historical session entries can expire, be cleared by privacy settings, or become unreachable after profile restarts.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Abnormal Shutdowns and Session Displacements:</strong> When a browser process terminates abruptly due to operating system kills or power interruptions, the browser may offer a recovery prompt on the next launch. If that prompt is bypassed, dismissed, or interrupted by opening fresh navigation windows, previous session states can be displaced by the new browsing session.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Profile and Disk Conflicts:</strong> Unexpected operating system restarts, aggressive disk cleanup tools, or profile database locking conflicts can leave browser cache files damaged or unreadable, preventing the browser from reconstructing previous tab hierarchies.
+          </li>
+        </ul>
+        <p style="margin-bottom: 20px;">
+          To build a resilient tab recovery workflow, engineers separate session data into three distinct architectural tiers:
+        </p>
+        <ol style="padding-left: 24px; margin-bottom: 24px;">
+          <li style="margin-bottom: 8px;"><strong>Ephemeral Browser Session:</strong> The active, in-memory window and tab hierarchy maintained by the operating system browser process.</li>
+          <li style="margin-bottom: 8px;"><strong>Extension-Local Storage:</strong> Structured records stored in <code>chrome.storage.local</code>, which survive browser restarts but remain tied to the extension's local data partition.</li>
+          <li style="margin-bottom: 8px;"><strong>Downloadable Filesystem Backups:</strong> Standalone JSON snapshot files written to disk, which remain accessible independently of extension uninstallation as long as the destination directory is preserved.</li>
+        </ol>
+
+        <!-- Section 2 -->
+        <h2 id="persistence-mechanisms" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          2. Comparing Persistence Mechanisms
+        </h2>
+        <p style="margin-bottom: 16px;">
+          When designing an extension to manage and preserve tabs, architects must choose appropriate storage and export technologies. Different storage targets provide distinct trade-offs between speed, quota, and durability boundaries:
+        </p>
+
+        <div class="table-scroll-wrapper" style="overflow-x: auto; margin-bottom: 28px;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.88rem; text-align: left; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border-page); background: var(--bg-page);">
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Mechanism</th>
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Typical Capacity</th>
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Persistence Lifecycle</th>
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Recovery Characteristics &amp; Boundaries</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 12px 16px; font-weight: 600; color: var(--text-main);">chrome.storage.local</td>
+                <td style="padding: 12px 16px;">10MB default; expandable via <code>unlimitedStorage</code></td>
+                <td style="padding: 12px 16px;">Retained across restarts; removed if the extension is uninstalled or the profile is deleted</td>
+                <td style="padding: 12px 16px;">Fast asynchronous key-value lookups; bound to extension profile directory and cleared upon extension removal.</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 12px 16px; font-weight: 600; color: var(--text-main);">IndexedDB</td>
+                <td style="padding: 12px 16px;">Fraction of available disk space</td>
+                <td style="padding: 12px 16px;">Subject to origin storage management and browser eviction under low-disk conditions unless marked durable</td>
+                <td style="padding: 12px 16px;">Rich indexing and query cursor support; remains bound to origin storage and will be cleared if browser storage data is cleared.</td>
+              </tr>
+              <tr>
+                <td style="padding: 12px 16px; font-weight: 600; color: var(--text-main);">Downloadable JSON Files</td>
+                <td style="padding: 12px 16px;">Local filesystem limit</td>
+                <td style="padding: 12px 16px;">Remains on local filesystem independently of extension uninstallations, provided the folder is retained</td>
+                <td style="padding: 12px 16px;">Protects against extension removal; survives only as long as the local folder is intact. Device loss requires copying files to secondary or off-device storage.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="margin-bottom: 20px;">
+          In Tab Vault, the implementation uses <code>chrome.storage.local</code> augmented with the <code>unlimitedStorage</code> permission declared in <code>manifest.json</code> to remove Chromium's default 10MB quota for extension storage. However, because extension storage is removed if the extension is uninstalled or the browser profile is deleted, Tab Vault supplements local storage with automated, rotating JSON exports saved to the downloads folder via <code>chrome.downloads</code>. These downloaded files decouple tab data from extension removal, though guarding against hardware failure or accidental folder deletion still requires duplicating the files to an independent device or synchronized backup location.
+        </p>
+
+        <!-- Section 3 -->
+        <h2 id="granular-storage-and-locks" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          3. Group Records and Write Coordination
+        </h2>
+        <p style="margin-bottom: 16px;">
+          A common mistake in simple tab-saving extensions is storing all tab groups in a single monolithic array under one storage key (such as <code>tab_groups</code>). As the collection grows, every tab closure or title rename requires reading, serializing, and writing hundreds of kilobytes. If a background alarm, an omnibox action, and a dashboard click write at the same time, the slower write overwrites the faster write, corrupting the session.
+        </p>
+
+        <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 10px;">
+          Granular Storage Keys and Index Rebuilding
+        </h3>
+        <p style="margin-bottom: 16px;">
+          In <code>extension/src/storage.js</code>, Tab Vault addresses this with a granular key structure:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 8px;"><strong>Group Index (<code>group_index</code>):</strong> A compact array containing only ordered group identifiers: <code>[&quot;grp_abc123&quot;, &quot;grp_xyz789&quot;]</code>.</li>
+          <li style="margin-bottom: 8px;"><strong>Individual Group Keys (<code>grp_&lt;id&gt;</code>):</strong> Each tab group is stored in its own dedicated key. Editing or reordering tabs within one group touches only that group's storage footprint.</li>
+          <li style="margin-bottom: 8px;"><strong>Self-Healing Index Recovery:</strong> If <code>group_index</code> is ever lost or corrupted, <code>rebuildIndexFromKeys()</code> scans the local storage database on extension startup, extracts all existing <code>grp_*</code> keys, sorts them by creation timestamp, and reconstructs the index automatically.</li>
+          <li style="margin-bottom: 8px;"><strong>Orphan Reconciliation:</strong> The <code>reconcileOrphanKeys()</code> routine detects any lingering group records not referenced by the index and cleans them up to keep storage tidy.</li>
+        </ul>
+
+        <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 10px;">
+          Concurrency Serialization with Web Locks
+        </h3>
+        <p style="margin-bottom: 16px;">
+          To prevent race conditions between the Manifest V3 service worker, extension popup, and dashboard tabs, writes are coordinated through the Web Locks API:
+        </p>
+
+        <div style="overflow-x: auto; margin-bottom: 20px;" tabindex="0" role="region" aria-label="Web Locks coordination snippet">
+          <pre style="background: var(--bg-surface); padding: 14px; border-radius: var(--r-md); border: 1px solid var(--border-page); font-family: var(--font-mono); font-size: 0.84rem; color: var(--text-main);"><code>// Implementation in extension/src/storage.js
+export async function withGroupIndexLock(fn) {
+  if (typeof navigator !== 'undefined' &amp;&amp; navigator.locks &amp;&amp; typeof navigator.locks.request === 'function') {
+    return await navigator.locks.request('tab_vault_group_index_lock', fn);
+  }
+  return await fallbackMutex.acquire(fn);
+}</code></pre>
+        </div>
+
+        <p style="margin-bottom: 16px;">
+          When supported by the browser, <code>navigator.locks.request()</code> establishes a cross-context mutex. If an environment lacks Web Locks, a lightweight in-memory promise queue (<code>SimpleMutex</code>) serves as a fallback. Note that an in-memory queue only serializes calls within that single execution context, whereas the native Web Locks API coordinates across all pages and background scripts in the extension origin.
+        </p>
+
+        <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 10px;">
+          Write-Verify Staging: writeNewVerifySwap
+        </h3>
+        <p style="margin-bottom: 16px;">
+          Before overwriting production records in <code>chrome.storage.local</code>, Tab Vault executes a 4-step write-verify staging sequence to guard against partial serialization corruption:
+        </p>
+        <ol style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 8px;">
+            <strong>Staging Key Write:</strong> The updated group payload is written to an isolated temporary key (<code>staging_grp_&lt;id&gt;</code>) via <code>storageArea.set()</code>.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>Read-Back Verification:</strong> The extension reads back the newly written staging record and checks semantic equivalence against the in-memory object using <code>areObjectsEquivalent()</code>. This deep comparison verifies that array elements and key-value pairs survived browser storage serialization. If a mismatch is detected, the staging key is removed and the operation aborts before modifying existing records.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>Coordinated Commit:</strong> The verified data is written to the production group key (<code>grp_&lt;id&gt;</code>) and the updated index array is written to <code>group_index</code> within a single <code>storageArea.set()</code> call. Chromium's storage implementation applies key updates passed to a single <code>set()</code> call together.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>Staging Cleanup:</strong> Upon confirmed completion of the commit step, the temporary staging key is removed via <code>storageArea.remove()</code>.
+          </li>
+        </ol>
+        <p style="margin-bottom: 20px;">
+          It is important to understand storage platform characteristics: <code>chrome.storage.local</code> is an asynchronous key-value store, not an ACID database with write-ahead logs or rollback journaling. Staging provides meaningful protection against in-memory serialization flaws and bad payloads, but it cannot prevent interruptions caused by an abrupt system crash or hardware power loss during disk flushes. If an operation is interrupted before cleanup, residual keys can linger; in such events, Tab Vault relies on <code>reconcileOrphanKeys()</code> to clean orphaned keys and <code>rebuildIndexFromKeys()</code> to reconstruct <code>group_index</code> from intact group records.
+        </p>
+
+        <!-- Section 4 -->
+        <h2 id="rotating-backup-files" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          4. Rotating Backup Files and Export Mechanics
+        </h2>
+        <p style="margin-bottom: 16px;">
+          While internal storage protects tabs against session closures, it remains bound to the browser's extension data folder. If the extension is uninstalled or the browser profile is deleted, internal storage is removed. Exporting tab collections to independent files in the downloads directory protects against extension removal, though guarding those files against drive failure or directory clearing requires retaining copies in an independent backup location.
+        </p>
+        <p style="margin-bottom: 16px;">
+          However, exporting to a single static file (such as <code>tab-backup.json</code>) introduces an overwrite hazard: if a user accidentally closes all tabs and an auto-export immediately fires, the single backup file is overwritten with an empty collection.
+        </p>
+
+        <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 10px;">
+          The 3-Slot Rolling Backup Strategy
+        </h3>
+        <p style="margin-bottom: 16px;">
+          In <code>extension/src/backup.js</code>, Tab Vault implements a 3-slot cyclic rotation:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 8px;"><strong>Rotated Filenames:</strong> Backups are saved sequentially as <code>tab-vault-backup-1.json</code>, <code>tab-vault-backup-2.json</code>, and <code>tab-vault-backup-3.json</code>.</li>
+          <li style="margin-bottom: 8px;"><strong>Rotation Calculation:</strong> <code>getNextSlot(currentSlot)</code> advances the slot pointer cyclically: slot 1 &rarr; slot 2 &rarr; slot 3 &rarr; slot 1.</li>
+          <li style="margin-bottom: 8px;"><strong>Overwrite Policy:</strong> Calls to <code>chrome.downloads.download()</code> configure <code>conflictAction: 'overwrite'</code> and <code>saveAs: false</code>. Each slot replaces its previous version in the browser's default downloads folder without prompting.</li>
+        </ul>
+
+        <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 10px;">
+          Export Transport: Data URL vs Offscreen Document
+        </h3>
+        <p style="margin-bottom: 16px;">
+          Under Manifest V3, service workers run in a non-DOM environment and cannot invoke <code>URL.createObjectURL()</code>. To deliver reliable file downloads across different payload sizes, Tab Vault uses an adaptive transport:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 24px;">
+          <li style="margin-bottom: 8px;">
+            <strong>Standard Data URL (Payloads &le; 2MB):</strong> For typical collections where the total encoded string length is under 2,097,152 characters (<code>DATA_URL_MAX_LENGTH</code>), the payload is formatted as <code>data:application/json;charset=utf-8,&lt;encodedContent&gt;</code> and passed directly to <code>chrome.downloads.download()</code>.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>Offscreen Document Blob Fallback (Payloads &gt; 2MB):</strong> If thousands of tabs with long URLs push the encoded string beyond 2MB, Chromium's Data URL length cap could cause a download failure. In this case, the background service worker requests an offscreen document (via <code>chrome.offscreen</code>) to construct an authentic Blob URL, executes the download, and promptly revokes the URL upon completion.
+          </li>
+        </ul>
+
+        <!-- Section 5 -->
+        <h2 id="shrink-and-empty-safeguards" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          5. Empty and Shrinking-Session Safeguards
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Automated background routines must not blindly overwrite healthy backups with truncated data. In <code>extension/src/backup.js</code>, Tab Vault enforces two defensive gates before writing to any backup slot:
+        </p>
+
+        <div class="table-scroll-wrapper" style="overflow-x: auto; margin-bottom: 28px;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.88rem; text-align: left; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border-page); background: var(--bg-page);">
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Illustrative Baseline</th>
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Current Tab Count</th>
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Retention Ratio</th>
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Automated Backup Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 12px 16px;">120 tabs</td>
+                <td style="padding: 12px 16px;">110 tabs</td>
+                <td style="padding: 12px 16px;">91.7%</td>
+                <td style="padding: 12px 16px; color: var(--accent); font-weight: 600;">Permitted (Normal auto-export)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 12px 16px;">120 tabs</td>
+                <td style="padding: 12px 16px;">70 tabs</td>
+                <td style="padding: 12px 16px;">58.3%</td>
+                <td style="padding: 12px 16px; color: var(--accent); font-weight: 600;">Permitted (&gt;50% retention)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 12px 16px;">120 tabs</td>
+                <td style="padding: 12px 16px;">55 tabs</td>
+                <td style="padding: 12px 16px;">45.8%</td>
+                <td style="padding: 12px 16px; color: var(--edge-blue); font-weight: 600;">Paused by Shrink Guard (&lt;50% threshold)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 12px 16px;">120 tabs</td>
+                <td style="padding: 12px 16px;">0 tabs</td>
+                <td style="padding: 12px 16px;">0.0%</td>
+                <td style="padding: 12px 16px; color: var(--edge-blue); font-weight: 600;">Aborted by Empty Guard</td>
+              </tr>
+              <tr>
+                <td style="padding: 12px 16px;">120 tabs</td>
+                <td style="padding: 12px 16px;">40 tabs (Manual Force)</td>
+                <td style="padding: 12px 16px;">33.3%</td>
+                <td style="padding: 12px 16px; color: var(--text-main); font-weight: 600;">Permitted (User-initiated forced export)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 10px;">
+          Baseline Calibration on Intentional Actions
+        </h3>
+        <p style="margin-bottom: 16px;">
+          If a user intentionally deletes a large group of 50 tabs, the shrink guard should not lock them out of future backups. To handle deliberate user actions cleanly, Tab Vault recalibrates the baseline in real time:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 24px;">
+          <li style="margin-bottom: 8px;"><strong>In-App Deletion:</strong> When a user deletes a tab or group in the UI, <code>adjustBaselineOnDelete()</code> decrements <code>baselineTabCount</code> by the exact number of deleted items. This ensures valid cleanup does not trigger the shrink guard.</li>
+          <li style="margin-bottom: 8px;"><strong>In-App Undo or Restore:</strong> When items are restored from the trash bin or snapshot rollback, <code>adjustBaselineOnUndo()</code> raises the baseline in lockstep.</li>
+          <li style="margin-bottom: 8px;"><strong>Guard Limitation:</strong> A count-based guard protects against mass unintended overwrites; it does not audit whether individual URLs are valid or whether content has been modified.</li>
+        </ul>
+
+        <!-- Section 6 -->
+        <h2 id="recovery-runbook" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          6. Practical Recovery Runbook
+        </h2>
+        <p style="margin-bottom: 16px;">
+          If you discover that browser tabs or session records are missing, follow this sequential runbook to restore your session:
+        </p>
+
+        <ol style="padding-left: 24px; margin-bottom: 24px;">
+          <li style="margin-bottom: 14px;">
+            <strong>Check In-Memory Rolling Snapshots:</strong><br>
+            Open Tab Vault's dashboard (via <code>Alt+Shift+O</code> or by clicking the extension icon). Open the Snapshots dialog. Tab Vault maintains a local ring buffer of the last 5 vault states in <code>chrome.storage.local</code>. If a recent snapshot matches your desired state, click <strong>Rollback</strong>. The extension automatically takes a safety snapshot of the current state before restoring.
+          </li>
+          <li style="margin-bottom: 14px;">
+            <strong>Locate Downloaded Backup Files:</strong><br>
+            If local extension data was cleared or corrupted, open your operating system's default <code>Downloads</code> directory. Look for files named <code>tab-vault-backup-1.json</code>, <code>tab-vault-backup-2.json</code>, and <code>tab-vault-backup-3.json</code>. Check their file modification timestamps and sizes to identify the most recent complete copy.
+          </li>
+          <li style="margin-bottom: 14px;">
+            <strong>Preserve Backup Copies First:</strong><br>
+            Before opening or editing a backup file, make a duplicate copy in a safe location (such as your desktop or a backup folder). This ensures that subsequent browser actions do not overwrite the files during investigation.
+          </li>
+          <li style="margin-bottom: 14px;">
+            <strong>Restore via In-App File Picker:</strong><br>
+            In Tab Vault's dashboard, open the menu and choose <strong>Restore from Backup</strong> (or click <strong>Select Backup File to Restore</strong> on the recovery banner). Select your chosen backup file. The in-app file picker accepts two file formats:
+            <ul style="padding-left: 20px; margin: 8px 0;">
+              <li style="margin-bottom: 4px;"><strong>Structured JSON Backups:</strong> Tab Vault's rotated backup files (<code>tab-vault-backup-1.json</code>, etc.) containing the top-level <code>groups</code> array, or any JSON array of group objects.</li>
+              <li style="margin-bottom: 4px;"><strong>OneTab Plain Text:</strong> Files ending in <code>.txt</code> (or plain text with <code>url | title</code> lines separated by blank lines between groups).</li>
+            </ul>
+            During parsing, the extension enforces a scheme allowlist (<code>http:</code>, <code>https:</code>, <code>ftp:</code>, <code>file:</code>, <code>chrome:</code>, <code>chrome-extension:</code>, <code>edge:</code>, and <code>about:</code>), discarding unsafe pseudoprotocols such as <code>javascript:</code>. Valid groups are saved to <code>chrome.storage.local</code>, and the tab count is added to the shrink-guard baseline so future auto-backups proceed smoothly.
+          </li>
+          <li style="margin-bottom: 14px;">
+            <strong>Manual Text and URL Extraction Fallback:</strong><br>
+            Because Tab Vault backups are standard human-readable JSON files, you can retrieve your URLs without the extension installed. In Tab Vault's exported payload, groups are organized in a top-level <code>groups</code> array, each containing a <code>tabs</code> array with individual <code>url</code> and <code>title</code> fields. Extract every saved URL using standard command-line tools:<br>
+            <div style="overflow-x: auto; margin: 8px 0;" tabindex="0" role="region" aria-label="jq command for extracting URLs from backup">
+              <pre style="background: var(--bg-surface); padding: 12px; border-radius: var(--r-md); border: 1px solid var(--border-page); font-family: var(--font-mono); font-size: 0.84rem; color: var(--text-main);"><code>jq -r '.groups[].tabs[].url' tab-vault-backup-1.json &gt; recovered_urls.txt</code></pre>
+            </div>
+            You can also filter by group title or search specific domains directly with <code>grep</code> or Python without installing third-party utilities.
+          </li>
+        </ol>
+
+        <!-- Section 7 -->
+        <h2 id="privacy-and-operational-limits" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          7. Privacy, Security, and Operational Limits
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Automated backup systems must balance session protection with user privacy and operating system boundaries:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 24px;">
+          <li style="margin-bottom: 10px;">
+            <strong>Internal Storage vs Downloadable Files:</strong> Extension storage in <code>chrome.storage.local</code> is partition-isolated and accessible only by Tab Vault scripts, but it is deleted if the extension is uninstalled or the browser profile is removed. In contrast, downloaded JSON files reside directly in your local downloads directory, separated from extension uninstallation. However, local files remain vulnerable to accidental directory cleaning or hardware drive failure unless duplicated to an independent backup device or synchronized folder.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Metadata Preservation vs Live Session State:</strong> Tab Vault and similar tools preserve tab URLs, page titles, favicons, group labels, and timestamps. They do not reconstruct live browser session state: unsaved form inputs, temporary DOM modifications, canvas states, scroll positions, or authenticated session cookies cannot be captured by tab managers.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Local Downloads Folder vs Direct Cloud Sync:</strong> Under standard browser security permissions, web extensions cannot write directly to arbitrary filesystem locations or cloud-provider endpoints. All exports land in the browser's designated downloads folder. Users desiring cloud backups should point an operating system file-sync utility (such as OneDrive, Google Drive, or Dropbox) at their downloads folder.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Incognito Tab Exclusion:</strong> Private and incognito tabs are filtered out of automated exports via <code>sanitizeGroupsForBackup()</code>, ensuring private browsing history is not inadvertently written to plain-text backup files on disk.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Plaintext URLs on Disk:</strong> Exported JSON files contain unencrypted URLs and query parameters. Because query strings may occasionally contain sensitive tokens or session identifiers, users on shared computers should secure their local downloads directory.
+          </li>
+        </ul>
+
+        <!-- Section 8 -->
+        <h2 id="tab-vault-workflow" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          8. Practical Workflow with Tab Vault
+        </h2>
+        <p style="margin-bottom: 16px;">
+          For users seeking a lightweight, Manifest V3 tab manager built around these principles, <a href="../../tab-vault/" style="color: var(--accent); text-decoration: underline;">Tab Vault</a> provides local-first session preservation for Microsoft Edge and Google Chrome.
+        </p>
+        <p style="margin-bottom: 16px;">
+          The everyday workflow integrates into natural browser usage:
+        </p>
+        <ol style="padding-left: 24px; margin-bottom: 24px;">
+          <li style="margin-bottom: 8px;"><strong>Stash Active Windows:</strong> Press <code>Alt+Shift+V</code> (or click the toolbar icon) to collapse tabs in the current window into a named, timestamped group.</li>
+          <li style="margin-bottom: 8px;"><strong>Organize and Lock:</strong> In the dashboard (<code>Alt+Shift+O</code>), lock critical groups to prevent deletion upon restore, star frequently accessed groups, or search tabs via the omnibox (type <code>tv</code> and press Tab).</li>
+          <li style="margin-bottom: 8px;"><strong>Automatic Protection:</strong> Background alarms schedule debounced backups 5 minutes after changes and run a 24-hour heartbeat check, writing to the 3-slot rolling JSON backup collection.</li>
+          <li style="margin-bottom: 8px;"><strong>Safety Trash Bin:</strong> Deleted groups and tabs enter a soft-delete trash bin retained for 30 days before being purged.</li>
+        </ol>
+
+        <!-- Section 9 -->
+        <h2 id="primary-references" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          9. Primary Documentation References
+        </h2>
+        <p style="margin-bottom: 16px;">
+          The architectural concepts and browser platform APIs covered in this guide are documented in the following official references:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 32px;">
+          <li style="margin-bottom: 10px;">
+            <strong>Chrome Extensions Storage API:</strong> Documentation on <code>chrome.storage.local</code>, quota limits, and the <code>unlimitedStorage</code> permission. Available at <a href="https://developer.chrome.com/docs/extensions/reference/api/storage" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">developer.chrome.com/docs/extensions/reference/api/storage</a>.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Chrome Extensions Sessions API:</strong> Official documentation detailing the sessions API for querying recently closed tabs and windows in browsing history. Available at <a href="https://developer.chrome.com/docs/extensions/reference/api/sessions" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">developer.chrome.com/docs/extensions/reference/api/sessions</a>.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Chrome Extensions Downloads API:</strong> Specification for programmatic file downloads, conflict actions, and Data URL handling. Available at <a href="https://developer.chrome.com/docs/extensions/reference/api/downloads" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">developer.chrome.com/docs/extensions/reference/api/downloads</a>.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>MDN Web Docs on Web Locks API:</strong> API reference detailing <code>navigator.locks.request()</code> for coordinating shared resources across browser contexts. Available at <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Locks_API" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">developer.mozilla.org/en-US/docs/Web/API/Web_Locks_API</a>.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>MDN Web Docs on Structured Clone Algorithm:</strong> Browser object serialization rules for deep cloning and storage. Available at <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm</a>.
+          </li>
+        </ul>
+      </div>
+
+      <!-- Restrained CTA Box -->
+      <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-lg); padding: 28px; text-align: center; margin-top: 40px; box-shadow: var(--shadow-card);">
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Protect Your Tabs with Tab Vault</h3>
+        <p style="font-size: 0.92rem; color: var(--text-secondary); max-width: 580px; margin: 0 auto 20px; line-height: 1.6;">
+          Tab Vault runs client-side in Microsoft Edge and Chrome to organize windows, lock critical groups, and maintain rolling JSON backups against session loss.
+        </p>
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+          <a href="../../tab-vault/" class="btn btn-edge btn-sm">Learn About Tab Vault &rarr;</a>
+          <a href="../" class="btn btn-ghost btn-sm">Browse All Guides</a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-col brand-col">
+        <a href="../../" class="brand footer-brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+          </div>
+          <span>ExtensionGuy</span>
+        </a>
+        <p class="footer-tagline">Privacy-first browser extensions with client-side execution.</p>
+        <p class="copyright">&copy; 2026 ExtensionGuy. Published under MIT &amp; GPL-2.0+ licenses.</p>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-heading" style="font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; color: var(--text-main);">Add-ons</div>
+        <ul class="footer-links">
+          <li><a href="../../word-to-latex/">Word to LaTeX (Offline)</a></li>
+          <li><a href="../../word-to-latex-converter/">Word to LaTeX Online</a></li>
+          <li><a href="../../table-extractor/">Table Extractor</a></li>
+          <li><a href="../../bulkgrab/">BulkGrab</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-heading" style="font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; color: var(--text-main);">Guides</div>
+        <ul class="footer-links">
+          <li><a href="../docx-to-latex-offline/">DOCX to LaTeX Offline</a></li>
+          <li><a href="../word-tables-to-latex/">Word Tables to LaTeX</a></li>
+          <li><a href="../../changelog/">Product Changelog</a></li>
+          <li><a href="../../privacy">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/site.js?v=20261019-3" defer></script>
+</body>
+</html>

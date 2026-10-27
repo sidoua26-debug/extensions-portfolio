@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Export Virtualized Web Tables to Excel or CSV — ExtensionGuy</title>
+  <meta name="description" content="Learn why web table scrapers miss rows in virtualized grids like AG Grid. Master automated viewport scrolling, deduplication, and UTF-8 BOM CSV exports.">
+
+  <link rel="canonical" href="https://extensionguy.me/guides/export-virtualized-tables-to-excel/">
+  <link rel="alternate" hreflang="en" href="https://extensionguy.me/guides/export-virtualized-tables-to-excel/">
+  <link rel="alternate" hreflang="x-default" href="https://extensionguy.me/guides/export-virtualized-tables-to-excel/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How to Export Virtualized Web Tables to Excel or CSV">
+  <meta property="og:description" content="Learn why web table scrapers miss rows in virtualized grids like AG Grid. Master automated viewport scrolling, deduplication, and UTF-8 BOM CSV exports.">
+  <meta property="og:url" content="https://extensionguy.me/guides/export-virtualized-tables-to-excel/">
+  <meta property="og:image" content="https://extensionguy.me/assets/og/home-1200x630.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How to Export Virtualized Web Tables to Excel or CSV">
+  <meta name="twitter:description" content="Learn why web table scrapers miss rows in virtualized grids like AG Grid. Master automated viewport scrolling, deduplication, and UTF-8 BOM CSV exports.">
+  <meta name="twitter:image" content="https://extensionguy.me/assets/og/home-1200x630.png">
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="icon" type="image/png" href="../../assets/icons/word-to-latex-128.png">
+  <link rel="apple-touch-icon" href="../../assets/icons/word-to-latex-128.png">
+  <meta name="theme-color" content="#0f172a">
+
+  <link rel="stylesheet" href="../../assets/css/styles.css?v=20261019-3">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://extensionguy.me/guides/export-virtualized-tables-to-excel/#article",
+      "headline": "How to Export Virtualized Web Tables to Excel or CSV",
+      "description": "Learn why web table scrapers miss rows in virtualized grids like AG Grid. Master automated viewport scrolling, deduplication, and UTF-8 BOM CSV exports.",
+      "datePublished": "2026-10-27",
+      "dateModified": "2026-10-27",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://extensionguy.me/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://extensionguy.me/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "How to Export Virtualized Web Tables",
+          "item": "https://extensionguy.me/guides/export-virtualized-tables-to-excel/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body id="top">
+  <a href="#mainContent" class="skip-to-content">Skip to content</a>
+
+  <header class="navbar" role="banner">
+    <div class="container nav-inner">
+      <a href="../../" class="brand" aria-label="ExtensionGuy Portfolio">
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <span>ExtensionGuy</span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="../../#flagship" class="nav-link">Flagship</a></li>
+          <li><a href="../../#portfolio" class="nav-link">All Extensions</a></li>
+          <li><a href="../../word-to-latex-converter/" class="nav-link">Web Converter</a></li>
+          <li><a href="../../privacy" class="nav-link">Privacy</a></li>
+          <li><a href="../" class="nav-link">Guides</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" title="Switch to dark mode">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="mainContent">
+    <article class="container" style="max-width: 900px; padding: clamp(32px, 5vw, 64px) 16px;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.85rem; margin-bottom: 24px; color: var(--text-tertiary);">
+        <a href="../../" style="color: var(--accent); text-decoration: underline;">Home</a> &rsaquo; <a href="../" style="color: var(--accent); text-decoration: underline;">Guides</a> &rsaquo; <span>How to Export Virtualized Web Tables</span>
+      </nav>
+
+      <header style="margin-bottom: 36px;">
+        <span class="badge badge-subtle" style="margin-bottom: 12px; display: inline-block;">Technical Guide</span>
+        <h1 style="font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; letter-spacing: -0.025em; margin-bottom: 16px; line-height: 1.2;">
+          How to Export Virtualized Web Tables to Excel or CSV
+        </h1>
+        <div style="font-size: 0.85rem; color: var(--text-tertiary); margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+          <span>Last updated: October 2026</span>
+          <span aria-hidden="true">&bull;</span>
+          <span>Verified against DOM virtualization patterns and Table Extractor v1.0 source</span>
+        </div>
+        <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+          Modern enterprise dashboards, analytics portals, and CRM systems frequently display tabular data using virtualized data grids. While virtualization keeps the browser fast, it breaks ordinary scrapers and copy-paste workflows.
+        </p>
+      </header>
+
+      <div style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7;">
+        <p style="margin-bottom: 20px;">
+          For example, in an illustrative desktop viewport displaying a grid backed by thousands of records, the browser might render only 20 to 50 row elements at any moment. The exact number of rendered elements is not fixed: it varies depending on viewport height, row heights, overscan buffers, and grid configuration. If you select all text or run a basic query selector script, you capture only what fits on screen.
+        </p>
+
+        <!-- Table of Contents -->
+        <nav class="toc-box" aria-label="Table of contents" style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 20px; margin-bottom: 32px;">
+          <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 12px;">Table of Contents</div>
+          <ul style="list-style: none; padding-left: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; font-size: 0.88rem;">
+            <li><a href="#why-virtualization-breaks-scraping" style="color: var(--accent); text-decoration: underline;">1. Why Virtualization Defeats Scrapers</a></li>
+            <li><a href="#inspecting-a-virtualized-grid" style="color: var(--accent); text-decoration: underline;">2. How to Inspect a Grid in DevTools</a></li>
+            <li><a href="#viewport-capture-mechanics" style="color: var(--accent); text-decoration: underline;">3. How Viewport-Based Capture Works</a></li>
+            <li><a href="#excel-csv-encoding-and-bom" style="color: var(--accent); text-decoration: underline;">4. CSV Encodings and the UTF-8 BOM</a></li>
+            <li><a href="#export-format-tradeoffs" style="color: var(--accent); text-decoration: underline;">5. Export Format Comparison</a></li>
+            <li><a href="#troubleshooting-and-edge-cases" style="color: var(--accent); text-decoration: underline;">6. Troubleshooting and Limitations</a></li>
+            <li><a href="#table-extractor-workflow" style="color: var(--accent); text-decoration: underline;">7. Workflow with Table Extractor</a></li>
+            <li><a href="#primary-references" style="color: var(--accent); text-decoration: underline;">8. Primary Documentation References</a></li>
+          </ul>
+        </nav>
+
+        <div class="callout callout-info" style="background: var(--bg-surface); border-left: 4px solid var(--accent); padding: 16px 20px; margin-bottom: 32px; border-radius: 0 var(--r-md) var(--r-md) 0; border-top: 1px solid var(--border-page); border-right: 1px solid var(--border-page); border-bottom: 1px solid var(--border-page);">
+          <strong style="color: var(--text-main); display: block; margin-bottom: 6px;">Data Responsibility Note:</strong>
+          <span>Exporting information from web applications should only be performed on data sets, accounts, and internal systems that you are explicitly authorized to access and process.</span>
+        </div>
+
+        <!-- Section 1 -->
+        <h2 id="why-virtualization-breaks-scraping" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          1. Why Virtualized Tables Defeat Ordinary Extraction
+        </h2>
+        <p style="margin-bottom: 16px;">
+          In traditional web development, a server sends an HTML <code>&lt;table&gt;</code> containing one <code>&lt;tr&gt;</code> element per record. If there are 500 records, the Document Object Model (DOM) holds 500 rows. A browser extension or script can execute <code>document.querySelectorAll('tbody tr')</code> to extract the full data set in a single pass.
+        </p>
+        <p style="margin-bottom: 16px;">
+          DOM virtualization alters this architectural model. Rendering tens of thousands of complex DOM nodes degrades browser memory, slows down layout reflows, and creates noticeable interface lag. To solve this, component libraries use DOM recycling:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 8px;"><strong>Bounded Element Pool:</strong> The browser instantiates only enough row nodes to fill the visible container height plus a configurable buffer (often 15 to 40 rows depending on row heights and container bounds).</li>
+          <li style="margin-bottom: 8px;"><strong>Spacer Placeholders:</strong> The container creates artificial scroll height using large transparent spacers, CSS <code>padding-top</code> / <code>padding-bottom</code>, or absolute positioning with <code>transform: translateY(...)</code>.</li>
+          <li style="margin-bottom: 8px;"><strong>Node Recycling:</strong> As the user scrolls down, rows that leave the top of the viewport are unmounted or re-bound with new data records at the bottom.</li>
+        </ul>
+        <p style="margin-bottom: 20px;">
+          Because unrendered records simply do not exist in the DOM, standard scrapers capture only the visible fragment. Crucially, client-side DOM virtualization must be distinguished from server-side pagination or infinite loading: client virtualization holds records in memory while limiting rendered DOM nodes, whereas server-side pagination requires separate network requests before data ever reaches the client.
+        </p>
+
+        <!-- Section 2 -->
+        <h2 id="inspecting-a-virtualized-grid" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          2. How to Inspect a Virtualized Grid in DevTools
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Before attempting to extract data from an unfamiliar grid, open your browser developer tools (F12 or Ctrl+Shift+I) to inspect how the container manages its viewport and row nodes.
+        </p>
+        <ol style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 10px;">
+            <strong>Locate the Active Scroll Container:</strong> Inspect the table wrapper. In libraries like AG Grid, look for elements with classes such as <code>.ag-body-viewport</code> or <code>.ag-center-cols-viewport</code>. Check the computed styles for <code>overflow-y: auto</code> or <code>overflow-y: scroll</code>.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Compare Scroll Dimensions in the Console:</strong> Select the viewport element in the Elements panel (which assigns it to the DevTools console shortcut <code>bash</code>) and switch to the Console tab. Run this diagnostic check:
+            <div style="overflow-x: auto; margin: 10px 0;" tabindex="0" role="region" aria-label="Console diagnostic snippet for scroll containers">
+              <pre style="background: var(--bg-surface); padding: 14px; border-radius: var(--r-md); border: 1px solid var(--border-page); font-family: var(--font-mono); font-size: 0.84rem; color: var(--text-main);"><code>// Illustrative diagnostic check: inspect selected container (bash in DevTools)
+const el = bash;
+if (el) {
+  console.log({
+    clientHeight: el.clientHeight,
+    scrollHeight: el.scrollHeight,
+    renderedRows: el.querySelectorAll('[role="row"], tr').length,
+    hasVirtualDiscrepancy: el.scrollHeight &gt; el.clientHeight * 1.5
+  });
+}</code></pre>
+            </div>
+            A high <code>scrollHeight</code> relative to <code>clientHeight</code> demonstrates that the container is scrollable, but does not prove virtualization on its own (a regular document on a long page also has a high <code>scrollHeight</code>). Virtualization is specifically indicated when <code>scrollHeight</code> is large while the rendered rows' cumulative height accounts for only a fraction of that scrollable space, accompanied by virtual spacer elements or dynamic node recycling during scrolling.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Observe Node Churn During Scrolling:</strong> Watch the Elements panel while scrolling slowly. If row elements pop in and out of the DOM or attributes update continuously, the table uses active DOM recycling.
+          </li>
+        </ol>
+
+        <!-- Section 3 -->
+        <h2 id="viewport-capture-mechanics" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          3. How Viewport-Based Capture Works
+        </h2>
+        <p style="margin-bottom: 16px;">
+          To extract a complete data set from a virtualized interface without direct backend API access, a client-side tool must systematically drive the container viewport through each slice of data, accumulating records while avoiding duplicates.
+        </p>
+        <p style="margin-bottom: 16px;">
+          In Table Extractor, the engine implements a multi-phase capture loop:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 10px;">
+            <strong>Container Identification:</strong> In <code>lib/virtualized-capture.js</code>, the <code>findScrollContainer()</code> helper inspects candidate viewports and climbs the DOM tree from the target table to identify the element where <code>scrollHeight &gt; clientHeight + 10</code> and <code>overflow-y</code> is scrollable.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Initial Mount and Incremental Steps:</strong> The engine sets <code>container.scrollTop = 0</code> to start from the top and waits for initial rows to mount. It then advances <code>scrollTop</code> by approximately 80% of <code>clientHeight</code> (using <code>Math.max(80, Math.floor(clientHeight * 0.8))</code>). Scrolling by 80% rather than 100% ensures an overlapping seam between steps so no rows are skipped if boundary heights fluctuate.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Mutation Settlement and Debounce:</strong> After modifying <code>scrollTop</code>, the engine observes the container with a <code>MutationObserver</code>. In Normal mode, it waits for DOM mutations to cease for at least 120ms (with a 3,000ms maximum timeout). For laggy infinite-scroll interfaces, a Slow mode extends the settle window to 250ms with up to 6,000ms timeout.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Row Deduplication Identity Keys:</strong> Because consecutive steps capture overlapping row nodes, <code>getRowIdentityKey()</code> inspects explicit identifier attributes in exact order: <code>data-row-id</code>, <code>data-id</code>, <code>id</code>, <code>dataset.rowId</code>, <code>dataset.id</code>, and <code>dataset.key</code>. If none exist, it calculates a 32-bit FNV-1a hash of the normalized cell strings (joined by <code>||~||</code>).
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Persistent IDs vs Positional Attributes:</strong> Display attributes such as <code>aria-rowindex</code>, <code>row-index</code>, and <code>rowIndex</code> indicate current rendered position or ARIA sequence rather than immutable record identities. Table Extractor deliberately evaluates positional attributes in a separate ordering phase (<code>extractRowOrderKey</code>) to sort rows post-capture, rather than using them as deduplication keys.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Safety Caps, Cancellation, and Restoration:</strong> Capture is bounded by default limits (500 steps and 5,000 rows) and supports interactive cancellation via <code>AbortSignal</code>. A <code>finally</code> block restores the container's original <code>scrollTop</code>, <code>scrollLeft</code>, and CSS <code>overflowAnchor</code> so the user's view is not left scrolled to the bottom.
+          </li>
+        </ul>
+
+        <div class="callout callout-warning" style="background: var(--bg-surface); border-left: 4px solid var(--edge-blue); padding: 16px 20px; margin-bottom: 32px; border-radius: 0 var(--r-md) var(--r-md) 0; border-top: 1px solid var(--border-page); border-right: 1px solid var(--border-page); border-bottom: 1px solid var(--border-page);">
+          <strong style="color: var(--text-main); display: block; margin-bottom: 6px;">Deduplication Caveat:</strong>
+          <span>Content-based fallback hashing assumes rows with identical column text are duplicates. If a data set contains genuinely duplicate data rows without unique primary keys or IDs, fallback hashing may merge them. Conversely, live data feeds that refresh or re-sort during capture can result in duplicate entries.</span>
+        </div>
+
+        <!-- Section 4 -->
+        <h2 id="excel-csv-encoding-and-bom" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          4. CSV Encodings and the UTF-8 BOM
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Extracting text from the browser is only half the battle. Opening exported CSV files in desktop spreadsheet software often introduces character encoding corruption, commonly referred to as mojibake.
+        </p>
+        <p style="margin-bottom: 16px;">
+          Character handling in browser-based export spans three distinct stages:
+        </p>
+        <ol style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 8px;"><strong>DOM Decoding:</strong> The browser parses HTML entities (such as <code>&amp;eacute;</code>) and text nodes from the web page into decoded characters.</li>
+          <li style="margin-bottom: 8px;"><strong>JavaScript Memory Representation:</strong> The JavaScript runtime represents strings in memory using UTF-16 code units.</li>
+          <li style="margin-bottom: 8px;"><strong>Byte Serialization on Export:</strong> When creating a file Blob, strings are serialized into a raw byte stream (typically UTF-8).</li>
+        </ol>
+        <p style="margin-bottom: 16px;">
+          When opening a <code>.csv</code> file directly by double-clicking in Microsoft Excel on Windows, Excel historically defaults to the system's legacy ANSI code page (such as Windows-1252 in Western Europe and North America). Under Windows-1252, the two-byte UTF-8 sequence for <code>é</code> (<code>0xC3 0xA9</code>) is interpreted as two separate characters: <code>Ã©</code>.
+        </p>
+
+        <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 10px;">
+          The Role of the UTF-8 Byte Order Mark (U+FEFF)
+        </h3>
+        <p style="margin-bottom: 16px;">
+          To solve this issue, Table Extractor's CSV utility (<code>lib/csv.js</code>) formats cells according to RFC 4180 rules (quoting cells containing commas, quotes, or newlines, and escaping quotes as double-quotes) and prepends the UTF-8 Byte Order Mark (<code>﻿</code>, encoded in bytes as <code>0xEF, 0xBB, 0xBF</code>) to the file stream:
+        </p>
+
+        <div style="overflow-x: auto; margin-bottom: 20px;" tabindex="0" role="region" aria-label="CSV BOM implementation snippet">
+          <pre style="background: var(--bg-surface); padding: 14px; border-radius: var(--r-md); border: 1px solid var(--border-page); font-family: var(--font-mono); font-size: 0.84rem; color: var(--text-main);"><code>// Implementation from lib/csv.js (RFC 4180 compliant)
+export function tableDataToCSV(tableData, options = {}) {
+  const delimiter = options.delimiter || ',';
+  const includeBom = options.includeBom !== false; // default true
+  const lines = [];
+
+  if (tableData.headers && tableData.headers.length &gt; 0) {
+    const headerLine = tableData.headers.map(h =&gt; escapeCSVCell(h, delimiter)).join(delimiter);
+    lines.push(headerLine);
+  }
+
+  if (tableData.rows && Array.isArray(tableData.rows)) {
+    for (const row of tableData.rows) {
+      const rowLine = row.map(cell =&gt; escapeCSVCell(cell, delimiter)).join(delimiter);
+      lines.push(rowLine);
+    }
+  }
+
+  const csvContent = lines.join('
+');
+  return includeBom ? '﻿' + csvContent : csvContent;
+}</code></pre>
+        </div>
+
+        <p style="margin-bottom: 16px;">
+          The UTF-8 BOM is a supported mechanism for cueing desktop Excel to open CSV files using UTF-8 rather than the system ANSI codepage, rendering French diacritics, mathematical symbols, and non-Latin characters cleanly.
+        </p>
+
+        <div class="callout callout-info" style="background: var(--bg-surface); border-left: 4px solid var(--accent); padding: 16px 20px; margin-bottom: 32px; border-radius: 0 var(--r-md) var(--r-md) 0; border-top: 1px solid var(--border-page); border-right: 1px solid var(--border-page); border-bottom: 1px solid var(--border-page);">
+          <strong style="color: var(--text-main); display: block; margin-bottom: 6px;">Important Encoding Caveats:</strong>
+          <ul style="padding-left: 20px; margin-top: 6px;">
+            <li style="margin-bottom: 6px;">A BOM only indicates the character encoding of the exported byte stream; it cannot repair text that was already corrupted in the source DOM or API before export.</li>
+            <li style="margin-bottom: 6px;">Not every spreadsheet application or version behaves identically. In particular, regional settings in certain European locales configure Excel to expect semicolon (<code>;</code>) delimiters instead of commas.</li>
+            <li style="margin-bottom: 6px;">Excel's documented alternative is the Power Query / Text Import workflow: opening a blank workbook and navigating to <strong>Data &gt; From Text/CSV</strong> allows explicit manual selection of delimiter and file origin (such as <strong>65001: Unicode (UTF-8)</strong>).</li>
+          </ul>
+        </div>
+
+        <!-- Section 5 -->
+        <h2 id="export-format-tradeoffs" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          5. Export Format Comparison
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Different downstream tasks require different output structures. In Table Extractor, three distinct export formats are generated with consistent timestamped filenames (such as <code>[table_name]_[YYYY-MM-DDTHH-MM-SS].[ext]</code>):
+        </p>
+
+        <div class="table-scroll-wrapper" style="overflow-x: auto; margin-bottom: 32px;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.88rem; text-align: left; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border-page); background: var(--bg-page);">
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Format</th>
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Extension &amp; MIME Type</th>
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Underlying Structure</th>
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Primary Advantage &amp; Best Use Case</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 12px 16px; font-weight: 600; color: var(--text-main);">CSV (with BOM)</td>
+                <td style="padding: 12px 16px; font-family: var(--font-mono); font-size: 0.82rem;">.csv<br><span style="color: var(--text-tertiary);">text/csv;charset=utf-8;</span></td>
+                <td style="padding: 12px 16px;">RFC 4180 plain text with optional leading U+FEFF signature, quoted fields, and CRLF row breaks</td>
+                <td style="padding: 12px 16px;">Universally supported by Python, R, command-line utilities, SQL engines, and spreadsheet applications. Compact file size.</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 12px 16px; font-weight: 600; color: var(--text-main);">Excel XML (SpreadsheetML)</td>
+                <td style="padding: 12px 16px; font-family: var(--font-mono); font-size: 0.82rem;">.xls<br><span style="color: var(--text-tertiary);">application/vnd.ms-excel;charset=utf-8;</span></td>
+                <td style="padding: 12px 16px;">Microsoft XML Spreadsheet 2003 format with explicit cell types (<code>ss:Type="String"</code> vs <code>ss:Type="Number"</code>)</td>
+                <td style="padding: 12px 16px;">Tags numeric text with leading '0' digits (such as ZIP codes or identifiers) as strings, preventing Excel from stripping leading digits upon opening.</td>
+              </tr>
+              <tr>
+                <td style="padding: 12px 16px; font-weight: 600; color: var(--text-main);">Structured JSON</td>
+                <td style="padding: 12px 16px; font-family: var(--font-mono); font-size: 0.82rem;">.json<br><span style="color: var(--text-tertiary);">application/json;charset=utf-8;</span></td>
+                <td style="padding: 12px 16px;">Array of key-value objects mapped to extracted column headers</td>
+                <td style="padding: 12px 16px;">Ideal for programmatic ingestion into REST APIs, web applications, or NoSQL databases.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-warning" style="background: var(--bg-surface); border-left: 4px solid var(--edge-blue); padding: 16px 20px; margin-bottom: 32px; border-radius: 0 var(--r-md) var(--r-md) 0; border-top: 1px solid var(--border-page); border-right: 1px solid var(--border-page); border-bottom: 1px solid var(--border-page);">
+          <strong style="color: var(--text-main); display: block; margin-bottom: 6px;">Technical Distinction: XML Spreadsheet vs OpenXML (.xlsx):</strong>
+          <span>Table Extractor's Excel option outputs XML SpreadsheetML (saved as <code>.xls</code>), which is an XML specification introduced in Microsoft Excel 2003. It is natively rendered by Microsoft Excel, Apple Numbers, and LibreOffice Calc. However, it is an uncompressed XML document, not a binary zip package like modern Office Open XML (<code>.xlsx</code>).</span>
+        </div>
+
+        <!-- Section 6 -->
+        <h2 id="troubleshooting-and-edge-cases" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          6. Troubleshooting Common Extraction Edge Cases
+        </h2>
+        <ul style="padding-left: 24px; margin-bottom: 24px;">
+          <li style="margin-bottom: 14px;">
+            <strong>Issue: Capture stops early after only a few rows.</strong><br>
+            <em>Likely Cause:</em> The tool identified the page container instead of the inner grid viewport, or the scroll step was too large and hit the bottom boundary.<br>
+            <em>Remedy:</em> Inspect the grid element. If the table is nested inside an internal scrolling container, ensure the cursor or selection targets the inner viewport directly.
+          </li>
+          <li style="margin-bottom: 14px;">
+            <strong>Issue: Horizontal column data is missing or truncated.</strong><br>
+            <em>Likely Cause:</em> The grid utilizes horizontal column virtualization (common in data sets with 50+ columns).<br>
+            <em>Remedy:</em> Most automated scroll extractors focus on the vertical axis. If columns are virtualized horizontally, zoom out the browser window or expand the display width so all necessary columns render in the viewport during vertical capture.
+          </li>
+          <li style="margin-bottom: 14px;">
+            <strong>Issue: Server-side infinite scroll fails to load subsequent rows.</strong><br>
+            <em>Likely Cause:</em> The web application rate-limits network requests or requires slow debounce periods between scroll events.<br>
+            <em>Remedy:</em> Enable a slower capture speed setting (e.g. extending settle timeouts to 6 seconds) to give the application's API sufficient time to respond before the next step.
+          </li>
+          <li style="margin-bottom: 14px;">
+            <strong>Issue: Accents display incorrectly in Excel.</strong><br>
+            <em>Likely Cause:</em> The CSV was opened without a BOM, or Excel's regional settings overrode file parsing.<br>
+            <em>Remedy:</em> Open a blank workbook in Excel, navigate to <strong>Data &gt; From Text/CSV</strong>, select the file, and confirm that the File Origin dropdown is explicitly set to <strong>65001: Unicode (UTF-8)</strong>.
+          </li>
+        </ul>
+
+        <!-- Section 7 -->
+        <h2 id="table-extractor-workflow" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          7. Practical Workflow with Table Extractor
+        </h2>
+        <p style="margin-bottom: 16px;">
+          For users looking for an extension that handles this capture logic without writing custom browser scripts, <a href="../../table-extractor/" style="color: var(--accent); text-decoration: underline;">Table Extractor</a> runs locally in Microsoft Edge and Google Chrome.
+        </p>
+        <p style="margin-bottom: 16px;">
+          The popup interface provides direct controls tailored to both static and virtualized tables:
+        </p>
+        <ol style="padding-left: 24px; margin-bottom: 24px;">
+          <li style="margin-bottom: 8px;"><strong>Detect Tables:</strong> Open the extension on any webpage. The popup inspects the DOM and lists detected tables in a dropdown with visible row and column dimensions.</li>
+          <li style="margin-bottom: 8px;"><strong>Virtualized Capture Options:</strong> When a virtualized table is detected, a &ldquo;Virtualized Grid&rdquo; badge appears. Users can click <strong>&ldquo;Capture All Rows&rdquo;</strong> to initiate stepped scrolling, or choose <strong>&ldquo;Just visible rows&rdquo;</strong> to export only currently mounted DOM elements.</li>
+          <li style="margin-bottom: 8px;"><strong>Speed and Bounds Controls:</strong> Toggle between Normal speed (120ms debounce) and Slow speed (250ms debounce with up to 6s timeout for laggy network loads), configure an optional maximum rows cap (default: 5,000), or specify a custom row range.</li>
+          <li style="margin-bottom: 8px;"><strong>Export Formats:</strong> Check one or more desired export formats (CSV with UTF-8 BOM, Excel XML SpreadsheetML, or JSON) to download timestamped files directly to your device.</li>
+        </ol>
+
+        <p style="margin-bottom: 24px;">
+          If your downstream requirement involves publishing extracted tabular data in academic research papers or technical reports, see our guide on <a href="../word-tables-to-latex/" style="color: var(--accent); text-decoration: underline;">how to convert tables to LaTeX cleanly</a> using <code>booktabs</code> and <code>longtable</code>.
+        </p>
+
+        <!-- Section 8 -->
+        <h2 id="primary-references" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          8. Primary Documentation References
+        </h2>
+        <p style="margin-bottom: 16px;">
+          The technical concepts discussed in this guide are documented in the following primary platform and library references:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 32px;">
+          <li style="margin-bottom: 10px;">
+            <strong>AG Grid DOM Virtualisation Architecture:</strong> Documentation detailing row and column DOM node recycling and viewport spacer mechanics. Available at <a href="https://www.ag-grid.com/javascript-data-grid/dom-virtualisation/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">ag-grid.com/javascript-data-grid/dom-virtualisation/</a>.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Microsoft Guidance on UTF-8 CSV Files in Excel:</strong> Documentation on character encoding detection and the use of the Byte Order Mark (BOM). Available at <a href="https://support.microsoft.com/en-us/excel/opening-csv-utf-8-files-correctly-in-excel" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">support.microsoft.com/en-us/excel/opening-csv-utf-8-files-correctly-in-excel</a>.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Microsoft CSV Import and Export Workflows:</strong> Practical steps for configuring file origin and delimiters using Power Query. Available at <a href="https://support.microsoft.com/en-us/excel/get-started/import-or-export-text-txt-or-csv-files" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">support.microsoft.com/en-us/excel/get-started/import-or-export-text-txt-or-csv-files</a>.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>MDN Web Docs on Element.scrollHeight:</strong> Specification and browser behavior for determining scrollable container heights. Available at <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight</a>.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>MDN Web Docs on MutationObserver:</strong> API documentation for observing DOM tree modifications asynchronously during scrolling. Available at <a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">developer.mozilla.org/en-US/docs/Web/API/MutationObserver</a>.
+          </li>
+        </ul>
+      </div>
+
+      <!-- Restrained CTA Box -->
+      <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-lg); padding: 28px; text-align: center; margin-top: 40px; box-shadow: var(--shadow-card);">
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Extract Web Tables to Excel with Ease</h3>
+        <p style="font-size: 0.92rem; color: var(--text-secondary); max-width: 580px; margin: 0 auto 20px; line-height: 1.6;">
+          Table Extractor runs client-side in Microsoft Edge and Chrome to auto-detect tables, scroll virtualized grids, and export clean CSV, Excel, or JSON files.
+        </p>
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+          <a href="../../table-extractor/" class="btn btn-edge btn-sm">Learn About Table Extractor &rarr;</a>
+          <a href="../" class="btn btn-ghost btn-sm">Browse All Guides</a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-col brand-col">
+        <a href="../../" class="brand footer-brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+          </div>
+          <span>ExtensionGuy</span>
+        </a>
+        <p class="footer-tagline">Privacy-first browser extensions with client-side execution.</p>
+        <p class="copyright">&copy; 2026 ExtensionGuy. Published under MIT &amp; GPL-2.0+ licenses.</p>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-heading" style="font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; color: var(--text-main);">Add-ons</div>
+        <ul class="footer-links">
+          <li><a href="../../word-to-latex/">Word to LaTeX (Offline)</a></li>
+          <li><a href="../../word-to-latex-converter/">Word to LaTeX Online</a></li>
+          <li><a href="../../table-extractor/">Table Extractor</a></li>
+          <li><a href="../../bulkgrab/">BulkGrab</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-heading" style="font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; color: var(--text-main);">Guides</div>
+        <ul class="footer-links">
+          <li><a href="../docx-to-latex-offline/">DOCX to LaTeX Offline</a></li>
+          <li><a href="../word-tables-to-latex/">Word Tables to LaTeX</a></li>
+          <li><a href="../../changelog/">Product Changelog</a></li>
+          <li><a href="../../privacy">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/site.js?v=20261019-3" defer></script>
+</body>
+</html>

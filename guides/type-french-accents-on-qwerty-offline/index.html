@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Offline French Autocorrect Handles Accents, Apostrophes, and Typing Errors — ExtensionGuy</title>
+  <meta name="description" content="Learn how offline French autocorrect algorithms restore accents, resolve elisions, and correct typing errors on standard QWERTY keyboards.">
+
+  <link rel="canonical" href="https://extensionguy.me/guides/type-french-accents-on-qwerty-offline/">
+  <link rel="alternate" hreflang="en" href="https://extensionguy.me/guides/type-french-accents-on-qwerty-offline/">
+  <link rel="alternate" hreflang="x-default" href="https://extensionguy.me/guides/type-french-accents-on-qwerty-offline/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How Offline French Autocorrect Handles Accents, Apostrophes, and Typing Errors">
+  <meta property="og:description" content="Learn how offline French autocorrect algorithms restore accents, resolve elisions, and correct typing errors on standard QWERTY keyboards.">
+  <meta property="og:url" content="https://extensionguy.me/guides/type-french-accents-on-qwerty-offline/">
+  <meta property="og:image" content="https://extensionguy.me/assets/og/home-1200x630.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How Offline French Autocorrect Handles Accents, Apostrophes, and Typing Errors">
+  <meta name="twitter:description" content="Learn how offline French autocorrect algorithms restore accents, resolve elisions, and correct typing errors on standard QWERTY keyboards.">
+  <meta name="twitter:image" content="https://extensionguy.me/assets/og/home-1200x630.png">
+
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg">
+  <link rel="icon" type="image/png" href="../../assets/icons/word-to-latex-128.png">
+  <link rel="apple-touch-icon" href="../../assets/icons/word-to-latex-128.png">
+  <meta name="theme-color" content="#0f172a">
+
+  <link rel="stylesheet" href="../../assets/css/styles.css?v=20261019-3">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://extensionguy.me/guides/type-french-accents-on-qwerty-offline/#article",
+      "headline": "How Offline French Autocorrect Handles Accents, Apostrophes, and Typing Errors",
+      "description": "Learn how offline French autocorrect algorithms restore accents, resolve elisions, and correct typing errors on standard QWERTY keyboards.",
+      "datePublished": "2026-10-27",
+      "dateModified": "2026-10-27",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://extensionguy.me/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://extensionguy.me/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "How Offline French Autocorrect Handles Accents",
+          "item": "https://extensionguy.me/guides/type-french-accents-on-qwerty-offline/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body id="top">
+  <a href="#mainContent" class="skip-to-content">Skip to content</a>
+
+  <header class="navbar" role="banner">
+    <div class="container nav-inner">
+      <a href="../../" class="brand" aria-label="ExtensionGuy Portfolio">
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <span>ExtensionGuy</span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="../../#flagship" class="nav-link">Flagship</a></li>
+          <li><a href="../../#portfolio" class="nav-link">All Extensions</a></li>
+          <li><a href="../../word-to-latex-converter/" class="nav-link">Web Converter</a></li>
+          <li><a href="../../privacy" class="nav-link">Privacy</a></li>
+          <li><a href="../" class="nav-link">Guides</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" title="Switch to dark mode">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="mainContent">
+    <article class="container" style="max-width: 900px; padding: clamp(32px, 5vw, 64px) 16px;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.85rem; margin-bottom: 24px; color: var(--text-tertiary);"><a href="../../" style="color: var(--accent); text-decoration: underline;">Home</a> &rsaquo; <a href="../" style="color: var(--accent); text-decoration: underline;">Guides</a> &rsaquo; <span>How Offline French Autocorrect Handles Accents</span></nav>
+
+      <header style="margin-bottom: 36px;">
+        <span class="badge badge-subtle" style="margin-bottom: 12px; display: inline-block;">Linguistics &amp; Input Guide</span>
+        <h1 style="font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; letter-spacing: -0.025em; margin-bottom: 16px; line-height: 1.2;">
+          How Offline French Autocorrect Handles Accents, Apostrophes, and Typing Errors
+        </h1>
+        <div style="font-size: 0.85rem; color: var(--text-tertiary); margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+          <span>Last updated: October 2026</span>
+          <span aria-hidden="true">&bull;</span>
+          <span>Verified against Bilexi v0.5.0 source and engine tests</span>
+        </div>
+        <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+          Typing French on a standard unaccented QWERTY layout presents continuous friction. Writers must either memorize awkward Alt key codes, toggle operating system input methods, or produce unaccented text missing accents and elision apostrophes.
+        </p>
+      </header>
+
+      <div style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7;">
+        <p style="margin-bottom: 20px;">
+          For bilingual professionals, students, technical writers, and translators, switching keyboard layouts disrupts muscle memory and introduces punctuation mismatches. An alternative approach is offline client-side autocorrection: an in-browser linguistic pipeline that detects unaccented French words, inserts required diacritics, resolves contracted elisions, and rectifies keyboard mis-strikes as you type, using local dictionary indexes and client-side processing.
+        </p>
+        <p style="margin-bottom: 24px;">
+          This guide explains the underlying engineering behind offline French text correction. We examine the differences between general-purpose spellcheckers and diacritic-aware systems, inspect SymSpell-style deletion indexes stored in typed arrays, review Unicode decomposition, and outline how weighted edit distance models distinguish minor accent slips from distinct words.
+        </p>
+
+        <!-- Section 1 -->
+        <h2 style="font-size: 1.45rem; font-weight: 700; color: var(--text-main); margin-top: 40px; margin-bottom: 16px;">
+          1. The Challenge of Typing French on QWERTY Keyboards
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Standard US and UK QWERTY layouts lack dedicated keys for French accented vowels (é, è, &ecirc;, ë, à, &acirc;, î, ï, ô, ù, û, ü), the cedilla (ç), and ligatures (œ, æ). To produce these characters without specialized software, users typically rely on one of three options:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 8px;"><strong>US International layout:</strong> Transforms quotes and tildes into dead keys, requiring double presses to type plain apostrophes or quotes.</li>
+          <li style="margin-bottom: 8px;"><strong>Operating system switching:</strong> Toggling between QWERTY and AZERTY rearranges key positions (such as A/Q and Z/W), leading to frequent typos.</li>
+          <li style="margin-bottom: 8px;"><strong>Unaccented typing:</strong> Typing purely in ASCII letters (e.g., typing <code>ecole</code> instead of <code>école</code>) and relying on post-editing or autocorrection.</li>
+        </ul>
+        <p style="margin-bottom: 24px;">
+          Unaccented typing is fast, but it leaves words grammatically incorrect. Furthermore, French syntax relies extensively on elision&mdash;contracting monosyllabic words like <em>le</em>, <em>la</em>, <em>de</em>, and <em>je</em> before vowels (producing <em>l’</em>, <em>d’</em>, <em>j’</em>). When typing quickly on a QWERTY layout, users frequently omit both the apostrophe and the accent, typing <code>lecole</code> or <code>cest</code> instead of <code>l’école</code> or <code>c’est</code>.
+        </p>
+
+        <!-- Section 2 -->
+        <h2 style="font-size: 1.45rem; font-weight: 700; color: var(--text-main); margin-top: 40px; margin-bottom: 16px;">
+          2. Why Standard Unweighted Spellcheck Algorithms Struggle with French QWERTY Inputs
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Traditional browser spellcheckers flag unrecognized tokens with red underlines after words are entered. While helpful for post-hoc proofreading, unweighted general-purpose spellchecking algorithms encounter specific structural limitations when applied to real-time French typing on QWERTY keyboards:
+        </p>
+        <ol style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 10px;">
+            <strong>Uniform edit distance penalties:</strong> Under standard unweighted Levenshtein distance, turning <code>deja</code> into <code>déjà</code> requires two character substitutions (<code>e</code> &rarr; <code>é</code> and <code>a</code> &rarr; <code>à</code>), costing 2 edit operations. Conversely, turning <code>deja</code> into an unrelated single-letter typo like <code>deca</code> requires only one substitution (<code>j</code> &rarr; <code>c</code>), costing 1 operation. Because an unweighted algorithm assigns the same unit penalty (1.0) to accent additions as to arbitrary letter swaps, it ranks the incorrect word <code>deca</code> as mathematically closer to <code>deja</code> than the intended word <code>déjà</code>.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Elision tokenization boundaries:</strong> Standard word-boundary tokenizers split on spaces and punctuation. When an elided word like <code>d’accord</code> is typed without an apostrophe as <code>daccord</code>, or with an unaccented prefix like <code>lecole</code>, a standard dictionary lookup fails because the compound token does not match standard base-form dictionary entries.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Synchronous keystroke overhead:</strong> Full morphological affix analyzers or deep rule graphs designed for desktop word processors can be resource-intensive when executed synchronously on every typing delimiter. In browser extensions, keeping computation lightweight avoids blocking the main user interface thread.
+          </li>
+        </ol>
+
+        <!-- Section 3 -->
+        <h2 style="font-size: 1.45rem; font-weight: 700; color: var(--text-main); margin-top: 40px; margin-bottom: 16px;">
+          3. Architecture of an In-Browser Offline Autocorrect Pipeline
+        </h2>
+        <p style="margin-bottom: 16px;">
+          To correct text smoothly in a browser while keeping processing local, an autocorrection engine must evaluate words efficiently on word boundaries without sending text over a network. The pipeline adopted in client-side extensions like Bilexi organizes text processing into clear, sequential stages:
+        </p>
+
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 20px; margin-bottom: 24px;">
+          <div style="font-weight: 700; color: var(--text-main); margin-bottom: 12px; font-size: 0.95rem;">Pipeline Execution Flow</div>
+          <ol style="padding-left: 20px; margin: 0; line-height: 1.6; font-size: 0.9rem;">
+            <li style="margin-bottom: 6px;"><strong>Keystroke &amp; Word Boundary Detection:</strong> Monitors text input and triggers analysis when a delimiter (space, period, comma, or enter) is typed.</li>
+            <li style="margin-bottom: 6px;"><strong>Token Normalization &amp; Elision Splitting:</strong> Canonicalizes character encoding and isolates elision prefixes.</li>
+            <li style="margin-bottom: 6px;"><strong>Bloom Filter Membership Gating:</strong> Performs a fast bitwise test to verify whether the token is already a known, valid dictionary entry.</li>
+            <li style="margin-bottom: 6px;"><strong>SymSpell Candidate Generation:</strong> Generates candidate matches from a precomputed binary index using symmetric deletion.</li>
+            <li style="margin-bottom: 6px;"><strong>Weighted Damerau&ndash;Levenshtein Scoring:</strong> Evaluates candidates with asymmetric costs for accents, keyboard adjacency, and transpositions.</li>
+            <li style="margin-bottom: 0;"><strong>Decision &amp; Dispatch:</strong> Applies high-confidence replacements directly to the DOM or displays alternative suggestions in an accessible interface.</li>
+          </ol>
+        </div>
+
+        <p style="margin-bottom: 16px;">
+          Rather than relying on runtime WebAssembly or repetitive string parsing, Bilexi structures its reference vocabulary in a binary format. When the extension initializes, it maps typed array views (<code style="color: var(--accent);">Uint8Array</code>, <code style="color: var(--accent);">Uint32Array</code>) directly over an <code style="color: var(--accent);">ArrayBuffer</code>, enabling binary search across pre-sorted hash tables without creating intermediate JavaScript objects on every lookup.
+        </p>
+
+        <!-- Section 4 -->
+        <h2 style="font-size: 1.45rem; font-weight: 700; color: var(--text-main); margin-top: 40px; margin-bottom: 16px;">
+          4. Restoring Accents and Handling Unicode Normalization
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Accurate diacritic restoration requires careful handling of character representations. In Unicode, accented characters can be represented in multiple forms:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 8px;">
+            <strong>Canonical Decomposition (NFD):</strong> Represents characters as a base glyph followed by separate combining diacritical marks (e.g., <code>e</code> + <code>&#92;u0301</code> for <code>é</code>).
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>Canonical Composition (NFC):</strong> Combines the base character and diacritic into a single precomposed code point (e.g., <code>&#92;u00E9</code> for <code>é</code>).
+          </li>
+        </ul>
+        <p style="margin-bottom: 16px;">
+          Unicode normalization forms ensure that text generated across different operating systems compares consistently. However, standard normalization does not fold accents into ASCII letters. To match unaccented typing against an accented vocabulary, the engine applies a custom folding step:
+        </p>
+
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 18px; margin-bottom: 24px; overflow-x: auto;">
+          <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-tertiary); margin-bottom: 8px; text-transform: uppercase;">JavaScript / TypeScript Normalization &amp; Folding</div>
+          <pre style="margin: 0; font-family: monospace; font-size: 0.88rem; line-height: 1.5; color: var(--text-main);"><code>// Canonicalize to NFC for internal comparisons
+export function normalize(text: string): string {
+  return text.normalize(&#39;NFC&#39;);
+}
+
+// Custom diacritic and ligature folding for lookup keys
+export function fold(text: string): string {
+  return text
+    .normalize(&#39;NFD&#39;)
+    .replace(/[\u0300-\u036f]/g, &#39;&#39;) // Strip combining accent marks
+    .replace(/œ/g, &#39;oe&#39;)              // Expand French ligatures
+    .replace(/Œ/g, &#39;Oe&#39;)
+    .replace(/æ/g, &#39;ae&#39;)
+    .replace(/Æ/g, &#39;Ae&#39;)
+    .replace(/’/g, &quot;&#39;&quot;);             // Unify typographic apostrophes
+}</code></pre>
+        </div>
+
+        <p style="margin-bottom: 24px;">
+          By folding both the reference vocabulary and the incoming unaccented user input to common ASCII keys, words like <code>ecole</code> and <code>école</code> share an identical lookup stem. The original accented forms are preserved in the dictionary data so the engine can reconstruct the proper spelling upon replacement.
+        </p>
+
+        <!-- Section 5 -->
+        <h2 style="font-size: 1.45rem; font-weight: 700; color: var(--text-main); margin-top: 40px; margin-bottom: 16px;">
+          5. Resolving French Apostrophes, Elisions, and Name Safeguards
+        </h2>
+        <p style="margin-bottom: 16px;">
+          French elision is syntactically mandatory before words beginning with a vowel or a mute <em>h</em>. In natural typing, users omit apostrophes or enter unseparated compounds. The engine handles these through two cooperative mechanisms:
+        </p>
+
+        <h3 style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-top: 24px; margin-bottom: 12px;">
+          Deterministic High-Frequency Rules
+        </h3>
+        <p style="margin-bottom: 16px;">
+          Common uncontracted compounds are mapped directly using curated replacement rules. In Bilexi's implementation, these deterministic rules bypass fuzzy search and apply immediately upon boundary detection:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 6px;"><code>jai</code> &rarr; <code>j’ai</code> (deterministic rule)</li>
+          <li style="margin-bottom: 6px;"><code>cest</code> &rarr; <code>c’est</code> (deterministic rule)</li>
+          <li style="margin-bottom: 6px;"><code>daccord</code> &rarr; <code>d’accord</code> (deterministic rule)</li>
+          <li style="margin-bottom: 6px;"><code>aujourdhui</code> &rarr; <code>aujourd’hui</code> (deterministic rule)</li>
+          <li style="margin-bottom: 6px;"><code>lecole</code> &rarr; <code>l’école</code> (deterministic rule)</li>
+        </ul>
+
+        <h3 style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-top: 24px; margin-bottom: 12px;">
+          Dynamic Prefix Splitting and Capitalization Safeguards
+        </h3>
+        <p style="margin-bottom: 16px;">
+          Beyond curated rules, the engine dynamically evaluates uncontracted elision prefixes (such as <code>l</code>, <code>d</code>, <code>j</code>, <code>qu</code>, <code>m</code>, <code>t</code>, <code>s</code>, <code>n</code>) when followed by a vowel or mute <em>h</em>. In this flow, the tokenizer isolates the candidate prefix and evaluates whether the remaining stem forms a valid French vocabulary entry. For example, <code>jespere</code> is dynamically split into the prefix <code>j</code> and the unaccented stem <code>espere</code>; the stem then matches <code>espère</code> through accent restoration (cost 0.20), successfully producing <code>j’espère</code> as an automatic replacement.
+        </p>
+        <p style="margin-bottom: 24px;">
+          Crucially, the tokenizer incorporates capitalization guards. Single consonants like <code>m</code>, <code>t</code>, <code>s</code>, or <code>n</code> are not treated as elision prefixes when the word begins with an uppercase letter. This safeguard prevents proper names such as <em>Martin</em> or <em>Thomas</em> from being mistakenly split into <em>M’artin</em> or <em>T’homas</em>.
+        </p>
+
+        <!-- Section 6 -->
+        <h2 style="font-size: 1.45rem; font-weight: 700; color: var(--text-main); margin-top: 40px; margin-bottom: 16px;">
+          6. Keyboard-Aware Scoring: Physical Layouts and Asymmetric Weights
+        </h2>
+        <p style="margin-bottom: 16px;">
+          When an input contains typographical errors beyond omitted accents, candidate ranking relies on a modified Damerau&ndash;Levenshtein metric. Rather than assigning an arbitrary unit cost to all operations, the engine assigns asymmetric weights:
+        </p>
+
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); overflow: hidden; margin-bottom: 24px;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left;">
+            <thead>
+              <tr style="background: var(--bg-surface-elevated, rgba(255,255,255,0.03)); border-bottom: 1px solid var(--border-page);">
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Operation Type</th>
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Weight Cost</th>
+                <th style="padding: 12px 16px; font-weight: 700; color: var(--text-main);">Verified Transition &amp; Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 10px 16px;">Accent restoration</td>
+                <td style="padding: 10px 16px; font-family: monospace; color: var(--accent);">0.20</td>
+                <td style="padding: 10px 16px;"><code>ecole</code> &rarr; <code>école</code>, <code>deja</code> &rarr; <code>déjà</code> (automatic replacement)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 10px 16px;">Adjacent key substitution (QWERTY)</td>
+                <td style="padding: 10px 16px; font-family: monospace; color: var(--accent);">0.50</td>
+                <td style="padding: 10px 16px;"><code>bknjour</code> &rarr; <code>bonjour</code> (automatic replacement, k is adjacent to o)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 10px 16px;">Transposition of adjacent letters (Damerau)</td>
+                <td style="padding: 10px 16px; font-family: monospace; color: var(--accent);">0.60</td>
+                <td style="padding: 10px 16px;"><code>frnace</code> &rarr; <code>france</code> (automatic replacement)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 10px 16px;">Transposition of adjacent letters (Damerau)</td>
+                <td style="padding: 10px 16px; font-family: monospace; color: var(--accent);">0.60</td>
+                <td style="padding: 10px 16px;"><code>bonjuor</code> &rarr; <code>bonjour</code> (automatic replacement, u and o transposed)</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-page);">
+                <td style="padding: 10px 16px;">Doubled letter insertion/deletion</td>
+                <td style="padding: 10px 16px; font-family: monospace; color: var(--accent);">0.60</td>
+                <td style="padding: 10px 16px;"><code>adress</code> &rarr; <code>address</code> (automatic replacement)</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 16px;">Generic substitution</td>
+                <td style="padding: 10px 16px; font-family: monospace; color: var(--accent);">1.20</td>
+                <td style="padding: 10px 16px;">Arbitrary non-adjacent character replacement</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="margin-bottom: 24px;">
+          Assigning accent restoration a low base cost of 0.20 allows unaccented words to match target dictionary entries ahead of phonetic or typographical alternatives. However, physical proximity or low edit distance alone does not equate to an automatic replacement. The engine's decision logic evaluates candidate ranking against multiple criteria: the candidate must exist in the reference vocabulary, achieve high calibrated confidence, and maintain a decisive score margin over any runner-up candidate. If competing candidates are close in score or confidence falls below threshold, the engine withholds automatic replacement and routes alternatives to the suggestion strip.
+        </p>
+
+        <!-- Section 7 -->
+        <h2 style="font-size: 1.45rem; font-weight: 700; color: var(--text-main); margin-top: 40px; margin-bottom: 16px;">
+          7. Safety Limits: When Autocorrection Should Avoid Auto-Replacement
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Unchecked autocorrection can be more frustrating than typing mistakes if it replaces intended words with incorrect alternatives. To maintain precision, practical engines enforce strict safety boundaries:
+        </p>
+
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 20px; margin-bottom: 24px;">
+          <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-top: 0; margin-bottom: 10px;">
+            The Short-Word Exclusion Principle
+          </h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px;">
+            Tokens under three characters (e.g., <code>a</code> vs. <code>à</code>, <code>ou</code> vs. <code>où</code>, <code>du</code> vs. <code>dû</code>, <code>la</code> vs. <code>là</code>) represent distinct, valid French words. Without deep syntactic parsing, replacing <code>a</code> with <code>à</code> on a single-token basis has a high probability of error. The engine explicitly treats tokens with fewer than three letters as no-op candidates for silent automatic replacement.
+          </p>
+
+          <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin-bottom: 10px;">
+            Morphological Suffix Homophones
+          </h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0;">
+            In French grammar, verbal endings such as <em>-é</em> (past participle), <em>-er</em> (infinitive), <em>-ez</em> (second-person plural), and <em>-ait</em> / <em>-ais</em> (imperfect) share identical pronunciations and unaccented stems. While client-side engines can use immediate context tokens to evaluate bigram probabilities, fully resolving ambiguous verbal inflections without broader sentence-level syntactic parsing remains difficult. When competing valid forms share close scoring values, the engine avoids guessing with an automatic replacement, routing alternative candidates to the suggestion strip instead.
+          </p>
+        </div>
+
+        <!-- Section 8 -->
+        <h2 style="font-size: 1.45rem; font-weight: 700; color: var(--text-main); margin-top: 40px; margin-bottom: 16px;">
+          8. DOM Replacement, Browser Undo Stacks, and Editor Boundaries
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Applying a corrected string back into a web page requires interacting with browser text fields. Web applications utilize two primary editing surfaces: standard form controls (<code style="color: var(--accent);">&lt;input&gt;</code> and <code style="color: var(--accent);">&lt;textarea&gt;</code>) and rich-text containers (<code style="color: var(--accent);">contenteditable</code> elements).
+        </p>
+
+        <h3 style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-top: 20px; margin-bottom: 12px;">
+          Preserving the Native Undo Stack
+        </h3>
+        <p style="margin-bottom: 16px;">
+          A common pitfall in browser extensions is updating an element’s <code>value</code> property directly. Mutating <code>input.value</code> bypasses the browser’s native undo buffer (<kbd>Ctrl+Z</kbd> / <kbd>Cmd+Z</kbd>) and can desynchronize internal state in web frameworks.
+        </p>
+        <p style="margin-bottom: 16px;">
+          To preserve undo history and trigger framework change listeners on standard form inputs and standard <code>contenteditable</code> elements, Bilexi dispatches <code style="color: var(--accent);">document.execCommand(&#39;insertText&#39;)</code> targeted at the active text selection. If an application overrides or blocks <code>execCommand</code>, the extension falls back to <code style="color: var(--accent);">setRangeText</code> and dispatches a synthetic <code style="color: var(--accent);">InputEvent</code> with <code>inputType: &#39;insertReplacementText&#39;</code>, conforming to the W3C Input Events specification. However, non-standard text surfaces&mdash;such as Google Docs canvas mode or custom shadow-root web components that do not expose standard DOM selections&mdash;do not support standard insertion commands and cannot be modified by standard content scripts.
+        </p>
+
+        <h3 style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-top: 20px; margin-bottom: 12px;">
+          The Two-Tier Interaction Model
+        </h3>
+        <p style="margin-bottom: 16px;">
+          Not every correction should happen automatically. Bilexi operates across two interaction tiers:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 24px;">
+          <li style="margin-bottom: 10px;">
+            <strong>Tier 1 (Silent Auto-Replace):</strong> Triggered on word boundary keystrokes (space, punctuation, or enter) exclusively for high-confidence matches with a clear margin over any runner-up candidate (e.g., <code>ecole</code> &rarr; <code>école</code>, <code>cest</code> &rarr; <code>c’est</code>).
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Tier 2 (Interactive Suggestion Strip):</strong> When candidate confidence is moderate or competing dictionary entries are close, a non-intrusive floating chip appears above the caret. Users can accept candidates via keyboard shortcuts (<kbd>Alt+1</kbd>, <kbd>Alt+2</kbd>, <kbd>Alt+3</kbd>) or mouse click.
+          </li>
+        </ul>
+
+        <!-- Section 9 -->
+        <h2 style="font-size: 1.45rem; font-weight: 700; color: var(--text-main); margin-top: 40px; margin-bottom: 16px;">
+          9. Privacy and Local Architecture Verification
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Keystroke processing demands stringent privacy protections. When evaluating any browser tool that monitors text input, it is vital to distinguish claimed privacy policies from verifiable architectural safeguards.
+        </p>
+        <p style="margin-bottom: 16px;">
+          In the reviewed Bilexi production source:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 10px;">
+            <strong>Permissions and Site Access:</strong> The extension requests only two API permissions: <code>storage</code> (for settings, custom vocabularies, and user metrics) and <code>activeTab</code> (invoked when opening the toolbar popup to identify the active domain for per-site toggling). The manifest declares no top-level <code>host_permissions</code> entry. To enable automatic correction as users browse, the manifest separately registers content scripts matching <code>http://*/*</code> and <code>https://*/*</code> (with <code>all_frames: true</code>). Content scripts are therefore injected automatically across matching pages at document idle, rather than through <code>activeTab</code> invocations.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Eligibility and Field Boundaries:</strong> Although content scripts inject widely across matching websites, the script executes safety filters before evaluating text. It ignores password inputs, payment and address fields, code editors, search boxes, Google Docs canvas areas, and elements marked with <code>spellcheck="false"</code> or <code>autocorrect="off"</code>.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Local Packaged Assets:</strong> Reference dictionaries (<code>dict/en.bin</code>, <code>dict/fr.bin</code>) are packaged directly within the extension distribution and loaded into memory via <code>chrome.runtime.getURL()</code>.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Static Source Inspection:</strong> In the reviewed production source and runtime entry points, no explicit user-text upload or telemetry request was identified; networking APIs (<code style="color: var(--accent);">fetch</code>, <code style="color: var(--accent);">XMLHttpRequest</code>, <code style="color: var(--accent);">WebSocket</code>, <code style="color: var(--accent);">EventSource</code>, and <code style="color: var(--accent);">sendBeacon</code>) are not invoked for user text.
+          </li>
+        </ul>
+        <p style="margin-bottom: 24px;">
+          <em>Note on Verification:</em> This analysis reflects a static source review of the extension package and build entry points, not a continuous live traffic audit in a packet-capture sandbox. While the omission of host permissions restricts standard cross-origin network operations, distinguishing code-level architecture from runtime empirical verification remains essential.
+        </p>
+
+        <!-- Section 10 -->
+        <h2 style="font-size: 1.45rem; font-weight: 700; color: var(--text-main); margin-top: 40px; margin-bottom: 16px;">
+          10. Practical Takeaways and Summary
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Typing accented French on a standard unaccented QWERTY keyboard does not require disruptive layout switching or memorized character codes. By implementing a client-side linguistic pipeline that combines:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 24px;">
+          <li style="margin-bottom: 8px;">Precomputed symmetric deletion indexes loaded directly into typed arrays,</li>
+          <li style="margin-bottom: 8px;">Asymmetric Damerau&ndash;Levenshtein weights favoring diacritic restoration,</li>
+          <li style="margin-bottom: 8px;">French-specific elision splitting with proper name capitalization guards, and</li>
+          <li style="margin-bottom: 8px;">A two-tier interaction model that reserves silent replacements for unambiguous matches,</li>
+        </ul>
+        <p style="margin-bottom: 24px;">
+          writers can produce clean, accented French text naturally, while retaining native browser undo behavior on standard editable fields and keeping text processing on their local device.
+        </p>
+
+        <h3 style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-top: 32px; margin-bottom: 16px;">
+          Authoritative Specifications and References
+        </h3>
+        <p style="margin-bottom: 16px;">
+          The linguistic and architectural concepts discussed in this guide are grounded in the following specifications and research:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 32px;">
+          <li style="margin-bottom: 10px;">
+            <strong>Unicode Standard Annex #15 (Unicode Normalization Forms):</strong> Details canonical decomposition (NFD) and composition (NFC) standards. Available at <a href="https://www.unicode.org/reports/tr15/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">unicode.org/reports/tr15/</a>.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>SymSpell Reference Implementation:</strong> Details the Symmetric Delete spelling correction algorithm created by Wolf Garbe. Reference repository available at <a href="https://github.com/wolfgarbe/SymSpell" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">github.com/wolfgarbe/SymSpell</a>.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Chrome Extensions Permissions Guide:</strong> Official documentation on declaring permissions and host access boundaries. Available at <a href="https://developer.chrome.com/docs/extensions/develop/concepts/declare-permissions" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">developer.chrome.com/docs/extensions/develop/concepts/declare-permissions</a>.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>W3C Input Events Level 2 Specification:</strong> Defines input event types, including <code>insertReplacementText</code> and caret target ranges. Available at <a href="https://www.w3.org/TR/input-events-2/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">w3.org/TR/input-events-2/</a>.
+          </li>
+        </ul>
+      </div>
+
+      <!-- Restrained CTA Box -->
+      <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-lg); padding: 28px; text-align: center; margin-top: 40px; box-shadow: var(--shadow-card);">
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Explore Bilingual Autocorrect with Bilexi</h3>
+        <p style="font-size: 0.92rem; color: var(--text-secondary); max-width: 580px; margin: 0 auto 20px; line-height: 1.6;">
+          Bilexi executes locally in your browser to restore French accents, resolve elisions, and correct typing slips across web forms using packaged local dictionary assets.
+        </p>
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+          <a href="../../bilexi/" class="btn btn-edge btn-sm">Learn About Bilexi &rarr;</a>
+          <a href="../" class="btn btn-ghost btn-sm">Browse All Guides</a>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-col brand-col">
+        <a href="../../" class="brand footer-brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+          </div>
+          <span>ExtensionGuy</span>
+        </a>
+        <p class="footer-tagline">Privacy-first browser extensions with client-side execution.</p>
+        <p class="copyright">&copy; 2026 ExtensionGuy. Published under MIT &amp; GPL-2.0+ licenses.</p>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-heading" style="font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; color: var(--text-main);">Add-ons</div>
+        <ul class="footer-links">
+          <li><a href="../../word-to-latex/">Word to LaTeX (Offline)</a></li>
+          <li><a href="../../word-to-latex-converter/">Word to LaTeX Online</a></li>
+          <li><a href="../../table-extractor/">Table Extractor</a></li>
+          <li><a href="../../bulkgrab/">BulkGrab</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-heading" style="font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; color: var(--text-main);">Guides</div>
+        <ul class="footer-links">
+          <li><a href="../docx-to-latex-offline/">DOCX to LaTeX Offline</a></li>
+          <li><a href="../word-tables-to-latex/">Word Tables to LaTeX</a></li>
+          <li><a href="../../changelog/">Product Changelog</a></li>
+          <li><a href="../../privacy">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/site.js?v=20261019-3" defer></script>
+</body>
+</html>
