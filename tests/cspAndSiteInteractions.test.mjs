@@ -311,7 +311,7 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
 
       // Verify secondary store button is hidden unless product has secondaryInstallUrl
       const secBtnDisplay = await page.evaluate(() => document.getElementById('previewModalFooterSecondary').style.display);
-      if (prod.id === 'table-extractor' || prod.id === 'bulkgrab') {
+      if (prod.id === 'table-extractor' || prod.id === 'bulkgrab' || prod.id === 'word-to-latex') {
         assert.equal(secBtnDisplay, 'inline-flex', `Secondary store button should be visible for dual-store product ${prod.id}`);
       } else {
         assert.equal(secBtnDisplay, 'none', `Secondary store button should be hidden for single-store product ${prod.id}`);
@@ -682,7 +682,7 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
       { route: '/seo-inspector/', name: 'seo-inspector', dualStore: false },
       { route: '/bilexi/', name: 'bilexi', dualStore: false },
       { route: '/tab-vault/', name: 'tab-vault', dualStore: false },
-      { route: '/word-to-latex/', name: 'word-to-latex', dualStore: false }
+      { route: '/word-to-latex/', name: 'word-to-latex', dualStore: true }
     ];
 
     for (const prod of productRoutes) {
@@ -858,7 +858,7 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
       });
       const customPage = await customContext.newPage();
 
-      for (const route of ['/table-extractor/', '/bulkgrab/']) {
+      for (const route of ['/table-extractor/', '/bulkgrab/', '/word-to-latex/']) {
         await customPage.goto(`${serverUrl}${route}`, { waitUntil: 'networkidle' });
 
         const heroGroup = customPage.locator('[data-browser-cta-group]').first();

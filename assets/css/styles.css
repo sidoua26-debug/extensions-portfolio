@@ -286,3 +286,52 @@ a {
   overflow-wrap: break-word;
   word-break: break-word;
 }
+
+/* ==========================================================================
+   Footer Layout & Global Structure
+   ========================================================================== */
+.footer {
+  padding-block: 40px 32px;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-page);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 440px;
+}
+
+.footer-copy {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-links li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}

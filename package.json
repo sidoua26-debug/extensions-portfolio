@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build_worker.mjs",
-    "test": "node --test tests/wasmAsset.test.mjs tests/workerProofOfConcept.test.mjs tests/clientController.test.mjs tests/converterUi.test.mjs tests/cspAndSiteInteractions.test.mjs tests/guidesValidation.test.mjs"
+    "test": "node --test tests/wasmAsset.test.mjs tests/workerProofOfConcept.test.mjs tests/clientController.test.mjs tests/converterUi.test.mjs tests/cspAndSiteInteractions.test.mjs tests/guidesValidation.test.mjs tests/contentAccuracy.test.mjs"
   },
   "dependencies": {
     "@bjorn3/browser_wasi_shim": "^0.4.2",
