@@ -769,14 +769,16 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
         const edgeHref = await edgeLinks.first().getAttribute('href');
         assert.ok(edgeHref.startsWith('https://microsoftedge.microsoft.com/addons/detail/'), `Edge href valid on ${prod.route}`);
 
-        // Verify browser CTA adaptation under Chromium: site.js detects Chrome and swaps primary/ghost classes
+        // Verify browser CTA styling: both store buttons use primary styling (neither demoted to btn-ghost)
         const heroGroup = prodPage.locator('[data-browser-cta-group]').first();
         const heroChrome = heroGroup.locator('[data-cta-store="chrome"]');
         const heroEdge = heroGroup.locator('[data-cta-store="edge"]');
         const chromeClass = await heroChrome.getAttribute('class');
         const edgeClass = await heroEdge.getAttribute('class');
-        assert.ok(chromeClass.includes('btn-chrome'), `Chrome CTA promoted to btn-chrome on Chromium on ${prod.route}`);
-        assert.ok(edgeClass.includes('btn-ghost'), `Edge CTA demoted to btn-ghost on Chromium on ${prod.route}`);
+        assert.ok(chromeClass.includes('btn-chrome'), `Chrome CTA has btn-chrome on ${prod.route}`);
+        assert.ok(!chromeClass.includes('btn-ghost'), `Chrome CTA is not btn-ghost on ${prod.route}`);
+        assert.ok(edgeClass.includes('btn-edge'), `Edge CTA has btn-edge on ${prod.route}`);
+        assert.ok(!edgeClass.includes('btn-ghost'), `Edge CTA is not btn-ghost on ${prod.route}`);
       }
 
       await prodPage.close();
@@ -789,65 +791,49 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
         name: 'Google Chrome Desktop',
         ua: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         jsEnabled: true,
-        expectedPrimary: 'chrome',
-        expectedEdgeClass: 'btn-ghost',
-        expectedChromeClass: 'btn-chrome'
+        expectedNav: 'chrome'
       },
       {
         name: 'Chrome on iOS (CriOS)',
         ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/120.0.0.0 Mobile/15E148 Safari/604.1',
         jsEnabled: true,
-        expectedPrimary: 'chrome',
-        expectedEdgeClass: 'btn-ghost',
-        expectedChromeClass: 'btn-chrome'
+        expectedNav: 'chrome'
       },
       {
         name: 'Microsoft Edge Desktop (Edg/)',
         ua: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0',
         jsEnabled: true,
-        expectedPrimary: 'edge',
-        expectedEdgeClass: 'btn-edge',
-        expectedChromeClass: 'btn-ghost'
+        expectedNav: 'edge'
       },
       {
         name: 'Microsoft Edge on Android (EdgA/)',
         ua: 'Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36 EdgA/120.0.0.0',
         jsEnabled: true,
-        expectedPrimary: 'edge',
-        expectedEdgeClass: 'btn-edge',
-        expectedChromeClass: 'btn-ghost'
+        expectedNav: 'edge'
       },
       {
         name: 'Microsoft Edge on iOS (EdgiOS/)',
         ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 EdgiOS/120.0.0.0 Mobile/15E148 Safari/605.1.15',
         jsEnabled: true,
-        expectedPrimary: 'edge',
-        expectedEdgeClass: 'btn-edge',
-        expectedChromeClass: 'btn-ghost'
+        expectedNav: 'edge'
       },
       {
         name: 'Fallback Firefox',
         ua: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0',
         jsEnabled: true,
-        expectedPrimary: 'edge',
-        expectedEdgeClass: 'btn-edge',
-        expectedChromeClass: 'btn-ghost'
+        expectedNav: 'edge'
       },
       {
         name: 'Fallback Safari',
         ua: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15',
         jsEnabled: true,
-        expectedPrimary: 'edge',
-        expectedEdgeClass: 'btn-edge',
-        expectedChromeClass: 'btn-ghost'
+        expectedNav: 'edge'
       },
       {
         name: 'JavaScript Disabled (HTML baseline)',
         ua: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         jsEnabled: false,
-        expectedPrimary: 'edge',
-        expectedEdgeClass: 'btn-edge',
-        expectedChromeClass: 'btn-ghost'
+        expectedNav: 'edge'
       }
     ];
 
@@ -873,25 +859,27 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
         const edgeClass = await edgeBtn.getAttribute('class');
 
         assert.ok(
-          chromeClass.includes(tc.expectedChromeClass),
-          `Expected Chrome button on ${route} under ${tc.name} to have ${tc.expectedChromeClass}, got: ${chromeClass}`
+          chromeClass.includes('btn-chrome'),
+          `Expected Chrome button on ${route} under ${tc.name} to have btn-chrome, got: ${chromeClass}`
         );
+        assert.ok(!chromeClass.includes('btn-ghost'), `Expected Chrome button on ${route} not to be btn-ghost`);
         assert.ok(
-          edgeClass.includes(tc.expectedEdgeClass),
-          `Expected Edge button on ${route} under ${tc.name} to have ${tc.expectedEdgeClass}, got: ${edgeClass}`
+          edgeClass.includes('btn-edge'),
+          `Expected Edge button on ${route} under ${tc.name} to have btn-edge, got: ${edgeClass}`
         );
+        assert.ok(!edgeClass.includes('btn-ghost'), `Expected Edge button on ${route} not to be btn-ghost`);
 
-        // Verify order in DOM
+        // Verify order in DOM: Chrome first, then Edge everywhere both appear
         const buttons = heroGroup.locator('a[data-cta-store]');
         const firstStore = await buttons.nth(0).getAttribute('data-cta-store');
-        assert.equal(firstStore, tc.expectedPrimary, `Expected ${tc.expectedPrimary} button first on ${route} under ${tc.name}`);
+        assert.equal(firstStore, 'chrome', `Expected chrome button first on ${route} under ${tc.name}`);
 
         // Verify navbar CTA behavior
         const navCta = customPage.locator('.nav-actions [data-nav-cta]');
         if (await navCta.count() > 0) {
           const navText = (await navCta.textContent()).trim();
           const navHref = await navCta.getAttribute('href');
-          if (tc.expectedPrimary === 'chrome') {
+          if (tc.expectedNav === 'chrome') {
             assert.ok(navText.includes('Chrome'), `Nav CTA shows Chrome for ${tc.name} on ${route}`);
             assert.ok(navHref.includes('chromewebstore.google.com'), `Nav CTA links to Chrome Web Store for ${tc.name} on ${route}`);
           } else {

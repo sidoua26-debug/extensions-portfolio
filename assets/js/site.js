@@ -6,18 +6,6 @@
     const isChrome = !isEdge && /\b(Chrome|CriOS|HeadlessChrome)\//i.test(ua);
     if (!isChrome) return;
 
-    // Enhance Dual-store CTAs (Table Extractor & BulkGrab)
-    document.querySelectorAll('[data-browser-cta-group]').forEach(function(group){
-      const edgeBtn = group.querySelector('[data-cta-store="edge"]');
-      const chromeBtn = group.querySelector('[data-cta-store="chrome"]');
-      if (edgeBtn && chromeBtn) {
-        chromeBtn.classList.remove('btn-ghost');
-        chromeBtn.classList.add('btn-chrome');
-        edgeBtn.classList.remove('btn-edge');
-        edgeBtn.classList.add('btn-ghost');
-        group.insertBefore(chromeBtn, edgeBtn);
-      }
-    });
 
     // Enhance Nav CTA if present
     const tableNav = document.querySelector('[data-nav-cta="table-extractor"]');
