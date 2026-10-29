@@ -353,6 +353,7 @@ html = r"""<!DOCTYPE html>
                   <span class="post-conversion-banner-desc">Install Word to LaTeX (Offline) for offline access and clipboard table support.</span>
                 </div>
                 <div class="post-conversion-banner-actions">
+                  <a href="https://chromewebstore.google.com/detail/word-to-latex-offline/appokjanohamffjlecncdegihoelkhco" target="_blank" rel="noopener noreferrer" class="btn btn-chrome btn-sm">Get on Chrome</a>
                   <a href="https://microsoftedge.microsoft.com/addons/detail/word-to-latex-offline/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm">Get on Edge</a>
                   <a href="https://github.com/sidoua26-debug/extensions-portfolio/issues/new?title=Word+to+LaTeX+Conversion+Issue&body=Please+describe+the+problem+and+include+any+relevant+DOCX+structure+details:" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">Report an Issue</a>
                 </div>
@@ -467,13 +468,13 @@ html = r"""<!DOCTYPE html>
             </div>
 
             <div class="flex-wrap-gap-12-mt-8" style="align-items: center;">
-              <a href="https://microsoftedge.microsoft.com/addons/detail/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-edge">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10l4-4"/><path d="M16 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                Get on Microsoft Edge Add-ons
-              </a>
               <a href="https://chromewebstore.google.com/detail/word-to-latex-offline/appokjanohamffjlecncdegihoelkhco" target="_blank" rel="noopener noreferrer" class="btn btn-chrome">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10l4-4"/><path d="M16 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                Get on Chrome Web Store
+                Get on Chrome
+              </a>
+              <a href="https://microsoftedge.microsoft.com/addons/detail/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-edge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v10l4-4"/><path d="M16 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+                Get on Edge
               </a>
               <span class="badge badge-subtle">Edge &amp; Chrome</span>
               <a href="/word-to-latex-converter/" class="btn btn-edge btn-converter-tint">
@@ -555,8 +556,8 @@ html = r"""<!DOCTYPE html>
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                   Preview
                 </button>
-                <a href="https://microsoftedge.microsoft.com/addons/detail/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm">Get on Edge</a>
                 <a href="https://chromewebstore.google.com/detail/word-to-latex-offline/appokjanohamffjlecncdegihoelkhco" target="_blank" rel="noopener noreferrer" class="btn btn-chrome btn-sm">Get on Chrome</a>
+                <a href="https://microsoftedge.microsoft.com/addons/detail/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm">Get on Edge</a>
                 <a href="/word-to-latex/" class="btn btn-ghost btn-sm">Product details</a>
               </div>
             </div>
@@ -610,8 +611,8 @@ html = r"""<!DOCTYPE html>
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                   Preview
                 </button>
-                <a href="https://microsoftedge.microsoft.com/addons/detail/pekammppimoaikllkhhebocbkbidoboe" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm">Get on Edge</a>
                 <a href="https://chromewebstore.google.com/detail/fjpbjpmccomonleefghgalfoioekhlhm" target="_blank" rel="noopener noreferrer" class="btn btn-chrome btn-sm">Get on Chrome</a>
+                <a href="https://microsoftedge.microsoft.com/addons/detail/pekammppimoaikllkhhebocbkbidoboe" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm">Get on Edge</a>
                 <a href="/table-extractor/" class="btn btn-ghost btn-sm">Product details</a>
               </div>
             </div>
@@ -665,8 +666,8 @@ html = r"""<!DOCTYPE html>
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                   Preview
                 </button>
-                <a href="https://microsoftedge.microsoft.com/addons/detail/cphidoikhnjdkeldgelkpddnkojlfccc" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm">Get on Edge</a>
                 <a href="https://chromewebstore.google.com/detail/lnmmneljpgdefilkokfpmiohjgfjcljn" target="_blank" rel="noopener noreferrer" class="btn btn-chrome btn-sm">Get on Chrome</a>
+                <a href="https://microsoftedge.microsoft.com/addons/detail/cphidoikhnjdkeldgelkpddnkojlfccc" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm">Get on Edge</a>
                 <a href="/bulkgrab/" class="btn btn-ghost btn-sm">Product details</a>
               </div>
             </div>
@@ -1218,8 +1219,8 @@ html = r"""<!DOCTYPE html>
           <span>Verified Browser Store Distribution · No Ads · No Telemetry</span>
         </div>
         <div class="preview-footer-btns" id="previewModalFooterBtns">
-          <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-edge" id="previewModalFooterPrimary">Get on Edge</a>
           <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-chrome" id="previewModalFooterSecondary" style="display: none;">Get on Chrome</a>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-edge" id="previewModalFooterPrimary">Get on Edge</a>
           <button type="button" class="btn btn-ghost" id="previewModalCloseFooter">Close Preview</button>
         </div>
       </div>
