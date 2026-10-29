@@ -832,6 +832,26 @@ html = r"""<!DOCTYPE html>
             <div class="card-version-micro">v1.0.0 &middot; Updated Oct 2026</div>
           </article>
         </div>
+        <div class="card-feature-spotlight" style="margin-top: 32px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: clamp(20px, 3vw, 28px); box-shadow: var(--shadow-sm); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
+          <div style="max-width: 680px;">
+            <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+              <span class="badge badge-w2l">Web Application</span>
+              <span class="badge badge-subtle">Client-Side Only</span>
+            </div>
+            <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">
+              <a href="/pdf-tools/" style="color: inherit; text-decoration: none;">Offline PDF Tools</a>
+            </h3>
+            <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+              Merge, split, rotate, compress, and redact PDF files locally in your browser. Operates entirely in browser memory with zero network uploads, zero analytics, and strict Content-Security-Policy enforcement.
+            </p>
+          </div>
+          <div>
+            <a href="/pdf-tools/" class="btn btn-edge" style="display: inline-flex; align-items: center; gap: 8px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Open PDF Tools &rarr;
+            </a>
+          </div>
+        </div>
         <div class="section-footer-privacy"><a href="/privacy" class="footer-privacy-link">&bull; Minimal permissions, no tracking, local processing &mdash; Read Full Privacy Statement</a></div>
       </div>
     </section>
@@ -1130,6 +1150,7 @@ html = r"""<!DOCTYPE html>
         <a href="/word-to-latex/" class="footer-link">Word to LaTeX</a>
         <a href="#portfolio" class="footer-link">Products</a>
         <a href="/word-to-latex-converter/" class="footer-link">Online Converter</a>
+        <a href="/pdf-tools/" class="footer-link">Offline PDF Tools</a>
         <a href="#guides" class="footer-link">Guides</a>
         <a href="#contact" class="footer-link">Support &amp; Contact</a>
         <a href="/privacy" class="footer-link">Privacy Policy</a>
