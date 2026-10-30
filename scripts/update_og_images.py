@@ -3,9 +3,17 @@
 scripts/update_og_images.py
 Regenerates all 11 Open Graph / Twitter card PNGs under assets/og/
 to embed the canonical Variant 1 (Classic Puzzle Piece) brand mark.
+
+SAFETY GUARD:
+  This script modifies existing production card PNGs in-place by reading,
+  clearing specific pixel bounding boxes, and pasting the brand icon.
+  Because in-place image mutation is destructive and irreversible without git,
+  this script will refuse to run unless the '--force' flag is explicitly passed:
+      python3 scripts/update_og_images.py --force
 """
 
 import os
+import sys
 from pathlib import Path
 from PIL import Image
 
@@ -87,5 +95,11 @@ def create_contact_sheet():
     print(f"Contact sheet saved to {sheet_out}")
 
 if __name__ == "__main__":
+    if "--force" not in sys.argv:
+        print("ERROR: scripts/update_og_images.py performs destructive in-place image modifications.")
+        print("To proceed, you must pass the '--force' flag:")
+        print("    python3 scripts/update_og_images.py --force")
+        sys.exit(1)
+
     process_cards()
     create_contact_sheet()

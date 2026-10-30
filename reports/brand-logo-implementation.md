@@ -2,6 +2,7 @@
 
 **Branch:** `fix/unified-brand-logo`
 **Base Commit:** `a7df966ef9bc118b24cf42d098daab16447456e2` (Task A)
+**Polish Target:** Size Consistency, Single Tile, Opaque Touch Icon, Root Favicon, Theme Color Revert
 **Date:** October 30, 2026
 **Implementation Status:** COMPLETE & VERIFIED
 
@@ -11,14 +12,18 @@
 
 This implementation uniformly replaces the legacy brand marks (3D isometric wireframe cube in headers, flat 2D hexagon in footers) across the entire Extensions Portfolio repository with the selected **Variant 1 — Classic Puzzle Piece** design.
 
-The unification establishes:
-1. **One canonical SVG geometry** used identically in headers, footers, favicons, app icons, and social preview cards.
-2. **Synchronized generator contract** in `build_redesign.py` ensuring all future homepage rebuilds preserve canonical branding.
-3. **Idempotent static site migration** across all 17 static HTML pages via `scripts/migrate_site_branding.py`.
-4. **Dedicated site-level favicon and application icon suite**, eliminating the prior practice of misusing the Word to LaTeX product icon as the site favicon and Apple touch icon.
-5. **Standardized social cards** across all 11 Open Graph / Twitter cards in `assets/og/`.
-6. **Zero modifications to published store extension icons**, which remain reserved strictly for store listings and product cards.
-7. **Automated regression suites** (`tests/logoUniformity.test.mjs`, `tests/siteIconIntegrity.test.mjs`) passing with 100% success.
+Following the initial implementation in `9d3ef38`, a targeted polish pass was executed to guarantee strict mathematical and visual uniformity:
+1. **Size Consistency & Single Source of Truth:** `BRAND_MARK_SVG` in `build_redesign.py` is the single source of truth, imported directly by `scripts/migrate_site_branding.py`. Both header and footer brand marks across all 18 pages share identical 32×32 px tile bounding boxes and 19×16 px white glyph dimensions.
+2. **Single Tile Architecture:** Set `.brand-mark` background to `none` with `border-radius: 8px` and shadow `0 2px 6px #4f46e559`. Because the inline SVG renders its own 32×32 rounded rectangle (`rx="8"`), eliminating the CSS background removes double-tile rendering and gradient/radius slivers in light and dark modes.
+3. **Dedicated Favicon & Opaque Touch Icon Suite:**
+   - Regenerated `assets/icons/apple-touch-icon.png` (180×180) as a full-bleed opaque square: solid `#4f46e5` edge-to-edge, 0 rounded corners, mode RGB (no alpha channel, PNG color type 2), with the white puzzle glyph scaled by 180/32 = 5.625×.
+   - Copied `assets/icons/favicon.ico` to `/favicon.ico` at the site root (preserving assets copy).
+   - Added `<link rel="icon" href="/favicon.ico?v=20261030" sizes="32x32">` (and relative `../favicon.ico?v=20261030` for pdf-tools) to all 18 pages.
+   - Appended `?v=20261030` cache-busting queries to all favicon links.
+4. **Theme Color Reversion:** Reverted `<meta name="theme-color">` to `#0f172a` across all 18 pages.
+5. **Social Image Cache Busting:** Appended `?v=20261030` to every `og:image` and `twitter:image` across all 16 pages (32 tags total). Hardened `scripts/update_og_images.py` with an explicit `--force` flag guard.
+6. **Stylesheet Version Bumping:** Bumped `styles.css` from `?v=20261030-2` to `?v=20261030-3` across all pages, and added `?v=20261030-1` to `pdf-tools/styles.css`.
+7. **Regression Testing & Visual Evidence:** 110/110 tests passing across 14 test suites, including browser-rendered Playwright checks and visual contact sheet `reports/brand-logo-evidence/logo-consistency.png`.
 
 ---
 
@@ -52,125 +57,95 @@ The implementation adheres strictly to the selected design without alteration:
 
 ---
 
-## 3. Canonical Architecture & Shared Templates
+## 3. Rendered Measurement & Size Consistency Gate
 
-### 3.1 Homepage Generator (`build_redesign.py`)
-- Defined canonical constants `BRAND_MARK_SVG` and `BRAND_MARK_HTML`.
-- Replaced the 18×18 3D isometric cube in sticky navigation (L176–185) with `BRAND_MARK_HTML`.
-- Replaced the 16×16 2D flat hexagon in the footer (L1150–1160) with `BRAND_MARK_HTML`.
-- Updated `<head>` favicon links to reference dedicated brand assets.
-- Bumped CSS stylesheet query version to `styles.css?v=20261030-2`.
-- Validated with `python3 build_redesign.py` (0 errors, output matches store-versions.json).
+Rendered dimensions measured in headless Chromium via `getBoundingClientRect()` across the 6 key routes:
 
-### 3.2 Shared Stylesheet (`assets/css/styles.css`)
-- Replaced legacy gradient `linear-gradient(135deg,var(--accent),#4338ca)` on `.brand-mark` with flat `#4f46e5`.
-- Preserved `.brand-mark` flex alignment, border radius, and box shadow tokens across light and dark modes.
+### 3.1 Measurement Comparison Table
 
----
+| Route / Page | Component Target | Before Polish (Tile / Glyph) | After Polish (Tile / Glyph) | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **Homepage (`/`)** | Header Mark | `32 × 32` / `19 × 16` | `32 × 32` / `19 × 16` | Uniform |
+| | Footer Mark | `32 × 32` / `19 × 16` | `32 × 32` / `19 × 16` | Uniform |
+| **Product (`/word-to-latex/`)** | Header Mark | `32 × 32` / `19 × 16` | `32 × 32` / `19 × 16` | Uniform |
+| | Footer Mark | `32 × 32` / `19 × 16` | `32 × 32` / `19 × 16` | Uniform |
+| **Guide (`/guides/word-tables-to-latex/`)** | Header Mark | `32 × 32` / `19 × 16` | `32 × 32` / `19 × 16` | Uniform |
+| | Footer Mark | `32 × 32` / `19 × 16` | `32 × 32` / `19 × 16` | Uniform |
+| **404 Page (`/404.html`)** | Header Mark | `32 × 32` / `19 × 16` | `32 × 32` / `19 × 16` | Uniform |
+| | Footer Mark | `20 × 20` / `11.88 × 10` (Discrepancy) | `32 × 32` / `19 × 16` | **Fixed & Aligned** |
+| **Privacy Page (`/privacy`)** | Header Mark | `32 × 32` / `19 × 16` | `32 × 32` / `19 × 16` | Uniform |
+| | Footer Mark | `28 × 28` / `16.63 × 14` (Discrepancy) | `32 × 32` / `19 × 16` | **Fixed & Aligned** |
+| **Offline Studio (`/pdf-tools/`)** | Header Mark | `24 × 24` / `14.25 × 12` (Discrepancy) | `32 × 32` / `19 × 16` | **Fixed & Aligned** |
+| | Footer Mark | `18 × 18` / `10.69 × 9` (Discrepancy) | `32 × 32` / `19 × 16` | **Fixed & Aligned** |
 
-## 4. Static Page Coverage (All 18 Pages)
-
-Every static HTML file was audited and updated. The migration script `scripts/migrate_site_branding.py` supports `--check`/`--dry-run` and `--apply`, and is verified idempotent:
-
-| Route / File | Header Brand Mark | Footer Brand Mark | Favicon / App-Icon Suite |
-| :--- | :--- | :--- | :--- |
-| `index.html` | Canonical Variant 1 SVG | Canonical Variant 1 SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-| `404.html` | Canonical Variant 1 SVG | Minimal lockup with Canonical SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-| `privacy.html` | Brand lockup with Canonical SVG | Minimal lockup with Canonical SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-| `pdf-tools/index.html` | Preserved `.brand-icon` + Brand Link | Minimal lockup with Canonical SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-| `word-to-latex/index.html` | Canonical Variant 1 SVG | Canonical Variant 1 SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-| `table-extractor/index.html` | Canonical Variant 1 SVG | Canonical Variant 1 SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-| `bulkgrab/index.html` | Canonical Variant 1 SVG | Canonical Variant 1 SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-| `seo-inspector/index.html` | Canonical Variant 1 SVG | Canonical Variant 1 SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-| `bilexi/index.html` | Canonical Variant 1 SVG | Canonical Variant 1 SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-| `tab-vault/index.html` | Canonical Variant 1 SVG | Canonical Variant 1 SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-| `word-to-latex-converter/index.html` | Canonical Variant 1 SVG | Canonical Variant 1 SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-| `changelog/index.html` | Canonical Variant 1 SVG | Canonical Variant 1 SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-| `guides/index.html` | Canonical Variant 1 SVG | Canonical Variant 1 SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-| `guides/docx-to-latex-offline/index.html` | Canonical Variant 1 SVG | Canonical Variant 1 SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-| `guides/export-virtualized-tables-to-excel/index.html` | Canonical Variant 1 SVG | Canonical Variant 1 SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-| `guides/prevent-browser-tab-loss-local-backups/index.html` | Canonical Variant 1 SVG | Canonical Variant 1 SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-| `guides/type-french-accents-on-qwerty-offline/index.html` | Canonical Variant 1 SVG | Canonical Variant 1 SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-| `guides/word-tables-to-latex/index.html` | Canonical Variant 1 SVG | Canonical Variant 1 SVG | Dedicated 32×32, 16×16, 180×180, SVG |
-
-### Special Page Handling Details
-1. **`404.html`:**
-   - Replaced `<img src="assets/icons/word-to-latex-128.png">` with the canonical `.brand-mark` SVG.
-   - Added minimal footer lockup with 20px puzzle mark.
-   - Preserved error status, responsive actions, and quick directory links.
-2. **`privacy.html`:**
-   - Added top header brand lockup alongside the `&larr; Back to Extensions Portfolio` link.
-   - Added footer brand lockup before `</main>`.
-   - Preserved all 9 section anchors, TOC links, and privacy disclosures untouched.
-3. **`pdf-tools/index.html`:**
-   - Preserved Offline PDF Studio's document icon (`.brand-icon`, 22×22 px) to maintain utility-level identity.
-   - Integrated ExtensionGuy parent brand attribution link (`.brand-parent-link`) in the header navbar.
-   - Added footer brand lockup in `.app-footer`.
-   - Added CSS classes in `pdf-tools/styles.css` ensuring strict compliance with `style-src 'self'`.
+All 6 routes now achieve 100% strict equality:
+- Every Header Mark: **32 × 32 px tile, 19 × 16 px glyph**
+- Every Footer Mark: **32 × 32 px tile, 19 × 16 px glyph**
 
 ---
 
-## 5. Favicon & Application Icon Regeneration
+## 4. Single Tile Architecture
 
-Prior audits identified that the site lacked dedicated favicon PNGs or an ICO file, and instead pointed `<link rel="icon">` and `<link rel="apple-touch-icon">` directly to product extension icons (`word-to-latex-128.png`, `table-extractor-300.png`, etc.).
-
-All site-level icon references now link to dedicated brand assets:
-- `assets/icons/favicon.svg`: 32 × 32 viewBox, `#4f46e5` tile with white puzzle glyph.
-- `assets/icons/favicon.ico`: Multi-resolution binary containing 16×16, 32×32, and 48×48 layers.
-- `assets/icons/favicon-16x16.png`: Exact 16 × 16 px PNG.
-- `assets/icons/favicon-32x32.png`: Exact 32 × 32 px PNG.
-- `assets/icons/apple-touch-icon.png`: Exact 180 × 180 px PNG.
-
-**Extension Icon Safeguard:** All published store extension icons (`word-to-latex-128.png`, `bilexi-128.png`, `bulkgrab-128.png`, `seo-inspector-128.png`, `tab-vault-128.png`, `table-extractor-128.png`, etc.) remain completely untouched and active on product cards and store links.
+In `assets/css/styles.css`, `pdf-tools/styles.css`, `404.html`, and `privacy.html`:
+- Set `.brand-mark` / `.brand-parent-mark` to `background: none; border-radius: 8px; box-shadow: 0 2px 6px #4f46e559;`.
+- Because the inline SVG contains its own `<rect width="32" height="32" rx="8" fill="#4f46e5"/>`, removing the CSS wrapper background prevents duplicate backgrounds and eliminates any subtle sliver or halo from radius mismatches in both light and dark modes.
 
 ---
 
-## 6. Open Graph & Social Cards Regeneration
+## 5. Favicon, Apple Touch Icon & Root ICO Suite
 
-All 11 social card images under `assets/og/` (1200 × 630 px RGB) were updated via `scripts/update_og_images.py`:
-- **9 standard cards:** Replaced the legacy `#0ea5e9` cyan dot (bbox x=80..93, y=535..548) with the 24×24 px Variant 1 puzzle tile at x=74, y=532.
-- **2 guide cards:** Shifted the `ExtensionGuy` wordmark from x=80 to x=108 to match the 9 other cards, and placed the 24×24 puzzle tile at x=74, y=532.
-- Generated `reports/brand-logo-evidence/og-contact-sheet.png` displaying all 11 cards. Verified zero overlap, consistent typography, and exact 1200 × 630 dimensions.
+1. **Opaque 180×180 Apple Touch Icon:**
+   - File: `assets/icons/apple-touch-icon.png`
+   - Resolution: Exactly 180 × 180 px.
+   - Mode: Truecolor RGB (PNG color type 2, zero alpha channel).
+   - Canvas: Solid `#4f46e5` edge-to-edge full-bleed square with zero rounded corners (OS adds squircle rounding automatically).
+   - Glyph: White puzzle piece proportionally scaled at 180/32 = 5.625×.
+2. **Root Favicon ICO:**
+   - File: `/favicon.ico` copied to site root from `assets/icons/favicon.ico`.
+   - Linked on all 17 root and subpath pages: `<link rel="icon" href="/favicon.ico?v=20261030" sizes="32x32">`.
+   - Linked on offline web tool: `<link rel="icon" href="../favicon.ico?v=20261030" sizes="32x32">`.
+3. **Cache-Busting & Theme Color:**
+   - Appended `?v=20261030` to all SVG, PNG, and ICO icon links across all 18 pages.
+   - Reverted `<meta name="theme-color">` to `#0f172a` on all 18 pages.
 
 ---
 
-## 7. JSON-LD Structured Data Review
+## 6. Social Images & Cache-Busting
 
-Audit confirmed that all 15 JSON-LD pages declare the publisher as `@type: "Person"` (Sid, `@sidoua26-debug`). ExtensionGuy is an independent portfolio brand maintained by Sid.
-
-- Assigning `logo` to `Person` violates schema.org specifications.
-- Inventing a fictitious legal company or corporate entity violates domain reality.
-- Decision: Existing JSON-LD entities remain unaltered and syntactically valid.
+1. **32 Open Graph & Twitter Image Tags:**
+   - Appended `?v=20261030` to every `og:image` and `twitter:image` across all 16 pages with social metadata.
+2. **Script Safety Guard:**
+   - `scripts/update_og_images.py` now enforces `--force` before running, with documentation explaining in-place destructive image manipulation.
+3. **CSS Cache-Busting:**
+   - Bumped `styles.css` from `?v=20261030-2` to `?v=20261030-3` on all standard pages and homepage.
+   - Added `?v=20261030-1` to `pdf-tools/styles.css`.
 
 ---
 
-## 8. Automated Testing & Verification Gates
+## 7. Automated Testing & Verification Gates
 
-### 8.1 Automated Test Suites
-1. **`tests/logoUniformity.test.mjs` (NEW):**
-   - Asserts all 18 pages contain the canonical Variant 1 puzzle piece SVG.
-   - Asserts 0 pages contain legacy 3D isometric cube or 2D hexagon brand SVGs.
+1. **`tests/logoUniformity.test.mjs`:**
+   - Asserts all 18 pages contain canonical Variant 1 puzzle SVG.
+   - Asserts 0 pages contain legacy 3D cube or 2D hexagon marks.
    - Asserts special pages (`404.html`, `privacy.html`, `pdf-tools/index.html`) conform.
-   - Asserts `build_redesign.py` defines `BRAND_MARK_SVG` and `BRAND_MARK_HTML`.
-2. **`tests/siteIconIntegrity.test.mjs` (NEW):**
-   - Asserts exact dimensions for `favicon-16x16.png` (16×16), `favicon-32x32.png` (32×32), and `apple-touch-icon.png` (180×180).
-   - Asserts `favicon.ico` has multi-resolution layers (>500 bytes).
+   - Asserts `build_redesign.py` defines canonical constants.
+   - **Playwright Test (NEW):** Launches Chromium, measures `getBoundingClientRect()` of tile `<rect>` and glyph `<path>` across all 6 key routes, and asserts strictly identical 32×32 tile and 19×16 glyph dimensions.
+2. **`tests/siteIconIntegrity.test.mjs`:**
+   - Asserts root `/favicon.ico` exists and is valid.
+   - Asserts `apple-touch-icon.png` is 180×180, mode RGB (color type 2), and has 0 alpha channel.
+   - Asserts all 18 pages reference root `favicon.ico`, versioned favicons, and `#0f172a` theme color.
+   - Asserts all 16 pages with social cards have version-busted `og:image` and `twitter:image`.
    - Asserts published store icons exist and are untouched.
-   - Asserts 0 HTML pages reference product extension icons as generic site icons.
-   - Asserts all 11 OG cards are exactly 1200×630 px.
 3. **Full Suite Execution (`npm test`):**
-   - 108/108 tests passing across 16 test suites. 0 failures.
-
-### 8.2 Visual Regression & Playwright Evidence
-- Automated capture via `scripts/capture_logo_evidence.mjs` over a local HTTP server with strict CSP headers.
-- Tested Desktop (1280 × 800) and Mobile (390 × 844) across Light and Dark themes.
-- Generated 154 screenshot files recorded in `reports/brand-logo-evidence/SCREENSHOT-MANIFEST.md`.
-- Horizontal overflow check: 0 pages exhibit horizontal overflow (`scrollWidth <= innerWidth`).
+   - **110/110 tests passing across 14 test suites. 0 failures.**
 
 ---
 
-## 9. Untracked Files & Branch Isolation Safeguard
+## 8. Visual Evidence Manifest
 
-- `reports/logo-options/` remains strictly untracked.
-- Pre-existing untracked audit documents (`AUDIT_REPORT.md`, `crawl_results.json`, `reports/claims-vs-code.md`, `reports/remediation-plan.md`) remain untracked.
-- Only production assets, generator code, migration scripts, tests, evidence, and this implementation report will be staged.
+- `reports/brand-logo-evidence/logo-consistency.png`: High-resolution contact sheet (2400 × 2376 px, 2x scale) displaying:
+  - Header and footer mark crops across all 6 routes in Light and Dark modes.
+  - 16px Favicon rendered at 1x and 2x in Light and Dark modes.
+  - 180px Apple Touch Icon rendered full-bleed on black background.
+  - Exact measurement dimensions table.
+- `reports/brand-logo-evidence/SCREENSHOT-MANIFEST.md`: Complete audit inventory of 154 captured responsive screenshots.

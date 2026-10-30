@@ -124,4 +124,80 @@ test('Logo Uniformity & Brand Consistency Suite', async (t) => {
       'build_redesign.py embeds canonical puzzle piece path'
     );
   });
+
+  await t.test('5. Rendered glyph and tile measurements are strictly equal across all 6 key routes', async () => {
+    const http = await import('node:http');
+    const { chromium } = await import('playwright');
+
+    const CSP_HEADER = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' blob: data:; connect-src 'self' blob: data:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';";
+
+    const server = http.createServer((req, res) => {
+      const safeUrl = new URL(req.url, 'http://localhost').pathname;
+      let localPath = path.join(rootDir, safeUrl === '/' ? 'index.html' : safeUrl);
+      if (fs.existsSync(localPath) && fs.statSync(localPath).isDirectory()) {
+        localPath = path.join(localPath, 'index.html');
+      }
+      if (!fs.existsSync(localPath) && fs.existsSync(localPath + '.html')) {
+        localPath = localPath + '.html';
+      }
+      if (fs.existsSync(localPath) && fs.statSync(localPath).isFile()) {
+        const mime = safeUrl.endsWith('.js') ? 'application/javascript'
+          : safeUrl.endsWith('.png') ? 'image/png'
+          : safeUrl.endsWith('.svg') ? 'image/svg+xml'
+          : safeUrl.endsWith('.ico') ? 'image/x-icon'
+          : safeUrl.endsWith('.css') ? 'text/css'
+          : 'text/html';
+        res.writeHead(200, { 'Content-Type': mime, 'Content-Security-Policy': CSP_HEADER });
+        return fs.createReadStream(localPath).pipe(res);
+      }
+      res.writeHead(404);
+      res.end('Not found');
+    });
+
+    await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+    const port = server.address().port;
+    const baseUrl = `http://127.0.0.1:${port}`;
+
+    const browser = await chromium.launch({ headless: true });
+    const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+
+    const keyRoutes = [
+      { name: 'homepage', path: '/' },
+      { name: 'word-to-latex', path: '/word-to-latex/' },
+      { name: 'guides/word-tables-to-latex', path: '/guides/word-tables-to-latex/' },
+      { name: '404', path: '/404.html' },
+      { name: 'privacy', path: '/privacy' },
+      { name: 'pdf-tools', path: '/pdf-tools/' },
+    ];
+
+    try {
+      for (const route of keyRoutes) {
+        await page.goto(baseUrl + route.path, { waitUntil: 'domcontentloaded' });
+
+        const headerMark = page.locator('.navbar .brand-mark, .brand-link .brand-mark, .privacy-header-lockup .brand-mark, .brand-parent-link .brand-parent-mark').first();
+        const footerMark = page.locator('footer .brand-mark, .footer-note .brand-mark, .privacy-footer .brand-mark, .footer-brand-lockup .brand-parent-mark').first();
+
+        const hRect = await headerMark.locator('rect').evaluate(el => { const r = el.getBoundingClientRect(); return { w: Math.round(r.width), h: Math.round(r.height) }; });
+        const hPath = await headerMark.locator('path').evaluate(el => { const r = el.getBoundingClientRect(); return { w: Math.round(r.width), h: Math.round(r.height) }; });
+
+        const fRect = await footerMark.locator('rect').evaluate(el => { const r = el.getBoundingClientRect(); return { w: Math.round(r.width), h: Math.round(r.height) }; });
+        const fPath = await footerMark.locator('path').evaluate(el => { const r = el.getBoundingClientRect(); return { w: Math.round(r.width), h: Math.round(r.height) }; });
+
+        // Assert 32x32 tile and 19x16 glyph across all headers
+        assert.equal(hRect.w, 32, `${route.name} header tile width is 32`);
+        assert.equal(hRect.h, 32, `${route.name} header tile height is 32`);
+        assert.equal(hPath.w, 19, `${route.name} header glyph path width is 19`);
+        assert.equal(hPath.h, 16, `${route.name} header glyph path height is 16`);
+
+        // Assert 32x32 tile and 19x16 glyph across all footers
+        assert.equal(fRect.w, 32, `${route.name} footer tile width is 32`);
+        assert.equal(fRect.h, 32, `${route.name} footer tile height is 32`);
+        assert.equal(fPath.w, 19, `${route.name} footer glyph path width is 19`);
+        assert.equal(fPath.h, 16, `${route.name} footer glyph path height is 16`);
+      }
+    } finally {
+      await browser.close();
+      server.close();
+    }
+  });
 });

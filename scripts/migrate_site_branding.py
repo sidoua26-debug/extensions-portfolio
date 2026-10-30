@@ -4,6 +4,10 @@ scripts/migrate_site_branding.py
 Safely migrates all static HTML pages in the Extensions Portfolio to the
 canonical Variant 1 (Classic Puzzle Piece) brand logo and updated favicon suite.
 
+Single Source of Truth:
+  Imports BRAND_MARK_SVG directly from build_redesign.py to guarantee 100%
+  identical mark rendering and proportions across all pages.
+
 Supports:
   --dry-run / --check : validates and reports planned changes without writing.
   --apply             : applies modifications idempotently.
@@ -14,11 +18,11 @@ import re
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
-CANONICAL_SVG_32 = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none">
-            <rect width="32" height="32" rx="8" fill="#4f46e5"/>
-            <path d="M 8 8 H 24 V 13.5 C 25.5 13.5 27 14.5 27 16 C 27 17.5 25.5 18.5 24 18.5 V 24 H 8 V 18.5 C 9.5 18.5 11 17.5 11 16 C 11 14.5 9.5 13.5 8 13.5 Z" fill="#ffffff"/>
-          </svg>"""
+# Import canonical SVG from generator (SINGLE SOURCE OF TRUTH)
+from build_redesign import BRAND_MARK_SVG
 
 STANDARD_PAGES = [
     # Product pages (depth 1)
@@ -40,289 +44,196 @@ STANDARD_PAGES = [
     ("guides/word-tables-to-latex/index.html", "../../"),
 ]
 
-def get_canonical_favicons(prefix: str) -> str:
-    return f"""  <link rel="icon" type="image/svg+xml" href="{prefix}assets/icons/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="{prefix}assets/icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="{prefix}assets/icons/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="{prefix}assets/icons/apple-touch-icon.png">
-  <meta name="theme-color" content="#4f46e5">"""
+def get_canonical_favicons(prefix: str, is_pdf_tools: bool = False) -> str:
+    ico_href = "../favicon.ico?v=20261030" if is_pdf_tools else "/favicon.ico?v=20261030"
+    return f"""  <link rel="icon" href="{ico_href}" sizes="32x32">
+  <link rel="icon" type="image/svg+xml" href="{prefix}assets/icons/favicon.svg?v=20261030">
+  <link rel="icon" type="image/png" sizes="32x32" href="{prefix}assets/icons/favicon-32x32.png?v=20261030">
+  <link rel="icon" type="image/png" sizes="16x16" href="{prefix}assets/icons/favicon-16x16.png?v=20261030">
+  <link rel="apple-touch-icon" sizes="180x180" href="{prefix}assets/icons/apple-touch-icon.png?v=20261030">
+  <meta name="theme-color" content="#0f172a">"""
+
+def replace_favicons(content: str, prefix: str, is_pdf_tools: bool = False) -> str:
+    pattern = re.compile(
+        r'(?:  <link rel="icon"[^>]*>\s*)+'
+        r'(?:  <link rel="apple-touch-icon"[^>]*>\s*)'
+        r'  <meta name="theme-color"[^>]*>',
+        re.DOTALL
+    )
+    new_favs = get_canonical_favicons(prefix, is_pdf_tools)
+    if pattern.search(content):
+        return pattern.sub(new_favs, content, count=1)
+    return content
+
+def update_social_images(content: str) -> str:
+    content = re.sub(
+        r'(<meta property="og:image" content="https://extensionguy\.me/assets/og/[^"?]+)(?:\?v=[^"]*)?(">)',
+        r'\1?v=20261030\2',
+        content
+    )
+    content = re.sub(
+        r'(<meta name="twitter:image" content="https://extensionguy\.me/assets/og/[^"?]+)(?:\?v=[^"]*)?(">)',
+        r'\1?v=20261030\2',
+        content
+    )
+    return content
+
+def update_styles_version(content: str) -> str:
+    content = re.sub(r'styles\.css\?v=20261030-[12]', 'styles.css?v=20261030-3', content)
+    content = re.sub(r'href="\./styles\.css(?:\?v=[^"]*)?"', 'href="./styles.css?v=20261030-1"', content)
+    return content
 
 def migrate_standard_page(content: str, rel_prefix: str, path_str: str) -> str:
-    orig = content
-
-    # 1. Favicon links
-    old_favicon_pattern = re.compile(
-        r'<link rel="icon" type="image/svg\+xml" href="[^"]*favicon\.svg">\s*'
-        r'<link rel="icon" type="image/png"[^>]*>\s*'
-        r'<link rel="apple-touch-icon"[^>]*>\s*'
-        r'<meta name="theme-color" content="[^"]*">',
-        re.DOTALL
-    )
-    new_favicons = get_canonical_favicons(rel_prefix).strip()
-    if old_favicon_pattern.search(content):
-        content = old_favicon_pattern.sub(new_favicons, content, count=1)
+    # 1. Favicons
+    content = replace_favicons(content, rel_prefix, is_pdf_tools=False)
 
     # 2. Stylesheet version bump
-    content = content.replace("styles.css?v=20261030-1", "styles.css?v=20261030-2")
+    content = update_styles_version(content)
 
-    # 3. Header brand mark (replace 3D cube SVG with canonical 32x32 puzzle piece)
-    cube_svg_pattern = re.compile(
-        r'<div class="brand-mark" aria-hidden="true">\s*'
-        r'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"[^>]*>.*?</svg>\s*'
-        r'</div>',
+    # 3. Social images
+    content = update_social_images(content)
+
+    # 4. Header brand mark
+    # Replace any previous brand-mark SVG with canonical BRAND_MARK_SVG
+    header_pattern = re.compile(
+        r'(<header[^>]*>.*?<div class="brand-mark" aria-hidden="true">\s*)'
+        r'<svg[^>]*>.*?</svg>(\s*</div>)',
         re.DOTALL
     )
-    new_header_mark = f"""<div class="brand-mark" aria-hidden="true">\n          {CANONICAL_SVG_32}\n        </div>"""
-    if cube_svg_pattern.search(content):
-        content = cube_svg_pattern.sub(new_header_mark, content, count=1)
+    if header_pattern.search(content):
+        content = header_pattern.sub(rf'\1{BRAND_MARK_SVG}\2', content, count=1)
 
-    # 4. Footer brand mark (replace 2D hexagon SVG with canonical 32x32 puzzle piece)
-    hexagon_svg_pattern = re.compile(
-        r'<div class="brand-mark" aria-hidden="true">\s*'
-        r'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"[^>]*><path d="M21 16V8[^"]*"/></svg>\s*'
-        r'</div>',
+    # 5. Footer brand mark
+    footer_pattern = re.compile(
+        r'(<footer[^>]*>.*?<div class="brand-mark" aria-hidden="true">\s*)'
+        r'<svg[^>]*>.*?</svg>(\s*</div>)',
         re.DOTALL
     )
-    new_footer_mark = f"""<div class="brand-mark" aria-hidden="true">\n            {CANONICAL_SVG_32}\n          </div>"""
-    if hexagon_svg_pattern.search(content):
-        content = hexagon_svg_pattern.sub(new_footer_mark, content, count=1)
+    if footer_pattern.search(content):
+        content = footer_pattern.sub(rf'\1{BRAND_MARK_SVG}\2', content, count=1)
 
     return content
 
 def migrate_404_page(content: str) -> str:
-    orig = content
     # Favicons
-    old_fav = re.compile(
-        r'<link rel="icon" type="image/svg\+xml" href="assets/icons/favicon\.svg">\s*'
-        r'<link rel="icon" type="image/png" href="assets/icons/word-to-latex-128\.png">\s*'
-        r'<link rel="apple-touch-icon" href="assets/icons/word-to-latex-128\.png">\s*'
-        r'<meta name="theme-color" content="#0f172a">',
+    content = replace_favicons(content, "", is_pdf_tools=False)
+
+    # Update .brand-mark CSS rule to single tile (background: none, 8px radius, shadow)
+    css_target = re.compile(
+        r'\.brand-mark\s*\{[^}]*\}',
         re.DOTALL
     )
-    content = old_fav.sub(get_canonical_favicons("").strip(), content, count=1)
+    new_css = (
+        ".brand-mark {\n"
+        "      width: 32px;\n"
+        "      height: 32px;\n"
+        "      border-radius: 8px;\n"
+        "      background: none;\n"
+        "      display: inline-flex;\n"
+        "      align-items: center;\n"
+        "      justify-content: center;\n"
+        "      box-shadow: 0 2px 6px #4f46e559;\n"
+        "      flex-shrink: 0;\n"
+        "    }"
+    )
+    if css_target.search(content):
+        content = css_target.sub(new_css, content, count=1)
 
-    # Replace .brand-logo-img with .brand-mark puzzle SVG
-    old_brand_img = (
-        '<a href="index.html" class="brand-link">\n'
-        '      <img src="assets/icons/word-to-latex-128.png" alt="ExtensionGuy Icon" class="brand-logo-img" width="32" height="32">\n'
-        '      <span>ExtensionGuy</span>\n'
-        '    </a>'
+    # Header brand mark
+    old_header_mark = re.compile(
+        r'(<a href="index\.html" class="brand-link">\s*<div class="brand-mark" aria-hidden="true">\s*)'
+        r'<svg[^>]*>.*?</svg>(\s*</div>\s*<span>ExtensionGuy</span>\s*</a>)',
+        re.DOTALL
     )
-    new_brand = (
-        '<a href="index.html" class="brand-link">\n'
-        '      <div class="brand-mark" aria-hidden="true">\n'
-        '        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none">\n'
-        '          <rect width="32" height="32" rx="8" fill="#4f46e5"/>\n'
-        '          <path d="M 8 8 H 24 V 13.5 C 25.5 13.5 27 14.5 27 16 C 27 17.5 25.5 18.5 24 18.5 V 24 H 8 V 18.5 C 9.5 18.5 11 17.5 11 16 C 11 14.5 9.5 13.5 8 13.5 Z" fill="#ffffff"/>\n'
-        '        </svg>\n'
-        '      </div>\n'
-        '      <span>ExtensionGuy</span>\n'
-        '    </a>'
-    )
-    content = content.replace(old_brand_img, new_brand)
+    if old_header_mark.search(content):
+        content = old_header_mark.sub(rf'\1{BRAND_MARK_SVG}\2', content, count=1)
 
-    # Add .brand-mark CSS if not present
-    if ".brand-mark {" not in content:
-        content = content.replace(
-            ".brand-link {",
-            ".brand-mark {\n"
-            "      width: 32px;\n"
-            "      height: 32px;\n"
-            "      border-radius: 8px;\n"
-            "      background: #4f46e5;\n"
-            "      display: inline-flex;\n"
-            "      align-items: center;\n"
-            "      justify-content: center;\n"
-            "      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.35);\n"
-            "      flex-shrink: 0;\n"
-            "    }\n\n    .brand-link {"
-        )
-
-    # Footer brand mark
-    old_footer = (
-        '<div class="footer-note">\n'
-        '      No telemetry &middot; Client-side &middot; <a href="/privacy">Privacy Policy</a>\n'
-        '    </div>'
+    # Footer brand mark: remove 20px style and use canonical 32x32 BRAND_MARK_SVG
+    old_footer_mark = re.compile(
+        r'<div class="brand-mark" aria-hidden="true"[^>]*>\s*'
+        r'<svg[^>]*>.*?</svg>\s*</div>',
+        re.DOTALL
     )
-    new_footer = (
-        '<div class="footer-note">\n'
-        '      <div style="display:inline-flex;align-items:center;gap:8px;margin-bottom:8px;">\n'
-        '        <div class="brand-mark" aria-hidden="true" style="width:20px;height:20px;border-radius:5px;box-shadow:none;">\n'
-        '          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" fill="none">\n'
-        '            <rect width="32" height="32" rx="8" fill="#4f46e5"/>\n'
-        '            <path d="M 8 8 H 24 V 13.5 C 25.5 13.5 27 14.5 27 16 C 27 17.5 25.5 18.5 24 18.5 V 24 H 8 V 18.5 C 9.5 18.5 11 17.5 11 16 C 11 14.5 9.5 13.5 8 13.5 Z" fill="#ffffff"/>\n'
-        '          </svg>\n'
-        '        </div>\n'
-        '        <strong style="color:var(--text-main);">ExtensionGuy</strong>\n'
-        '      </div>\n'
-        '      <div>No telemetry &middot; Client-side &middot; <a href="/privacy">Privacy Policy</a></div>\n'
-        '    </div>'
+    new_footer_mark = f'<div class="brand-mark" aria-hidden="true">\n          {BRAND_MARK_SVG}\n        </div>'
+    # Look specifically inside .footer-note
+    footer_note_pattern = re.compile(
+        r'(<div class="footer-note">\s*<div[^>]*>\s*)'
+        r'<div class="brand-mark" aria-hidden="true"[^>]*>\s*<svg[^>]*>.*?</svg>\s*</div>'
+        r'(\s*<strong[^>]*>ExtensionGuy</strong>)',
+        re.DOTALL
     )
-    content = content.replace(old_footer, new_footer)
+    if footer_note_pattern.search(content):
+        content = footer_note_pattern.sub(rf'\1{new_footer_mark}\2', content, count=1)
 
     return content
 
 def migrate_privacy_page(content: str) -> str:
-    orig = content
     # Favicons
-    old_fav = re.compile(
-        r'<link rel="icon" type="image/svg\+xml" href="assets/icons/favicon\.svg">\s*'
-        r'<link rel="icon" type="image/png" href="assets/icons/word-to-latex-128\.png">\s*'
-        r'<link rel="apple-touch-icon" href="assets/icons/word-to-latex-128\.png">\s*'
-        r'<meta name="theme-color" content="#0f172a">',
-        re.DOTALL
-    )
-    content = old_fav.sub(get_canonical_favicons("").strip(), content, count=1)
+    content = replace_favicons(content, "", is_pdf_tools=False)
+
+    # Social images
+    content = update_social_images(content)
 
     # Header brand lockup
-    old_back = '    <a href="/" class="nav-back">&larr; Back to Extensions Portfolio</a>'
-    new_header_lockup = (
-        '    <div class="privacy-header-lockup" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:32px;">\n'
-        '      <a href="/" class="brand" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--text-main);font-weight:700;font-size:1.05rem;">\n'
-        '        <div class="brand-mark" aria-hidden="true" style="width:32px;height:32px;border-radius:8px;background:#4f46e5;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(79,70,229,0.35);">\n'
-        '          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none">\n'
-        '            <rect width="32" height="32" rx="8" fill="#4f46e5"/>\n'
-        '            <path d="M 8 8 H 24 V 13.5 C 25.5 13.5 27 14.5 27 16 C 27 17.5 25.5 18.5 24 18.5 V 24 H 8 V 18.5 C 9.5 18.5 11 17.5 11 16 C 11 14.5 9.5 13.5 8 13.5 Z" fill="#ffffff"/>\n'
-        '          </svg>\n'
-        '        </div>\n'
-        '        <span>ExtensionGuy</span>\n'
-        '      </a>\n'
-        '      <a href="/" class="nav-back">&larr; Back to Extensions Portfolio</a>\n'
-        '    </div>'
+    header_pattern = re.compile(
+        r'(<div class="privacy-header-lockup"[^>]*>.*?<div class="brand-mark" aria-hidden="true")[^>]*>(\s*)'
+        r'<svg[^>]*>.*?</svg>(\s*</div>)',
+        re.DOTALL
     )
-    if old_back in content and 'class="privacy-header-lockup"' not in content:
-        content = content.replace(old_back, new_header_lockup, 1)
+    header_style = ' style="width:32px;height:32px;border-radius:8px;background:none;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px #4f46e559;"'
+    if header_pattern.search(content):
+        content = header_pattern.sub(rf'\1{header_style}>\2{BRAND_MARK_SVG}\3', content, count=1)
 
-    # Footer brand lockup before </main>
-    old_close_main = '    </ul>\n  </main>'
-    new_close_main = (
-        '    </ul>\n\n'
-        '    <footer class="privacy-footer" style="margin-top:48px;padding-top:24px;border-top:1px solid var(--border-page);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:0.875rem;color:var(--text-tertiary);">\n'
-        '      <a href="/" class="brand" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--text-main);font-weight:700;">\n'
-        '        <div class="brand-mark" aria-hidden="true" style="width:28px;height:28px;border-radius:6px;background:#4f46e5;display:flex;align-items:center;justify-content:center;">\n'
-        '          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="28" height="28" fill="none">\n'
-        '            <rect width="32" height="32" rx="8" fill="#4f46e5"/>\n'
-        '            <path d="M 8 8 H 24 V 13.5 C 25.5 13.5 27 14.5 27 16 C 27 17.5 25.5 18.5 24 18.5 V 24 H 8 V 18.5 C 9.5 18.5 11 17.5 11 16 C 11 14.5 9.5 13.5 8 13.5 Z" fill="#ffffff"/>\n'
-        '          </svg>\n'
-        '        </div>\n'
-        '        <span>ExtensionGuy</span>\n'
-        '      </a>\n'
-        '      <span>&copy; 2026 ExtensionGuy &middot; Built local-first with no tracking.</span>\n'
-        '    </footer>\n'
-        '  </main>'
+    # Footer brand lockup
+    footer_pattern = re.compile(
+        r'(<footer class="privacy-footer"[^>]*>.*?<div class="brand-mark" aria-hidden="true")[^>]*>(\s*)'
+        r'<svg[^>]*>.*?</svg>(\s*</div>)',
+        re.DOTALL
     )
-    if old_close_main in content and 'class="privacy-footer"' not in content:
-        content = content.replace(old_close_main, new_close_main, 1)
+    footer_style = ' style="width:32px;height:32px;border-radius:8px;background:none;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px #4f46e559;"'
+    if footer_pattern.search(content):
+        content = footer_pattern.sub(rf'\1{footer_style}>\2{BRAND_MARK_SVG}\3', content, count=1)
 
     return content
 
 def migrate_pdf_tools_styles():
     css_path = REPO_ROOT / "pdf-tools" / "styles.css"
     content = css_path.read_text(encoding="utf-8")
-    if ".brand-parent-link" not in content:
-        addition = (
-            "\n\n/* ExtensionGuy Parent Brand Attribution */\n"
-            ".brand-parent-link {\n"
-            "  display: inline-flex;\n"
-            "  align-items: center;\n"
-            "  gap: 8px;\n"
-            "  text-decoration: none;\n"
-            "  color: var(--text-secondary);\n"
-            "  font-size: 0.875rem;\n"
-            "  font-weight: 600;\n"
-            "  transition: color 0.15s ease;\n"
-            "}\n"
-            ".brand-parent-link:hover {\n"
-            "  color: var(--text-primary);\n"
-            "}\n"
-            ".brand-parent-mark {\n"
-            "  width: 24px;\n"
-            "  height: 24px;\n"
-            "  border-radius: 6px;\n"
-            "  background: #4f46e5;\n"
-            "  display: inline-flex;\n"
-            "  align-items: center;\n"
-            "  justify-content: center;\n"
-            "  box-shadow: 0 1px 3px rgba(79, 70, 229, 0.3);\n"
-            "}\n"
-            ".footer-brand-lockup {\n"
-            "  display: flex;\n"
-            "  align-items: center;\n"
-            "  justify-content: center;\n"
-            "  gap: 8px;\n"
-            "  margin-bottom: 8px;\n"
-            "}\n"
-            ".footer-brand-link {\n"
-            "  display: inline-flex;\n"
-            "  align-items: center;\n"
-            "  gap: 6px;\n"
-            "  text-decoration: none;\n"
-            "  color: inherit;\n"
-            "  font-weight: 600;\n"
-            "  font-size: 0.85rem;\n"
-            "}\n"
+
+    # Ensure .brand-mark and .brand-parent-mark use 32x32, background: none, border-radius: 8px
+    if ".brand-parent-mark" in content:
+        content = re.sub(
+            r'(\.brand-mark,\s*)?\.brand-parent-mark\s*\{[^}]*\}',
+            ".brand-mark,\n.brand-parent-mark {\n  width: 32px;\n  height: 32px;\n  border-radius: 8px;\n  background: none;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 2px 6px #4f46e559;\n}",
+            content,
+            count=1
         )
-        css_path.write_text(content + addition, encoding="utf-8")
-        print("Updated pdf-tools/styles.css with brand attribution rules.")
+        css_path.write_text(content, encoding="utf-8")
 
 def migrate_pdf_tools_page(content: str) -> str:
-    orig = content
     # 1. Favicon links
-    old_fav = '<link rel="icon" href="data:," />'
-    new_fav = get_canonical_favicons("../").strip()
-    if old_fav in content:
-        content = content.replace(old_fav, new_fav, 1)
+    content = replace_favicons(content, "../", is_pdf_tools=True)
 
-    # 2. Header: Add parent brand link to .header-inner
-    old_badge = '<div class="privacy-badge">'
-    new_header_addition = (
-        '<div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">\n'
-        '        <a href="/" class="brand-parent-link" title="ExtensionGuy Portfolio">\n'
-        '          <div class="brand-parent-mark" aria-hidden="true">\n'
-        '            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="24" height="24" fill="none">\n'
-        '              <rect width="32" height="32" rx="8" fill="#4f46e5"/>\n'
-        '              <path d="M 8 8 H 24 V 13.5 C 25.5 13.5 27 14.5 27 16 C 27 17.5 25.5 18.5 24 18.5 V 24 H 8 V 18.5 C 9.5 18.5 11 17.5 11 16 C 11 14.5 9.5 13.5 8 13.5 Z" fill="#ffffff"/>\n'
-        '            </svg>\n'
-        '          </div>\n'
-        '          <span>ExtensionGuy</span>\n'
-        '        </a>\n'
-        '        <div class="privacy-badge">'
-    )
-    if old_badge in content and "brand-parent-link" not in content:
-        content = content.replace(old_badge, new_header_addition, 1)
-        # Close the wrapper div before </header>
-        content = content.replace('</div>\n    </header>', '</div>\n      </div>\n    </header>', 1)
+    # 2. Stylesheet version
+    content = update_styles_version(content)
 
-    # 3. Footer: Add footer brand lockup
-    old_footer_inner = (
-        '    <footer class="app-footer">\n'
-        '      <p>\n'
-        '        Offline PDF Studio · Fully Client-Side Architecture ·\n'
-        '        <a href="./THIRD_PARTY_LICENSES.txt" target="_blank" rel="noopener">Third-Party Notices &amp; Licenses</a>\n'
-        '      </p>\n'
-        '    </footer>'
+    # 3. Header parent brand mark
+    header_pattern = re.compile(
+        r'(<a href="/" class="brand-parent-link"[^>]*>\s*<div class="brand-parent-mark" aria-hidden="true"[^>]*>\s*)'
+        r'<svg[^>]*>.*?</svg>(\s*</div>\s*<span>ExtensionGuy</span>\s*</a>)',
+        re.DOTALL
     )
-    new_footer_inner = (
-        '    <footer class="app-footer">\n'
-        '      <div class="footer-brand-lockup">\n'
-        '        <a href="/" class="footer-brand-link">\n'
-        '          <div class="brand-parent-mark" aria-hidden="true" style="width:18px;height:18px;border-radius:4px;">\n'
-        '            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="18" height="18" fill="none">\n'
-        '              <rect width="32" height="32" rx="8" fill="#4f46e5"/>\n'
-        '              <path d="M 8 8 H 24 V 13.5 C 25.5 13.5 27 14.5 27 16 C 27 17.5 25.5 18.5 24 18.5 V 24 H 8 V 18.5 C 9.5 18.5 11 17.5 11 16 C 11 14.5 9.5 13.5 8 13.5 Z" fill="#ffffff"/>\n'
-        '            </svg>\n'
-        '          </div>\n'
-        '          <span>ExtensionGuy</span>\n'
-        '        </a>\n'
-        '      </div>\n'
-        '      <p>\n'
-        '        Offline PDF Studio · Fully Client-Side Architecture ·\n'
-        '        <a href="./THIRD_PARTY_LICENSES.txt" target="_blank" rel="noopener">Third-Party Notices &amp; Licenses</a>\n'
-        '      </p>\n'
-        '    </footer>'
+    if header_pattern.search(content):
+        content = header_pattern.sub(rf'\1{BRAND_MARK_SVG}\2', content, count=1)
+
+    # 4. Footer brand lockup: remove inline style 18px and use canonical BRAND_MARK_SVG
+    footer_pattern = re.compile(
+        r'(<div class="footer-brand-lockup">\s*<a href="/" class="footer-brand-link">\s*<div class="brand-parent-mark" aria-hidden="true")[^>]*>(\s*)'
+        r'<svg[^>]*>.*?</svg>(\s*</div>\s*<span>ExtensionGuy</span>\s*</a>\s*</div>)',
+        re.DOTALL
     )
-    if old_footer_inner in content:
-        content = content.replace(old_footer_inner, new_footer_inner, 1)
+    if footer_pattern.search(content):
+        content = footer_pattern.sub(rf'\1>\2{BRAND_MARK_SVG}\3', content, count=1)
 
     return content
 
@@ -331,7 +242,7 @@ def main():
     check_mode = "--check" in sys.argv or "--dry-run" in sys.argv or not apply_changes
 
     print("=" * 60)
-    print("Site Branding Migration Pass (Variant 1 Puzzle Piece)")
+    print("Site Branding Migration Pass (Variant 1 Puzzle Piece - Unified)")
     print(f"Mode: {'APPLY' if apply_changes else 'CHECK (DRY-RUN)'}")
     print("=" * 60)
 

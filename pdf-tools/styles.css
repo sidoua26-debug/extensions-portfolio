@@ -987,15 +987,16 @@ details ul {
 .brand-parent-link:hover {
   color: var(--text-primary);
 }
+.brand-mark,
 .brand-parent-mark {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  background: #4f46e5;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 3px rgba(79, 70, 229, 0.3);
+  box-shadow: 0 2px 6px #4f46e559;
 }
 .footer-brand-lockup {
   display: flex;

@@ -38,20 +38,21 @@ html = r"""<!DOCTYPE html>
   <meta property="og:title" content="Word to LaTeX Converter &amp; Privacy-First Browser Extensions — ExtensionGuy">
   <meta property="og:description" content="Privacy-first Microsoft Edge extensions for developers and researchers with browser-local processing and no telemetry SDKs.">
   <meta property="og:url" content="https://extensionguy.me/">
-  <meta property="og:image" content="https://extensionguy.me/assets/og/home-1200x630.png">
+  <meta property="og:image" content="https://extensionguy.me/assets/og/home-1200x630.png?v=20261030">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Word to LaTeX Converter &amp; Privacy-First Browser Extensions — ExtensionGuy">
   <meta name="twitter:description" content="Privacy-first Microsoft Edge extensions with local-first processing and no data telemetry.">
-  <meta name="twitter:image" content="https://extensionguy.me/assets/og/home-1200x630.png">
+  <meta name="twitter:image" content="https://extensionguy.me/assets/og/home-1200x630.png?v=20261030">
 
-  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
-  <meta name="theme-color" content="#4f46e5">
+  <link rel="icon" href="/favicon.ico?v=20261030" sizes="32x32">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg?v=20261030">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png?v=20261030">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png?v=20261030">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png?v=20261030">
+  <meta name="theme-color" content="#0f172a">
 
   <!-- Preload critical local typography fonts -->
   <link rel="preload" href="assets/fonts/geist-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -59,7 +60,7 @@ html = r"""<!DOCTYPE html>
   <link rel="preload" href="assets/fonts/geist-700.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Self-hosted CSS containing local WOFF2 @font-face rules -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=20261030-2">
+  <link rel="stylesheet" href="assets/css/styles.css?v=20261030-3">
 
   <script type="application/ld+json">
 {
@@ -1290,13 +1291,17 @@ def get_expected_version_badge(key):
         parts.append(f"Chrome&nbsp;v{stores['chrome']['version']}")
     return f"Published versions: {' · '.join(parts)}"
 
-for key in ["word-to-latex", "table-extractor", "bulkgrab", "seo-inspector", "bilexi", "tab-vault"]:
-    expected_badge = get_expected_version_badge(key)
-    assert expected_badge in html, f"Missing expected badge '{expected_badge}' in html for {key}"
+def build():
+    for key in ["word-to-latex", "table-extractor", "bulkgrab", "seo-inspector", "bilexi", "tab-vault"]:
+        expected_badge = get_expected_version_badge(key)
+        assert expected_badge in html, f"Missing expected badge '{expected_badge}' in html for {key}"
 
-assert "Updated Oct" not in html, "Stale date label 'Updated Oct' still present in html"
+    assert "Updated Oct" not in html, "Stale date label 'Updated Oct' still present in html"
 
-with open(REPO_ROOT / "index.html", "w", encoding="utf-8") as f:
-    f.write(html)
+    with open(REPO_ROOT / "index.html", "w", encoding="utf-8") as f:
+        f.write(html)
 
-print("Redesigned index.html successfully created and verified against store-versions.json!")
+    print("Redesigned index.html successfully created and verified against store-versions.json!")
+
+if __name__ == "__main__":
+    build()
