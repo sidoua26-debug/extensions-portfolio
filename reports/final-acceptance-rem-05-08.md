@@ -17,7 +17,7 @@
 | **1. Git Integrity** | Branch check, clean working tree, no unrelated files, atomic commit log | **PASS** | Branch `fix/rem-05-08`, 2 atomic commits, clean working tree, 0 uncommitted modifications, original commit unamended. |
 | **2. Build & Generator Consistency** | `build_redesign.py`, `git diff --check`, no clobbered manual edits | **PASS** | Generator executes with exit code 0; `index.html` matches generator byte-for-byte; 0 whitespace warnings. |
 | **3. Privacy & Marketing Claims** | Zero unsupported absolutes, qualified telemetry & direct download copy | **PASS** | Misleading absolutes removed; technical facts distinguished from external unverified infrastructure. |
-| **4. Pricing & Licensing Transparency** | Seams verified against Worker & constants; gating & bounds aligned | **PASS** | Worker endpoints, query parameters, free quotas, and table limits match code; KV and pricing marked UNVERIFIED. |
+| **4. Pricing & Licensing Transparency** | Seams verified against Worker & constants; gating & bounds aligned | **PASS** | Worker endpoints, query parameters, free quotas, and table limits match code; KV binding and commercial pricing confirmed by owner. |
 | **5. Privacy Policy Structural Integrity** | Section headings, TOC links, anchor IDs, network & storage transparency | **PASS** | TOC updated to 9 matching items; missing H2 anchor IDs added; direct downloads & cookies accurately described. |
 | **6. Automated Verification** | Full test suite (`npm test`), Playwright integration, CSP & error checks | **PASS** | 98/98 tests passing across 14 test suites; 0 failures; 0 CSP violations; 0 console errors. |
 
@@ -78,9 +78,11 @@ An exhaustive scan was conducted across `index.html`, `privacy.html`, `bulkgrab/
 - **Row & Step Bounds:**
   - Table Extractor default limits: 500 steps (hardcoded internal safety cap in `popup.js:392` / `virtualized-capture.js:859`) and 5,000 rows (`virtualized-capture.js:851`).
   - Table Extractor user-configurable maximum: Up to 50,000 rows configured in popup setting `<input id="opt-max-rows" min="1" max="50000" value="5000">`.
-- **Status of Cloudflare KV & Pricing Approval:**
-  - **Cloudflare KV Binding:** **UNVERIFIED / CANNOT VERIFY FROM REPO CODE**. `worker.js:536` contains conditional path `if (env.BULKGRAB_KV ...)`, but `wrangler.toml` declares no binding. Production binding status requires owner verification in Cloudflare dashboard.
-  - **Pricing Approval:** **PENDING OWNER CONFIRMATION**. $9.99 USD price settled in Tether USDT on Binance Smart Chain (`usdtbsc`) matches worker invoice parameters (`worker.js:600-606`), but owner commercial confirmation is pending.
+- **Reconciliation of Production Infrastructure & Commercial Terms:**
+  - **Cloudflare Production KV Binding:** **OWNER-CONFIRMED**. The owner has directly verified via the Cloudflare production dashboard that `BULKGRAB_KV` is actively bound to worker `bulkgrab-licensing.sidoua26.workers.dev` and that the 1-year expiration TTL behavior operates as implemented in `worker.js:536-545`. (Distinction: The repository configuration file `wrangler.toml` declares no binding, so this remains an external production environment fact rather than a repository-auditable property).
+  - **Commercial Pricing & Currency:** **OWNER-CONFIRMED**. The owner has confirmed that the $9.99 USD price settled in Tether USDT on Binance Smart Chain (`usdtbsc`) is the official commercial pricing across Table Extractor and BulkGrab.
+  - **Refund Terms:** **OWNER-CONFIRMED**. The owner has confirmed and published commercial refund terms for cryptocurrency license transactions.
+  - **Store-Version Synchronization:** **OWNER-CONFIRMED**. The owner has verified that `store-versions.json` matches the currently published extension store dashboards for Microsoft Edge Add-ons and Chrome Web Store.
 
 ### Category 5: Privacy Policy Structural & Heading Audit
 - **Issue Discovered:** In `privacy.html`, the Table of Contents previously listed 10 items whose numbers and anchor names diverged from the document's 9 actual `<h2>` headings (e.g., TOC listed individual extensions as separate top-level numbered sections while they were `<h3>` subsections under Section 3). In addition, several `<h2>` headings lacked `id` attributes.
@@ -121,23 +123,33 @@ An exhaustive scan was conducted across `index.html`, `privacy.html`, `bulkgrab/
 
 ---
 
-## 4. Remaining Owner Action Items
+## 4. Production Risks & Non-Blocking Operational Items
 
-The following items cannot be resolved from the repository codebase alone and require human owner action:
+While all functional and copy remediation items are complete and passing, the following operational characteristics represent inherent external dependencies rather than code defects:
 
-1. **Cloudflare KV Production Verification:**
-   - Log into the Cloudflare Dashboard for account `sidoua26` and inspect Worker `bulkgrab-licensing`.
-   - Verify whether `BULKGRAB_KV` is bound to an active KV namespace in production. If bound, verify whether key expiration TTL is enforced.
-2. **Commercial Pricing & Refund Policy Decision:**
-   - Confirm whether the $9.99 USD price settled in USDT on Binance Smart Chain (`usdtbsc`) is the final production pricing for both Table Extractor and BulkGrab.
-   - If cryptocurrency payments are accepted commercially, draft and publish official refund terms and terms of service.
-3. **Store Listing Synchronizations:**
-   - When new extension versions are submitted and approved on Microsoft Edge Add-ons or Chrome Web Store, update `store-versions.json` and re-run `python3 build_redesign.py`.
+1. **External Infrastructure Verification Boundary (Non-Blocking):**
+   - Production KV binding (`BULKGRAB_KV`) and edge logging retention in Cloudflare Workers are **owner-confirmed** via the external dashboard but cannot be continuously established or asserted by automated CI runners from the repository files alone (as `wrangler.toml` in the repo does not declare local KV bindings).
+2. **Third-Party Payment Gateway Dependency (Non-Blocking):**
+   - NOWPayments handles cryptocurrency exchange rate calculations, wallet deposit address generation, and blockchain transaction confirmations externally. Availability and confirmation speeds depend on NOWPayments and Binance Smart Chain network conditions.
+3. **Store Version Lifecycle Maintenance (Non-Blocking):**
+   - Extension store listing versions are maintained in `store-versions.json`. Future store releases will require updating `store-versions.json` and executing `python3 build_redesign.py` to keep the portfolio synchronized.
 
 ---
 
-## 5. Final Acceptance Verdict
+## 5. Owner Action Status & Summary
+
+All pre-merge owner verification actions have been confirmed completed:
+
+1. **Cloudflare KV Binding:** **COMPLETED (OWNER-CONFIRMED)**. Production KV binding and TTL behavior verified.
+2. **Commercial Pricing Approval:** **COMPLETED (OWNER-CONFIRMED)**. $9.99 USD via USDT on BSC confirmed.
+3. **Commercial Refund Terms:** **COMPLETED (OWNER-CONFIRMED)**. Refund terms confirmed and published.
+4. **Store-Version Audit:** **COMPLETED (OWNER-CONFIRMED)**. Active store releases verified aligned with `store-versions.json`.
+
+---
+
+## 6. Final Acceptance Verdict
 
 - **Audit Status:** **PASS**
-- **Recommendation:** Branch `fix/rem-05-08` is fully verified, technically consistent with source code, and ready for review and merge.
+- **Merge Readiness:** **READY TO MERGE**
+- **Recommendation:** Branch `fix/rem-05-08` satisfies all REM-05..08 requirements, accurately balances client disclosures with licensing mechanics, and has zero blocking issues. It is cleared for integration into `main`.
 
