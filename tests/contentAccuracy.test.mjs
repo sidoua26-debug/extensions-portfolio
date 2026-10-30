@@ -129,8 +129,8 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
       if (data.is_web_tool) return null;
       const stores = data.stores;
       const parts = [];
-      if (stores.edge) parts.push(`Edge v${stores.edge.version}`);
-      if (stores.chrome) parts.push(`Chrome v${stores.chrome.version}`);
+      if (stores.edge) parts.push(`Edge&nbsp;v${stores.edge.version}`);
+      if (stores.chrome) parts.push(`Chrome&nbsp;v${stores.chrome.version}`);
       return `Published versions: ${parts.join(' · ')}`;
     };
 
