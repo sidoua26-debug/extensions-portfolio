@@ -1014,7 +1014,7 @@
             </div>
             <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
               <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">How does client-side WebAssembly conversion work in Word to LaTeX?</strong>
-              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">We compile Pandoc and its necessary Unix utilities directly into a WebAssembly binary. When you load or drop a DOCX manuscript into Word to LaTeX, the extension streams the file into an isolated browser Web Worker thread running the Pandoc WASM runtime. The document structure, equation formatting, and tables are parsed in-memory, returning compilation-ready LaTeX snippets in milliseconds without establishing any outbound network socket connection.</p>
+              <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">We compile Pandoc and its necessary Unix utilities directly into a WebAssembly binary. When you load or drop a DOCX manuscript into Word to LaTeX, the extension streams the file into an isolated browser Web Worker thread running the Pandoc WASM runtime. The document structure, equation formatting, and tables are parsed in-memory using client-side WebAssembly, returning compilation-ready LaTeX snippets with no remote network latency.</p>
             </div>
             <div class="faq-item" style="padding: 16px; border: 1px solid var(--border-page); border-radius: var(--r-md); background: var(--bg-surface);">
               <strong style="display: block; font-size: 0.95rem; margin-bottom: 6px; color: var(--text-main);">Do Table Extractor, BulkGrab, or SEO Inspector send telemetry to remote servers?</strong>
@@ -1160,7 +1160,7 @@
           <span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>
         </a>
         <p class="footer-copy">
-          &copy; 2026 ExtensionGuy. Published extensions available on Microsoft Edge Add-ons and Chrome Web Store. Built local-first with no tracking.
+          &copy; 2026 ExtensionGuy. Published extensions available on Microsoft Edge Add-ons and Chrome Web Store. Built local-first · Privacy by design.
         </p>
       </div>
 
