@@ -131,8 +131,10 @@ def get_brand_mark_html(prefix: str) -> str:
         f'        </div>'
     )
 
-def get_wordmark_html() -> str:
-    return '<span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>'
+def get_wordmark_html(include_style: bool = True) -> str:
+    if include_style:
+        return '<span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>'
+    return '<span class="brand-text"><span class="wordmark-ext">Extension</span><span class="wordmark-guy">Guy</span></span>'
 
 def migrate_standard_page(content: str, rel_prefix: str, path_str: str) -> str:
     content = replace_favicons(content, rel_prefix, is_pdf_tools=False)
@@ -378,35 +380,33 @@ def migrate_pdf_tools_page(content: str) -> str:
     # Header parent brand mark
     header_pdf = re.compile(
         r'(<a href="/" class="brand-parent-link"[^>]*>\s*)'
-        r'<div class="brand-parent-mark" aria-hidden="true"[^>]*>.*?</div>\s*(?:<span>ExtensionGuy</span>|<span class="brand-text">.*?</span>)'
+        r'(?:<span class="brand-by-label">.*?</span>\s*)?'
+        r'(?:<div class="brand-mark"[^>]*>.*?</div>|<div class="brand-parent-mark"[^>]*>.*?</div>)\s*'
+        r'(?:<span>ExtensionGuy</span>|<span class="brand-text">.*?</span>)'
         r'(\s*</a>)',
         re.DOTALL
     )
     if header_pdf.search(content):
         mark = (
-            f'<div class="brand-parent-mark" aria-hidden="true">\n'
-            f'            <img src="../assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">\n'
-            f'            <img src="../assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">\n'
-            f'          </div>'
+            f'<span class="brand-by-label">by</span>\n'
+            f'          <div class="brand-mark" aria-hidden="true"><img src="../assets/icons/logo-icon.svg" alt="" class="brand-icon brand-icon-light" width="34" height="28"><img src="../assets/icons/logo-icon-dark.svg" alt="" class="brand-icon brand-icon-dark" width="34" height="28"></div>'
         )
-        word = get_wordmark_html()
+        word = get_wordmark_html(include_style=False)
         content = header_pdf.sub(rf'\1{mark}\n          {word}\2', content, count=1)
 
     # Footer brand lockup
     footer_pdf = re.compile(
         r'(<div class="footer-brand-lockup">\s*<a href="/" class="footer-brand-link">\s*)'
-        r'<div class="brand-parent-mark" aria-hidden="true"[^>]*>.*?</div>\s*(?:<span>ExtensionGuy</span>|<span class="brand-text">.*?</span>)'
+        r'(?:<div class="brand-mark"[^>]*>.*?</div>|<div class="brand-parent-mark"[^>]*>.*?</div>)\s*'
+        r'(?:<span>ExtensionGuy</span>|<span class="brand-text">.*?</span>)'
         r'(\s*</a>\s*</div>)',
         re.DOTALL
     )
     if footer_pdf.search(content):
         mark = (
-            f'<div class="brand-parent-mark" aria-hidden="true">\n'
-            f'            <img src="../assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">\n'
-            f'            <img src="../assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">\n'
-            f'          </div>'
+            f'<div class="brand-mark" aria-hidden="true"><img src="../assets/icons/logo-icon.svg" alt="" class="brand-icon brand-icon-light" width="34" height="28"><img src="../assets/icons/logo-icon-dark.svg" alt="" class="brand-icon brand-icon-dark" width="34" height="28"></div>'
         )
-        word = get_wordmark_html()
+        word = get_wordmark_html(include_style=False)
         content = footer_pdf.sub(rf'\1{mark}\n          {word}\2', content, count=1)
 
     return content

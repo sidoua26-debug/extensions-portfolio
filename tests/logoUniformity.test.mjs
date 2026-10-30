@@ -92,6 +92,14 @@ test('Logo Uniformity & Brand Consistency Suite', async (t) => {
         !content.includes(OLD_VARIANT1_SNIPPET),
         `${relPath} must not contain legacy Variant 1 puzzle piece SVG path`
       );
+      assert.ok(
+        !content.includes('fill="#4f46e5"'),
+        `${relPath} must not contain legacy #4f46e5 SVG brand mark fill`
+      );
+      assert.ok(
+        !content.includes('<span>ExtensionGuy</span>'),
+        `${relPath} must not contain plain unstyled <span>ExtensionGuy</span> without two-tone spans`
+      );
     }
   });
 
@@ -190,7 +198,7 @@ test('Logo Uniformity & Brand Consistency Suite', async (t) => {
       for (const route of keyRoutes) {
         await page.goto(baseUrl + route.path, { waitUntil: 'domcontentloaded' });
 
-        const headerMark = page.locator('.navbar .brand-mark, .brand-link .brand-mark, .privacy-header-lockup .brand-mark, .brand-parent-link .brand-parent-mark').first();
+        const headerMark = page.locator('.navbar .brand-mark, .brand-link .brand-mark, .privacy-header-lockup .brand-mark, .brand-parent-link .brand-mark, .brand-parent-link .brand-parent-mark').first();
         const lightImg = headerMark.locator('.brand-icon-light');
 
         // Verify light logo image exists and renders with height 28
