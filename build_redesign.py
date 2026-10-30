@@ -12,6 +12,16 @@ REPO_ROOT = Path(__file__).resolve().parent
 with open(REPO_ROOT / "store-versions.json", "r", encoding="utf-8") as f:
     store_versions = json.load(f)
 
+# Canonical Brand Mark (Variant 1 — Classic Puzzle Piece)
+BRAND_MARK_SVG = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none">
+  <rect width="32" height="32" rx="8" fill="#4f46e5"/>
+  <path d="M 8 8 H 24 V 13.5 C 25.5 13.5 27 14.5 27 16 C 27 17.5 25.5 18.5 24 18.5 V 24 H 8 V 18.5 C 9.5 18.5 11 17.5 11 16 C 11 14.5 9.5 13.5 8 13.5 Z" fill="#ffffff"/>
+</svg>"""
+
+BRAND_MARK_HTML = f"""<div class="brand-mark" aria-hidden="true">
+  {BRAND_MARK_SVG}
+</div>"""
+
 html = r"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,10 +47,11 @@ html = r"""<!DOCTYPE html>
   <meta name="twitter:description" content="Privacy-first Microsoft Edge extensions with local-first processing and no data telemetry.">
   <meta name="twitter:image" content="https://extensionguy.me/assets/og/home-1200x630.png">
 
-<link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
-  <link rel="icon" type="image/png" href="assets/icons/word-to-latex-128.png">
-  <link rel="apple-touch-icon" href="assets/icons/word-to-latex-128.png">
-  <meta name="theme-color" content="#0f172a">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#4f46e5">
 
   <!-- Preload critical local typography fonts -->
   <link rel="preload" href="assets/fonts/geist-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -48,7 +59,7 @@ html = r"""<!DOCTYPE html>
   <link rel="preload" href="assets/fonts/geist-700.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Self-hosted CSS containing local WOFF2 @font-face rules -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=20261030-1">
+  <link rel="stylesheet" href="assets/css/styles.css?v=20261030-2">
 
   <script type="application/ld+json">
 {
@@ -190,10 +201,9 @@ html = r"""<!DOCTYPE html>
     <div class="container nav-inner">
       <a href="#top" class="brand">
         <div class="brand-mark" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none">
+            <rect width="32" height="32" rx="8" fill="#4f46e5"/>
+            <path d="M 8 8 H 24 V 13.5 C 25.5 13.5 27 14.5 27 16 C 27 17.5 25.5 18.5 24 18.5 V 24 H 8 V 18.5 C 9.5 18.5 11 17.5 11 16 C 11 14.5 9.5 13.5 8 13.5 Z" fill="#ffffff"/>
           </svg>
         </div>
         <span>ExtensionGuy</span>
@@ -1166,7 +1176,10 @@ html = r"""<!DOCTYPE html>
       <div class="footer-left">
         <a href="#top" class="brand">
           <div class="brand-mark" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none">
+              <rect width="32" height="32" rx="8" fill="#4f46e5"/>
+              <path d="M 8 8 H 24 V 13.5 C 25.5 13.5 27 14.5 27 16 C 27 17.5 25.5 18.5 24 18.5 V 24 H 8 V 18.5 C 9.5 18.5 11 17.5 11 16 C 11 14.5 9.5 13.5 8 13.5 Z" fill="#ffffff"/>
+            </svg>
           </div>
           <span>ExtensionGuy</span>
         </a>

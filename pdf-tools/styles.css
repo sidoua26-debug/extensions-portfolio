@@ -971,3 +971,45 @@ details ul {
     padding: 0.75rem;
   }
 }
+
+
+/* ExtensionGuy Parent Brand Attribution */
+.brand-parent-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: color 0.15s ease;
+}
+.brand-parent-link:hover {
+  color: var(--text-primary);
+}
+.brand-parent-mark {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: #4f46e5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px rgba(79, 70, 229, 0.3);
+}
+.footer-brand-lockup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.footer-brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: inherit;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
