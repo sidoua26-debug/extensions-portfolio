@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 """
 scripts/migrate_site_branding.py
-Safely migrates all static HTML pages in the Extensions Portfolio to the
-canonical Variant 1 (Classic Puzzle Piece) brand logo and updated favicon suite.
-
-Single Source of Truth:
-  Imports BRAND_MARK_SVG directly from build_redesign.py to guarantee 100%
-  identical mark rendering and proportions across all pages.
+Migrates all static HTML pages in the Extensions Portfolio to the
+new ExtensionGuy logo, two-tone wordmark, self-hosted Manrope typography,
+and updated favicon/OG image suite.
 
 Supports:
   --dry-run / --check : validates and reports planned changes without writing.
@@ -18,11 +15,6 @@ import re
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
-
-# Import canonical SVG from generator (SINGLE SOURCE OF TRUTH)
-from build_redesign import BRAND_MARK_SVG
 
 STANDARD_PAGES = [
     # Product pages (depth 1)
@@ -44,16 +36,38 @@ STANDARD_PAGES = [
     ("guides/word-tables-to-latex/index.html", "../../"),
 ]
 
+PAGE_OG_MAP = {
+    "index.html": "home-1200x630.png",
+    "word-to-latex/index.html": "word-to-latex-1200x630.png",
+    "table-extractor/index.html": "table-extractor-1200x630.png",
+    "bulkgrab/index.html": "bulkgrab-1200x630.png",
+    "seo-inspector/index.html": "seo-inspector-1200x630.png",
+    "bilexi/index.html": "bilexi-1200x630.png",
+    "tab-vault/index.html": "tab-vault-1200x630.png",
+    "word-to-latex-converter/index.html": "word-to-latex-converter-1200x630.png",
+    "changelog/index.html": "home-1200x630.png",
+    "guides/index.html": "home-1200x630.png",
+    "guides/docx-to-latex-offline/index.html": "guide-docx-to-latex-offline-1200x630.png",
+    "guides/word-tables-to-latex/index.html": "guide-word-tables-to-latex-1200x630.png",
+    "guides/export-virtualized-tables-to-excel/index.html": "home-1200x630.png",
+    "guides/prevent-browser-tab-loss-local-backups/index.html": "home-1200x630.png",
+    "guides/type-french-accents-on-qwerty-offline/index.html": "home-1200x630.png",
+    "privacy.html": "privacy-1200x630.png",
+}
+
 def get_canonical_favicons(prefix: str, is_pdf_tools: bool = False) -> str:
-    ico_href = "../favicon.ico?v=20261030" if is_pdf_tools else "/favicon.ico?v=20261030"
-    return f"""  <link rel="icon" href="{ico_href}" sizes="32x32">
-  <link rel="icon" type="image/svg+xml" href="{prefix}assets/icons/favicon.svg?v=20261030">
-  <link rel="icon" type="image/png" sizes="32x32" href="{prefix}assets/icons/favicon-32x32.png?v=20261030">
-  <link rel="icon" type="image/png" sizes="16x16" href="{prefix}assets/icons/favicon-16x16.png?v=20261030">
-  <link rel="apple-touch-icon" sizes="180x180" href="{prefix}assets/icons/apple-touch-icon.png?v=20261030">
+    ico_href = "../favicon.ico?v=2" if is_pdf_tools else "/favicon.ico?v=2"
+    return f"""  <link rel="icon" type="image/svg+xml" href="{prefix}assets/icons/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="48x48" href="{prefix}assets/icons/favicon-48.png?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="{prefix}assets/icons/favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="{prefix}assets/icons/favicon-16.png?v=2">
+  <link rel="icon" href="{ico_href}" sizes="any">
+  <link rel="apple-touch-icon" sizes="180x180" href="{prefix}assets/icons/apple-touch-icon.png?v=2">
   <meta name="theme-color" content="#0f172a">"""
 
 def replace_favicons(content: str, prefix: str, is_pdf_tools: bool = False) -> str:
+    if 'href="assets/icons/favicon.svg?v=2"' in content or 'href="../assets/icons/favicon.svg?v=2"' in content or 'href="../../assets/icons/favicon.svg?v=2"' in content:
+        return content
     pattern = re.compile(
         r'(?:  <link rel="icon"[^>]*>\s*)+'
         r'(?:  <link rel="apple-touch-icon"[^>]*>\s*)'
@@ -65,175 +79,335 @@ def replace_favicons(content: str, prefix: str, is_pdf_tools: bool = False) -> s
         return pattern.sub(new_favs, content, count=1)
     return content
 
-def update_social_images(content: str) -> str:
+def update_social_images(content: str, rel_path: str) -> str:
+    og_file = PAGE_OG_MAP.get(rel_path)
+    if not og_file:
+        return content
+    og_url = f"https://extensionguy.me/assets/og/{og_file}?v=2"
     content = re.sub(
-        r'(<meta property="og:image" content="https://extensionguy\.me/assets/og/[^"?]+)(?:\?v=[^"]*)?(">)',
-        r'\1?v=20261030\2',
+        r'<meta property="og:image" content="https://extensionguy\.me/assets/og/[^"]+">',
+        f'<meta property="og:image" content="{og_url}">',
         content
     )
+    if 'property="og:image:width"' not in content and 'property="og:image"' in content:
+        content = re.sub(
+            rf'(<meta property="og:image" content="{re.escape(og_url)}">)',
+            r'\1\n  <meta property="og:image:width" content="1200">\n  <meta property="og:image:height" content="630">',
+            content
+        )
     content = re.sub(
-        r'(<meta name="twitter:image" content="https://extensionguy\.me/assets/og/[^"?]+)(?:\?v=[^"]*)?(">)',
-        r'\1?v=20261030\2',
+        r'<meta name="twitter:image" content="https://extensionguy\.me/assets/og/[^"]+">',
+        f'<meta name="twitter:image" content="{og_url}">',
         content
     )
     return content
 
 def update_styles_version(content: str) -> str:
-    content = re.sub(r'styles\.css\?v=20261030-[12]', 'styles.css?v=20261030-3', content)
-    content = re.sub(r'href="\./styles\.css(?:\?v=[^"]*)?"', 'href="./styles.css?v=20261030-1"', content)
+    content = re.sub(r'styles\.css(?:\?v=[^"]*)?', 'styles.css?v=2', content)
     return content
 
+def add_font_preloads(content: str, prefix: str) -> str:
+    if "manrope-500.woff2" not in content:
+        preloads = (
+            f'  <link rel="preload" href="{prefix}assets/fonts/manrope-500.woff2" as="font" type="font/woff2" crossorigin>\n'
+            f'  <link rel="preload" href="{prefix}assets/fonts/manrope-800.woff2" as="font" type="font/woff2" crossorigin>\n'
+        )
+        if "<!-- Preload critical local typography fonts -->\n" in content:
+            content = content.replace(
+                "<!-- Preload critical local typography fonts -->\n",
+                f"<!-- Preload critical local typography fonts -->\n{preloads}"
+            )
+        elif '<link rel="stylesheet"' in content:
+            content = re.sub(r'(  <link rel="stylesheet")', f'{preloads}\\1', content, count=1)
+        elif '<style>' in content:
+            content = re.sub(r'(\s*<style>)', f'\n{preloads}\\1', content, count=1)
+    return content
+
+def get_brand_mark_html(prefix: str) -> str:
+    return (
+        f'<div class="brand-mark" aria-hidden="true">\n'
+        f'          <img src="{prefix}assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">\n'
+        f'          <img src="{prefix}assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">\n'
+        f'        </div>'
+    )
+
+def get_wordmark_html() -> str:
+    return '<span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>'
+
 def migrate_standard_page(content: str, rel_prefix: str, path_str: str) -> str:
-    # 1. Favicons
     content = replace_favicons(content, rel_prefix, is_pdf_tools=False)
-
-    # 2. Stylesheet version bump
     content = update_styles_version(content)
+    content = update_social_images(content, path_str)
+    content = add_font_preloads(content, rel_prefix)
 
-    # 3. Social images
-    content = update_social_images(content)
-
-    # 4. Header brand mark
-    # Replace any previous brand-mark SVG with canonical BRAND_MARK_SVG
+    # 4. Header brand lockup
     header_pattern = re.compile(
-        r'(<header[^>]*>.*?<div class="brand-mark" aria-hidden="true">\s*)'
-        r'<svg[^>]*>.*?</svg>(\s*</div>)',
+        r'(<header[^>]*>.*?<a[^>]*class="brand"[^>]*>\s*)'
+        r'<div class="brand-mark" aria-hidden="true">.*?</div>\s*(?:<span>ExtensionGuy</span>|<span class="brand-text">.*?</span>)'
+        r'(\s*</a>)',
         re.DOTALL
     )
     if header_pattern.search(content):
-        content = header_pattern.sub(rf'\1{BRAND_MARK_SVG}\2', content, count=1)
+        mark = get_brand_mark_html(rel_prefix)
+        word = get_wordmark_html()
+        content = header_pattern.sub(rf'\1{mark}\n        {word}\2', content, count=1)
 
-    # 5. Footer brand mark
+    # 5. Footer brand lockup
     footer_pattern = re.compile(
-        r'(<footer[^>]*>.*?<div class="brand-mark" aria-hidden="true">\s*)'
-        r'<svg[^>]*>.*?</svg>(\s*</div>)',
+        r'(<footer[^>]*>.*?<a[^>]*class="brand"[^>]*>\s*)'
+        r'<div class="brand-mark" aria-hidden="true">.*?</div>\s*(?:<span>ExtensionGuy</span>|<span class="brand-text">.*?</span>)'
+        r'(\s*</a>)',
         re.DOTALL
     )
     if footer_pattern.search(content):
-        content = footer_pattern.sub(rf'\1{BRAND_MARK_SVG}\2', content, count=1)
+        mark = get_brand_mark_html(rel_prefix)
+        word = get_wordmark_html()
+        content = footer_pattern.sub(rf'\1{mark}\n          {word}\2', content, count=1)
 
     return content
 
 def migrate_404_page(content: str) -> str:
-    # Favicons
     content = replace_favicons(content, "", is_pdf_tools=False)
+    content = add_font_preloads(content, "")
 
-    # Update .brand-mark CSS rule to single tile (background: none, 8px radius, shadow)
-    css_target = re.compile(
-        r'\.brand-mark\s*\{[^}]*\}',
+    # Inject Manrope @font-face & styles into <style> if not present
+    if "font-family: 'Manrope'" not in content:
+        manrope_css = """
+    @font-face {
+      font-family: 'Manrope';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url('assets/fonts/manrope-500.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Manrope';
+      font-style: normal;
+      font-weight: 800;
+      font-display: swap;
+      src: url('assets/fonts/manrope-800.woff2') format('woff2');
+    }
+"""
+        content = content.replace("  <style>\n", f"  <style>{manrope_css}")
+
+    if "--wordmark-extension" not in content:
+        content = content.replace(
+            "    :root {\n",
+            "    :root {\n      --wordmark-extension: #3B33C4;\n      --wordmark-guy: #14123A;\n"
+        )
+        content = content.replace(
+            "      html:not([data-theme=\"light\"]) {\n",
+            "      html:not([data-theme=\"light\"]) {\n        --wordmark-extension: #B4B0FF;\n        --wordmark-guy: #FFFFFF;\n"
+        )
+
+    # Add .brand-icon and .brand-text rules
+    if ".brand-icon" not in content:
+        brand_css = """
+    .brand-mark {
+      background: none;
+      border-radius: 0;
+      box-shadow: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .brand-icon {
+      display: block;
+      height: 28px;
+      width: auto;
+    }
+    .brand-icon-dark { display: none; }
+    .brand-icon-light { display: block; }
+    html[data-theme="dark"] .brand-icon-light { display: none; }
+    html[data-theme="dark"] .brand-icon-dark { display: block; }
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme="light"]) .brand-icon-light { display: none; }
+      html:not([data-theme="light"]) .brand-icon-dark { display: block; }
+    }
+    .brand-text {
+      display: inline-flex;
+      align-items: baseline;
+      font-family: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      letter-spacing: -0.02em;
+    }
+    .wordmark-ext {
+      font-weight: 800;
+      color: var(--wordmark-extension, #3B33C4);
+    }
+    .wordmark-guy {
+      font-weight: 500;
+      color: var(--wordmark-guy, #14123A);
+    }
+"""
+        content = content.replace("    .brand-mark {\n", f"{brand_css}    .brand-mark-old {{\n")
+
+    # Header brand lockup
+    header_404 = re.compile(
+        r'(<a href="index\.html" class="brand-link">\s*)'
+        r'<div class="brand-mark" aria-hidden="true">\s*<svg[^>]*>.*?</svg>\s*</div>\s*<span>ExtensionGuy</span>'
+        r'(\s*</a>)',
         re.DOTALL
     )
-    new_css = (
-        ".brand-mark {\n"
-        "      width: 32px;\n"
-        "      height: 32px;\n"
-        "      border-radius: 8px;\n"
-        "      background: none;\n"
-        "      display: inline-flex;\n"
-        "      align-items: center;\n"
-        "      justify-content: center;\n"
-        "      box-shadow: 0 2px 6px #4f46e559;\n"
-        "      flex-shrink: 0;\n"
-        "    }"
-    )
-    if css_target.search(content):
-        content = css_target.sub(new_css, content, count=1)
+    if header_404.search(content):
+        mark = get_brand_mark_html("")
+        word = get_wordmark_html()
+        content = header_404.sub(rf'\1{mark}\n      {word}\2', content, count=1)
 
-    # Header brand mark
-    old_header_mark = re.compile(
-        r'(<a href="index\.html" class="brand-link">\s*<div class="brand-mark" aria-hidden="true">\s*)'
-        r'<svg[^>]*>.*?</svg>(\s*</div>\s*<span>ExtensionGuy</span>\s*</a>)',
-        re.DOTALL
-    )
-    if old_header_mark.search(content):
-        content = old_header_mark.sub(rf'\1{BRAND_MARK_SVG}\2', content, count=1)
-
-    # Footer brand mark: remove 20px style and use canonical 32x32 BRAND_MARK_SVG
-    old_footer_mark = re.compile(
-        r'<div class="brand-mark" aria-hidden="true"[^>]*>\s*'
-        r'<svg[^>]*>.*?</svg>\s*</div>',
-        re.DOTALL
-    )
-    new_footer_mark = f'<div class="brand-mark" aria-hidden="true">\n          {BRAND_MARK_SVG}\n        </div>'
-    # Look specifically inside .footer-note
-    footer_note_pattern = re.compile(
+    # Footer
+    footer_404 = re.compile(
         r'(<div class="footer-note">\s*<div[^>]*>\s*)'
-        r'<div class="brand-mark" aria-hidden="true"[^>]*>\s*<svg[^>]*>.*?</svg>\s*</div>'
-        r'(\s*<strong[^>]*>ExtensionGuy</strong>)',
+        r'<div class="brand-mark" aria-hidden="true"[^>]*>\s*<svg[^>]*>.*?</svg>\s*</div>\s*'
+        r'<strong[^>]*>ExtensionGuy</strong>',
         re.DOTALL
     )
-    if footer_note_pattern.search(content):
-        content = footer_note_pattern.sub(rf'\1{new_footer_mark}\2', content, count=1)
+    if footer_404.search(content):
+        mark = get_brand_mark_html("")
+        word = get_wordmark_html()
+        content = footer_404.sub(rf'\1{mark}\n        {word}', content, count=1)
 
     return content
 
 def migrate_privacy_page(content: str) -> str:
-    # Favicons
     content = replace_favicons(content, "", is_pdf_tools=False)
+    content = update_social_images(content, "privacy.html")
+    content = add_font_preloads(content, "")
 
-    # Social images
-    content = update_social_images(content)
+    # Inject Manrope @font-face & styles into <style> if not present
+    if "font-family: 'Manrope'" not in content:
+        manrope_css = """
+    @font-face {
+      font-family: 'Manrope';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url('assets/fonts/manrope-500.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Manrope';
+      font-style: normal;
+      font-weight: 800;
+      font-display: swap;
+      src: url('assets/fonts/manrope-800.woff2') format('woff2');
+    }
+"""
+        content = content.replace("  <style>\n", f"  <style>{manrope_css}")
+
+    if "--wordmark-extension" not in content:
+        content = content.replace(
+            "    :root {\n",
+            "    :root {\n      --wordmark-extension: #3B33C4;\n      --wordmark-guy: #14123A;\n"
+        )
+        content = content.replace(
+            "      html:not([data-theme=\"light\"]) {\n",
+            "      html:not([data-theme=\"light\"]) {\n        --wordmark-extension: #B4B0FF;\n        --wordmark-guy: #FFFFFF;\n"
+        )
+
+    if ".brand-icon" not in content:
+        brand_css = """
+    .brand-mark {
+      background: none;
+      border-radius: 0;
+      box-shadow: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .brand-icon {
+      display: block;
+      height: 28px;
+      width: auto;
+    }
+    .brand-icon-dark { display: none; }
+    .brand-icon-light { display: block; }
+    html[data-theme="dark"] .brand-icon-light { display: none; }
+    html[data-theme="dark"] .brand-icon-dark { display: block; }
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme="light"]) .brand-icon-light { display: none; }
+      html:not([data-theme="light"]) .brand-icon-dark { display: block; }
+    }
+    .brand-text {
+      display: inline-flex;
+      align-items: baseline;
+      font-family: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      letter-spacing: -0.02em;
+    }
+    .wordmark-ext {
+      font-weight: 800;
+      color: var(--wordmark-extension, #3B33C4);
+    }
+    .wordmark-guy {
+      font-weight: 500;
+      color: var(--wordmark-guy, #14123A);
+    }
+"""
+        content = content.replace("  </style>", f"{brand_css}  </style>")
 
     # Header brand lockup
-    header_pattern = re.compile(
-        r'(<div class="privacy-header-lockup"[^>]*>.*?<div class="brand-mark" aria-hidden="true")[^>]*>(\s*)'
-        r'<svg[^>]*>.*?</svg>(\s*</div>)',
+    header_priv = re.compile(
+        r'(<div class="privacy-header-lockup"[^>]*>\s*<a[^>]*class="brand"[^>]*>\s*)'
+        r'<div class="brand-mark" aria-hidden="true"[^>]*>.*?</div>\s*(?:<span>ExtensionGuy</span>|<span class="brand-text">.*?</span>)'
+        r'(\s*</a>)',
         re.DOTALL
     )
-    header_style = ' style="width:32px;height:32px;border-radius:8px;background:none;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px #4f46e559;"'
-    if header_pattern.search(content):
-        content = header_pattern.sub(rf'\1{header_style}>\2{BRAND_MARK_SVG}\3', content, count=1)
+    if header_priv.search(content):
+        mark = get_brand_mark_html("")
+        word = get_wordmark_html()
+        content = header_priv.sub(rf'\1{mark}\n        {word}\2', content, count=1)
 
     # Footer brand lockup
-    footer_pattern = re.compile(
-        r'(<footer class="privacy-footer"[^>]*>.*?<div class="brand-mark" aria-hidden="true")[^>]*>(\s*)'
-        r'<svg[^>]*>.*?</svg>(\s*</div>)',
+    footer_priv = re.compile(
+        r'(<footer class="privacy-footer"[^>]*>\s*<a[^>]*class="brand"[^>]*>\s*)'
+        r'<div class="brand-mark" aria-hidden="true"[^>]*>.*?</div>\s*(?:<span>ExtensionGuy</span>|<span class="brand-text">.*?</span>)'
+        r'(\s*</a>)',
         re.DOTALL
     )
-    footer_style = ' style="width:32px;height:32px;border-radius:8px;background:none;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px #4f46e559;"'
-    if footer_pattern.search(content):
-        content = footer_pattern.sub(rf'\1{footer_style}>\2{BRAND_MARK_SVG}\3', content, count=1)
+    if footer_priv.search(content):
+        mark = get_brand_mark_html("")
+        word = get_wordmark_html()
+        content = footer_priv.sub(rf'\1{mark}\n        {word}\2', content, count=1)
 
     return content
 
-def migrate_pdf_tools_styles():
-    css_path = REPO_ROOT / "pdf-tools" / "styles.css"
-    content = css_path.read_text(encoding="utf-8")
-
-    # Ensure .brand-mark and .brand-parent-mark use 32x32, background: none, border-radius: 8px
-    if ".brand-parent-mark" in content:
-        content = re.sub(
-            r'(\.brand-mark,\s*)?\.brand-parent-mark\s*\{[^}]*\}',
-            ".brand-mark,\n.brand-parent-mark {\n  width: 32px;\n  height: 32px;\n  border-radius: 8px;\n  background: none;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 2px 6px #4f46e559;\n}",
-            content,
-            count=1
-        )
-        css_path.write_text(content, encoding="utf-8")
-
 def migrate_pdf_tools_page(content: str) -> str:
-    # 1. Favicon links
     content = replace_favicons(content, "../", is_pdf_tools=True)
-
-    # 2. Stylesheet version
     content = update_styles_version(content)
+    content = add_font_preloads(content, "../")
 
-    # 3. Header parent brand mark
-    header_pattern = re.compile(
-        r'(<a href="/" class="brand-parent-link"[^>]*>\s*<div class="brand-parent-mark" aria-hidden="true"[^>]*>\s*)'
-        r'<svg[^>]*>.*?</svg>(\s*</div>\s*<span>ExtensionGuy</span>\s*</a>)',
+    # Header parent brand mark
+    header_pdf = re.compile(
+        r'(<a href="/" class="brand-parent-link"[^>]*>\s*)'
+        r'<div class="brand-parent-mark" aria-hidden="true"[^>]*>.*?</div>\s*(?:<span>ExtensionGuy</span>|<span class="brand-text">.*?</span>)'
+        r'(\s*</a>)',
         re.DOTALL
     )
-    if header_pattern.search(content):
-        content = header_pattern.sub(rf'\1{BRAND_MARK_SVG}\2', content, count=1)
+    if header_pdf.search(content):
+        mark = (
+            f'<div class="brand-parent-mark" aria-hidden="true">\n'
+            f'            <img src="../assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">\n'
+            f'            <img src="../assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">\n'
+            f'          </div>'
+        )
+        word = get_wordmark_html()
+        content = header_pdf.sub(rf'\1{mark}\n          {word}\2', content, count=1)
 
-    # 4. Footer brand lockup: remove inline style 18px and use canonical BRAND_MARK_SVG
-    footer_pattern = re.compile(
-        r'(<div class="footer-brand-lockup">\s*<a href="/" class="footer-brand-link">\s*<div class="brand-parent-mark" aria-hidden="true")[^>]*>(\s*)'
-        r'<svg[^>]*>.*?</svg>(\s*</div>\s*<span>ExtensionGuy</span>\s*</a>\s*</div>)',
+    # Footer brand lockup
+    footer_pdf = re.compile(
+        r'(<div class="footer-brand-lockup">\s*<a href="/" class="footer-brand-link">\s*)'
+        r'<div class="brand-parent-mark" aria-hidden="true"[^>]*>.*?</div>\s*(?:<span>ExtensionGuy</span>|<span class="brand-text">.*?</span>)'
+        r'(\s*</a>\s*</div>)',
         re.DOTALL
     )
-    if footer_pattern.search(content):
-        content = footer_pattern.sub(rf'\1>\2{BRAND_MARK_SVG}\3', content, count=1)
+    if footer_pdf.search(content):
+        mark = (
+            f'<div class="brand-parent-mark" aria-hidden="true">\n'
+            f'            <img src="../assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">\n'
+            f'            <img src="../assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">\n'
+            f'          </div>'
+        )
+        word = get_wordmark_html()
+        content = footer_pdf.sub(rf'\1{mark}\n          {word}\2', content, count=1)
 
     return content
 
@@ -242,7 +416,7 @@ def main():
     check_mode = "--check" in sys.argv or "--dry-run" in sys.argv or not apply_changes
 
     print("=" * 60)
-    print("Site Branding Migration Pass (Variant 1 Puzzle Piece - Unified)")
+    print("Site Branding Migration Pass (New Logo & Manrope Two-Tone Wordmark)")
     print(f"Mode: {'APPLY' if apply_changes else 'CHECK (DRY-RUN)'}")
     print("=" * 60)
 
@@ -261,7 +435,7 @@ def main():
         migrated = migrate_standard_page(content, prefix, rel_path)
         if migrated != content:
             modified_files += 1
-            print(f"[CHANGE] {rel_path} requires brand/favicon migration")
+            print(f"[CHANGE] {rel_path} requires brand migration")
             if apply_changes:
                 file_path.write_text(migrated, encoding="utf-8")
                 print(f"  -> Applied changes to {rel_path}")
@@ -276,7 +450,7 @@ def main():
         migrated_404 = migrate_404_page(content_404)
         if migrated_404 != content_404:
             modified_files += 1
-            print(f"[CHANGE] 404.html requires brand/favicon migration")
+            print(f"[CHANGE] 404.html requires brand migration")
             if apply_changes:
                 f_404.write_text(migrated_404, encoding="utf-8")
                 print(f"  -> Applied changes to 404.html")
@@ -291,7 +465,7 @@ def main():
         migrated_priv = migrate_privacy_page(content_priv)
         if migrated_priv != content_priv:
             modified_files += 1
-            print(f"[CHANGE] privacy.html requires brand/favicon migration")
+            print(f"[CHANGE] privacy.html requires brand migration")
             if apply_changes:
                 f_priv.write_text(migrated_priv, encoding="utf-8")
                 print(f"  -> Applied changes to privacy.html")
@@ -302,13 +476,11 @@ def main():
     f_pdf = REPO_ROOT / "pdf-tools" / "index.html"
     total_files += 1
     if f_pdf.exists():
-        if apply_changes:
-            migrate_pdf_tools_styles()
         content_pdf = f_pdf.read_text(encoding="utf-8")
         migrated_pdf = migrate_pdf_tools_page(content_pdf)
         if migrated_pdf != content_pdf:
             modified_files += 1
-            print(f"[CHANGE] pdf-tools/index.html requires brand/favicon migration")
+            print(f"[CHANGE] pdf-tools/index.html requires brand migration")
             if apply_changes:
                 f_pdf.write_text(migrated_pdf, encoding="utf-8")
                 print(f"  -> Applied changes to pdf-tools/index.html")

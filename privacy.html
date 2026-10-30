@@ -13,21 +13,41 @@
   <meta property="og:title" content="Privacy Policy — ExtensionGuy">
   <meta property="og:description" content="Privacy policy for ExtensionGuy and its browser extensions: Word to LaTeX, Table Extractor, BulkGrab, SEO Inspector, Bilexi, and Tab Vault.">
   <meta property="og:url" content="https://extensionguy.me/privacy">
-  <meta property="og:image" content="https://extensionguy.me/assets/og/privacy-1200x630.png?v=20261030">
+  <meta property="og:image" content="https://extensionguy.me/assets/og/privacy-1200x630.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Privacy Policy — ExtensionGuy">
   <meta name="twitter:description" content="Privacy policy for ExtensionGuy and its browser extensions: local processing, zero application telemetry, and transparent data practices.">
-  <meta name="twitter:image" content="https://extensionguy.me/assets/og/privacy-1200x630.png?v=20261030">
+  <meta name="twitter:image" content="https://extensionguy.me/assets/og/privacy-1200x630.png?v=2">
 
-  <link rel="icon" href="/favicon.ico?v=20261030" sizes="32x32">
-  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg?v=20261030">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png?v=20261030">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png?v=20261030">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png?v=20261030">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/favicon-48.png?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png?v=2">
+  <link rel="icon" href="/favicon.ico?v=2" sizes="any">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png?v=2">
   <meta name="theme-color" content="#0f172a">
+  <link rel="preload" href="assets/fonts/manrope-500.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/manrope-800.woff2" as="font" type="font/woff2" crossorigin>
+
 
   <style>
+    @font-face {
+      font-family: 'Manrope';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url('assets/fonts/manrope-500.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Manrope';
+      font-style: normal;
+      font-weight: 800;
+      font-display: swap;
+      src: url('assets/fonts/manrope-800.woff2') format('woff2');
+    }
     @font-face {
       font-family: 'Geist';
       font-style: normal;
@@ -72,6 +92,8 @@
     }
 
     :root {
+      --wordmark-extension: #3B33C4;
+      --wordmark-guy: #14123A;
       --bg-page: #f8fafc;
       --bg-surface: #ffffff;
       --border-page: #e2e8f0;
@@ -89,6 +111,8 @@
 
     @media (prefers-color-scheme: dark) {
       html:not([data-theme="light"]) {
+        --wordmark-extension: #B4B0FF;
+        --wordmark-guy: #FFFFFF;
         --bg-page: #080c14;
         --bg-surface: #0f1624;
         --border-page: #1c2638;
@@ -101,6 +125,8 @@
     }
 
     html[data-theme="dark"] {
+      --wordmark-extension: #B4B0FF;
+      --wordmark-guy: #FFFFFF;
       --bg-page: #080c14;
       --bg-surface: #0f1624;
       --border-page: #1c2638;
@@ -180,19 +206,54 @@
     .toc-list li {
       margin-bottom: 0;
     }
+
+    .brand-mark {
+      background: none;
+      border-radius: 0;
+      box-shadow: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .brand-icon {
+      display: block;
+      height: 28px;
+      width: auto;
+    }
+    .brand-icon-dark { display: none; }
+    .brand-icon-light { display: block; }
+    html[data-theme="dark"] .brand-icon-light { display: none; }
+    html[data-theme="dark"] .brand-icon-dark { display: block; }
+    @media (prefers-color-scheme: dark) {
+      html:not([data-theme="light"]) .brand-icon-light { display: none; }
+      html:not([data-theme="light"]) .brand-icon-dark { display: block; }
+    }
+    .brand-text {
+      display: inline-flex;
+      align-items: baseline;
+      font-family: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      letter-spacing: -0.02em;
+    }
+    .wordmark-ext {
+      font-weight: 800;
+      color: var(--wordmark-extension, #3B33C4);
+    }
+    .wordmark-guy {
+      font-weight: 500;
+      color: var(--wordmark-guy, #14123A);
+    }
   </style>
 </head>
 <body>
   <main class="prose-container">
     <div class="privacy-header-lockup" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:32px;">
       <a href="/" class="brand" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--text-main);font-weight:700;font-size:1.05rem;">
-        <div class="brand-mark" aria-hidden="true" style="width:32px;height:32px;border-radius:8px;background:none;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px #4f46e559;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none">
-  <rect width="32" height="32" rx="8" fill="#4f46e5"/>
-  <path d="M 8 8 H 24 V 13.5 C 25.5 13.5 27 14.5 27 16 C 27 17.5 25.5 18.5 24 18.5 V 24 H 8 V 18.5 C 9.5 18.5 11 17.5 11 16 C 11 14.5 9.5 13.5 8 13.5 Z" fill="#ffffff"/>
-</svg>
+        <div class="brand-mark" aria-hidden="true">
+          <img src="assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">
+          <img src="assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">
         </div>
-        <span>ExtensionGuy</span>
+        <span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>
       </a>
       <a href="/" class="nav-back">&larr; Back to Extensions Portfolio</a>
     </div>
@@ -331,13 +392,11 @@
 
     <footer class="privacy-footer" style="margin-top:48px;padding-top:24px;border-top:1px solid var(--border-page);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:0.875rem;color:var(--text-tertiary);">
       <a href="/" class="brand" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--text-main);font-weight:700;">
-        <div class="brand-mark" aria-hidden="true" style="width:32px;height:32px;border-radius:8px;background:none;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px #4f46e559;">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none">
-  <rect width="32" height="32" rx="8" fill="#4f46e5"/>
-  <path d="M 8 8 H 24 V 13.5 C 25.5 13.5 27 14.5 27 16 C 27 17.5 25.5 18.5 24 18.5 V 24 H 8 V 18.5 C 9.5 18.5 11 17.5 11 16 C 11 14.5 9.5 13.5 8 13.5 Z" fill="#ffffff"/>
-</svg>
+        <div class="brand-mark" aria-hidden="true">
+          <img src="assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">
+          <img src="assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">
         </div>
-        <span>ExtensionGuy</span>
+        <span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>
       </a>
       <span>&copy; 2026 ExtensionGuy &middot; Built local-first with no tracking.</span>
     </footer>

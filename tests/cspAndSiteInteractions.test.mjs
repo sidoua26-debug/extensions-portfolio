@@ -34,6 +34,8 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
           : safeUrl.endsWith('.wasm.gz') ? 'application/gzip'
           : safeUrl.endsWith('.docx') ? 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
           : safeUrl.endsWith('.png') ? 'image/png'
+          : safeUrl.endsWith('.svg') ? 'image/svg+xml'
+          : safeUrl.endsWith('.woff2') ? 'font/woff2'
           : safeUrl.endsWith('.css') ? 'text/css'
           : safeUrl.endsWith('.xml') ? 'application/xml'
           : 'text/html';

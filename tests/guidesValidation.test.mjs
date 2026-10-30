@@ -8,31 +8,31 @@ const GUIDES = [
     slug: 'docx-to-latex-offline',
     file: 'guides/docx-to-latex-offline/index.html',
     canonical: 'https://extensionguy.me/guides/docx-to-latex-offline/',
-    ogImage: 'https://extensionguy.me/assets/og/guide-docx-to-latex-offline-1200x630.png?v=20261030'
+    ogImage: 'https://extensionguy.me/assets/og/guide-docx-to-latex-offline-1200x630.png?v=2'
   },
   {
     slug: 'word-tables-to-latex',
     file: 'guides/word-tables-to-latex/index.html',
     canonical: 'https://extensionguy.me/guides/word-tables-to-latex/',
-    ogImage: 'https://extensionguy.me/assets/og/guide-word-tables-to-latex-1200x630.png?v=20261030'
+    ogImage: 'https://extensionguy.me/assets/og/guide-word-tables-to-latex-1200x630.png?v=2'
   },
   {
     slug: 'export-virtualized-tables-to-excel',
     file: 'guides/export-virtualized-tables-to-excel/index.html',
     canonical: 'https://extensionguy.me/guides/export-virtualized-tables-to-excel/',
-    ogImage: 'https://extensionguy.me/assets/og/home-1200x630.png?v=20261030'
+    ogImage: 'https://extensionguy.me/assets/og/home-1200x630.png?v=2'
   },
   {
     slug: 'prevent-browser-tab-loss-local-backups',
     file: 'guides/prevent-browser-tab-loss-local-backups/index.html',
     canonical: 'https://extensionguy.me/guides/prevent-browser-tab-loss-local-backups/',
-    ogImage: 'https://extensionguy.me/assets/og/home-1200x630.png?v=20261030'
+    ogImage: 'https://extensionguy.me/assets/og/home-1200x630.png?v=2'
   },
   {
     slug: 'type-french-accents-on-qwerty-offline',
     file: 'guides/type-french-accents-on-qwerty-offline/index.html',
     canonical: 'https://extensionguy.me/guides/type-french-accents-on-qwerty-offline/',
-    ogImage: 'https://extensionguy.me/assets/og/home-1200x630.png?v=20261030'
+    ogImage: 'https://extensionguy.me/assets/og/home-1200x630.png?v=2'
   }
 ];
 
@@ -181,7 +181,7 @@ describe('Guides Validation & Quality Gate', () => {
 
     it('has valid canonical, OG image, and JSON-LD CollectionPage structured data', () => {
       assert.ok(content.includes('<link rel="canonical" href="https://extensionguy.me/guides/">'), 'Valid canonical href');
-      assert.ok(content.includes('<meta property="og:image" content="https://extensionguy.me/assets/og/home-1200x630.png?v=20261030">'), 'Valid og:image href');
+      assert.ok(content.includes('<meta property="og:image" content="https://extensionguy.me/assets/og/home-1200x630.png?v=2">'), 'Valid og:image href');
 
       const jsonLdMatch = content.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
       assert.ok(jsonLdMatch, 'JSON-LD block exists');

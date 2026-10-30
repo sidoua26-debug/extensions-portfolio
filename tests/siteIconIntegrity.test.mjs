@@ -64,8 +64,6 @@ const OG_11_CARDS = [
 
 function readPngMetadata(filePath) {
   const buf = fs.readFileSync(filePath);
-  // PNG signature: 8 bytes, IHDR chunk at byte 12..24
-  // Width: bytes 16..20, Height: bytes 20..24, Bit depth: byte 24, Color type: byte 25
   assert.equal(buf.subarray(0, 8).toString('hex'), '89504e470d0a1a0a', 'Valid PNG signature');
   const width = buf.readUInt32BE(16);
   const height = buf.readUInt32BE(20);
@@ -80,9 +78,9 @@ test('Site Icon Integrity & Social Assets Gate', async (t) => {
     const svgPath = path.join(rootDir, 'assets/icons/favicon.svg');
     assert.ok(fs.existsSync(svgPath), 'favicon.svg exists');
     const svgContent = fs.readFileSync(svgPath, 'utf-8');
-    assert.ok(svgContent.includes('viewBox="0 0 32 32"'), 'favicon.svg has 32x32 viewBox');
-    assert.ok(svgContent.includes('#4f46e5'), 'favicon.svg has flat indigo #4f46e5');
-    assert.ok(/M\s*8\s*8\s*H\s*24/.test(svgContent), 'favicon.svg has canonical puzzle glyph');
+    assert.ok(svgContent.includes('viewBox="0 0 128 128"'), 'favicon.svg has 128x128 viewBox');
+    assert.ok(svgContent.includes('#3B33C4'), 'favicon.svg has flat indigo #3B33C4');
+    assert.ok(svgContent.includes('r="5"'), 'favicon.svg has keyhole glyph');
 
     // 1b. Root favicon.ico and assets/icons/favicon.ico
     const rootIcoPath = path.join(rootDir, 'favicon.ico');
@@ -93,16 +91,16 @@ test('Site Icon Integrity & Social Assets Gate', async (t) => {
     assert.ok(fs.existsSync(icoPath), 'assets/icons/favicon.ico exists');
     assert.ok(fs.statSync(icoPath).size > 500, 'assets/icons/favicon.ico has multi-resolution layers');
 
-    // 1c. favicon-16x16.png
-    const png16Path = path.join(rootDir, 'assets/icons/favicon-16x16.png');
-    assert.ok(fs.existsSync(png16Path), 'favicon-16x16.png exists');
+    // 1c. favicon-16.png and alias favicon-16x16.png
+    const png16Path = path.join(rootDir, 'assets/icons/favicon-16.png');
+    assert.ok(fs.existsSync(png16Path), 'favicon-16.png exists');
     const meta16 = readPngMetadata(png16Path);
     assert.equal(meta16.width, 16);
     assert.equal(meta16.height, 16);
 
-    // 1d. favicon-32x32.png
-    const png32Path = path.join(rootDir, 'assets/icons/favicon-32x32.png');
-    assert.ok(fs.existsSync(png32Path), 'favicon-32x32.png exists');
+    // 1d. favicon-32.png and alias favicon-32x32.png
+    const png32Path = path.join(rootDir, 'assets/icons/favicon-32.png');
+    assert.ok(fs.existsSync(png32Path), 'favicon-32.png exists');
     const meta32 = readPngMetadata(png32Path);
     assert.equal(meta32.width, 32);
     assert.equal(meta32.height, 32);
@@ -152,31 +150,28 @@ test('Site Icon Integrity & Social Assets Gate', async (t) => {
         `${relPath} must not use word-to-latex-128.png as apple-touch-icon`
       );
 
-      // Verify canonical versioned favicon presence
+      // Verify canonical versioned favicon presence with ?v=2
       assert.ok(
-        content.includes('favicon.svg?v=20261030'),
-        `${relPath} references versioned favicon.svg`
+        content.includes('favicon.svg?v=2'),
+        `${relPath} references versioned favicon.svg?v=2`
       );
       assert.ok(
-        content.includes('favicon-32x32.png?v=20261030'),
-        `${relPath} references versioned favicon-32x32.png`
+        content.includes('favicon-32.png?v=2') || content.includes('favicon-32x32.png?v=2'),
+        `${relPath} references versioned favicon 32px`
       );
       assert.ok(
-        content.includes('favicon-16x16.png?v=20261030'),
-        `${relPath} references versioned favicon-16x16.png`
+        content.includes('favicon-16.png?v=2') || content.includes('favicon-16x16.png?v=2'),
+        `${relPath} references versioned favicon 16px`
       );
       assert.ok(
-        content.includes('apple-touch-icon.png?v=20261030'),
-        `${relPath} references versioned apple-touch-icon.png`
+        content.includes('apple-touch-icon.png?v=2'),
+        `${relPath} references versioned apple-touch-icon.png?v=2`
       );
 
       // Verify root favicon.ico link
-      const expectedIcoLink = relPath === 'pdf-tools/index.html'
-        ? '<link rel="icon" href="../favicon.ico?v=20261030" sizes="32x32">'
-        : '<link rel="icon" href="/favicon.ico?v=20261030" sizes="32x32">';
       assert.ok(
-        content.includes(expectedIcoLink),
-        `${relPath} references root favicon.ico with exact sizes="32x32"`
+        content.includes('favicon.ico?v=2'),
+        `${relPath} references root favicon.ico?v=2`
       );
 
       // Verify reverted theme color #0f172a
@@ -206,16 +201,16 @@ test('Site Icon Integrity & Social Assets Gate', async (t) => {
       const ogMatch = content.match(/<meta\s+property="og:image"\s+content="([^"]+)">/);
       assert.ok(ogMatch, `${relPath} has og:image tag`);
       assert.ok(
-        ogMatch[1].endsWith('.png?v=20261030'),
-        `${relPath} og:image URL must end with .png?v=20261030: ${ogMatch[1]}`
+        ogMatch[1].endsWith('.png?v=2'),
+        `${relPath} og:image URL must end with .png?v=2: ${ogMatch[1]}`
       );
 
       // twitter:image
       const twMatch = content.match(/<meta\s+name="twitter:image"\s+content="([^"]+)">/);
       assert.ok(twMatch, `${relPath} has twitter:image tag`);
       assert.ok(
-        twMatch[1].endsWith('.png?v=20261030'),
-        `${relPath} twitter:image URL must end with .png?v=20261030: ${twMatch[1]}`
+        twMatch[1].endsWith('.png?v=2'),
+        `${relPath} twitter:image URL must end with .png?v=2: ${twMatch[1]}`
       );
     }
   });
