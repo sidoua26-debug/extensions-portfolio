@@ -160,7 +160,7 @@
           Most bulk downloaders require excessive browser permissions, inject adware into pages, or route your file links through third-party tracking redirectors.
         </p>
         <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px;">
-          BulkGrab streams downloads directly from the source host website into your browser storage and packages ZIP archives locally on-device using JSZip. No download URLs, filenames, or content metadata are ever logged.
+          BulkGrab streams downloads directly from source host websites into your browser download storage and packages ZIP archives locally on-device using JSZip. The extension sends no download URLs, filenames, or file contents to the developer. When downloading files or assembling local ZIP archives, your browser connects directly to the third-party web servers hosting the files using your existing browser session (which may send your cookies for those destination sites). Only optional Pro licensing contacts the developer's Cloudflare Worker to verify a payment ID.
         </p>
       </section>
 
@@ -250,7 +250,11 @@
           </div>
           <div style="padding: 16px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
             <strong style="display: block; font-size: 1rem; margin-bottom: 6px;">Does BulkGrab send my download links to external servers?</strong>
-            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">No. Your browser requests downloads directly from the source site; they do not pass through our servers.</p>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">BulkGrab sends no download URLs, filenames, or file contents to the developer. Direct downloads and ZIP assembly connect directly from your browser to the respective third-party file hosts using your existing browser session (which may send cookies for those destinations). The developer receives no file contents, page URLs, or download histories (optional Pro upgrades send only a payment ID and product identifier to our Cloudflare Worker licensing service).</p>
+          </div>
+          <div style="padding: 16px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
+            <strong style="display: block; font-size: 1rem; margin-bottom: 6px;">What are the free tier limits and how does Pro licensing work?</strong>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">The free tier lets you download up to 7 files per browser session (including ZIP archiving for up to 7 files; the counter resets when the browser session closes). The optional Pro upgrade ($9.99 USD, settled in USDT on Binance Smart Chain via NOWPayments) unlocks unlimited downloads and batch ZIP archiving. The Pro license activates on your device permanently without requiring an account.</p>
           </div>
           <div style="padding: 16px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
             <strong style="display: block; font-size: 1rem; margin-bottom: 6px;">Is BulkGrab available on Chrome and Edge?</strong>

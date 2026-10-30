@@ -172,19 +172,19 @@
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
           <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
             <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Virtualized Grid Support</h3>
-            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Detects and extracts dynamic table implementations like AG Grid, React Virtualized, and interactive data grids.</p>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Detects and extracts dynamic table implementations like AG Grid, React Virtualized, and interactive data grids (available with optional Pro upgrade).</p>
           </div>
           <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
             <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Multi-Format Export</h3>
-            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">One-click export to formatted Excel (.xlsx), UTF-8 comma-separated (.csv), or structured JSON arrays.</p>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Export to formatted Excel (.xlsx), UTF-8 comma-separated (.csv), or structured JSON arrays (one at a time on free tier; multi-format and ZIP bundling with Pro).</p>
           </div>
           <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
             <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Column Filtering</h3>
             <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Select, reorder, or exclude specific columns prior to export directly from the extension popup.</p>
           </div>
           <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
-            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">No Server Uploads</h3>
-            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">All extraction and file formatting logic executes on your device inside the local tab.</p>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Client-Side Processing</h3>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Table extraction and file formatting logic execute entirely on your device inside the local tab. The extension developer receives no extracted table data or spreadsheet contents (optional Pro licensing verification transmits only transaction IDs to our Cloudflare Worker).</p>
           </div>
         </div>
       </section>
@@ -247,11 +247,15 @@
         <div style="display: flex; flex-direction: column; gap: 16px;">
           <div style="padding: 16px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
             <strong style="display: block; font-size: 1rem; margin-bottom: 6px;">Can Table Extractor handle dynamic or infinite scroll tables?</strong>
-            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Yes, Table Extractor inspects the DOM tree and handles both standard HTML <code>&lt;table&gt;</code> markup and virtualized container structures.</p>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Yes, Table Extractor inspects the DOM tree and automatically captures dynamic and infinite scroll tables using viewport scrolling (with optional Pro upgrade). To protect browser performance and stability, virtualized capture operates within safety bounds: by default, the capture engine runs for up to 500 scroll steps (a fixed internal cap) and collects up to 5,000 rows. In the extension popup settings, you can adjust the row limit up to a configurable maximum of 50,000 rows.</p>
+          </div>
+          <div style="padding: 16px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
+            <strong style="display: block; font-size: 1rem; margin-bottom: 6px;">What features are free versus optional Pro?</strong>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">The free version extracts standard HTML &lt;table&gt; elements and exports to single formats (CSV, Excel XLSX, or JSON) one at a time. The optional Pro upgrade ($9.99 USD, settled in USDT on Binance Smart Chain via NOWPayments) unlocks virtualized container capture (such as AG Grid and Handsontable), multi-format simultaneous export, and ZIP bundling.</p>
           </div>
           <div style="padding: 16px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
             <strong style="display: block; font-size: 1rem; margin-bottom: 6px;">Does Table Extractor require account creation or API keys?</strong>
-            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">No. It works immediately out of the box. No account or API key is needed.</p>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">No account or API key is needed for core features. Extracted table records remain strictly in your browser memory.</p>
           </div>
           <div style="padding: 16px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
             <strong style="display: block; font-size: 1rem; margin-bottom: 6px;">Is Table Extractor available for Google Chrome as well as Edge?</strong>

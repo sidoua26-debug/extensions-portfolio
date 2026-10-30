@@ -269,4 +269,48 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
       }
     }
   });
+
+  await t.test('10. Absence of misleading absolutes in Table Extractor and BulkGrab copy', () => {
+    const tePath = path.join(rootDir, 'table-extractor', 'index.html');
+    const bgPath = path.join(rootDir, 'bulkgrab', 'index.html');
+    const privPath = path.join(rootDir, 'privacy.html');
+    const siteJsPath = path.join(rootDir, 'assets', 'js', 'site.js');
+
+    const teContent = fs.readFileSync(tePath, 'utf-8');
+    const bgContent = fs.readFileSync(bgPath, 'utf-8');
+    const privContent = fs.readFileSync(privPath, 'utf-8');
+    const siteJsContent = fs.readFileSync(siteJsPath, 'utf-8');
+
+    // Forbidden unhedged absolutes for BulkGrab
+    assert.ok(!bgContent.includes('BulkGrab operates no servers'), 'BulkGrab page avoids absolute "operates no servers"');
+    assert.ok(!bgContent.includes('Zero developer logging'), 'BulkGrab page avoids "Zero developer logging"');
+    assert.ok(!bgContent.includes('operates no tracking or proxy servers'), 'BulkGrab page avoids unqualified "no tracking or proxy servers"');
+    assert.ok(!privContent.includes('BulkGrab operates no servers'), 'privacy.html avoids "BulkGrab operates no servers"');
+
+    // Forbidden unhedged absolutes for Table Extractor
+    assert.ok(!teContent.includes('No Server Uploads'), 'Table Extractor avoids absolute heading "No Server Uploads"');
+    assert.ok(!teContent.includes('zero user accounts, API keys, or cloud telemetry'), 'Table Extractor FAQ avoids absolute zero telemetry phrase');
+    assert.ok(teContent.includes('No account or API key is needed for core features'), 'Table Extractor uses qualified core features phrasing');
+
+    // site.js preview text checks
+    assert.ok(!siteJsContent.includes('100% browser-local extraction without sending page content to any server'), 'site.js avoids absolute 100% browser-local claim');
+    assert.ok(!siteJsContent.includes('Direct browser downloads with zero intermediary servers'), 'site.js avoids absolute zero intermediary servers claim');
+  });
+
+  await t.test('11. Consistency of row/step limits and Free vs Pro tier gating', () => {
+    const tePath = path.join(rootDir, 'table-extractor', 'index.html');
+    const bgPath = path.join(rootDir, 'bulkgrab', 'index.html');
+    const teContent = fs.readFileSync(tePath, 'utf-8');
+    const bgContent = fs.readFileSync(bgPath, 'utf-8');
+
+    // Table Extractor limits: default 500 steps, default 5,000 rows, configurable up to 50,000 rows
+    assert.ok(teContent.includes('500 scroll steps'), 'Table Extractor discloses 500 step cap');
+    assert.ok(teContent.includes('5,000 rows'), 'Table Extractor discloses default 5,000 row limit');
+    assert.ok(teContent.includes('50,000 rows'), 'Table Extractor discloses configurable maximum 50,000 row limit');
+
+    // Pro gating disclosures
+    assert.ok(teContent.includes('optional Pro upgrade'), 'Table Extractor clearly marks virtualized capture as optional Pro');
+    assert.ok(bgContent.includes('7 files per browser session'), 'BulkGrab discloses 7 files per browser session limit');
+    assert.ok(bgContent.includes('counter resets when the browser session closes'), 'BulkGrab clarifies session reset behavior');
+  });
 });
