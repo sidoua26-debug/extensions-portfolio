@@ -4,6 +4,14 @@ Visual Redesign Generator for Extensions Portfolio
 Crafted as an editorial-quality, modern, privacy-first software developer portfolio.
 """
 
+import json
+from pathlib import Path
+
+# Load published store versions (source of truth)
+REPO_ROOT = Path(__file__).resolve().parent
+with open(REPO_ROOT / "store-versions.json", "r", encoding="utf-8") as f:
+    store_versions = json.load(f)
+
 html = r"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,7 +85,7 @@ html = r"""<!DOCTYPE html>
       "@type": "SoftwareApplication",
       "@id": "https://extensionguy.me/#word-to-latex",
       "name": "Word to LaTeX (Offline)",
-      "softwareVersion": "1.0.5",
+      "softwareVersion": "1.0.6",
       "operatingSystem": "Any, with Microsoft Edge",
       "applicationCategory": "BrowserApplication",
       "description": "Converts Microsoft Word (.docx) documents, tables, and math into clean LaTeX: runs fully offline, nothing leaves your device.",
@@ -95,7 +103,7 @@ html = r"""<!DOCTYPE html>
       "@type": "SoftwareApplication",
       "@id": "https://extensionguy.me/#table-extractor",
       "name": "Table Extractor",
-      "softwareVersion": "1.2.0",
+      "softwareVersion": "1.0.1",
       "operatingSystem": "Any, with Microsoft Edge or Google Chrome",
       "applicationCategory": "BrowserApplication",
       "description": "Extracts HTML tables and virtualized AG Grid containers into CSV, Excel (XLSX), and JSON arrays locally in browser memory.",
@@ -108,7 +116,6 @@ html = r"""<!DOCTYPE html>
       "@type": "SoftwareApplication",
       "@id": "https://extensionguy.me/#bulkgrab",
       "name": "BulkGrab",
-      "softwareVersion": "1.1.2",
       "operatingSystem": "Any, with Microsoft Edge or Google Chrome",
       "applicationCategory": "BrowserApplication",
       "description": "Deep-scans webpages for downloadable files, filters by extension, and bundles them into a ZIP archive directly on your device.",
@@ -121,7 +128,6 @@ html = r"""<!DOCTYPE html>
       "@type": "SoftwareApplication",
       "@id": "https://extensionguy.me/#seo-inspector",
       "name": "SEO Inspector",
-      "softwareVersion": "1.3.1",
       "operatingSystem": "Any, with Microsoft Edge",
       "applicationCategory": "BrowserApplication",
       "description": "On-page technical SEO diagnostics evaluating headings, meta tags, OpenGraph, JSON-LD schema, and Navigation Timing Web Vitals in 1 click.",
@@ -139,7 +145,6 @@ html = r"""<!DOCTYPE html>
       "@type": "SoftwareApplication",
       "@id": "https://extensionguy.me/#bilexi",
       "name": "Bilexi",
-      "softwareVersion": "1.0.0",
       "operatingSystem": "Any, with Microsoft Edge",
       "applicationCategory": "BrowserApplication",
       "description": "Offline bilingual English/French autocorrect extension with instant accent restoration, elision repair, and no telemetry.",
@@ -157,7 +162,6 @@ html = r"""<!DOCTYPE html>
       "@type": "SoftwareApplication",
       "@id": "https://extensionguy.me/#tab-vault",
       "name": "Tab Vault",
-      "softwareVersion": "1.0.0",
       "operatingSystem": "Any, with Microsoft Edge",
       "applicationCategory": "BrowserApplication",
       "description": "Local tab manager and memory saver for Microsoft Edge that suspends inactive tabs, reclaims browser memory, and stores sessions locally on-device.",
@@ -430,7 +434,7 @@ html = r"""<!DOCTYPE html>
             <div class="flex-wrap-gap-8">
               <span class="badge badge-edge">Published on Edge Add-ons</span>
               <span class="badge badge-subtle">No Special Permissions</span>
-              <span class="badge badge-w2l">Version 1.0.6</span>
+              <span class="badge badge-w2l">Published versions: Edge v1.0.6 · Chrome v1.0.6</span>
             </div>
 
             <div class="benefit-group">
@@ -527,7 +531,7 @@ html = r"""<!DOCTYPE html>
               </div>
 
               <div class="card-meta-row">
-                <a href="/changelog/#word-to-latex" target="_blank" rel="noopener noreferrer" class="card-changelog-link">Changelog (v1.0.6)</a>
+                <a href="/changelog/#word-to-latex" target="_blank" rel="noopener noreferrer" class="card-changelog-link">Changelog</a>
               </div>
 
               <div class="card-benefit-quote">
@@ -561,7 +565,7 @@ html = r"""<!DOCTYPE html>
                 <a href="/word-to-latex/" class="btn btn-ghost btn-sm">Product details</a>
               </div>
             </div>
-            <div class="card-version-micro">v1.0.6 &middot; Updated Oct 2026</div>
+            <div class="card-version-micro">Published versions: Edge v1.0.6 · Chrome v1.0.6</div>
           </article>
 
           <!-- Product 2: Table Extractor -->
@@ -582,7 +586,7 @@ html = r"""<!DOCTYPE html>
 
               <div class="card-meta-row">
                 <span class="card-rating" aria-label="Rated 5.0 out of 5 stars">★★★★★ 5.0 (Edge Add-ons)</span>
-                <a href="/changelog/#table-extractor" target="_blank" rel="noopener noreferrer" class="card-changelog-link">Changelog (v1.2.0)</a>
+                <a href="/changelog/#table-extractor" target="_blank" rel="noopener noreferrer" class="card-changelog-link">Changelog</a>
               </div>
 
               <div class="card-benefit-quote">
@@ -616,7 +620,7 @@ html = r"""<!DOCTYPE html>
                 <a href="/table-extractor/" class="btn btn-ghost btn-sm">Product details</a>
               </div>
             </div>
-            <div class="card-version-micro">v1.2.0 &middot; Updated Oct 2026</div>
+            <div class="card-version-micro">Published versions: Edge v1.0.1 · Chrome v1.0.1</div>
           </article>
 
           <!-- Product 3: BulkGrab -->
@@ -637,7 +641,7 @@ html = r"""<!DOCTYPE html>
 
               <div class="card-meta-row">
                 <span class="card-rating" aria-label="Rated 5.0 out of 5 stars">★★★★★ 5.0 (Edge Add-ons)</span>
-                <a href="/changelog/#bulkgrab" target="_blank" rel="noopener noreferrer" class="card-changelog-link">Changelog (v1.1.2)</a>
+                <a href="/changelog/#bulkgrab" target="_blank" rel="noopener noreferrer" class="card-changelog-link">Changelog</a>
               </div>
 
               <div class="card-benefit-quote">
@@ -671,7 +675,7 @@ html = r"""<!DOCTYPE html>
                 <a href="/bulkgrab/" class="btn btn-ghost btn-sm">Product details</a>
               </div>
             </div>
-            <div class="card-version-micro">v1.1.2 &middot; Updated Oct 2026</div>
+            <div class="card-version-micro">Published versions: Edge v1.0.0 · Chrome v1.0.3</div>
           </article>
 
           <!-- Product 4: SEO Inspector -->
@@ -691,7 +695,7 @@ html = r"""<!DOCTYPE html>
               </div>
 
               <div class="card-meta-row">
-                <a href="/changelog/#seo-inspector" target="_blank" rel="noopener noreferrer" class="card-changelog-link">Changelog (v1.3.1)</a>
+                <a href="/changelog/#seo-inspector" target="_blank" rel="noopener noreferrer" class="card-changelog-link">Changelog</a>
               </div>
 
               <div class="card-benefit-quote">
@@ -724,7 +728,7 @@ html = r"""<!DOCTYPE html>
                 <a href="/seo-inspector/" class="btn btn-ghost btn-sm">Product details</a>
               </div>
             </div>
-            <div class="card-version-micro">v1.3.1 &middot; Updated Oct 2026</div>
+            <div class="card-version-micro">Published versions: Edge v1.0.0</div>
           </article>
 
           <!-- Product 5: Bilexi -->
@@ -744,7 +748,7 @@ html = r"""<!DOCTYPE html>
               </div>
 
               <div class="card-meta-row">
-                <a href="/changelog/#bilexi" target="_blank" rel="noopener noreferrer" class="card-changelog-link">Changelog (v1.0.0)</a>
+                <a href="/changelog/#bilexi" target="_blank" rel="noopener noreferrer" class="card-changelog-link">Changelog</a>
               </div>
 
               <div class="card-benefit-quote">
@@ -777,7 +781,7 @@ html = r"""<!DOCTYPE html>
                 <a href="/bilexi/" class="btn btn-ghost btn-sm">Product details</a>
               </div>
             </div>
-            <div class="card-version-micro">v1.0.0 &middot; Updated Oct 2026</div>
+            <div class="card-version-micro">Published versions: Edge v0.5.0</div>
           </article>
 
           <!-- Product 6: Tab Vault -->
@@ -797,7 +801,7 @@ html = r"""<!DOCTYPE html>
               </div>
 
               <div class="card-meta-row">
-                <a href="/changelog/#tab-vault" target="_blank" rel="noopener noreferrer" class="card-changelog-link">Changelog (v1.0.0)</a>
+                <a href="/changelog/#tab-vault" target="_blank" rel="noopener noreferrer" class="card-changelog-link">Changelog</a>
               </div>
 
               <div class="card-benefit-quote">
@@ -830,7 +834,7 @@ html = r"""<!DOCTYPE html>
                 <a href="/tab-vault/" class="btn btn-ghost btn-sm">Product details</a>
               </div>
             </div>
-            <div class="card-version-micro">v1.0.0 &middot; Updated Oct 2026</div>
+            <div class="card-version-micro">Published versions: Edge v1.0.0</div>
           </article>
         </div>
         <div class="card-feature-spotlight" style="margin-top: 32px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: clamp(20px, 3vw, 28px); box-shadow: var(--shadow-sm); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
@@ -1236,7 +1240,26 @@ html = r"""<!DOCTYPE html>
 </html>
 """
 
-with open("/home/sid/.gemini/antigravity/scratch/extensions-portfolio/index.html", "w", encoding="utf-8") as f:
+# Verification: ensure all expected store versions from store-versions.json appear in html
+def get_expected_version_badge(key):
+    data = store_versions[key]
+    if data.get("is_web_tool"):
+        return None
+    stores = data["stores"]
+    parts = []
+    if "edge" in stores:
+        parts.append(f"Edge v{stores['edge']['version']}")
+    if "chrome" in stores:
+        parts.append(f"Chrome v{stores['chrome']['version']}")
+    return f"Published versions: {' · '.join(parts)}"
+
+for key in ["word-to-latex", "table-extractor", "bulkgrab", "seo-inspector", "bilexi", "tab-vault"]:
+    expected_badge = get_expected_version_badge(key)
+    assert expected_badge in html, f"Missing expected badge '{expected_badge}' in html for {key}"
+
+assert "Updated Oct" not in html, "Stale date label 'Updated Oct' still present in html"
+
+with open(REPO_ROOT / "index.html", "w", encoding="utf-8") as f:
     f.write(html)
 
-print("Redesigned index.html successfully created!")
+print("Redesigned index.html successfully created and verified against store-versions.json!")

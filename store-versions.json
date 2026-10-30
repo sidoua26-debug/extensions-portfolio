@@ -1,0 +1,72 @@
+{
+  "word-to-latex": {
+    "name": "Word to LaTeX (Offline)",
+    "stores": {
+      "edge": {
+        "version": "1.0.6",
+        "updated": ""
+      },
+      "chrome": {
+        "version": "1.0.6",
+        "updated": ""
+      }
+    }
+  },
+  "table-extractor": {
+    "name": "Table Extractor",
+    "stores": {
+      "edge": {
+        "version": "1.0.1",
+        "updated": ""
+      },
+      "chrome": {
+        "version": "1.0.1",
+        "updated": ""
+      }
+    }
+  },
+  "bulkgrab": {
+    "name": "BulkGrab",
+    "stores": {
+      "edge": {
+        "version": "1.0.0",
+        "updated": ""
+      },
+      "chrome": {
+        "version": "1.0.3",
+        "updated": ""
+      }
+    }
+  },
+  "seo-inspector": {
+    "name": "SEO Inspector",
+    "stores": {
+      "edge": {
+        "version": "1.0.0",
+        "updated": ""
+      }
+    }
+  },
+  "bilexi": {
+    "name": "Bilexi",
+    "stores": {
+      "edge": {
+        "version": "0.5.0",
+        "updated": ""
+      }
+    }
+  },
+  "tab-vault": {
+    "name": "Tab Vault",
+    "stores": {
+      "edge": {
+        "version": "1.0.0",
+        "updated": ""
+      }
+    }
+  },
+  "offline-pdf-tools": {
+    "name": "Offline PDF Tools",
+    "is_web_tool": true
+  }
+}
