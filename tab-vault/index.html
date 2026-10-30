@@ -180,7 +180,7 @@
           </div>
           <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
             <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Defense-in-Depth Disaster Recovery</h3>
-            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Rolling 5-state safety snapshots and automated backup rotation to Downloads protect your tabs against profile corruption.</p>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Rolling 5-state safety snapshots and automated 3-file rotating backups to your Downloads folder protect saved tabs against profile corruption.</p>
           </div>
           <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
             <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Instant Search &amp; Omnibox</h3>
@@ -232,13 +232,13 @@
             </div>
 
             <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
-              <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Rolling Snapshots</h3>
-              <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Maintains rolling local snapshots and JSON backup rotation so sessions are protected against unexpected loss.</p>
+              <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Automatic Backups</h3>
+              <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Saves unencrypted 3-slot rotating JSON backups to Downloads daily and after stashes so saved tabs survive profile loss.</p>
             </div>
 
             <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
               <h3 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; color: var(--text-main);">Local Storage Only</h3>
-              <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Tab titles and URLs are stored purely in chrome.storage.local on your device; no cloud sync.</p>
+              <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Saved tab titles, URLs, and settings reside in chrome.storage.local on your device; zero cloud synchronization.</p>
             </div>
 
         </div>
@@ -254,11 +254,11 @@
             <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Open browser tabs consume significant RAM and CPU cycles for DOM trees, running scripts, and cached media. Tab Vault converts open tabs into lightweight, persistent list items, freeing system memory while keeping your links instantly searchable and restorable.</p>
           </div>
           <div style="padding: 16px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);"><strong style="display: block; font-size: 1rem; margin-bottom: 6px;">Does Tab Vault transmit my tabs or browsing history to any server?</strong>
-            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Tab Vault operates 100% locally on your machine with no remote network calls, no analytics trackers, and no external servers. All saved tab collections remain in your browser local storage.</p>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Tab Vault operates 100% locally on your machine with no remote network calls, no analytics trackers, and no external servers. Tab Vault does not request the browser <code>history</code> permission and does not access or track your general browsing history—it accesses open tabs only when you explicitly stash or organize them. All saved tab collections remain strictly in local extension storage (<code>chrome.storage.local</code>).</p>
           </div>
           <div style="padding: 16px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
             <strong style="display: block; font-size: 1rem; margin-bottom: 6px;">How does Tab Vault protect against tab loss and browser profile crashes?</strong>
-            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Tab Vault features defense-in-depth disaster recovery, maintaining a 5-state rolling snapshot buffer and automated rotating backups in your local Downloads folder to protect your research sessions against unexpected loss.</p>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Tab Vault features defense-in-depth disaster recovery. In addition to a 5-state in-memory snapshot buffer in <code>chrome.storage.local</code>, it automatically writes rotating backup files to your browser's default download folder across three fixed filenames: <code>tab-vault-backup-1.json</code>, <code>tab-vault-backup-2.json</code>, and <code>tab-vault-backup-3.json</code>. These automated backups run in the background once every 24 hours and 5 minutes after session collapses (in addition to manual exports initiated from the dashboard). The backups are unencrypted JSON files containing saved tab URLs, query parameters, page titles, and timestamps (incognito tabs are excluded).</p>
           </div>
         </div>
       </section>

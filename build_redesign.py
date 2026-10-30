@@ -819,7 +819,7 @@ html = r"""<!DOCTYPE html>
               <ul class="card-points">
                 <li>Instant tab suspension reclaiming browser memory</li>
                 <li>Searchable vaults, rolling crash-resilient auto-snapshots</li>
-                <li>100% on-device IndexedDB storage &amp; no external telemetry requests</li>
+                <li>100% on-device local extension storage (chrome.storage.local) &amp; no external telemetry requests</li>
               </ul>
             </div>
 
