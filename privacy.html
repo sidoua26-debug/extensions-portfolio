@@ -329,9 +329,15 @@
     <h3 id="seo-inspector">SEO Inspector</h3>
     <ul>
       <li><strong>Data Processed:</strong> On-page technical metadata from the active tab: title tags, meta descriptions, canonical URLs, heading structure (H1–H6), Open Graph tags, JSON-LD structured data scripts, and browser Performance / Navigation Timing benchmarks (TTFB, DOMContentLoaded, load time).</li>
-      <li><strong>Processing Location:</strong> Client-side inspection within browser memory.</li>
-      <li><strong>Network Transmission:</strong> None. Evaluates active tab DOM and Performance Navigation Timing APIs locally; declares no host permissions or remote telemetry endpoints.</li>
-      <li><strong>Storage &amp; Permissions:</strong> Uses <code>activeTab</code> and <code>scripting</code> on demand. User preferences (such as display options) are saved locally via <code>chrome.storage.local</code>, remaining on your device.</li>
+      <li><strong>Processing Location:</strong> Client-side inspection in temporary browser memory. Diagnostic calculations and DOM extraction run within the tab context while the popup is open and are discarded upon closing.</li>
+      <li><strong>Network Transmission, Telemetry &amp; External Links:</strong> The extension operates no developer-controlled backend servers, analytics endpoints, or remote telemetry infrastructure; the developer receives zero browsing data or audit findings. If the user explicitly clicks the optional external audit button ("Open in Google PageSpeed Insights") or Schema testing links, the inspected page URL is passed to Google or Schema.org in an external browser tab under their respective privacy policies. No URLs are transmitted in the background.</li>
+      <li><strong>Storage Architecture &amp; Browser Profile Synchronization:</strong>
+        <ul>
+          <li><em>User Preferences via <code>chrome.storage.sync</code>:</em> User settings (such as custom audit thresholds, report branding/auditor name, and display preferences) are saved using <code>chrome.storage.sync</code>. When browser account synchronization is enabled by the user in Microsoft Edge or Google Chrome, these settings may synchronize across your signed-in browser instances through your browser account provider (Microsoft or Google). Page contents, audit results, and browsing history are never stored or synchronized.</li>
+          <li><em>Local Storage &amp; Legacy API Key Migration (<code>chrome.storage.local</code>):</em> Starting with extension version 1.0.1, any legacy Google PageSpeed Insights API key previously entered by the user is migrated to device-local storage (<code>chrome.storage.local</code>) and excluded from future sync payloads to keep it on the local device. This migration strips the key from future sync writes on that device, though it does not guarantee that historical synced copies stored by the browser provider across other unsynchronized devices have been erased everywhere. The Google PageSpeed API integration is inactive in this version and key entry is disabled.</li>
+        </ul>
+      </li>
+      <li><strong>Permissions:</strong> Uses <code>activeTab</code> and <code>scripting</code> to inspect active-tab DOM and navigation metrics on demand, and <code>storage</code> for user preference synchronization and local key preservation.</li>
     </ul>
 
     <h3 id="bilexi">Bilexi</h3>

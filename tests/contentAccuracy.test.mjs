@@ -110,6 +110,14 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
     // Must accurately describe Navigation Timing & performance metrics
     assert.ok(seoContent.includes('Navigation Timing diagnostics') || seoContent.includes('page timing metrics'), 'Accurately describes navigation timing metrics');
     assert.ok(indexContent.includes('Navigation Timing & performance'), 'Homepage describes Navigation Timing & performance');
+
+    // Privacy policy assertions for SEO Inspector
+    const privacyPath = path.join(rootDir, 'privacy.html');
+    const privacyContent = fs.readFileSync(privacyPath, 'utf-8');
+    const seoPrivSection = privacyContent.slice(privacyContent.indexOf('id="seo-inspector"'), privacyContent.indexOf('id="bilexi"'));
+    assert.ok(seoPrivSection.includes('chrome.storage.sync'), 'privacy.html discloses SEO Inspector user preferences via chrome.storage.sync');
+    assert.ok(seoPrivSection.includes('chrome.storage.local'), 'privacy.html discloses SEO Inspector local key migration');
+    assert.ok(!seoPrivSection.includes('saved locally via <code>chrome.storage.local</code>, remaining on your device'), 'privacy.html avoids obsolete pure-local storage claim for SEO Inspector');
   });
 
   await t.test('4. Bilexi competitor and network claims', () => {
