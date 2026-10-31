@@ -144,7 +144,7 @@ html = r"""<!DOCTYPE html>
       "name": "SEO Inspector",
       "operatingSystem": "Any, with Microsoft Edge",
       "applicationCategory": "BrowserApplication",
-      "description": "On-page technical SEO diagnostics evaluating headings, meta tags, OpenGraph, JSON-LD schema, and Navigation Timing Web Vitals in 1 click.",
+      "description": "On-page technical SEO diagnostics evaluating headings, meta tags, OpenGraph, JSON-LD schema, and Navigation Timing & performance in 1 click.",
       "downloadUrl": "https://microsoftedge.microsoft.com/addons/detail/seo-inspector-meta-tags/jbnjjkfkcmfkjamakndojbkjanijlfmd",
       "offers": {
         "@type": "Offer",
@@ -722,7 +722,7 @@ html = r"""<!DOCTYPE html>
               </div>
 
               <div class="card-benefit-quote">
-                <strong>Main Benefit:</strong> Instant on-page audit evaluating headings, meta, canonical tags, and Web Vitals in a single click.
+                <strong>Main Benefit:</strong> Instant on-page audit evaluating headings, meta, canonical tags, and page timing metrics in a single click.
               </div>
 
               <div class="card-screenshot-wrap">

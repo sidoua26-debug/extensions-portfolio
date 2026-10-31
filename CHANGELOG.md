@@ -43,7 +43,7 @@ All official release milestones for extensions published by ExtensionGuy.
   - 9 comprehensive technical SEO diagnostic tabs.
   - Heading hierarchy tree visualizer (H1-H6).
   - Schema.org JSON-LD parser and syntax validator.
-  - Web Vitals benchmarks via Navigation Timing API.
+  - Performance benchmarks via Navigation Timing API (TTFB, DOMContentLoaded, Load).
 - **v1.0.0**
   - Initial release on Microsoft Edge Add-ons.
 

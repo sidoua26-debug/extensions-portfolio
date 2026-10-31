@@ -95,6 +95,23 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
     assert.ok(!content.includes('zero cloud synchronization'), 'tab-vault/index.html does not claim zero cloud synchronization');
   });
 
+  await t.test('3b. SEO Inspector performance claims accuracy', () => {
+    const seoPath = path.join(rootDir, 'seo-inspector', 'index.html');
+    const seoContent = fs.readFileSync(seoPath, 'utf-8');
+    const indexPath = path.join(rootDir, 'index.html');
+    const indexContent = fs.readFileSync(indexPath, 'utf-8');
+
+    // Must NOT claim direct Core Web Vitals measurement or conflate Navigation Timing with Web Vitals
+    assert.ok(!seoContent.includes('Navigation Timing Web Vitals'), 'seo-inspector/index.html avoids conflated "Navigation Timing Web Vitals"');
+    assert.ok(!indexContent.includes('Navigation Timing Web Vitals'), 'index.html avoids conflated "Navigation Timing Web Vitals"');
+    assert.ok(!seoContent.includes('evaluating headings, meta tags, OpenGraph previews, schema, and Web Vitals'), 'seo-inspector avoids unverified "and Web Vitals" claim');
+    assert.ok(!indexContent.includes('tags, and Web Vitals in a single click'), 'index.html avoids "and Web Vitals in a single click"');
+
+    // Must accurately describe Navigation Timing & performance metrics
+    assert.ok(seoContent.includes('Navigation Timing diagnostics') || seoContent.includes('page timing metrics'), 'Accurately describes navigation timing metrics');
+    assert.ok(indexContent.includes('Navigation Timing & performance'), 'Homepage describes Navigation Timing & performance');
+  });
+
   await t.test('4. Bilexi competitor and network claims', () => {
     const bilexiPath = path.join(rootDir, 'bilexi', 'index.html');
     const content = fs.readFileSync(bilexiPath, 'utf-8');
