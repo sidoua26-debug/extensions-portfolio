@@ -55,16 +55,44 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
   await t.test('3. Tab Vault recovery and performance claims', () => {
     const tabVaultPath = path.join(rootDir, 'tab-vault', 'index.html');
     const content = fs.readFileSync(tabVaultPath, 'utf-8');
+    const indexPath = path.join(rootDir, 'index.html');
+    const indexContent = fs.readFileSync(indexPath, 'utf-8');
 
     // Must NOT contain unsupported absolute claims like 95% or disaster-proof
     assert.ok(!content.includes('95%'), 'Does not contain unverified 95% memory savings claim');
     assert.ok(!content.toLowerCase().includes('disaster-proof'), 'Does not claim disaster-proof recovery');
     assert.ok(!content.includes('can never be accidentally wiped'), 'Does not claim sessions can never be wiped');
+    assert.ok(!content.includes('survive profile loss'), 'Does not claim sessions survive profile loss');
+    assert.ok(!content.includes('protect saved tabs against profile corruption'), 'Does not claim protection against profile corruption');
+
+    // Must NOT claim tab suspension (Tab Vault closes tabs, does not suspend)
+    assert.ok(!content.toLowerCase().includes('suspending unloaded background tabs'), 'Does not claim suspending background tabs');
+    assert.ok(!indexContent.includes('Instant tab suspension'), 'Homepage does not claim tab suspension');
+    assert.ok(!indexContent.includes('suspends inactive tabs'), 'Homepage JSON-LD does not claim tab suspension');
+
+    // Must pass the 110-155 character meta description gate
+    const metaDescMatch = content.match(/<meta\s+name="description"\s+content="([^"]+)"/i);
+    assert.ok(metaDescMatch, 'Tab Vault has meta description');
+    const metaDescLength = metaDescMatch[1].length;
+    assert.ok(
+      metaDescLength >= 110 && metaDescLength <= 155,
+      `Tab Vault meta description length (${metaDescLength}) must be between 110 and 155 characters`
+    );
 
     // Must accurately describe actual defense-in-depth mechanisms
     assert.ok(content.includes('rolling snapshots'), 'Mentions verified rolling snapshots');
     assert.ok(content.includes('automated'), 'Mentions automated backups');
     assert.ok(content.includes('Crash-Resilient'), 'Uses calibrated crash-resilient terminology');
+
+    // Privacy policy assertions for Tab Vault
+    const privacyPath = path.join(rootDir, 'privacy.html');
+    const privacyContent = fs.readFileSync(privacyPath, 'utf-8');
+    assert.ok(privacyContent.includes('hasSavedTabs'), 'privacy.html discloses hasSavedTabs sync key');
+    assert.ok(privacyContent.includes('lastKnownTabCount'), 'privacy.html discloses lastKnownTabCount sync key');
+    assert.ok(privacyContent.includes('lastUpdated'), 'privacy.html discloses lastUpdated sync key');
+    assert.ok(privacyContent.includes('chrome.storage.sync'), 'privacy.html discloses chrome.storage.sync');
+    assert.ok(privacyContent.includes('unencrypted'), 'privacy.html discloses unencrypted JSON backups');
+    assert.ok(!content.includes('zero cloud synchronization'), 'tab-vault/index.html does not claim zero cloud synchronization');
   });
 
   await t.test('4. Bilexi competitor and network claims', () => {
