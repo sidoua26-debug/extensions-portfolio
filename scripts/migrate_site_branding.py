@@ -57,16 +57,18 @@ PAGE_OG_MAP = {
 
 def get_canonical_favicons(prefix: str, is_pdf_tools: bool = False) -> str:
     ico_href = "../favicon.ico?v=2" if is_pdf_tools else "/favicon.ico?v=2"
-    return f"""  <link rel="icon" type="image/svg+xml" href="{prefix}assets/icons/favicon.svg?v=2">
+    return f"""  <link rel="icon" type="image/png" sizes="96x96" href="{prefix}assets/icons/favicon-96.png">
   <link rel="icon" type="image/png" sizes="48x48" href="{prefix}assets/icons/favicon-48.png?v=2">
   <link rel="icon" type="image/png" sizes="32x32" href="{prefix}assets/icons/favicon-32.png?v=2">
   <link rel="icon" type="image/png" sizes="16x16" href="{prefix}assets/icons/favicon-16.png?v=2">
+  <link rel="icon" type="image/svg+xml" href="{prefix}assets/icons/favicon.svg?v=2">
   <link rel="icon" href="{ico_href}" sizes="any">
   <link rel="apple-touch-icon" sizes="180x180" href="{prefix}assets/icons/apple-touch-icon.png?v=2">
   <meta name="theme-color" content="#0f172a">"""
 
 def replace_favicons(content: str, prefix: str, is_pdf_tools: bool = False) -> str:
-    if 'href="assets/icons/favicon.svg?v=2"' in content or 'href="../assets/icons/favicon.svg?v=2"' in content or 'href="../../assets/icons/favicon.svg?v=2"' in content:
+    new_favs = get_canonical_favicons(prefix, is_pdf_tools)
+    if new_favs in content:
         return content
     pattern = re.compile(
         r'(?:  <link rel="icon"[^>]*>\s*)+'
@@ -74,7 +76,6 @@ def replace_favicons(content: str, prefix: str, is_pdf_tools: bool = False) -> s
         r'  <meta name="theme-color"[^>]*>',
         re.DOTALL
     )
-    new_favs = get_canonical_favicons(prefix, is_pdf_tools)
     if pattern.search(content):
         return pattern.sub(new_favs, content, count=1)
     return content

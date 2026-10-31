@@ -105,6 +105,15 @@ test('Site Icon Integrity & Social Assets Gate', async (t) => {
     assert.equal(meta32.width, 32);
     assert.equal(meta32.height, 32);
 
+    // 1d-2. favicon-96.png and alias favicon-96x96.png (Google Search recommended high-res favicon)
+    const png96Path = path.join(rootDir, 'assets/icons/favicon-96.png');
+    assert.ok(fs.existsSync(png96Path), 'favicon-96.png exists');
+    const meta96 = readPngMetadata(png96Path);
+    assert.equal(meta96.width, 96);
+    assert.equal(meta96.height, 96);
+    const png96AliasPath = path.join(rootDir, 'assets/icons/favicon-96x96.png');
+    assert.ok(fs.existsSync(png96AliasPath), 'favicon-96x96.png alias exists');
+
     // 1e. apple-touch-icon.png (180x180, mode RGB, no alpha channel)
     const touchPath = path.join(rootDir, 'assets/icons/apple-touch-icon.png');
     assert.ok(fs.existsSync(touchPath), 'apple-touch-icon.png exists');
@@ -150,7 +159,12 @@ test('Site Icon Integrity & Social Assets Gate', async (t) => {
         `${relPath} must not use word-to-latex-128.png as apple-touch-icon`
       );
 
-      // Verify canonical versioned favicon presence with ?v=2
+      // Verify first preferred Google-compatible favicon is 96x96 PNG
+      const firstIconMatch = content.match(/<link\s+rel="icon"[^>]+>/);
+      assert.ok(
+        firstIconMatch && firstIconMatch[0].includes('favicon-96.png') && firstIconMatch[0].includes('sizes="96x96"'),
+        `${relPath} has 96x96 PNG as first preferred favicon declaration`
+      );
       assert.ok(
         content.includes('favicon.svg?v=2'),
         `${relPath} references versioned favicon.svg?v=2`

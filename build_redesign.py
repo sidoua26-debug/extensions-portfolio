@@ -45,10 +45,11 @@ html = r"""<!DOCTYPE html>
   <meta name="twitter:description" content="Privacy-first Microsoft Edge extensions with local-first processing and no data telemetry.">
   <meta name="twitter:image" content="https://extensionguy.me/assets/og/home-1200x630.png?v=2">
 
-  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/favicon-96.png">
   <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/favicon-48.png?v=2">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png?v=2">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png?v=2">
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg?v=2">
   <link rel="icon" href="/favicon.ico?v=2" sizes="any">
   <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png?v=2">
   <meta name="theme-color" content="#0f172a">
