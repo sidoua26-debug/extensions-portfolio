@@ -812,7 +812,7 @@ html = r"""<!DOCTYPE html>
                 </div>
               </div>
             </div>
-            <div class="card-version-micro">Published versions: Edge&nbsp;v0.5.0</div>
+            <div class="card-version-micro">Published versions: Edge&nbsp;v0.5.1</div>
           </article>
 
           <!-- Product 6: Tab Vault -->
