@@ -344,7 +344,7 @@
     <ul>
       <li><strong>Data Processed:</strong> Text typed or edited in browser input fields, textareas, or content-editable elements where autocorrect is enabled, specifically for French accent restoration and bilingual English/French spelling checks.</li>
       <li><strong>Processing Location:</strong> Local memory processing against bundled binary dictionary files. Keystrokes are evaluated locally without contacting remote language APIs or third-party spellcheck servers.</li>
-      <li><strong>Network Transmission:</strong> Evaluates text locally against bundled offline dictionaries without contacting remote language APIs. Declares optional host permissions (<code>optional_host_permissions: ["*://*/*"]</code>) strictly for on-page text element inspection across web pages.</li>
+      <li><strong>Network Transmission:</strong> Evaluates text locally against bundled offline dictionaries without contacting remote language APIs. Injects content scripts across web pages (<code>content_scripts.matches: ["http://*/*", "https://*/*"]</code>) strictly for on-page text element inspection and autocorrection.</li>
       <li><strong>Storage &amp; Retention:</strong> User-defined custom dictionary words, ignored words, and user preferences are stored strictly on your device via <code>chrome.storage.local</code>. You can view or clear this custom vocabulary at any time through the extension settings.</li>
     </ul>
 
