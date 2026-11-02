@@ -581,12 +581,16 @@ section[role="tabpanel"][hidden] {
   display: flex;
   flex-direction: column;
   gap: 1.15rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .tool-preview-col {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 /* Fieldset Styling */
@@ -595,6 +599,8 @@ fieldset {
   padding: 0;
   border: none;
   background: transparent;
+  min-width: 0;
+  max-width: 100%;
 }
 
 legend {
@@ -615,6 +621,9 @@ legend {
   cursor: pointer;
   transition: all var(--transition-fast);
   position: relative;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .file-drop-zone:hover {
@@ -633,6 +642,7 @@ legend {
   height: 32px;
   margin-bottom: 0.5rem;
   color: var(--accent-primary);
+  flex-shrink: 0;
 }
 
 .drop-prompt {
@@ -640,11 +650,17 @@ legend {
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 0.25rem;
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .drop-subtext {
   font-size: 0.9375rem;
   color: var(--text-secondary);
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 input[type="file"] {
@@ -684,6 +700,9 @@ select {
   border-radius: var(--radius-md);
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 input[type="text"]:focus,
@@ -698,6 +717,8 @@ select:focus {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 0.85rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .input-group {
@@ -784,6 +805,8 @@ button:disabled {
   box-shadow: var(--shadow-xs);
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .preview-card-header {
@@ -793,6 +816,8 @@ button:disabled {
   padding: 0.75rem 1rem;
   background: var(--bg-surface);
   border-bottom: 1px solid var(--border-page);
+  min-width: 0;
+  max-width: 100%;
 }
 
 .preview-card-title {
@@ -811,6 +836,7 @@ button:disabled {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
+  max-width: 100%;
 }
 
 .preview-nav-btn {
@@ -886,6 +912,7 @@ button:disabled {
   border: 1px solid var(--border-page);
   border-radius: var(--radius-sm);
   padding: 3px;
+  max-width: 100%;
 }
 
 .preview-zoom-btn {
@@ -1255,6 +1282,8 @@ button:disabled {
   border: 1px solid var(--border-page);
   border-radius: var(--radius-md);
   padding: 0.85rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .box-form legend {
@@ -1268,8 +1297,14 @@ button:disabled {
 
 .box-form-inputs {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.5rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.box-form-inputs label {
+  min-width: 0;
 }
 
 #redact-add-box {
@@ -1682,8 +1717,9 @@ details ul {
    ========================================================================== */
 
 @media (max-width: 992px) {
-  .tool-workspace-grid {
-    grid-template-columns: 1fr;
+  .tool-workspace-grid,
+  .tool-workspace-grid.preview-expanded {
+    grid-template-columns: minmax(0, 1fr);
     gap: 1.5rem;
   }
 
@@ -1726,8 +1762,9 @@ details ul {
   }
 
   .sub-nav-wrapper {
-    width: 100%;
-    display: flex;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .sub-nav-btn {
@@ -1737,6 +1774,32 @@ details ul {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    white-space: nowrap;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .box-form-inputs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .preview-card-header {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.65rem 0.75rem;
+  }
+
+  .preview-nav-controls {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .preview-zoom-toolbar {
+    max-width: 100%;
+    flex-wrap: wrap;
   }
 
   .preview-nav-btn {
@@ -1792,8 +1855,44 @@ details ul {
     max-width: 100%;
   }
 
+  .app-container {
+    padding: 0.75rem 0.65rem 2rem;
+  }
+
+  section[role="tabpanel"] {
+    padding: 0.85rem;
+  }
+
+  .file-drop-zone {
+    padding: 1.25rem 0.75rem;
+  }
+
+  .box-form {
+    padding: 0.65rem 0.5rem;
+  }
+
   .box-form-inputs {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.4rem;
+  }
+
+  .viewer-bar {
+    padding: 0.5rem 0.35rem;
+    gap: 0.35rem;
+  }
+
+  .viewer-bar button {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.875rem;
+  }
+
+  .preview-zoom-badge {
+    min-width: 40px;
+    padding: 0 0.25rem;
+  }
+
+  .preview-zoom-btn {
+    padding: 0.35rem 0.45rem;
   }
 }
 
