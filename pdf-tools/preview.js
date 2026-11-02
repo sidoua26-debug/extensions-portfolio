@@ -482,6 +482,9 @@ document.addEventListener("DOMContentLoaded", () => {
       b.classList.toggle("active", isTarget);
       b.setAttribute("aria-selected", String(isTarget));
       b.tabIndex = isTarget ? 0 : -1;
+      if (isTarget) {
+        b.scrollIntoView({ behavior: "smooth", inline: "nearest", block: "nearest" });
+      }
     });
     subFieldsets.forEach(fs => {
       if (fs) {
