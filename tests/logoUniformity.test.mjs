@@ -152,7 +152,7 @@ test('Logo Uniformity & Brand Consistency Suite', async (t) => {
     const http = await import('node:http');
     const { chromium } = await import('playwright');
 
-    const CSP_HEADER = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' blob: data:; connect-src 'self' blob: data:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';";
+    const CSP_HEADER = "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://plausible.io; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' blob: data:; connect-src 'self' https://plausible.io blob: data:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none';";
 
     const server = http.createServer((req, res) => {
       const safeUrl = new URL(req.url, 'http://localhost').pathname;

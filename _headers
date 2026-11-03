@@ -7,7 +7,7 @@
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: DENY
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' blob: data:; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none';
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://plausible.io; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' blob: data:; connect-src 'self' https://plausible.io; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none';
 
 # HTML documents: require freshness revalidation on updates
 /
@@ -32,6 +32,9 @@
 
 # Core portfolio UI scripts & styles: require freshness revalidation on updates
 /assets/js/site.js
+  Cache-Control: no-cache, must-revalidate
+
+/assets/js/plausible-init.js
   Cache-Control: no-cache, must-revalidate
 
 /assets/css/styles.css
