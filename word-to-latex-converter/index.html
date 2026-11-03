@@ -461,7 +461,7 @@ Standard inline equations convert to LaTeX math syntax: \(E\  = \ mc^{2}\)</code
             <ul style="margin: 0; padding-left: 18px; color: var(--text-secondary); line-height: 1.6;">
               <li><strong>Typographic Styling:</strong> Translates bold (<code>\textbf{...}</code>) and italics (<code>\emph{...}</code>) cleanly without inline noise.</li>
               <li><strong>UTF-8 Diacritics:</strong> Full Unicode preservation of French accents (<em>&eacute;, &egrave;, &ecirc;, &agrave;, &ccedil;, &oelig;</em>).</li>
-              <li><strong>Booktabs Tables:</strong> Converts Word tables into clean <code>longtable</code> environments with <code>\toprule</code>, <code>\midrule</code>, and <code>\bottomrule</code> rules.</li>
+              <li><strong>Booktabs Tables:</strong> Converts Word tables into clean <code>longtable</code> environments with <code>\toprule</code> and <code>\bottomrule</code> rules.</li>
               <li><strong>OMML Math:</strong> Translates Word equations directly into standard LaTeX math (<code>\( ... \)</code>).</li>
             </ul>
           </div>
@@ -470,6 +470,7 @@ Standard inline equations convert to LaTeX math syntax: \(E\  = \ mc^{2}\)</code
             <strong style="display: block; font-size: 0.92rem; color: var(--text-main); margin-bottom: 6px;">Honest Conversion Notes &amp; Scope</strong>
             <ul style="margin: 0; padding-left: 18px; color: var(--text-secondary); line-height: 1.6;">
               <li><strong>Fragment vs. Document:</strong> The example above is generated in <em>LaTeX Fragment</em> mode (body only). Toggle <em>Complete Document</em> if you need a compilable preamble.</li>
+              <li><strong>Heading Styles:</strong> This lightweight sample DOCX lacks Word style definitions, so its headings appear as plain text rather than LaTeX section commands. Results depend on the source document's structure.</li>
               <li><strong>Preamble Dependencies:</strong> As indicated in the output comments, tables require <code>\usepackage{booktabs, longtable, array, calc}</code> in your LaTeX template.</li>
               <li><strong>Conversion Boundaries:</strong> Highly nested drawings, custom SmartArt shapes, floating Word textboxes, and scanned images require manual inspection.</li>
             </ul>

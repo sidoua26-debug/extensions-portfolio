@@ -58,6 +58,27 @@ describe('Step 4C: Converter Real Conversion Example Section Test', () => {
     assert.ok(html.includes('The example above is generated in <em>LaTeX Fragment</em> mode'));
     assert.ok(html.includes('Preamble Dependencies:'));
     assert.ok(html.includes('Conversion Boundaries:'));
+
+    // Extract the Demonstrated Engine Features section
+    const featuresMatch = html.match(/<strong[^>]*>Demonstrated Engine Features<\/strong>[\s\S]*?<\/ul>/);
+    assert.ok(featuresMatch, 'Must find Demonstrated Engine Features list');
+    const featuresList = featuresMatch[0];
+
+    // Verify table rules claim in features list
+    assert.ok(
+      featuresList.includes('with <code>\\toprule</code> and <code>\\bottomrule</code> rules'),
+      'Must accurately describe demonstrated booktabs rules in features list'
+    );
+    assert.ok(
+      !featuresList.includes('\\midrule'),
+      'Must NOT falsely claim \\midrule in the example explanation'
+    );
+
+    // Verify heading limitation disclosure
+    assert.ok(
+      html.includes('This lightweight sample DOCX lacks Word style definitions, so its headings appear as plain text rather than LaTeX section commands. Results depend on the source document\'s structure.'),
+      'Must disclose the heading-limitation note for the sample DOCX'
+    );
   });
 
   it('5. Converter controls and Plausible analytics remain untouched', () => {
