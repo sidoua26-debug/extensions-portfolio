@@ -1,48 +1,64 @@
-# Browser Extensions Portfolio
+# ExtensionGuy — Browser Extensions & Web Tools
 
-A multi-page, privacy-first static website showcasing 6 confirmed published browser extensions across Microsoft Edge Add-ons and the Chrome Web Store, alongside client-side web tools, with Word to LaTeX (Offline) as the flagship featured product.
+Official portfolio and documentation repository for **ExtensionGuy** ([extensionguy.me](https://extensionguy.me/)), featuring privacy-first browser extensions for Microsoft Edge and Google Chrome alongside client-side web utilities and technical guides.
 
-## 🚀 Published Extensions Featured
+## 🔗 Quick Links
 
-1. **Word to LaTeX (Offline)** (Flagship Hero) — Client-side .docx, table, and image-to-LaTeX converter via Pandoc WASM and Tesseract. [Edge Add-on](https://microsoftedge.microsoft.com/addons/detail/word-to-latex-offline/lpehnpdkdiddlppobkcicdondaebijlf) · [Chrome Web Store](https://chromewebstore.google.com/detail/word-to-latex-offline/appokjanohamffjlecncdegihoelkhco)
+- **Official Website**: [https://extensionguy.me/](https://extensionguy.me/)
+- **Online Word to LaTeX Converter**: [https://extensionguy.me/word-to-latex-converter/](https://extensionguy.me/word-to-latex-converter/)
+- **Word to LaTeX (Offline) Extension**: [https://extensionguy.me/word-to-latex/](https://extensionguy.me/word-to-latex/)
+- **Technical Guide — Offline DOCX Conversion**: [https://extensionguy.me/guides/docx-to-latex-offline/](https://extensionguy.me/guides/docx-to-latex-offline/)
+- **Technical Guide — Word Tables to LaTeX**: [https://extensionguy.me/guides/word-tables-to-latex/](https://extensionguy.me/guides/word-tables-to-latex/)
+
+---
+
+## 🚀 Published Browser Extensions
+
+1. **Word to LaTeX (Offline)** (Flagship) — Client-side `.docx` and table converter powered locally by Pandoc WebAssembly, with experimental local math-image OCR. [Edge Add-on](https://microsoftedge.microsoft.com/addons/detail/word-to-latex-offline/lpehnpdkdiddlppobkcicdondaebijlf) · [Chrome Web Store](https://chromewebstore.google.com/detail/word-to-latex-offline/appokjanohamffjlecncdegihoelkhco)
 2. **Table Extractor** — HTML table and virtualized data grid (AG Grid, scroll-loaded containers) exporter to CSV, Excel (XLSX), and JSON. [Edge Add-on](https://microsoftedge.microsoft.com/addons/detail/table-extractor-export-h/pekammppimoaikllkhhebocbkbidoboe) · [Chrome Web Store](https://chromewebstore.google.com/detail/table-extractor-export-h/fjpbjpmccomonleefghgalfoioekhlhm)
 3. **BulkGrab** — Bulk file downloader and browser-local ZIP bundler. [Edge Add-on](https://microsoftedge.microsoft.com/addons/detail/bulkgrab-batch-file-dow/cphidoikhnjdkeldgelkpddnkojlfccc) · [Chrome Web Store](https://chromewebstore.google.com/detail/bulkgrab-batch-file-downl/lnmmneljpgdefilkokfpmiohjgfjcljn)
-4. **SEO Inspector** — 9-tab on-page technical SEO diagnostics tool. [Edge Add-on](https://microsoftedge.microsoft.com/addons/detail/seo-inspector-meta-tags/jbnjjkfkcmfkjamakndojbkjanijlfmd)
-5. **Bilexi** — 100% offline bilingual autocorrect for English and French text fields. [Edge Add-on](https://microsoftedge.microsoft.com/addons/detail/mheomahlcfddgjlemnolopfbhojfpmpb)
+4. **SEO Inspector** — 9-tab on-page technical SEO diagnostics evaluating headings, meta tags, OpenGraph, JSON-LD schema, and Navigation Timing. [Edge Add-on](https://microsoftedge.microsoft.com/addons/detail/seo-inspector-meta-tags/jbnjjkfkcmfkjamakndojbkjanijlfmd)
+5. **Bilexi** — 100% offline bilingual autocorrect for English and French text fields with accent restoration and elision repair. [Edge Add-on](https://microsoftedge.microsoft.com/addons/detail/mheomahlcfddgjlemnolopfbhojfpmpb)
 6. **Tab Vault** — Local tab manager and browser memory saver with disaster-recovery snapshots. [Edge Add-on](https://microsoftedge.microsoft.com/addons/detail/paedfgpjmkmmodbcimbkjkkdlfibfpbc)
+
+---
 
 ## 🌐 Companion Client-Side Web Tools
 
-- **Offline PDF Tools** (`/pdf-tools/`) — 100% client-side PDF utility suite (merge, split, rotate, redact, compress, and metadata sanitization) powered locally by `pdf-lib` and `PDF.js`.
-- **Online Word to LaTeX Converter** (`/word-to-latex-converter/`) — Standalone client-side web converter running Pandoc WebAssembly in an isolated Web Worker.
+- **Online Word to LaTeX Converter** ([/word-to-latex-converter/](https://extensionguy.me/word-to-latex-converter/)) — Zero-install browser converter running Pandoc WebAssembly in a sandboxed Web Worker for `.docx` files and tables (distinct from the browser extension; does not include OCR). Processes documents locally in browser memory without remote file transmission. Supports LaTeX Fragment and Complete Document output modes with step-by-step Overleaf project workflows.
+- **Offline PDF Tools** ([/pdf-tools/](https://extensionguy.me/pdf-tools/)) — Client-side PDF utility suite (merge, split, rotate, redact, compress, and metadata sanitization) powered locally by `pdf-lib` and `PDF.js`.
 
-## 🛠️ Tech Stack & Architecture
+---
 
-- **Format**: 100% static client-side architecture with dedicated product showcases, companion web tools, and technical guides alongside the homepage.
-- **Styling**: Pure CSS with design tokens for dark and light modes (WCAG AA contrast).
-- **Typography**: Google Fonts `Geist` (UI) and `JetBrains Mono` (Code/LaTeX previews).
-- **Zero Dependencies**: No frameworks, no external runtime packages, no backend required.
+## 🛠️ Architecture & Privacy Design
+
+- **Static Architecture**: Hosted on Cloudflare Pages as static HTML, CSS, and client-side JavaScript.
+- **Client-Side Document Conversion**: Document conversion runs entirely inside browser WebAssembly (Pandoc 3.10) in an isolated Web Worker thread. Word documents are never uploaded to ExtensionGuy servers.
+- **Website Analytics**: The website uses Plausible Analytics for aggregate website usage statistics without tracking cookies. The analytics script is served from plausible.io. Document conversion runs locally in the browser; document contents are not sent to ExtensionGuy servers or included in website analytics.
+- **Zero Framework Bloat**: Pure CSS architecture with custom design tokens for light and dark themes, using Google Fonts `Geist`, `Manrope`, and `JetBrains Mono`.
+
+---
 
 ## 💻 Local Preview
 
-Run any local static server:
+To preview the website locally, run any static HTTP server from the repository root:
+
 ```bash
-# Python
-cd /home/sid/.gemini/antigravity/scratch/extensions-portfolio
+# Using Python 3
 python3 -m http.server 8080
 
-# Or Node.js
+# Or using Node.js
 npx serve .
 ```
 
-Open [http://localhost:8080](http://localhost:8080) in your browser.
+Then open `http://localhost:8080` in your browser.
 
-## 🌐 Free Deployment Options
+---
 
-### GitHub Pages (Recommended)
-1. Push this folder to a GitHub repository under your account (e.g. `sidoua26-debug/extensions-portfolio`).
-2. Go to **Settings** → **Pages** → Source: **Deploy from a branch** (`main` / root).
-3. The site will be live at `https://sidoua26-debug.github.io/extensions-portfolio/`.
+## 🌐 Production Deployment
 
-### Netlify / Cloudflare Pages / Vercel
-- Simply drag and drop the `extensions-portfolio` directory or connect the Git repository with blank build command and publish directory set to `.`.
+The production website is continuously deployed to **Cloudflare Pages** from the `main` branch:
+- **Production URL**: [https://extensionguy.me/](https://extensionguy.me/)
+- **Hosting Provider**: Cloudflare Pages
+- **Build Command**: None (Static directory publish)
+- **Output Directory**: `.` (Repository root)
