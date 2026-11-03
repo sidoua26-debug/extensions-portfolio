@@ -341,27 +341,138 @@
         </div>
       </div>
 
-      <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-lg); padding: 28px;">
-        <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; color: var(--text-main);">Practical Conversion Examples</h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+      <div id="conversionExample" style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-lg); padding: clamp(20px, 3vw, 32px); margin-top: 32px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; border-bottom: 1px solid var(--border-page); padding-bottom: 12px;">
           <div>
-            <h4 style="font-size: 0.95rem; font-weight: 600; color: var(--text-main); margin-bottom: 6px;">Mathematical Equations</h4>
-            <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 8px;">Word Equation Editor structures (OMML) convert into standard math environments:</p>
-            <pre style="background: var(--bg-muted); padding: 12px; border-radius: var(--r-sm); font-size: 0.8rem; overflow-x: auto; color: var(--text-main);"><code>\[ \int_{0}^{\infty} e^{-x^2} dx = \frac{\sqrt{\pi}}{2} \]</code></pre>
+            <h3 style="font-size: 1.35rem; font-weight: 700; margin: 0 0 6px 0; color: var(--text-main);">Word to LaTeX Conversion Example</h3>
+            <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">See how a Word document is transformed into LaTeX using our in-browser Pandoc converter.</p>
           </div>
-          <div>
-            <h4 style="font-size: 0.95rem; font-weight: 600; color: var(--text-main); margin-bottom: 6px;">Structured Tables</h4>
-            <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 8px;">Tables transform into professional <code>booktabs</code> environments:</p>
-            <pre style="background: var(--bg-muted); padding: 12px; border-radius: var(--r-sm); font-size: 0.8rem; overflow-x: auto; color: var(--text-main);"><code>\begin{table}[ht]
-  \centering
-  \begin{tabular}{llr}
-    \toprule
-    Sample &amp; Parameter &amp; Value \\
-    \midrule
-    A-1 &amp; Efficiency &amp; 98.4\% \\
-    \bottomrule
-  \end{tabular}
-\end{table}</code></pre>
+          <a href="#converterTool" class="btn btn-ghost btn-sm" style="font-size: 0.85rem;">
+            &uarr; Back to Converter
+          </a>
+        </div>
+
+        <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px;">
+          The comparison below presents the exact input content of our standard sample manuscript (<code>sample-manuscript.docx</code>) alongside the genuine LaTeX fragment emitted by the in-browser WebAssembly Pandoc engine.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 24px; margin-bottom: 24px;">
+          <!-- Left Column: Word Document Content Representation -->
+          <div style="background: var(--bg-card, #ffffff); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 20px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; min-width: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+              <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand-w2l, #2563eb);">Sample Word Document (.docx)</span>
+              <span class="badge badge-subtle">Formatted View</span>
+            </div>
+
+            <div style="font-size: 0.88rem; color: var(--text-main); line-height: 1.6; flex-grow: 1;">
+              <h4 style="font-size: 1.1rem; font-weight: 800; margin: 0 0 10px 0; color: var(--text-main);">Document Structure and Typographic Elements</h4>
+
+              <h5 style="font-size: 0.95rem; font-weight: 700; margin: 12px 0 6px 0; color: var(--text-main);">1. Structural Overview</h5>
+              <p style="margin: 0 0 10px 0; color: var(--text-secondary);">This sample manuscript provides representative document formatting for offline conversion testing. It includes <strong>bold typographic emphasis</strong> alongside <em>italicised text runs</em> within standard body paragraphs.</p>
+
+              <h5 style="font-size: 0.95rem; font-weight: 700; margin: 12px 0 6px 0; color: var(--text-main);">2. Multilingual Character Encoding</h5>
+              <p style="margin: 0 0 10px 0; color: var(--text-secondary);">Extended character sets and French diacritics are verified: d&eacute;j&agrave; vu, fen&ecirc;tre, &eacute;l&egrave;ve, gar&ccedil;on, and the ligature in &oelig;uvrant.</p>
+
+              <h5 style="font-size: 0.95rem; font-weight: 700; margin: 12px 0 6px 0; color: var(--text-main);">3. Structured Data and Formats</h5>
+              <ul style="margin: 0 0 12px 18px; padding: 0; color: var(--text-secondary);">
+                <li>Section headings and paragraph styles</li>
+                <li>Tabular data with column headers</li>
+                <li>Inline mathematical formulations</li>
+              </ul>
+
+              <div style="overflow-x: auto; margin-bottom: 12px;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left; border: 1px solid var(--border-page);">
+                  <thead>
+                    <tr style="background: var(--bg-muted); border-bottom: 1px solid var(--border-page);">
+                      <th style="padding: 6px 10px; font-weight: 700;">Element</th>
+                      <th style="padding: 6px 10px; font-weight: 700;">Style</th>
+                      <th style="padding: 6px 10px; font-weight: 700;">Alignment</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr style="border-bottom: 1px solid var(--border-page);"><td style="padding: 6px 10px;">Title</td><td style="padding: 6px 10px;">Bold 18pt</td><td style="padding: 6px 10px;">Centered</td></tr>
+                    <tr style="border-bottom: 1px solid var(--border-page);"><td style="padding: 6px 10px;">Heading</td><td style="padding: 6px 10px;">Semibold 14pt</td><td style="padding: 6px 10px;">Left</td></tr>
+                    <tr><td style="padding: 6px 10px;">Body Text</td><td style="padding: 6px 10px;">Regular 11pt</td><td style="padding: 6px 10px;">Justified</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h5 style="font-size: 0.95rem; font-weight: 700; margin: 12px 0 6px 0; color: var(--text-main);">4. Mathematical Notation</h5>
+              <p style="margin: 0; color: var(--text-secondary);">Standard inline equations convert to LaTeX math syntax: <em>E</em> = <em>mc</em><sup>2</sup></p>
+            </div>
+          </div>
+
+          <!-- Right Column: Real Captured LaTeX Output -->
+          <div style="background: var(--bg-card, #ffffff); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 20px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; min-width: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+              <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-success, #059669);">Generated LaTeX Output</span>
+              <span class="badge badge-subtle">Fragment Mode</span>
+            </div>
+
+            <pre style="background: var(--bg-muted); padding: 16px; border-radius: var(--r-sm); font-family: var(--font-mono, monospace); font-size: 0.78rem; line-height: 1.55; color: var(--text-main); overflow-x: auto; flex-grow: 1; margin: 0; white-space: pre;" tabindex="0" role="region" aria-label="Generated LaTeX Output from Sample Manuscript"><code>% Required packages (add to your preamble):
+% \usepackage{array}
+% \usepackage{booktabs}
+% \usepackage{calc}
+% \usepackage{longtable}
+
+% For unnumbered longtables: \newcounter{none}
+
+Document Structure and Typographic Elements
+
+1. Structural Overview
+
+This sample manuscript provides representative document formatting for offline conversion testing. It includes \textbf{bold typographic emphasis} alongside \emph{italicised text runs} within standard body paragraphs.
+
+2. Multilingual Character Encoding
+
+Extended character sets and French diacritics are verified: d&eacute;j&agrave; vu, fen&ecirc;tre, &eacute;l&egrave;ve, gar&ccedil;on, and the ligature in &oelig;uvrant.
+
+3. Structured Data and Formats
+
+Section headings and paragraph styles
+
+Tabular data with column headers
+
+Inline mathematical formulations
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Element} &amp; \textbf{Style} &amp; \textbf{Alignment} \\
+Title &amp; Bold 18pt &amp; Centered \\
+Heading &amp; Semibold 14pt &amp; Left \\
+Body Text &amp; Regular 11pt &amp; Justified \\
+\end{longtable}
+}
+
+4. Mathematical Notation
+
+Standard inline equations convert to LaTeX math syntax: \(E\  = \ mc^{2}\)</code></pre>
+          </div>
+        </div>
+
+        <!-- Explanations and Honest Limitations -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; font-size: 0.875rem;">
+          <div style="padding: 16px; background: var(--bg-muted); border-radius: var(--r-md); border: 1px solid var(--border-page);">
+            <strong style="display: block; font-size: 0.92rem; color: var(--text-main); margin-bottom: 6px;">Demonstrated Engine Features</strong>
+            <ul style="margin: 0; padding-left: 18px; color: var(--text-secondary); line-height: 1.6;">
+              <li><strong>Typographic Styling:</strong> Translates bold (<code>\textbf{...}</code>) and italics (<code>\emph{...}</code>) cleanly without inline noise.</li>
+              <li><strong>UTF-8 Diacritics:</strong> Full Unicode preservation of French accents (<em>&eacute;, &egrave;, &ecirc;, &agrave;, &ccedil;, &oelig;</em>).</li>
+              <li><strong>Booktabs Tables:</strong> Converts Word tables into clean <code>longtable</code> environments with <code>\toprule</code>, <code>\midrule</code>, and <code>\bottomrule</code> rules.</li>
+              <li><strong>OMML Math:</strong> Translates Word equations directly into standard LaTeX math (<code>\( ... \)</code>).</li>
+            </ul>
+          </div>
+
+          <div style="padding: 16px; background: var(--bg-muted); border-radius: var(--r-md); border: 1px solid var(--border-page);">
+            <strong style="display: block; font-size: 0.92rem; color: var(--text-main); margin-bottom: 6px;">Honest Conversion Notes &amp; Scope</strong>
+            <ul style="margin: 0; padding-left: 18px; color: var(--text-secondary); line-height: 1.6;">
+              <li><strong>Fragment vs. Document:</strong> The example above is generated in <em>LaTeX Fragment</em> mode (body only). Toggle <em>Complete Document</em> if you need a compilable preamble.</li>
+              <li><strong>Preamble Dependencies:</strong> As indicated in the output comments, tables require <code>\usepackage{booktabs, longtable, array, calc}</code> in your LaTeX template.</li>
+              <li><strong>Conversion Boundaries:</strong> Highly nested drawings, custom SmartArt shapes, floating Word textboxes, and scanned images require manual inspection.</li>
+            </ul>
           </div>
         </div>
       </div>
