@@ -312,7 +312,11 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
           } else if (name.includes('BulkGrab')) {
             assert.equal(ver, undefined, `${pageRel} BulkGrab omits softwareVersion (different versions across stores)`);
           } else if (name.includes('SEO Inspector')) {
-            assert.equal(ver, undefined, `${pageRel} SEO Inspector omits softwareVersion (Edge-only)`);
+            if (pageRel === 'seo-inspector/index.html') {
+              assert.equal(ver, '1.0.1', `${pageRel} SEO Inspector softwareVersion matches published 1.0.1`);
+            } else {
+              assert.equal(ver, undefined, `${pageRel} SEO Inspector omits softwareVersion on homepage`);
+            }
           } else if (name.includes('Bilexi')) {
             assert.equal(ver, undefined, `${pageRel} Bilexi omits softwareVersion (Edge-only)`);
           } else if (name.includes('Tab Vault')) {
@@ -365,5 +369,89 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
     assert.ok(teContent.includes('optional Pro upgrade'), 'Table Extractor clearly marks virtualized capture as optional Pro');
     assert.ok(bgContent.includes('7 files per browser session'), 'BulkGrab discloses 7 files per browser session limit');
     assert.ok(bgContent.includes('counter resets when the browser session closes'), 'BulkGrab clarifies session reset behavior');
+  });
+
+  await t.test('12. Step 5B: SEO Inspector version accuracy & regression gate', () => {
+    const seoHtmlPath = path.join(rootDir, 'seo-inspector', 'index.html');
+    const storeVersionsPath = path.join(rootDir, 'store-versions.json');
+    const seoContent = fs.readFileSync(seoHtmlPath, 'utf-8');
+    const storeVersions = JSON.parse(fs.readFileSync(storeVersionsPath, 'utf-8'));
+
+    // 1. SEO Inspector version badge matches 1.0.1
+    assert.match(
+      seoContent,
+      /<span class="badge badge-subtle">Published versions:\s*Edge&nbsp;v1\.0\.1<\/span>/,
+      'SEO Inspector version badge matches Edge v1.0.1'
+    );
+
+    // 2. JSON-LD contains softwareVersion: "1.0.1"
+    const jsonLdMatch = seoContent.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+    assert.ok(jsonLdMatch, 'JSON-LD block must exist in seo-inspector/index.html');
+    const parsedJsonLd = JSON.parse(jsonLdMatch[1]);
+    const appNode = (parsedJsonLd['@graph'] || [parsedJsonLd]).find(
+      (node) => node['@type'] === 'SoftwareApplication'
+    );
+    assert.ok(appNode, 'SoftwareApplication node must exist in JSON-LD');
+    assert.equal(appNode.softwareVersion, '1.0.1', 'JSON-LD contains softwareVersion: "1.0.1"');
+    assert.equal(appNode.name, 'SEO Inspector');
+    assert.equal(appNode.operatingSystem, 'Any, with Microsoft Edge');
+    assert.equal(appNode.applicationCategory, 'BrowserApplication');
+    assert.equal(appNode.downloadUrl, 'https://microsoftedge.microsoft.com/addons/detail/seo-inspector-meta-tags/jbnjjkfkcmfkjamakndojbkjanijlfmd');
+    assert.deepEqual(appNode.offers, { '@type': 'Offer', price: '0', priceCurrency: 'USD' });
+    assert.deepEqual(appNode.author, { '@type': 'Person', name: 'Sid', url: 'https://extensionguy.me/#about' });
+
+    // 3. store-versions.json records Edge version 1.0.1
+    assert.equal(
+      storeVersions['seo-inspector']?.stores?.edge?.version,
+      '1.0.1',
+      'store-versions.json records Edge version 1.0.1'
+    );
+
+    // 4. Official Edge installation link is unchanged
+    assert.ok(
+      seoContent.includes('href="https://microsoftedge.microsoft.com/addons/detail/seo-inspector-meta-tags/jbnjjkfkcmfkjamakndojbkjanijlfmd"'),
+      'Official Edge installation link is unchanged'
+    );
+
+    // 5. Existing metadata and privacy wording are preserved
+    assert.ok(
+      seoContent.includes('One-click technical SEO audits evaluating headings, meta tags, OpenGraph previews, schema, and page timing metrics.'),
+      'Subhead description is preserved'
+    );
+    assert.ok(
+      seoContent.includes('Built local-first · Privacy by design.'),
+      'Privacy design footer badge is preserved'
+    );
+    assert.ok(
+      seoContent.includes('<a href="../privacy" class="nav-link">Privacy</a>'),
+      'Nav privacy link is preserved'
+    );
+    assert.ok(
+      seoContent.includes('<a href="../privacy" class="footer-link">Privacy Policy</a>'),
+      'Footer privacy link is preserved'
+    );
+
+    // 6. No Chrome Web Store availability claim was added for SEO Inspector
+    assert.ok(
+      !seoContent.includes('Chrome&nbsp;v'),
+      'No Chrome version badge was added for SEO Inspector'
+    );
+    assert.ok(
+      !seoContent.includes('Get on Chrome'),
+      'No Get on Chrome button was added for SEO Inspector'
+    );
+    assert.ok(
+      !seoContent.includes('chromewebstore.google.com'),
+      'No Chrome Web Store download link was added to SEO Inspector page'
+    );
+    assert.ok(
+      seoContent.includes('Official Microsoft Edge Add-on'),
+      'Primary badge remains Official Microsoft Edge Add-on'
+    );
+    assert.equal(
+      appNode.operatingSystem,
+      'Any, with Microsoft Edge',
+      'JSON-LD operatingSystem remains Edge-only'
+    );
   });
 });
