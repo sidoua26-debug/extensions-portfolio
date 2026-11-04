@@ -558,4 +558,114 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
       assert.ok(!content.includes('chromewebstore.google.com'), `${name} has no Chrome Web Store link`);
     }
   });
+
+  await t.test('14. Step 5D: Bilexi & Tab Vault hero guide links', () => {
+    const bilexiPath = path.join(rootDir, 'bilexi', 'index.html');
+    const tabVaultPath = path.join(rootDir, 'tab-vault', 'index.html');
+    const seoPath = path.join(rootDir, 'seo-inspector', 'index.html');
+    const tePath = path.join(rootDir, 'table-extractor', 'index.html');
+    const bgPath = path.join(rootDir, 'bulkgrab', 'index.html');
+    const w2lPath = path.join(rootDir, 'word-to-latex', 'index.html');
+
+    const bilexiContent = fs.readFileSync(bilexiPath, 'utf-8');
+    const tabVaultContent = fs.readFileSync(tabVaultPath, 'utf-8');
+    const seoContent = fs.readFileSync(seoPath, 'utf-8');
+    const teContent = fs.readFileSync(tePath, 'utf-8');
+    const bgContent = fs.readFileSync(bgPath, 'utf-8');
+    const w2lContent = fs.readFileSync(w2lPath, 'utf-8');
+
+    // 1. Bilexi hero secondary CTA points to published French typing guide
+    assert.match(
+      bilexiContent,
+      /<a href="\.\.\/guides\/type-french-accents-on-qwerty-offline\/" class="btn btn-ghost">\s*Read French Typing Guide\s*<\/a>/,
+      'Bilexi hero secondary CTA links to French typing guide with class btn btn-ghost'
+    );
+    // Ensure no target="_blank" on Bilexi hero guide button
+    const bilexiHeroCtaMatch = bilexiContent.match(/<a href="\.\.\/guides\/type-french-accents-on-qwerty-offline\/"[^>]*>/);
+    assert.ok(bilexiHeroCtaMatch, 'Bilexi hero guide CTA exists');
+    assert.ok(!bilexiHeroCtaMatch[0].includes('target="_blank"'), 'Bilexi hero guide CTA uses same-tab navigation');
+
+    // 2. Tab Vault hero secondary CTA points to published tab backup guide
+    assert.match(
+      tabVaultContent,
+      /<a href="\.\.\/guides\/prevent-browser-tab-loss-local-backups\/" class="btn btn-ghost">\s*Read Tab Backup Guide\s*<\/a>/,
+      'Tab Vault hero secondary CTA links to tab backup guide with class btn btn-ghost'
+    );
+    // Ensure no target="_blank" on Tab Vault hero guide button
+    const tabVaultHeroCtaMatch = tabVaultContent.match(/<a href="\.\.\/guides\/prevent-browser-tab-loss-local-backups\/"[^>]*>/);
+    assert.ok(tabVaultHeroCtaMatch, 'Tab Vault hero guide CTA exists');
+    assert.ok(!tabVaultHeroCtaMatch[0].includes('target="_blank"'), 'Tab Vault hero guide CTA uses same-tab navigation');
+
+    // 3. Both relative paths resolve correctly to existing on-disk guides
+    const resolvedBilexiGuide = path.resolve(rootDir, 'bilexi', '../guides/type-french-accents-on-qwerty-offline/index.html');
+    const resolvedTabVaultGuide = path.resolve(rootDir, 'tab-vault', '../guides/prevent-browser-tab-loss-local-backups/index.html');
+    assert.ok(fs.existsSync(resolvedBilexiGuide), 'Resolved Bilexi guide file exists on disk');
+    assert.ok(fs.existsSync(resolvedTabVaultGuide), 'Resolved Tab Vault guide file exists on disk');
+
+    // 4. Primary Edge installation buttons remain unchanged
+    assert.match(
+      bilexiContent,
+      /<a href="https:\/\/microsoftedge\.microsoft\.com\/addons\/detail\/mheomahlcfddgjlemnolopfbhojfpmpb" target="_blank" rel="noopener noreferrer" class="btn btn-edge">Get on Edge<\/a>/,
+      'Bilexi retains primary Edge install button'
+    );
+    assert.match(
+      tabVaultContent,
+      /<a href="https:\/\/microsoftedge\.microsoft\.com\/addons\/detail\/paedfgpjmkmmodbcimbkjkkdlfibfpbc" target="_blank" rel="noopener noreferrer" class="btn btn-edge">Get on Edge<\/a>/,
+      'Tab Vault retains primary Edge install button'
+    );
+
+    // 5. Product version badges remain unchanged
+    assert.match(
+      bilexiContent,
+      /<span class="badge badge-edge">Official Microsoft Edge Add-on<\/span>/,
+      'Bilexi primary badge remains "Official Microsoft Edge Add-on"'
+    );
+    assert.match(
+      bilexiContent,
+      /<span class="badge badge-subtle">Published versions:\s*Edge&nbsp;v0\.5\.1<\/span>/,
+      'Bilexi version badge remains Edge v0.5.1'
+    );
+    assert.match(
+      tabVaultContent,
+      /<span class="badge badge-edge">Official Microsoft Edge Add-on<\/span>/,
+      'Tab Vault primary badge remains "Official Microsoft Edge Add-on"'
+    );
+    assert.match(
+      tabVaultContent,
+      /<span class="badge badge-subtle">Published versions:\s*Edge&nbsp;v1\.0\.0<\/span>/,
+      'Tab Vault version badge remains Edge v1.0.0'
+    );
+
+    // 6. Footer and unrelated GitHub links remain available where previously present
+    assert.ok(
+      bilexiContent.includes('<a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Source Code</a>'),
+      'Bilexi footer retains GitHub Source Code link'
+    );
+    assert.ok(
+      tabVaultContent.includes('<a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Source Code</a>'),
+      'Tab Vault footer retains GitHub Source Code link'
+    );
+
+    // 7. All other extension landing pages remain unchanged
+    assert.match(
+      seoContent,
+      /<a href="https:\/\/github\.com\/sidoua26-debug\/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">\s*GitHub \(@sidoua26-debug\)\s*<\/a>/,
+      'SEO Inspector retains GitHub hero button'
+    );
+    assert.match(
+      teContent,
+      /<span class="badge badge-edge">Available on Edge & Chrome<\/span>/,
+      'Table Extractor retains Available on Edge & Chrome badge'
+    );
+    assert.match(
+      bgContent,
+      /<span class="badge badge-edge">Available on Edge & Chrome<\/span>/,
+      'BulkGrab retains Available on Edge & Chrome badge'
+    );
+    assert.match(
+      w2lContent,
+      /<span class="badge badge-edge">Official Edge &(?:amp;)? Chrome Add-on<\/span>/,
+      'Word to LaTeX retains primary badge'
+    );
+  });
 });
