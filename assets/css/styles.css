@@ -268,6 +268,28 @@ html[data-theme="light"] .moon-icon {
   }
 }
 
+/* Touch target optimization for product page breadcrumbs on mobile & tablet */
+@media (max-width: 768px) {
+  .product-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    min-height: 44px;
+  }
+  .product-breadcrumb a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0 4px;
+    box-sizing: border-box;
+    border-radius: var(--r-sm, 4px);
+  }
+}
+
+
 
 /* Responsive code blocks and inline URLs to prevent horizontal viewport overflow */
 pre {

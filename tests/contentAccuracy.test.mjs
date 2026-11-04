@@ -668,4 +668,90 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
       'Word to LaTeX retains primary badge'
     );
   });
+
+  await t.test('15. Step 5E: Mobile breadcrumb accessibility on extension landing pages', () => {
+    const productSlugs = [
+      'word-to-latex',
+      'table-extractor',
+      'bulkgrab',
+      'seo-inspector',
+      'bilexi',
+      'tab-vault'
+    ];
+
+    // 1. All six product pages include the product-breadcrumb class on breadcrumb nav
+    for (const slug of productSlugs) {
+      const pagePath = path.join(rootDir, slug, 'index.html');
+      const content = fs.readFileSync(pagePath, 'utf-8');
+
+      // Verify breadcrumb nav element has product-breadcrumb class
+      assert.match(
+        content,
+        /<nav aria-label="Breadcrumb" class="product-breadcrumb"/,
+        `${slug} breadcrumb nav has class="product-breadcrumb"`
+      );
+
+      // Verify breadcrumb Home link label and relative destination
+      assert.match(
+        content,
+        /<a href="\.\.\/" style="color: var\(--accent\); text-decoration: underline;">Home<\/a>/,
+        `${slug} retains Home link pointing to "../"`
+      );
+
+      // Verify JSON-LD BreadcrumbList is intact
+      assert.ok(
+        content.includes('"@type": "BreadcrumbList"'),
+        `${slug} retains BreadcrumbList structured data`
+      );
+      assert.ok(
+        content.includes('"name": "Home"'),
+        `${slug} JSON-LD includes Home level`
+      );
+
+      // Verify stylesheet link is updated to v=3 for cache-busting
+      assert.match(
+        content,
+        /<link rel="stylesheet" href="\.\.\/assets\/css\/styles\.css\?v=3">/,
+        `${slug} links to styles.css?v=3`
+      );
+    }
+
+    // 2. assets/css/styles.css contains the responsive touch-target rule
+    const stylesPath = path.join(rootDir, 'assets', 'css', 'styles.css');
+    const stylesContent = fs.readFileSync(stylesPath, 'utf-8');
+
+    assert.ok(
+      stylesContent.includes('.product-breadcrumb'),
+      'styles.css includes .product-breadcrumb selector'
+    );
+    assert.ok(
+      stylesContent.includes('.product-breadcrumb a'),
+      'styles.css includes .product-breadcrumb a selector'
+    );
+    assert.match(
+      stylesContent,
+      /@media\s*\(max-width:\s*768px\)\s*\{[\s\S]*?\.product-breadcrumb\s*\{[\s\S]*?min-height:\s*44px/i,
+      'styles.css provides min-height: 44px for .product-breadcrumb on mobile & tablet'
+    );
+    assert.match(
+      stylesContent,
+      /@media\s*\(max-width:\s*768px\)\s*\{[\s\S]*?\.product-breadcrumb a\s*\{[\s\S]*?min-height:\s*44px[\s\S]*?min-width:\s*44px/i,
+      'styles.css provides min-height: 44px and min-width: 44px for .product-breadcrumb a on mobile & tablet'
+    );
+
+    // 3. Store buttons, versions, and guide links remain unchanged across products
+    const bilexiContent = fs.readFileSync(path.join(rootDir, 'bilexi', 'index.html'), 'utf-8');
+    const tabVaultContent = fs.readFileSync(path.join(rootDir, 'tab-vault', 'index.html'), 'utf-8');
+    const teContent = fs.readFileSync(path.join(rootDir, 'table-extractor', 'index.html'), 'utf-8');
+    const bgContent = fs.readFileSync(path.join(rootDir, 'bulkgrab', 'index.html'), 'utf-8');
+    const seoContent = fs.readFileSync(path.join(rootDir, 'seo-inspector', 'index.html'), 'utf-8');
+    const w2lContent = fs.readFileSync(path.join(rootDir, 'word-to-latex', 'index.html'), 'utf-8');
+
+    assert.ok(bilexiContent.includes('Read French Typing Guide'), 'Bilexi retains guide link');
+    assert.ok(tabVaultContent.includes('Read Tab Backup Guide'), 'Tab Vault retains guide link');
+    assert.ok(teContent.includes('Available on Edge & Chrome'), 'Table Extractor retains dual store badge');
+    assert.ok(bgContent.includes('Available on Edge & Chrome'), 'BulkGrab retains dual store badge');
+    assert.ok(seoContent.includes('Published versions: Edge&nbsp;v1.0.1'), 'SEO Inspector retains Edge v1.0.1');
+    assert.ok(w2lContent.includes('word-to-latex-converter'), 'Word to LaTeX retains online converter link');
+  });
 });
