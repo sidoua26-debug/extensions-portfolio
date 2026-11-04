@@ -22,6 +22,9 @@ describe('Step 6C: Strengthened Converter UI Integration & Race Tests (Playwrigh
     server = http.createServer((req, res) => {
       const safeUrl = new URL(req.url, 'http://localhost').pathname;
       let localPath = path.join(PORTFOLIO_ROOT, safeUrl === '/' ? 'index.html' : safeUrl);
+      if (fs.existsSync(localPath) && fs.statSync(localPath).isDirectory()) {
+        localPath = path.join(localPath, 'index.html');
+      }
 
       if (safeUrl.includes('pandoc.wasm.gz')) {
         requestedWasmOnInitialLoad = true;
@@ -697,6 +700,185 @@ describe('Step 6C: Strengthened Converter UI Integration & Race Tests (Playwrigh
     // Verify sample button is re-enabled after error
     const sampleDisabled = await page.$eval('#converterSampleBtn', (btn) => btn.disabled);
     assert.equal(sampleDisabled, false, 'Sample button is re-enabled after error');
+
+    await page.close();
+  });
+
+  it('Test 15 — Converter sample filename button availability, keyboard activation & cache version (Homepage)', async () => {
+    const page = await browserContext.newPage();
+    await page.goto(serverUrl);
+
+    // 1. Verify updated asset cache versions on homepage
+    const cssHref = await page.$eval('link[rel="stylesheet"][href*="styles.css"]', (el) => el.getAttribute('href'));
+    const jsSrc = await page.$eval('script[type="module"][src*="converterUi.js"]', (el) => el.getAttribute('src'));
+    assert.ok(cssHref.includes('styles.css?v=4'), `Homepage references styles.css?v=4, got: ${cssHref}`);
+    assert.ok(jsSrc.includes('converterUi.js?v=2'), `Homepage references converterUi.js?v=2, got: ${jsSrc}`);
+
+    // 2. Verify initial state: hidden and disabled
+    const initialDisabled = await page.$eval('#converterFileName', (el) => el.disabled);
+    const initialHidden = await page.$eval('#converterFileName', (el) => el.hidden || el.hasAttribute('hidden'));
+    assert.equal(initialDisabled, true, 'Filename button is initially disabled');
+    assert.equal(initialHidden, true, 'Filename button is initially hidden');
+
+    // 3. Spy on scrollIntoView in page context to verify exact-once execution
+    await page.evaluate(() => {
+      window.__scrollCount = 0;
+      const output = document.getElementById('converterOutputContainer');
+      const origScroll = output.scrollIntoView;
+      output.scrollIntoView = function(...args) {
+        window.__scrollCount++;
+        if (origScroll) return origScroll.apply(this, args);
+      };
+    });
+
+    // 4. Set up filechooser watcher
+    let fileChooserTriggered = false;
+    page.on('filechooser', () => {
+      fileChooserTriggered = true;
+    });
+
+    // 5. Convert sample document
+    await page.click('#converterSampleBtn');
+    await page.waitForSelector('#converterOutputContainer:not([hidden])', { timeout: 20000 });
+
+    // 6. Verify state on successful conversion: enabled, has-result, action text, proper aria-label
+    const completedDisabled = await page.$eval('#converterFileName', (el) => el.disabled);
+    const completedText = await page.$eval('#converterFileName', (el) => el.textContent);
+    const completedLabel = await page.$eval('#converterFileName', (el) => el.getAttribute('aria-label'));
+    const hasResultClass = await page.$eval('#converterFileName', (el) => el.classList.contains('has-result'));
+
+    assert.equal(completedDisabled, false, 'Filename button is enabled after successful conversion');
+    assert.equal(hasResultClass, true, 'Filename button has .has-result class');
+    assert.ok(completedText.includes('sample-manuscript.docx'), 'Filename is preserved');
+    assert.ok(completedText.includes('View converted result'), 'View converted result action is present');
+    assert.ok(completedLabel.includes('View converted LaTeX output'), `Accessible label is descriptive: ${completedLabel}`);
+
+    // 7. Verify keyboard activation (Enter): exactly once, no file chooser
+    fileChooserTriggered = false;
+    const scrollBeforeEnter = await page.evaluate(() => window.__scrollCount);
+    await page.focus('#converterFileName');
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(200);
+    const scrollAfterEnter = await page.evaluate(() => window.__scrollCount);
+    assert.equal(scrollAfterEnter - scrollBeforeEnter, 1, 'Pressing Enter activates revealOutput exactly once');
+    assert.equal(fileChooserTriggered, false, 'Pressing Enter must NOT trigger file chooser');
+
+    // 8. Verify keyboard activation (Space): exactly once, no file chooser
+    fileChooserTriggered = false;
+    const scrollBeforeSpace = await page.evaluate(() => window.__scrollCount);
+    await page.focus('#converterFileName');
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(200);
+    const scrollAfterSpace = await page.evaluate(() => window.__scrollCount);
+    assert.equal(scrollAfterSpace - scrollBeforeSpace, 1, 'Pressing Space activates revealOutput exactly once');
+    assert.equal(fileChooserTriggered, false, 'Pressing Space must NOT trigger file chooser');
+
+    // 9. Verify mouse click: no file chooser
+    fileChooserTriggered = false;
+    await page.click('#converterFileName');
+    await page.waitForTimeout(200);
+    assert.equal(fileChooserTriggered, false, 'Clicking converterFileName must NOT trigger file chooser');
+
+    // 10. Verify Choose .docx File still triggers file chooser
+    const choosePromise = page.waitForEvent('filechooser', { timeout: 3000 });
+    await page.click('#converterChooseBtn');
+    const chooser = await choosePromise;
+    assert.ok(chooser, 'Choose .docx File button opens file chooser');
+
+    // 11. Verify clicking empty dropzone area still triggers file chooser
+    const dropzoneChooserPromise = page.waitForEvent('filechooser', { timeout: 3000 });
+    await page.click('#converterDropZone', { position: { x: 20, y: 20 } });
+    const dropzoneChooser = await dropzoneChooserPromise;
+    assert.ok(dropzoneChooser, 'Clicking empty area of dropzone opens file chooser');
+
+    // 12. Verify mode switching: reconverts and maintains correct enabled state on success
+    await page.click('#modeDocumentBtn');
+    await page.waitForSelector('#converterOutputContainer:not([hidden])', { timeout: 20000 });
+    const modeDocumentText = await page.$eval('#converterOutputArea', (el) => el.value);
+    assert.ok(modeDocumentText.includes('\\documentclass'), 'Mode toggle reconverts to document mode');
+    const postModeDisabled = await page.$eval('#converterFileName', (el) => el.disabled);
+    assert.equal(postModeDisabled, false, 'Filename button is enabled after mode switch completes');
+
+    // 13. Verify reset restores disabled and hidden state
+    await page.click('#converterResetBtn');
+    const resetDisabled = await page.$eval('#converterFileName', (el) => el.disabled);
+    const resetHidden = await page.$eval('#converterFileName', (el) => el.hidden || el.hasAttribute('hidden'));
+    assert.equal(resetDisabled, true, 'Filename button is disabled after reset');
+    assert.equal(resetHidden, true, 'Filename button is hidden after reset');
+
+    await page.close();
+  });
+
+  it('Test 16 — Converter sample filename UX across Viewports & Themes (Dedicated Converter Page)', async () => {
+    const page = await browserContext.newPage();
+
+    // Test across mobile viewport (390x844) and dark theme
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`${serverUrl}/word-to-latex-converter/`);
+
+    // 1. Verify updated asset cache versions on dedicated converter page
+    const cssHref = await page.$eval('link[rel="stylesheet"][href*="styles.css"]', (el) => el.getAttribute('href'));
+    const jsSrc = await page.$eval('script[type="module"][src*="converterUi.js"]', (el) => el.getAttribute('src'));
+    assert.ok(cssHref.includes('styles.css?v=4'), `Dedicated page references styles.css?v=4, got: ${cssHref}`);
+    assert.ok(jsSrc.includes('converterUi.js?v=2'), `Dedicated page references converterUi.js?v=2, got: ${jsSrc}`);
+
+    // 2. Switch to dark theme
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
+
+    // 3. Verify initial state
+    const initialDisabled = await page.$eval('#converterFileName', (el) => el.disabled);
+    const initialHidden = await page.$eval('#converterFileName', (el) => el.hidden || el.hasAttribute('hidden'));
+    assert.equal(initialDisabled, true, 'Filename button is initially disabled on dedicated page');
+    assert.equal(initialHidden, true, 'Filename button is initially hidden on dedicated page');
+
+    // 4. Spy on scrollIntoView
+    await page.evaluate(() => {
+      window.__scrollCount = 0;
+      const output = document.getElementById('converterOutputContainer');
+      const origScroll = output.scrollIntoView;
+      output.scrollIntoView = function(...args) {
+        window.__scrollCount++;
+        if (origScroll) return origScroll.apply(this, args);
+      };
+    });
+
+    let fileChooserTriggered = false;
+    page.on('filechooser', () => {
+      fileChooserTriggered = true;
+    });
+
+    // 5. Convert sample manuscript
+    await page.click('#converterSampleBtn');
+    await page.waitForSelector('#converterOutputContainer:not([hidden])', { timeout: 20000 });
+
+    const completedDisabled = await page.$eval('#converterFileName', (el) => el.disabled);
+    assert.equal(completedDisabled, false, 'Filename button enabled after conversion on dedicated page');
+
+    // 6. Test Enter keypress exact-once activation
+    fileChooserTriggered = false;
+    const scrollBefore = await page.evaluate(() => window.__scrollCount);
+    await page.focus('#converterFileName');
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(200);
+    const scrollAfter = await page.evaluate(() => window.__scrollCount);
+    assert.equal(scrollAfter - scrollBefore, 1, 'Enter activates revealOutput exactly once on dedicated page');
+    assert.equal(fileChooserTriggered, false, 'Enter does not trigger file chooser on dedicated page');
+
+    // 7. Test Space keypress exact-once activation
+    fileChooserTriggered = false;
+    const scrollBeforeSpace = await page.evaluate(() => window.__scrollCount);
+    await page.focus('#converterFileName');
+    await page.keyboard.press('Space');
+    await page.waitForTimeout(200);
+    const scrollAfterSpace = await page.evaluate(() => window.__scrollCount);
+    assert.equal(scrollAfterSpace - scrollBeforeSpace, 1, 'Space activates revealOutput exactly once on dedicated page');
+    assert.equal(fileChooserTriggered, false, 'Space does not trigger file chooser on dedicated page');
+
+    // 8. Verify Choose button on dedicated page still opens file chooser
+    const choosePromise = page.waitForEvent('filechooser', { timeout: 3000 });
+    await page.click('#converterChooseBtn');
+    const chooser = await choosePromise;
+    assert.ok(chooser, 'Choose button on dedicated page opens file chooser');
 
     await page.close();
   });

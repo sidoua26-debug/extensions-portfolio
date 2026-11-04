@@ -66,7 +66,7 @@ html = r"""<!DOCTYPE html>
   <link rel="preload" href="assets/fonts/geist-700.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Self-hosted CSS containing local WOFF2 @font-face rules -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=2">
+  <link rel="stylesheet" href="assets/css/styles.css?v=4">
 
   <script type="application/ld+json">
 {
@@ -334,7 +334,7 @@ html = r"""<!DOCTYPE html>
                   Try with sample .docx
                 </button>
               </div>
-              <div id="converterFileName" class="file-name-tag" hidden></div>
+              <button type="button" id="converterFileName" class="file-name-tag" hidden disabled aria-label="Word document filename"></button>
             </div>
 
             <div id="converterStatus" class="status-panel" role="status" aria-live="polite">
@@ -1332,7 +1332,7 @@ html = r"""<!DOCTYPE html>
        SCRIPTS: THEMING, TABS, LIGHTBOX, ACCESSIBILITY, DEFERRED FOR PERFORMANCE
        ======================================================================== -->
   <script src="assets/js/site.js?v=20261029-1" defer></script>
-  <script type="module" src="assets/js/converterUi.js"></script>
+  <script type="module" src="assets/js/converterUi.js?v=2"></script>
 </body>
 </html>
 """

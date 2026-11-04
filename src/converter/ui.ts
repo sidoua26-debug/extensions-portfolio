@@ -53,6 +53,10 @@ export class ConverterUI {
     this.resetUI();
   }
 
+  private get fileNameBtn(): HTMLButtonElement {
+    return this.elements.fileNameDisplay as HTMLButtonElement;
+  }
+
   /**
    * Lazily gets or initializes the single ConverterClient instance.
    * Path resolution uses import.meta.url so it automatically adapts to
@@ -68,7 +72,16 @@ export class ConverterUI {
   }
 
   private bindEvents(): void {
-    const { dropZone, fileInput, modeFragmentBtn, modeDocumentBtn, copyBtn, downloadBtn, resetBtn } = this.elements;
+    const {
+      dropZone,
+      fileInput,
+      fileNameDisplay,
+      modeFragmentBtn,
+      modeDocumentBtn,
+      copyBtn,
+      downloadBtn,
+      resetBtn,
+    } = this.elements;
 
     // 1. File input change
     fileInput.addEventListener('change', () => {
@@ -101,18 +114,33 @@ export class ConverterUI {
       }
     });
 
-    // Click on dropzone opens native file picker
+    // Click on dropzone opens native file picker, UNLESS click was on an interactive element or filename tag
     dropZone.addEventListener('click', (e) => {
-      if (e.target !== fileInput) {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+      if (
+        target === fileInput ||
+        target.closest('#converterFileName, #converterChooseBtn, #converterSampleBtn, button, a, input, textarea')
+      ) {
+        return;
+      }
+      fileInput.click();
+    });
+
+    // Keyboard trigger on dropzone (Enter or Space) - only when focused directly on dropZone itself
+    dropZone.addEventListener('keydown', (e) => {
+      if (e.target !== dropZone) return;
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
         fileInput.click();
       }
     });
 
-    // Keyboard trigger on dropzone (Enter or Space)
-    dropZone.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        fileInput.click();
+    // Click on filename button (triggered natively by mouse, touch, or Enter/Space on focused button)
+    fileNameDisplay.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (this.currentResult) {
+        this.revealOutput();
       }
     });
 
@@ -249,8 +277,14 @@ export class ConverterUI {
     }
 
     this.currentFile = file;
-    this.elements.fileNameDisplay.textContent = `${file.name} (${this.formatFileSize(file.size)})`;
-    this.elements.fileNameDisplay.removeAttribute('hidden');
+    const btn = this.fileNameBtn;
+    btn.textContent = `${file.name} (${this.formatFileSize(file.size)})`;
+    btn.removeAttribute('hidden');
+    btn.disabled = true;
+    btn.setAttribute('disabled', '');
+    btn.classList.remove('has-result');
+    btn.removeAttribute('title');
+    btn.setAttribute('aria-label', `${file.name} (${this.formatFileSize(file.size)}) — Conversion in progress`);
 
     this.convertSelectedFile(file, generation);
   }
@@ -265,6 +299,15 @@ export class ConverterUI {
     if (this.elements.successBanner) {
       this.elements.successBanner.setAttribute('hidden', '');
     }
+
+    // Ensure filename button is disabled while conversion/reconversion runs
+    const btn = this.fileNameBtn;
+    btn.disabled = true;
+    btn.setAttribute('disabled', '');
+    btn.classList.remove('has-result');
+    btn.textContent = `${file.name} (${this.formatFileSize(file.size)})`;
+    btn.removeAttribute('title');
+    btn.setAttribute('aria-label', `${file.name} (${this.formatFileSize(file.size)}) — Conversion in progress`);
 
     // Show status indicator with active spinner
     this.updateStatus('Reading', `Reading ${file.name}...`, true);
@@ -315,12 +358,27 @@ export class ConverterUI {
         this.elements.successBanner.removeAttribute('hidden');
       }
       this.elements.outputArea.focus({ preventScroll: true });
+
+      // Enable filename button with visible "View converted result" action
+      btn.innerHTML = `<span class="file-name-title">${this.escapeHtml(file.name)} (${this.formatFileSize(file.size)})</span> <span class="file-name-action" aria-hidden="true">&middot; View converted result &darr;</span>`;
+      btn.disabled = false;
+      btn.removeAttribute('disabled');
+      btn.classList.add('has-result');
+      btn.title = 'Click to view converted LaTeX output';
+      btn.setAttribute('aria-label', `View converted LaTeX output for ${file.name}`);
     } catch (err: any) {
       if (generation !== this.activeGeneration) return;
+      this.currentResult = null;
       this.updateStatus('Error', 'Conversion failed', false);
       if (this.elements.successBanner) {
         this.elements.successBanner.setAttribute('hidden', '');
       }
+      btn.disabled = true;
+      btn.setAttribute('disabled', '');
+      btn.classList.remove('has-result');
+      btn.textContent = `${file.name} (${this.formatFileSize(file.size)})`;
+      btn.removeAttribute('title');
+      btn.setAttribute('aria-label', `${file.name} (${this.formatFileSize(file.size)}) — Conversion failed`);
       const message = err?.message || 'Conversion failed with an unspecified error.';
       this.showError(message);
     }
@@ -378,8 +436,14 @@ export class ConverterUI {
     this.revokeObjectUrl();
 
     this.elements.fileInput.value = '';
-    this.elements.fileNameDisplay.textContent = '';
-    this.elements.fileNameDisplay.setAttribute('hidden', '');
+    const btn = this.fileNameBtn;
+    btn.textContent = '';
+    btn.setAttribute('hidden', '');
+    btn.disabled = true;
+    btn.setAttribute('disabled', '');
+    btn.classList.remove('has-result');
+    btn.removeAttribute('title');
+    btn.setAttribute('aria-label', 'Word document filename');
     this.elements.outputArea.value = '';
     this.elements.outputContainer.setAttribute('hidden', '');
     this.elements.copyBtn.disabled = true;
@@ -390,6 +454,38 @@ export class ConverterUI {
     this.clearError();
     // Calm, non-spinning ready state on load and reset
     this.updateStatus('Ready', 'Select or drop a .docx file to convert', false);
+  }
+
+  public revealOutput(): void {
+    if (!this.currentResult) return;
+
+    const outputContainer = this.elements.outputContainer;
+    outputContainer.removeAttribute('hidden');
+
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (typeof outputContainer.scrollIntoView === 'function') {
+      outputContainer.scrollIntoView({
+        behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        block: 'start',
+      });
+    }
+
+    if (this.elements.outputArea) {
+      this.elements.outputArea.focus({ preventScroll: true });
+    }
+  }
+
+  private escapeHtml(str: string): string {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
   private async handleCopy(): Promise<void> {
