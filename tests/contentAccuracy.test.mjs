@@ -454,4 +454,108 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
       'JSON-LD operatingSystem remains Edge-only'
     );
   });
+
+  await t.test('13. Step 5C: Dual-store landing page clarity for Table Extractor and BulkGrab', () => {
+    const tePath = path.join(rootDir, 'table-extractor', 'index.html');
+    const bgPath = path.join(rootDir, 'bulkgrab', 'index.html');
+    const seoPath = path.join(rootDir, 'seo-inspector', 'index.html');
+    const bilexiPath = path.join(rootDir, 'bilexi', 'index.html');
+    const tabVaultPath = path.join(rootDir, 'tab-vault', 'index.html');
+    const w2lPath = path.join(rootDir, 'word-to-latex', 'index.html');
+
+    const teContent = fs.readFileSync(tePath, 'utf-8');
+    const bgContent = fs.readFileSync(bgPath, 'utf-8');
+    const seoContent = fs.readFileSync(seoPath, 'utf-8');
+    const bilexiContent = fs.readFileSync(bilexiPath, 'utf-8');
+    const tabVaultContent = fs.readFileSync(tabVaultPath, 'utf-8');
+    const w2lContent = fs.readFileSync(w2lPath, 'utf-8');
+
+    // 1. Both pages display the new badge
+    assert.match(
+      teContent,
+      /<span class="badge badge-edge">Available on Edge & Chrome<\/span>/,
+      'Table Extractor hero badge updated to "Available on Edge & Chrome"'
+    );
+    assert.match(
+      bgContent,
+      /<span class="badge badge-edge">Available on Edge & Chrome<\/span>/,
+      'BulkGrab hero badge updated to "Available on Edge & Chrome"'
+    );
+    assert.ok(
+      !teContent.includes('Official Microsoft Edge Add-on'),
+      'Table Extractor no longer contains outdated "Official Microsoft Edge Add-on" badge'
+    );
+    assert.ok(
+      !bgContent.includes('Official Microsoft Edge Add-on'),
+      'BulkGrab no longer contains outdated "Official Microsoft Edge Add-on" badge'
+    );
+
+    // 2. Both pages retain their official Edge and Chrome installation URLs
+    assert.ok(
+      teContent.includes('href="https://chromewebstore.google.com/detail/table-extractor-export-h/fjpbjpmccomonleefghgalfoioekhlhm"'),
+      'Table Extractor retains official Chrome Web Store download URL'
+    );
+    assert.ok(
+      teContent.includes('href="https://microsoftedge.microsoft.com/addons/detail/table-extractor-export-h/pekammppimoaikllkhhebocbkbidoboe"'),
+      'Table Extractor retains official Edge Add-ons download URL'
+    );
+    assert.ok(
+      bgContent.includes('href="https://chromewebstore.google.com/detail/bulkgrab-batch-file-downl/lnmmneljpgdefilkokfpmiohjgfjcljn"'),
+      'BulkGrab retains official Chrome Web Store download URL'
+    );
+    assert.ok(
+      bgContent.includes('href="https://microsoftedge.microsoft.com/addons/detail/bulkgrab-batch-file-dow/cphidoikhnjdkeldgelkpddnkojlfccc"'),
+      'BulkGrab retains official Edge Add-ons download URL'
+    );
+
+    // 3. Table Extractor versions remain Edge 1.0.1 and Chrome 1.0.1
+    assert.match(
+      teContent,
+      /<span class="badge badge-subtle">Published versions:\s*Edge&nbsp;v1\.0\.1 · Chrome&nbsp;v1\.0\.1<\/span>/,
+      'Table Extractor displays Edge v1.0.1 · Chrome v1.0.1'
+    );
+
+    // 4. BulkGrab versions remain Edge 1.0.0 and Chrome 1.0.3
+    assert.match(
+      bgContent,
+      /<span class="badge badge-subtle">Published versions:\s*Edge&nbsp;v1\.0\.0 · Chrome&nbsp;v1\.0\.3<\/span>/,
+      'BulkGrab displays Edge v1.0.0 · Chrome v1.0.3'
+    );
+
+    // 5. All other extension pages remain unchanged
+    assert.match(
+      seoContent,
+      /<span class="badge badge-edge">Official Microsoft Edge Add-on<\/span>/,
+      'SEO Inspector primary badge remains "Official Microsoft Edge Add-on"'
+    );
+    assert.match(
+      bilexiContent,
+      /<span class="badge badge-edge">Official Microsoft Edge Add-on<\/span>/,
+      'Bilexi primary badge remains "Official Microsoft Edge Add-on"'
+    );
+    assert.match(
+      tabVaultContent,
+      /<span class="badge badge-edge">Official Microsoft Edge Add-on<\/span>/,
+      'Tab Vault primary badge remains "Official Microsoft Edge Add-on"'
+    );
+    assert.match(
+      w2lContent,
+      /<span class="badge badge-edge">Official Edge &(?:amp;)? Chrome Add-on<\/span>/,
+      'Word to LaTeX primary badge remains "Official Edge & Chrome Add-on"'
+    );
+
+    // 6. Existing freemium and privacy explanations are preserved
+    assert.ok(teContent.includes('500 scroll steps'), 'Table Extractor retains 500 scroll steps disclosure');
+    assert.ok(teContent.includes('5,000 rows'), 'Table Extractor retains default 5,000 rows disclosure');
+    assert.ok(teContent.includes('optional Pro upgrade'), 'Table Extractor retains optional Pro upgrade disclosure');
+    assert.ok(bgContent.includes('7 files per browser session'), 'BulkGrab retains 7 files per session disclosure');
+    assert.ok(bgContent.includes('counter resets when the browser session closes'), 'BulkGrab retains session reset disclosure');
+
+    // 7. No false Chrome availability claim is added to other extensions
+    for (const [name, content] of [['SEO Inspector', seoContent], ['Bilexi', bilexiContent], ['Tab Vault', tabVaultContent]]) {
+      assert.ok(!content.includes('Chrome&nbsp;v'), `${name} has no Chrome version badge`);
+      assert.ok(!content.includes('Get on Chrome'), `${name} has no Get on Chrome button`);
+      assert.ok(!content.includes('chromewebstore.google.com'), `${name} has no Chrome Web Store link`);
+    }
+  });
 });
