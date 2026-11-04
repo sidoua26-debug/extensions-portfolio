@@ -272,15 +272,15 @@ html = r"""<!DOCTYPE html>
         <div class="hero-trust-row" role="list">
           <div class="trust-badge" role="listitem">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>Published on Edge Add-ons</span>
+            <span>All 6 on Edge · 3 on Chrome</span>
           </div>
           <div class="trust-badge" role="listitem">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>No Ads · No Telemetry</span>
+            <span>No Ads · No Extension Telemetry</span>
           </div>
           <div class="trust-badge" role="listitem">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>Open Source on GitHub</span>
+            <span>Website Code on GitHub</span>
           </div>
           <div class="trust-badge" role="listitem">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -447,7 +447,7 @@ html = r"""<!DOCTYPE html>
 
           <div class="flagship-benefits">
             <div class="flex-wrap-gap-8">
-              <span class="badge badge-edge">Published on Edge Add-ons</span>
+              <span class="badge badge-edge">Available on Edge & Chrome</span>
               <span class="badge badge-subtle">No Special Permissions</span>
               <span class="badge badge-w2l">Published versions: Edge&nbsp;v1.0.6 · Chrome&nbsp;v1.0.6</span>
             </div>

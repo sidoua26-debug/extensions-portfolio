@@ -754,4 +754,121 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
     assert.ok(seoContent.includes('Published versions: Edge&nbsp;v1.0.1'), 'SEO Inspector retains Edge v1.0.1');
     assert.ok(w2lContent.includes('word-to-latex-converter'), 'Word to LaTeX retains online converter link');
   });
+
+  await t.test('16. Step 5F: Homepage trust & accuracy messaging', () => {
+    const indexPath = path.join(rootDir, 'index.html');
+    const generatorPath = path.join(rootDir, 'build_redesign.py');
+    const storeVersionsPath = path.join(rootDir, 'store-versions.json');
+
+    const indexContent = fs.readFileSync(indexPath, 'utf-8');
+    const generatorContent = fs.readFileSync(generatorPath, 'utf-8');
+    const storeVersions = JSON.parse(fs.readFileSync(storeVersionsPath, 'utf-8'));
+
+    // 1. Dynamic store count validation against store-versions.json
+    let edgeCount = 0;
+    let chromeCount = 0;
+    for (const [key, item] of Object.entries(storeVersions)) {
+      if (item.stores) {
+        if (item.stores.edge) edgeCount++;
+        if (item.stores.chrome) chromeCount++;
+      }
+    }
+    assert.equal(edgeCount, 6, 'Exactly 6 extensions available on Edge in store-versions.json');
+    assert.equal(chromeCount, 3, 'Exactly 3 extensions available on Chrome in store-versions.json');
+
+    const expectedBadgeText = `All ${edgeCount} on Edge · ${chromeCount} on Chrome`;
+
+    // 2. The new trust messages appear in homepage hero
+    assert.match(
+      indexContent,
+      new RegExp(`<span>${expectedBadgeText}</span>`),
+      'Hero trust badge displays dynamic Edge & Chrome availability count'
+    );
+    assert.match(
+      indexContent,
+      /<span>No Ads · No Extension Telemetry<\/span>/,
+      'Hero trust badge clarifies "No Ads · No Extension Telemetry"'
+    );
+    assert.match(
+      indexContent,
+      /<span>Website Code on GitHub<\/span>/,
+      'Hero trust badge clarifies "Website Code on GitHub"'
+    );
+    assert.match(
+      indexContent,
+      /<span>Local In-Browser Processing<\/span>/,
+      'Hero trust badge preserves "Local In-Browser Processing"'
+    );
+
+    // 3. Old misleading text is absent from the targeted locations
+    const heroTrustRowMatch = indexContent.match(/<div class="hero-trust-row" role="list">([\s\S]*?)<\/div>\s*<div class="hero-actions"/);
+    assert.ok(heroTrustRowMatch, 'Hero trust row exists');
+    const heroTrustRow = heroTrustRowMatch[1];
+
+    assert.ok(!heroTrustRow.includes('Published on Edge Add-ons'), 'Old "Published on Edge Add-ons" absent from hero');
+    assert.ok(!heroTrustRow.includes('<span>No Ads · No Telemetry</span>'), 'Old "No Ads · No Telemetry" absent from hero');
+    assert.ok(!heroTrustRow.includes('<span>Open Source on GitHub</span>'), 'Old "Open Source on GitHub" absent from hero');
+
+    // 4. Word-to-LaTeX flagship badge acknowledges both stores
+    const flagshipBenefitsMatch = indexContent.match(/<div class="flagship-benefits">([\s\S]*?)<div class="benefit-group">/);
+    assert.ok(flagshipBenefitsMatch, 'Flagship benefits section exists');
+    const flagshipBenefits = flagshipBenefitsMatch[1];
+
+    assert.match(
+      flagshipBenefits,
+      /<span class="badge badge-edge">Available on Edge & Chrome<\/span>/,
+      'Flagship badge updated to "Available on Edge & Chrome"'
+    );
+    assert.ok(
+      !flagshipBenefits.includes('<span class="badge badge-edge">Published on Edge Add-ons</span>'),
+      'Old "Published on Edge Add-ons" absent from flagship badge'
+    );
+    assert.match(
+      flagshipBenefits,
+      /<span class="badge badge-w2l">Published versions:\s*Edge&nbsp;v1\.0\.6 · Chrome&nbsp;v1\.0\.6<\/span>/,
+      'Flagship retains published version details'
+    );
+
+    // 5. Existing browser store installation URLs remain unchanged on homepage
+    assert.ok(
+      indexContent.includes('lpehnpdkdiddlppobkcicdondaebijlf'),
+      'Homepage retains official Word to LaTeX Edge store link'
+    );
+    assert.ok(
+      indexContent.includes('href="https://chromewebstore.google.com/detail/word-to-latex-offline/appokjanohamffjlecncdegihoelkhco"'),
+      'Homepage retains official Word to LaTeX Chrome store link'
+    );
+
+    // 6. Generator and generated HTML remain synchronized
+    assert.match(
+      generatorContent,
+      new RegExp(`<span>${expectedBadgeText}</span>`),
+      'Generator source contains new hero availability badge'
+    );
+    assert.match(
+      generatorContent,
+      /<span>No Ads · No Extension Telemetry<\/span>/,
+      'Generator source contains updated telemetry badge'
+    );
+    assert.match(
+      generatorContent,
+      /<span>Website Code on GitHub<\/span>/,
+      'Generator source contains updated open-source badge'
+    );
+    assert.match(
+      generatorContent,
+      /<span class="badge badge-edge">Available on Edge & Chrome<\/span>/,
+      'Generator source contains updated flagship badge'
+    );
+
+    // 7. Plausible integration and privacy links are unchanged
+    assert.ok(indexContent.includes('assets/js/plausible-init.js'), 'Plausible init script retained');
+    assert.ok(indexContent.includes('https://plausible.io/js/pa-Uu6xph5PEciiqhKs8UXgI.js'), 'Plausible official script retained');
+    assert.ok(indexContent.includes('<a href="/privacy" class="nav-link">Privacy</a>'), 'Nav privacy link retained');
+    assert.ok(indexContent.includes('<a href="/privacy" class="footer-link">Privacy Policy</a>'), 'Footer privacy link retained');
+
+    // 8. Other sections and pages remain intact
+    assert.ok(indexContent.includes('id="live-converter"'), 'Live converter demo section retained');
+    assert.ok(indexContent.includes('pdf-tools/'), 'PDF tools reference retained');
+  });
 });
