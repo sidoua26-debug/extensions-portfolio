@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execSync } from 'node:child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -318,9 +319,17 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
               assert.equal(ver, undefined, `${pageRel} SEO Inspector omits softwareVersion on homepage`);
             }
           } else if (name.includes('Bilexi')) {
-            assert.equal(ver, undefined, `${pageRel} Bilexi omits softwareVersion (Edge-only)`);
+            if (pageRel === 'bilexi/index.html') {
+              assert.equal(ver, '0.5.1', `${pageRel} Bilexi softwareVersion matches published 0.5.1`);
+            } else {
+              assert.equal(ver, undefined, `${pageRel} Bilexi omits softwareVersion on homepage`);
+            }
           } else if (name.includes('Tab Vault')) {
-            assert.equal(ver, undefined, `${pageRel} Tab Vault omits softwareVersion (Edge-only)`);
+            if (pageRel === 'tab-vault/index.html') {
+              assert.equal(ver, '1.0.0', `${pageRel} Tab Vault softwareVersion matches published 1.0.0`);
+            } else {
+              assert.equal(ver, undefined, `${pageRel} Tab Vault omits softwareVersion on homepage`);
+            }
           }
         }
       }
@@ -870,5 +879,74 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
     // 8. Other sections and pages remain intact
     assert.ok(indexContent.includes('id="live-converter"'), 'Live converter demo section retained');
     assert.ok(indexContent.includes('pdf-tools/'), 'PDF tools reference retained');
+  });
+
+  await t.test('17. Step 7A: Visibility-2B schema accuracy, store URLs, Edge constraints, and internal link', () => {
+    // 1. Bilexi and Tab Vault software versions on product pages
+    const bilexiPath = path.join(rootDir, 'bilexi', 'index.html');
+    const tabVaultPath = path.join(rootDir, 'tab-vault', 'index.html');
+    const bilexiJson = JSON.parse(fs.readFileSync(bilexiPath, 'utf-8').match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+    const tabVaultJson = JSON.parse(fs.readFileSync(tabVaultPath, 'utf-8').match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+
+    const bilexiApp = (bilexiJson['@graph'] || [bilexiJson]).find((n) => n['@type'] === 'SoftwareApplication');
+    const tabVaultApp = (tabVaultJson['@graph'] || [tabVaultJson]).find((n) => n['@type'] === 'SoftwareApplication');
+
+    assert.equal(bilexiApp.softwareVersion, '0.5.1', 'bilexi/index.html includes softwareVersion 0.5.1');
+    assert.equal(tabVaultApp.softwareVersion, '1.0.0', 'tab-vault/index.html includes softwareVersion 1.0.0');
+
+    // 2. Dual-store URLs for Word to LaTeX, Table Extractor, and BulkGrab
+    const dualStorePages = ['word-to-latex/index.html', 'table-extractor/index.html', 'bulkgrab/index.html'];
+    for (const rel of dualStorePages) {
+      const pageJson = JSON.parse(fs.readFileSync(path.join(rootDir, rel), 'utf-8').match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+      const app = (pageJson['@graph'] || [pageJson]).find((n) => n['@type'] === 'SoftwareApplication');
+      assert.ok(Array.isArray(app.downloadUrl), `${rel} downloadUrl is an array`);
+      assert.equal(app.downloadUrl.length, 2, `${rel} downloadUrl references exactly 2 store URLs`);
+      assert.ok(app.downloadUrl.some((url) => url.includes('microsoftedge.microsoft.com')), `${rel} includes Edge downloadUrl`);
+      assert.ok(app.downloadUrl.some((url) => url.includes('chromewebstore.google.com')), `${rel} includes Chrome downloadUrl`);
+      assert.equal(app.operatingSystem, 'Any, with Microsoft Edge or Google Chrome', `${rel} operatingSystem reflects both browsers`);
+      assert.deepEqual(app.offers, { '@type': 'Offer', price: '0', priceCurrency: 'USD' }, `${rel} offers is free ($0 USD)`);
+    }
+
+    // Also verify homepage JSON-LD for dual-store products
+    const indexJson = JSON.parse(fs.readFileSync(path.join(rootDir, 'index.html'), 'utf-8').match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+    const indexApps = (indexJson['@graph'] || [indexJson]).filter((n) => n['@type'] === 'SoftwareApplication');
+    const w2lHome = indexApps.find((n) => n.name.includes('Word to LaTeX'));
+    const teHome = indexApps.find((n) => n.name.includes('Table Extractor'));
+    const bgHome = indexApps.find((n) => n.name.includes('BulkGrab'));
+
+    for (const [name, app] of [['Word to LaTeX', w2lHome], ['Table Extractor', teHome], ['BulkGrab', bgHome]]) {
+      assert.ok(Array.isArray(app.downloadUrl), `Homepage ${name} downloadUrl is an array`);
+      assert.equal(app.downloadUrl.length, 2, `Homepage ${name} downloadUrl references 2 stores`);
+      assert.ok(app.downloadUrl.some((url) => url.includes('microsoftedge.microsoft.com')), `Homepage ${name} includes Edge downloadUrl`);
+      assert.ok(app.downloadUrl.some((url) => url.includes('chromewebstore.google.com')), `Homepage ${name} includes Chrome downloadUrl`);
+      assert.equal(app.operatingSystem, 'Any, with Microsoft Edge or Google Chrome', `Homepage ${name} operatingSystem reflects both browsers`);
+      assert.deepEqual(app.offers, { '@type': 'Offer', price: '0', priceCurrency: 'USD' }, `Homepage ${name} offers is free`);
+    }
+
+    // 3. Edge-only constraints on SEO Inspector, Bilexi, and Tab Vault
+    const edgeOnlyPages = ['seo-inspector/index.html', 'bilexi/index.html', 'tab-vault/index.html'];
+    for (const rel of edgeOnlyPages) {
+      const pageJson = JSON.parse(fs.readFileSync(path.join(rootDir, rel), 'utf-8').match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+      const app = (pageJson['@graph'] || [pageJson]).find((n) => n['@type'] === 'SoftwareApplication');
+      assert.equal(typeof app.downloadUrl, 'string', `${rel} downloadUrl is a single string`);
+      assert.ok(app.downloadUrl.startsWith('https://microsoftedge.microsoft.com/'), `${rel} downloadUrl points to Microsoft Edge only`);
+      assert.ok(!app.downloadUrl.includes('chromewebstore.google.com'), `${rel} downloadUrl does not reference Chrome`);
+      assert.equal(app.operatingSystem, 'Any, with Microsoft Edge', `${rel} operatingSystem is Edge-only`);
+    }
+
+    // 4. Contextual guide-to-extension link in word-tables-to-latex
+    const guidePath = path.join(rootDir, 'guides', 'word-tables-to-latex', 'index.html');
+    const guideContent = fs.readFileSync(guidePath, 'utf-8');
+    assert.match(
+      guideContent,
+      /<a href="\.\.\/\.\.\/word-to-latex\/"[^>]*>Word to LaTeX browser extension<\/a>/,
+      'Guide contains contextual link to /word-to-latex/ with descriptive anchor text'
+    );
+
+    // 5. Generator reproducibility
+    const currentHome = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf-8');
+    execSync('python3 build_redesign.py', { cwd: rootDir });
+    const regeneratedHome = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf-8');
+    assert.equal(currentHome, regeneratedHome, 'Homepage generator is 100% deterministic and reproducible');
   });
 });
