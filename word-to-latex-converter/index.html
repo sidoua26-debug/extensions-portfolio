@@ -123,7 +123,7 @@
           <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
 
-        <a href="https://microsoftedge.microsoft.com/addons/detail/word-to-latex-offline/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm nav-cta-btn">
+        <a href="../word-to-latex/" class="btn btn-edge btn-sm nav-cta-btn" title="Get Word to LaTeX for Edge and Chrome">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           Get Extension
         </a>
@@ -308,6 +308,10 @@
               <li style="display: flex; gap: 8px; align-items: flex-start;">
                 <span style="color: var(--color-success); font-weight: bold;">&bull;</span>
                 <span><strong>Shared Assurance:</strong> No remote document transmission, no tracking cookies, no ads, and no document contents included in analytics.</span>
+              </li>
+              <li style="display: flex; gap: 8px; align-items: flex-start;">
+                <span style="color: var(--color-success); font-weight: bold;">&bull;</span>
+                <span><strong>Method Comparison:</strong> Read our technical guide comparing <a href="../guides/docx-to-latex-offline/" style="color: var(--accent); text-decoration: underline;">Pandoc CLI, browser tools, and extensions</a> for local workflows.</span>
               </li>
             </ul>
           </div>
@@ -600,7 +604,11 @@ Standard inline equations convert to LaTeX math syntax: \(E\  = \ mc^{2}\)</code
         </div>
         <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
           <strong style="display: block; font-size: 1rem; margin-bottom: 6px; color: var(--text-main);">How does this online converter differ from the Word to LaTeX browser extension?</strong>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">The online converter runs on this webpage and handles DOCX file conversions through your web browser. The installable Word to LaTeX (Offline) Microsoft Edge extension bundles the entire engine offline, integrates directly into your browser toolbar, supports clipboard table conversions, includes experimental local OCR, and works offline without needing to visit a website.</p>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">The online converter runs on this webpage and handles DOCX file conversions directly in your browser with zero installation. The installable <a href="../word-to-latex/" style="color: var(--accent); text-decoration: underline;">Word to LaTeX (Offline) extension</a> for Microsoft Edge and Google Chrome packages the complete WebAssembly engine into your browser, enabling instant toolbar access, clipboard table conversion, and continuous offline use without internet access.</p>
+        </div>
+        <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
+          <strong style="display: block; font-size: 1rem; margin-bottom: 6px; color: var(--text-main);">When should I choose LaTeX Fragment mode versus Complete Document mode?</strong>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Choose <strong>LaTeX Fragment</strong> mode when copying converted sections into an established Overleaf project, institutional thesis template, or journal manuscript that already defines a <code>\documentclass</code> and preamble. Choose <strong>Complete Document</strong> mode when you need an independent, compilable <code>.tex</code> file with a standard article preamble, geometry settings, and package imports ready to build directly in TeXstudio, Overleaf, or VS Code.</p>
         </div>
         <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
           <strong style="display: block; font-size: 1rem; margin-bottom: 6px; color: var(--text-main);">What Word formatting elements are preserved during conversion?</strong>
@@ -646,7 +654,7 @@ Standard inline equations convert to LaTeX math syntax: \(E\  = \ mc^{2}\)</code
         </div>
           <span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>
         </a>
-        <p class="footer-copy">&copy; 2026 ExtensionGuy. Published extensions available on the Microsoft Edge Add-ons Store. Built local-first · Privacy by design.</p>
+        <p class="footer-copy">&copy; 2026 ExtensionGuy. Published extensions available on Microsoft Edge Add-ons and the Chrome Web Store. Built local-first · Privacy by design.</p>
       </div>
       <div class="footer-links">
         <a href="../" class="footer-link">Home</a>
