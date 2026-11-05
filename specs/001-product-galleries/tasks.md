@@ -1,0 +1,36 @@
+# Tasks: 001-product-galleries
+
+- [x] Task 1: Stage and convert screenshot assets (PNG, WebP, AVIF)
+  - [x] 1.1 Replace `tab-vault-1-collapse.png` with verified store artwork (hash `d0c59fef`)
+  - [x] 1.2 Synchronize `tab-vault-2-recovery.png` and `tab-vault-3-search.png`
+  - [x] 1.3 Copy missing screenshots for Word to LaTeX, Table Extractor, and BulkGrab
+  - [x] 1.4 Generate WebP and AVIF conversions for all new/updated images
+  - [x] 1.5 Verify 31 screenshots exist in all 3 formats (93 files) and verify no "95% Memory" text exists in raw PNG strings or metadata
+- [x] Task 2: Implement gallery CSS styles in `assets/css/styles.css`
+  - [x] 2.1 Primary viewport and picture aspect-ratio styling
+  - [x] 2.2 Next/previous navigation overlay buttons
+  - [x] 2.3 Live caption display styling
+  - [x] 2.4 Thumbnail navigation rail, active states, and focus rings
+  - [x] 2.5 Lightbox modal styling and mobile responsive media queries
+- [x] Task 3: Implement gallery JavaScript controller in `assets/js/site.js`
+  - [x] 3.1 Synchronize product screenshot metadata `E` with all 31 screenshots and factual captions
+  - [x] 3.2 Implement `initProductGalleries()` function with state management
+  - [x] 3.3 Add thumbnail selection and picture updating logic
+  - [x] 3.4 Add keyboard navigation (ArrowLeft/ArrowRight, Space/Enter, Escape)
+  - [x] 3.5 Add touch swipe gesture support for mobile
+  - [x] 3.6 Wire lightbox modal open/close with focus trapping
+- [x] Task 4: Modernize all six product HTML pages
+  - [x] 4.1 Update `word-to-latex/index.html` (5 slides)
+  - [x] 4.2 Update `table-extractor/index.html` (5 slides)
+  - [x] 4.3 Update `bulkgrab/index.html` (5 slides)
+  - [x] 4.4 Update `seo-inspector/index.html` (5 slides)
+  - [x] 4.5 Update `bilexi/index.html` (5 slides)
+  - [x] 4.6 Update `tab-vault/index.html` (6 slides)
+- [x] Task 5: Synchronize `build_redesign.py` and homepage
+  - [x] 5.1 Update `build_redesign.py` screenshot items and captions
+  - [x] 5.2 Execute `python3 build_redesign.py` to regenerate `index.html`
+- [x] Task 6: Testing, verification, and visual proof
+  - [x] 6.1 Create automated tests for galleries and asset verification (`tests/productGalleries.test.mjs`)
+  - [x] 6.2 Execute full test suite (`npm test` — 184/184 tests pass)
+  - [x] 6.3 Execute Playwright gallery interaction tests
+  - [x] 6.4 Take desktop and mobile screenshots for verification (`reports/visual-verification/`)
