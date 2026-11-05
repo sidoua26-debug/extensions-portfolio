@@ -778,7 +778,7 @@ html = r"""<!DOCTYPE html>
                 </div>
               </div>
             </div>
-            <div class="card-version-micro">Published versions: Edge&nbsp;v1.0.0</div>
+            <div class="card-version-micro">Published versions: Edge&nbsp;v1.0.1</div>
           </article>
 
           <!-- Product 5: Bilexi -->
@@ -1372,7 +1372,12 @@ def get_expected_version_badge(key):
 def build():
     for key in ["word-to-latex", "table-extractor", "bulkgrab", "seo-inspector", "bilexi", "tab-vault"]:
         expected_badge = get_expected_version_badge(key)
-        assert expected_badge in html, f"Missing expected badge '{expected_badge}' in html for {key}"
+        exact_card_badge = f'<div class="card-version-micro">{expected_badge}</div>'
+        assert exact_card_badge in html, f"Missing expected card badge '{exact_card_badge}' in html for {key}"
+
+    # Flagship section badge for word-to-latex
+    w2l_badge = get_expected_version_badge("word-to-latex")
+    assert f'<span class="badge badge-w2l">{w2l_badge}</span>' in html, "Missing flagship version badge"
 
     assert "Updated Oct" not in html, "Stale date label 'Updated Oct' still present in html"
 

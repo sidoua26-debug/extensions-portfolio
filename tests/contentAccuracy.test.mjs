@@ -202,9 +202,13 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
     };
 
     for (const [key, badge] of Object.entries(expectedBadges)) {
-      assert.ok(
-        indexContent.includes(badge),
-        `Homepage index.html contains published version badge for ${key}: "${badge}"`
+      const cardRegex = new RegExp(`<article[^>]*id="${key}"[\\s\\S]*?<div class="card-version-micro">([^<]+)<\\/div>`);
+      const cardMatch = indexContent.match(cardRegex);
+      assert.ok(cardMatch, `Card for ${key} must exist and have card-version-micro`);
+      assert.equal(
+        cardMatch[1].trim(),
+        badge,
+        `Homepage card for ${key} must display exact badge "${badge}"`
       );
     }
 
@@ -228,9 +232,12 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
       const pagePath = path.join(rootDir, slug, 'index.html');
       const pageContent = fs.readFileSync(pagePath, 'utf-8');
       const badge = expectedBadges[slug];
-      assert.ok(
-        pageContent.includes(badge),
-        `Product page ${slug}/index.html contains hero published version badge: "${badge}"`
+      const heroMatch = pageContent.match(/<span class="badge badge-subtle">\s*(Published versions:[^<]+)<\/span>/);
+      assert.ok(heroMatch, `Product page ${slug}/index.html must contain hero published version badge`);
+      assert.equal(
+        heroMatch[1].trim(),
+        badge,
+        `Product page ${slug}/index.html hero badge must match exact badge "${badge}"`
       );
     }
   });
@@ -948,5 +955,194 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
     execSync('python3 build_redesign.py', { cwd: rootDir });
     const regeneratedHome = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf-8');
     assert.equal(currentHome, regeneratedHome, 'Homepage generator is 100% deterministic and reproducible');
+  });
+
+  await t.test('18. Step 7C: Product version consistency across homepage, product pages, and store-versions.json', () => {
+    const storeVersions = JSON.parse(fs.readFileSync(path.join(rootDir, 'store-versions.json'), 'utf-8'));
+    const indexContent = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf-8');
+
+    const extensions = [
+      'word-to-latex',
+      'table-extractor',
+      'bulkgrab',
+      'seo-inspector',
+      'bilexi',
+      'tab-vault'
+    ];
+
+    for (const key of extensions) {
+      const data = storeVersions[key];
+      const stores = data.stores;
+      const parts = [];
+      if (stores.edge) parts.push(`Edge&nbsp;v${stores.edge.version}`);
+      if (stores.chrome) parts.push(`Chrome&nbsp;v${stores.chrome.version}`);
+      const expectedBadge = `Published versions: ${parts.join(' · ')}`;
+
+      // 1. Homepage card micro badge matches store-versions.json
+      const cardRegex = new RegExp(`<article[^>]*id="${key}"[\\s\\S]*?<div class="card-version-micro">([^<]+)<\\/div>`);
+      const cardMatch = indexContent.match(cardRegex);
+      assert.ok(cardMatch, `Card for ${key} must exist on homepage`);
+      assert.equal(
+        cardMatch[1].trim(),
+        expectedBadge,
+        `Homepage card ${key} version badge matches store-versions.json (${expectedBadge})`
+      );
+
+      // 2. Product page hero badge matches store-versions.json
+      const pageContent = fs.readFileSync(path.join(rootDir, key, 'index.html'), 'utf-8');
+      const heroMatch = pageContent.match(/<span class="badge badge-subtle">\s*(Published versions:[^<]+)<\/span>/);
+      assert.ok(heroMatch, `Product page ${key} contains hero version badge`);
+      assert.equal(
+        heroMatch[1].trim(),
+        expectedBadge,
+        `Product page ${key} hero badge matches store-versions.json (${expectedBadge})`
+      );
+
+      // 3. For single-store or aligned dual-store extensions, verify JSON-LD softwareVersion matches
+      const pageJson = JSON.parse(pageContent.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+      const appNode = (pageJson['@graph'] || [pageJson]).find((n) => n['@type'] === 'SoftwareApplication');
+      assert.ok(appNode, `SoftwareApplication node exists in ${key}/index.html`);
+
+      if (stores.edge && stores.chrome) {
+        if (stores.edge.version === stores.chrome.version) {
+          assert.equal(
+            appNode.softwareVersion,
+            stores.edge.version,
+            `${key} aligned version ${stores.edge.version} reflected in product JSON-LD`
+          );
+        } else {
+          // Divergent versions across stores (e.g. BulkGrab: Edge 1.0.0 vs Chrome 1.0.3)
+          assert.equal(
+            appNode.softwareVersion,
+            undefined,
+            `${key} divergent store versions correctly omit single softwareVersion`
+          );
+        }
+      } else if (stores.edge) {
+        // Edge-only products
+        assert.equal(
+          appNode.softwareVersion,
+          stores.edge.version,
+          `${key} Edge version ${stores.edge.version} reflected in product JSON-LD`
+        );
+      }
+    }
+
+    // 4. Verify generator reproducibility
+    const homeBefore = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf-8');
+    execSync('python3 build_redesign.py', { cwd: rootDir });
+    const homeAfter = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf-8');
+    assert.equal(homeBefore, homeAfter, 'build_redesign.py produces deterministic output');
+  });
+
+  await t.test('19. Step 7D: Changelog release accuracy and store version consistency', () => {
+    const changelogPath = path.join(rootDir, 'changelog', 'index.html');
+    const changelogContent = fs.readFileSync(changelogPath, 'utf-8');
+    const storeVersions = JSON.parse(fs.readFileSync(path.join(rootDir, 'store-versions.json'), 'utf-8'));
+    const sitemapContent = fs.readFileSync(path.join(rootDir, 'sitemap.xml'), 'utf-8');
+
+    const extensions = [
+      'word-to-latex',
+      'table-extractor',
+      'bulkgrab',
+      'seo-inspector',
+      'bilexi',
+      'tab-vault'
+    ];
+
+    for (const key of extensions) {
+      const articleRegex = new RegExp(`<article[^>]*id="${key}"[\\s\\S]*?<\\/article>`);
+      const articleMatch = changelogContent.match(articleRegex);
+      assert.ok(articleMatch, `Changelog must contain article section for ${key}`);
+      const articleHtml = articleMatch[0];
+
+      // Extract all h3 headings within this article
+      const headingRegex = /<h3[^>]*>([\s\S]*?)<\/h3>/g;
+      let headingMatch;
+      while ((headingMatch = headingRegex.exec(articleHtml)) !== null) {
+        const headingText = headingMatch[1].trim();
+
+        // Check if heading claims to represent a "Current" store version
+        const currentMatch = headingText.match(/v?([0-9.]+)\s*\((?:Current\s*(?:&mdash;|—|-)\s*([^)]+))\)/i);
+        if (currentMatch) {
+          const claimedVersion = currentMatch[1];
+          const storeScope = currentMatch[2].toLowerCase();
+          const stores = storeVersions[key].stores;
+
+          const mentionsEdge = storeScope.includes('edge');
+          const mentionsChrome = storeScope.includes('chrome');
+
+          if (mentionsEdge && !mentionsChrome) {
+            assert.ok(stores.edge, `Changelog claims Edge version for ${key}, stores.edge must exist`);
+            assert.equal(
+              claimedVersion,
+              stores.edge.version,
+              `Changelog ${key} Current Edge version (${claimedVersion}) matches store-versions.json (${stores.edge.version})`
+            );
+          } else if (mentionsChrome && !mentionsEdge) {
+            assert.ok(stores.chrome, `Changelog claims Chrome version for ${key}, stores.chrome must exist`);
+            assert.equal(
+              claimedVersion,
+              stores.chrome.version,
+              `Changelog ${key} Current Chrome version (${claimedVersion}) matches store-versions.json (${stores.chrome.version})`
+            );
+          } else if (mentionsEdge && mentionsChrome) {
+            assert.ok(stores.edge && stores.chrome, `Changelog claims Edge & Chrome version for ${key}`);
+            assert.equal(
+              claimedVersion,
+              stores.edge.version,
+              `Changelog ${key} Current Edge version (${claimedVersion}) matches store-versions.json Edge (${stores.edge.version})`
+            );
+            assert.equal(
+              claimedVersion,
+              stores.chrome.version,
+              `Changelog ${key} Current Chrome version (${claimedVersion}) matches store-versions.json Chrome (${stores.chrome.version})`
+            );
+          }
+        }
+      }
+    }
+
+    // Specific regression assertions: older versions in SEO Inspector and Bilexi must not be labeled as "Current"
+    const seoArticle = changelogContent.match(/<article[^>]*id="seo-inspector"[\s\S]*?<\/article>/)?.[0] || '';
+    assert.ok(
+      !seoArticle.includes('v1.0.0 (Current'),
+      'SEO Inspector v1.0.0 is not labeled as Current'
+    );
+
+    const bilexiArticle = changelogContent.match(/<article[^>]*id="bilexi"[\s\S]*?<\/article>/)?.[0] || '';
+    assert.ok(
+      !bilexiArticle.includes('v0.5.0 (Current'),
+      'Bilexi v0.5.0 is not labeled as Current'
+    );
+
+    // Initial release notes are preserved with accurate labeling
+    assert.ok(
+      seoArticle.includes('v1.0.0 (Initial Release &mdash; Edge)'),
+      'SEO Inspector preserves v1.0.0 as Initial Release — Edge'
+    );
+    assert.ok(
+      bilexiArticle.includes('v0.5.0 (Initial Release &mdash; Edge)'),
+      'Bilexi preserves v0.5.0 as Initial Release — Edge'
+    );
+
+    // SEO Inspector and Bilexi link to their respective product pages for published versions
+    assert.match(
+      changelogContent,
+      /<a href="\.\.\/seo-inspector\/"[^>]*>SEO Inspector product page<\/a>/,
+      'SEO Inspector changelog section links to product page for current version details'
+    );
+    assert.match(
+      changelogContent,
+      /<a href="\.\.\/bilexi\/"[^>]*>Bilexi product page<\/a>/,
+      'Bilexi changelog section links to product page for current version details'
+    );
+
+    // Sitemap lastmod for changelog is updated to 2026-11-05
+    assert.match(
+      sitemapContent,
+      /<loc>https:\/\/extensionguy\.me\/changelog\/<\/loc>\s*<lastmod>2026-11-05<\/lastmod>/,
+      'sitemap.xml reflects lastmod 2026-11-05 for changelog'
+    );
   });
 });
