@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Overleaf Preamble Checker — Pandoc LaTeX Diagnostics | ExtensionGuy</title>
+  <meta name="description" content="Diagnose missing LaTeX packages, undefined Pandoc macros, and unconfigured preambles for Overleaf. Test snippets in your browser with copyable fixes.">
+
+  <link rel="canonical" href="https://extensionguy.me/demos/overleaf-preamble-checker/">
+  <link rel="alternate" hreflang="en" href="https://extensionguy.me/demos/overleaf-preamble-checker/">
+  <link rel="alternate" hreflang="x-default" href="https://extensionguy.me/demos/overleaf-preamble-checker/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Interactive Overleaf Preamble Checker — Pandoc LaTeX Diagnostics | ExtensionGuy">
+  <meta property="og:description" content="Diagnose missing LaTeX packages, undefined Pandoc macros, and unconfigured preambles for Overleaf. Test snippets in your browser with copyable fixes.">
+  <meta property="og:url" content="https://extensionguy.me/demos/overleaf-preamble-checker/">
+  <meta property="og:image" content="https://extensionguy.me/assets/og/home-1200x630.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Interactive Overleaf Preamble Checker — Pandoc LaTeX Diagnostics | ExtensionGuy">
+  <meta name="twitter:description" content="Diagnose missing LaTeX packages, undefined Pandoc macros, and unconfigured preambles for Overleaf. Test snippets in your browser with copyable fixes.">
+  <meta name="twitter:image" content="https://extensionguy.me/assets/og/home-1200x630.png?v=2">
+
+  <link rel="icon" type="image/png" sizes="96x96" href="../../assets/icons/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="../../assets/icons/favicon-48.png?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16.png?v=2">
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg?v=2">
+  <link rel="icon" href="/favicon.ico?v=2" sizes="any">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png?v=2">
+  <meta name="theme-color" content="#0f172a">
+
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script src="../../assets/js/plausible-init.js"></script>
+  <script async src="https://plausible.io/js/pa-Uu6xph5PEciiqhKs8UXgI.js"></script>
+
+  <link rel="preload" href="../../assets/fonts/manrope-500.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/manrope-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/geist-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/geist-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/styles.css?v=4">
+
+  <style>
+    /* Checker Playground Scaffolding */
+    .checker-hero {
+      padding: clamp(36px, 6vw, 64px) 0 28px;
+      border-bottom: 1px solid var(--border-page);
+      background: var(--bg-surface);
+    }
+    .checker-notice-banner {
+      background: var(--tint-w2l-subtle, rgba(37, 99, 235, 0.08));
+      border: 1px solid var(--tint-w2l-border, rgba(37, 99, 235, 0.25));
+      border-radius: var(--r-md);
+      padding: 16px 20px;
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    .checker-workspace {
+      padding: 36px 0 80px;
+    }
+    .checker-panels-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 960px) {
+      .checker-panels-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+    .checker-panel-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-xl);
+      padding: clamp(16px, 3vw, 24px);
+      box-shadow: var(--shadow-sm);
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .panel-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-page);
+    }
+    .panel-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+    }
+    .editor-wrapper {
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .latex-textarea {
+      width: 100%;
+      height: 380px;
+      padding: 14px 16px;
+      font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: var(--text-main);
+      background: var(--bg-page);
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-md);
+      resize: vertical;
+      white-space: pre;
+      tab-size: 2;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .latex-textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+    .editor-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .status-badge {
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-badge-clean {
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+    .status-badge-error {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+    .status-badge-warning {
+      background: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+    }
+    .clean-state-box {
+      padding: 32px 20px;
+      text-align: center;
+      background: var(--bg-page);
+      border: 1px dashed var(--border-page);
+      border-radius: var(--r-md);
+    }
+    .clean-icon {
+      font-size: 2rem;
+      color: #15803d;
+      margin-bottom: 8px;
+    }
+    .diag-card {
+      background: var(--bg-page);
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-md);
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+    .diag-card-error {
+      border-left: 4px solid #ef4444;
+    }
+    .diag-card-warning {
+      border-left: 4px solid #f59e0b;
+    }
+    .diag-card-info {
+      border-left: 4px solid #3b82f6;
+    }
+    .diag-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .diag-severity-tag {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+    }
+    .diag-severity-error {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+    .diag-severity-warning {
+      background: #fef3c7;
+      color: #b45309;
+    }
+    .diag-severity-info {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+    .diag-card-title {
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+    .diag-line-badge {
+      font-size: 0.78rem;
+      color: var(--text-tertiary);
+      font-family: var(--font-mono, monospace);
+      white-space: nowrap;
+    }
+    .diag-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin: 0 0 10px 0;
+    }
+    .diag-code-pre {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-sm);
+      padding: 8px 12px;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.82rem;
+      color: var(--text-main);
+      overflow-x: auto;
+      margin: 0 0 10px 0;
+    }
+    .diag-fix-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-sm);
+      padding: 10px 12px;
+    }
+    .diag-fix-code {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.82rem;
+      color: #2563eb;
+      background: rgba(37, 99, 235, 0.08);
+      padding: 3px 6px;
+      border-radius: 4px;
+      overflow-x: auto;
+      max-width: 100%;
+      word-break: break-all;
+      box-sizing: border-box;
+      display: inline-block;
+    }
+    .master-preamble-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-xl);
+      padding: clamp(18px, 4vw, 24px);
+      margin-top: 28px;
+    }
+    .master-preamble-code {
+      max-height: 260px;
+      overflow-y: auto;
+      background: var(--bg-page);
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-md);
+      padding: 14px 16px;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.84rem;
+      line-height: 1.5;
+      color: var(--text-main);
+      white-space: pre;
+    }
+  </style>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://extensionguy.me/demos/overleaf-preamble-checker/#app",
+      "url": "https://extensionguy.me/demos/overleaf-preamble-checker/",
+      "name": "Interactive Overleaf Preamble Checker",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any, Modern Web Browser",
+      "description": "Browser-local static diagnostic tool to identify missing LaTeX packages, undefined Pandoc macros, and unconfigured preambles for Overleaf projects.",
+      "browserRequirements": "Requires JavaScript. Runs entirely in browser memory.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://extensionguy.me/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Demos",
+          "item": "https://extensionguy.me/demos/table-extraction/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Overleaf Preamble Checker",
+          "item": "https://extensionguy.me/demos/overleaf-preamble-checker/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body id="top">
+  <a href="#mainContent" class="skip-to-content">Skip to content</a>
+
+  <header class="navbar" role="banner">
+    <div class="container nav-inner">
+      <a href="../../" class="brand" aria-label="ExtensionGuy Portfolio">
+        <div class="brand-mark" aria-hidden="true">
+          <img src="../../assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">
+          <img src="../../assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">
+        </div>
+        <span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="../../#flagship" class="nav-link">Flagship</a></li>
+          <li><a href="../../#portfolio" class="nav-link">All Extensions</a></li>
+          <li><a href="../../word-to-latex-converter/" class="nav-link">Web Converter</a></li>
+          <li><a href="../../guides/" class="nav-link">Guides</a></li>
+          <li><a href="../../privacy" class="nav-link">Privacy</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="mainContent">
+    <!-- Hero Header -->
+    <section class="checker-hero">
+      <div class="container">
+        <nav aria-label="Breadcrumb" style="margin-bottom: 12px; font-size: 0.85rem; color: var(--text-tertiary);">
+          <a href="../../" style="color: var(--text-secondary); text-decoration: none;">Home</a> &rsaquo;
+          <span style="color: var(--text-secondary);">Demos</span> &rsaquo;
+          <span aria-current="page" style="color: var(--text-main); font-weight: 600;">Overleaf Preamble Checker</span>
+        </nav>
+
+        <h1 style="font-size: clamp(1.85rem, 4vw, 2.5rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 12px; color: var(--text-main); line-height: 1.2;">
+          Interactive Overleaf Preamble Checker
+        </h1>
+        <p style="font-size: 1.05rem; color: var(--text-secondary); line-height: 1.6; max-width: 820px; margin: 0;">
+          Diagnose why Pandoc LaTeX snippets fail in Overleaf. Inspect missing packages like <code>booktabs</code> or <code>longtable</code>, undefined Pandoc macros such as <code>\tightlist</code> and <code>\pandocbounded</code>, and copy ready-to-paste preamble fixes.
+        </p>
+
+        <!-- Advisory Notice Banner -->
+        <div class="checker-notice-banner">
+          <div>
+            <strong style="color: var(--text-main); font-size: 0.92rem; display: block; margin-bottom: 4px;">
+              Advisory Static Diagnostic Tool
+            </strong>
+            <span style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.5;">
+              This playground runs client-side static analysis in your browser. It does not execute LaTeX commands or transmit your document snippets. Successful compilation in Overleaf or TeX Live remains the final authority.
+            </span>
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <a href="../../guides/fix-pandoc-latex-errors-in-overleaf/" class="btn btn-ghost btn-sm">Read Companion Guide &rarr;</a>
+            <a href="../../word-to-latex-converter/" class="btn btn-ghost btn-sm">Open Web Converter &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Two-Panel Workspace -->
+    <section class="checker-workspace">
+      <div class="container">
+        <div class="checker-panels-grid">
+          <!-- LEFT PANEL: Source Input & Presets -->
+          <div class="checker-panel-card">
+            <div class="panel-header">
+              <h2 class="panel-title">
+                LaTeX Source Editor
+              </h2>
+              <span id="lineCountBadge" style="font-size: 0.8rem; color: var(--text-tertiary); font-family: var(--font-mono, monospace);">
+                0 lines
+              </span>
+            </div>
+
+            <!-- Preset Selector -->
+            <div style="margin-bottom: 14px;">
+              <label for="presetSelect" style="display: block; font-size: 0.84rem; font-weight: 600; color: var(--text-main); margin-bottom: 6px;">
+                Load Sample Scenario:
+              </label>
+              <select id="presetSelect" class="form-control" style="width: 100%; padding: 8px 12px; font-size: 0.88rem; background: var(--bg-page); color: var(--text-main); border: 1px solid var(--border-page); border-radius: var(--r-sm);">
+                <option value="">-- Choose a Reproducible Sample Case --</option>
+              </select>
+            </div>
+
+            <!-- Editor -->
+            <div class="editor-wrapper">
+              <label for="latexInput" class="sr-only">LaTeX Source Code</label>
+              <textarea id="latexInput" class="latex-textarea" placeholder="Paste your LaTeX snippet or preamble here to analyze..." spellcheck="false" autocomplete="off"></textarea>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="editor-controls">
+              <div style="display: flex; gap: 8px;">
+                <button type="button" id="clearBtn" class="btn btn-ghost btn-sm">Clear</button>
+                <button type="button" id="resetBtn" class="btn btn-ghost btn-sm">Reset Sample</button>
+              </div>
+              <span style="font-size: 0.82rem; color: var(--text-tertiary);">
+                Runs instantly as you type
+              </span>
+            </div>
+          </div>
+
+          <!-- RIGHT PANEL: Diagnostics & Suggested Fixes -->
+          <div class="checker-panel-card">
+            <div class="panel-header">
+              <h2 class="panel-title">
+                Diagnostic Findings
+              </h2>
+              <span id="statusBadge" class="status-badge status-badge-clean">
+                Analyzing...
+              </span>
+            </div>
+
+            <div id="diagnosticsList">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Master Preamble Recommendation Card -->
+        <div class="master-preamble-box">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border-page);">
+            <div>
+              <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin: 0 0 4px 0;">
+                Recommended Master Preamble for Overleaf &amp; Pandoc
+              </h3>
+              <p style="font-size: 0.88rem; color: var(--text-secondary); margin: 0;">
+                Includes robust definitions for <code>\tightlist</code> and <code>\pandocbounded</code> alongside essential table, graphic, and math packages.
+              </p>
+            </div>
+            <button type="button" id="copyPreambleBtn" class="btn btn-primary btn-sm">
+              Copy Master Preamble
+            </button>
+          </div>
+          <pre id="recommendedPreamble" class="master-preamble-code"></pre>
+        </div>
+
+        <!-- Official Tool Links Banner -->
+        <div style="margin-top: 40px; padding: 24px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-xl); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin: 0 0 6px 0; color: var(--text-main);">
+              Converting Word Documents to Clean LaTeX?
+            </h3>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0; max-width: 680px; line-height: 1.55;">
+              Use the official Word to LaTeX browser extension or our free online WebAssembly converter to generate clean, paste-ready LaTeX fragments directly on your device.
+            </p>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <a href="https://microsoftedge.microsoft.com/addons/detail/word-to-latex-offline/lpehnpdkdiddlppobkcicdondaebijlf" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">Get on Edge Add-ons &rarr;</a>
+            <a href="https://chromewebstore.google.com/detail/word-to-latex-offline/appokjanohamffjlecncdegihoelkhco" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm">Get on Chrome Web Store &rarr;</a>
+            <a href="../../word-to-latex-converter/" class="btn btn-primary btn-sm">Try Web Converter &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <a href="../../" class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <img src="../../assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">
+            <img src="../../assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">
+          </div>
+          <span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>
+        </a>
+        <p class="footer-copy">
+          &copy; 2026 ExtensionGuy. Published extensions available on Microsoft Edge Add-ons and Chrome Web Store. Built local-first · Privacy by design.
+        </p>
+      </div>
+      <div class="footer-links">
+        <a href="../../" class="footer-link">Home</a>
+        <a href="../../#portfolio" class="footer-link">Products</a>
+        <a href="../../word-to-latex-converter/" class="footer-link">Online Converter</a>
+        <a href="../../guides/" class="footer-link">Guides</a>
+        <a href="../../#contact" class="footer-link">Support &amp; Contact</a>
+        <a href="../../privacy" class="footer-link">Privacy Policy</a>
+        <a href="../../changelog/" class="footer-link">Changelog</a>
+        <a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Source Code</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/site.js?v=20261029-1" defer></script>
+  <script src="../../assets/js/overleaf-preamble-checker.js" type="module" defer></script>
+</body>
+</html>

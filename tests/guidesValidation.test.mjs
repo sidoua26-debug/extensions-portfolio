@@ -45,6 +45,12 @@ const GUIDES = [
     file: 'guides/audit-json-ld-and-headings-in-browser/index.html',
     canonical: 'https://extensionguy.me/guides/audit-json-ld-and-headings-in-browser/',
     ogImage: 'https://extensionguy.me/assets/og/seo-inspector-1200x630.png?v=2'
+  },
+  {
+    slug: 'fix-pandoc-latex-errors-in-overleaf',
+    file: 'guides/fix-pandoc-latex-errors-in-overleaf/index.html',
+    canonical: 'https://extensionguy.me/guides/fix-pandoc-latex-errors-in-overleaf/',
+    ogImage: 'https://extensionguy.me/assets/og/home-1200x630.png?v=2'
   }
 ];
 
