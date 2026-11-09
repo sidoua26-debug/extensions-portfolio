@@ -88,5 +88,17 @@ describe('Step 1: WASM Asset Verification', () => {
     assert.ok(content.includes('John MacFarlane'), 'Must credit John MacFarlane');
     assert.ok(content.includes('MIT License'), 'Must credit pandoc-wasm MIT wrapper');
     assert.ok(content.includes('Johannes Wilm'), 'Must credit Johannes Wilm');
+    assert.ok(content.includes('pandoc-3.10-corresponding-source.tar.gz'), 'Must reference corresponding source archive');
+  });
+
+  it('5. Pandoc 3.10 corresponding source archive exists and matches verified checksum', () => {
+    const SOURCE_TAR_PATH = path.join(ROOT, 'assets/wasm/pandoc-3.10-corresponding-source.tar.gz');
+    assert.ok(fs.existsSync(SOURCE_TAR_PATH), 'assets/wasm/pandoc-3.10-corresponding-source.tar.gz must exist');
+    const stat = fs.statSync(SOURCE_TAR_PATH);
+    assert.equal(stat.size, 8759054, 'Exact byte size must be 8,759,054 bytes');
+    assert.ok(stat.size < CLOUDFLARE_LIMIT_BYTES, 'Source archive must be under Cloudflare Pages 25 MiB limit');
+    const buf = fs.readFileSync(SOURCE_TAR_PATH);
+    const hash = crypto.createHash('sha256').update(buf).digest('hex');
+    assert.equal(hash, 'fc82815542c29802d087c25e2c1421146030806b71255ec40fc0e828fe1df877', 'SHA-256 must match verified value');
   });
 });

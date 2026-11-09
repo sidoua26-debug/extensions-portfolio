@@ -52,6 +52,15 @@
 /assets/wasm/pandoc.wasm.gz
   Cache-Control: public, max-age=3600, must-revalidate
 
+# Pandoc WebAssembly engine license and source archive
+/assets/wasm/LICENSE.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/assets/wasm/pandoc-3.10-corresponding-source.tar.gz
+  Content-Type: application/gzip
+  Cache-Control: public, max-age=3600, must-revalidate
+
 # Font files: immutable long-term caching
 /assets/fonts/*
   Cache-Control: public, max-age=31536000, immutable

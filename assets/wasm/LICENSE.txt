@@ -74,8 +74,17 @@ furnished to do so.
 
 5. GPL Source Distribution Obligations Notice
 ---------------------------------------------
-In compliance with GNU General Public License v2 Section 3, complete machine-readable
-source code for Pandoc version 3.10 and the build harness is publicly available at:
+In accordance with GNU General Public License v2 Section 3 (paragraph 5 - equivalent
+network access from the designated place), the complete machine-readable corresponding
+source archive for the bundled Pandoc 3.10 WebAssembly binary is directly downloadable at:
+https://extensionguy.me/assets/wasm/pandoc-3.10-corresponding-source.tar.gz
+
+- Archive Filename: pandoc-3.10-corresponding-source.tar.gz
+- Byte Size: 8,759,054 bytes
+- SHA-256 Checksum: fc82815542c29802d087c25e2c1421146030806b71255ec40fc0e828fe1df877
+- Upstream Tag: 3.10 (commit 9376458c26d25d222e5a898ede254ebb2f47ffbe)
+
+Upstream Repositories and Reference Locations:
 - Pandoc Source Repository: https://github.com/jgm/pandoc
 - Pandoc 3.10 Release Archive: https://hackage.haskell.org/package/pandoc-3.10
 - WebAssembly Build Scripts: https://github.com/pandoc/pandoc-wasm
