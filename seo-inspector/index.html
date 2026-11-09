@@ -157,6 +157,19 @@
         </a>
       </div>
 
+      <!-- Interactive SEO Audit Sandbox Banner -->
+      <div style="background: var(--tint-seo-subtle, rgba(20, 184, 166, 0.08)); border: 1px solid var(--tint-seo-border, rgba(20, 184, 166, 0.3)); border-radius: var(--r-md); padding: 18px 22px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+        <div>
+          <strong style="color: var(--text-main); font-size: 1rem; display: block; margin-bottom: 4px;">Try the Interactive SEO Audit Sandbox</strong>
+          <span style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; display: block; max-width: 600px;">
+            Test how SEO Inspector catches missing H1s, skipped heading levels, canonical mismatches, and malformed JSON-LD in real DOM scenarios.
+          </span>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <a href="../demos/seo-audit-sandbox/" class="btn btn-primary btn-sm" style="flex-shrink: 0;">Open Live Sandbox &rarr;</a>
+        </div>
+      </div>
+
             <!-- Product Screenshot Gallery -->
       <div class="product-gallery" data-product="seo-inspector">
         <div class="gallery-viewport">
@@ -358,6 +371,38 @@
         </div>
       </section>
 
+      <section style="margin-bottom: 40px;" aria-labelledby="guideHeading">
+        <h2 id="guideHeading" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          Interactive Sandbox &amp; Technical Guide
+        </h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+          <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="badge badge-subtle" style="margin-bottom: 8px; display: inline-block;">Interactive Playground</span>
+              <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px;">
+                <a href="../demos/seo-audit-sandbox/" style="color: var(--accent); text-decoration: underline;">Technical SEO Debugging Sandbox</a>
+              </h3>
+              <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0 0 12px 0;">
+                Test real DOM mutations, skipped heading levels, malformed JSON-LD syntax, and canonical shifts with a live document health monitor.
+              </p>
+            </div>
+            <a href="../demos/seo-audit-sandbox/" style="font-size: 0.85rem; font-weight: 600; color: var(--accent);">Launch Sandbox &rarr;</a>
+          </div>
+
+          <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="badge badge-subtle" style="margin-bottom: 8px; display: inline-block;">Educational Guide</span>
+              <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px;">
+                <a href="../guides/audit-json-ld-and-headings-in-browser/" style="color: var(--accent); text-decoration: underline;">How to Debug Headings, JSON-LD, and Canonical Tags</a>
+              </h3>
+              <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0 0 12px 0;">
+                Learn why rendered DOM differs from initial HTML, how to catch JSON-LD trailing commas, and how to verify localhost and authenticated pages.
+              </p>
+            </div>
+            <a href="../guides/audit-json-ld-and-headings-in-browser/" style="font-size: 0.85rem; font-weight: 600; color: var(--accent);">Read Guide &rarr;</a>
+          </div>
+        </div>
+      </section>
 
       <section style="margin-bottom: 40px;" aria-labelledby="relatedHeading">
         <h2 id="relatedHeading" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">

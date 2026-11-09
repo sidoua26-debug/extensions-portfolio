@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Convert HTML Tables to Excel or CSV — ExtensionGuy</title>
+  <meta name="description" content="Learn how to export HTML tables to Excel or CSV without broken merged cells, lost leading zeros, or mangled accents. Master UTF-8 BOM encoding.">
+
+  <link rel="canonical" href="https://extensionguy.me/guides/html-table-to-excel/">
+  <link rel="alternate" hreflang="en" href="https://extensionguy.me/guides/html-table-to-excel/">
+  <link rel="alternate" hreflang="x-default" href="https://extensionguy.me/guides/html-table-to-excel/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How to Convert HTML Tables to Excel or CSV">
+  <meta property="og:description" content="Learn how to export HTML tables to Excel or CSV without broken merged cells, lost leading zeros, or mangled accents. Master UTF-8 BOM encoding.">
+  <meta property="og:url" content="https://extensionguy.me/guides/html-table-to-excel/">
+  <meta property="og:image" content="https://extensionguy.me/assets/og/home-1200x630.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How to Convert HTML Tables to Excel or CSV">
+  <meta name="twitter:description" content="Learn how to export HTML tables to Excel or CSV without broken merged cells, lost leading zeros, or mangled accents. Master UTF-8 BOM encoding.">
+  <meta name="twitter:image" content="https://extensionguy.me/assets/og/home-1200x630.png?v=2">
+
+  <link rel="icon" type="image/png" sizes="96x96" href="../../assets/icons/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="../../assets/icons/favicon-48.png?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16.png?v=2">
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg?v=2">
+  <link rel="icon" href="/favicon.ico?v=2" sizes="any">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png?v=2">
+  <meta name="theme-color" content="#0f172a">
+
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script src="../../assets/js/plausible-init.js"></script>
+  <script async src="https://plausible.io/js/pa-Uu6xph5PEciiqhKs8UXgI.js"></script>
+
+  <link rel="preload" href="../../assets/fonts/manrope-500.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/manrope-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/styles.css?v=4">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://extensionguy.me/guides/html-table-to-excel/#article",
+      "headline": "How to Convert HTML Tables to Excel or CSV Without Breaking Formatting",
+      "description": "Learn how to export HTML tables to Excel or CSV without broken merged cells, lost leading zeros, or mangled accents. Master UTF-8 BOM encoding.",
+      "datePublished": "2026-11-09",
+      "dateModified": "2026-11-09",
+      "inLanguage": "en",
+      "author": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://extensionguy.me/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://extensionguy.me/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "HTML Table to Excel",
+          "item": "https://extensionguy.me/guides/html-table-to-excel/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body id="top">
+  <a href="#mainContent" class="skip-to-content">Skip to content</a>
+
+  <header class="navbar" role="banner">
+    <div class="container nav-inner">
+      <a href="../../" class="brand" aria-label="ExtensionGuy Portfolio">
+        <div class="brand-mark" aria-hidden="true">
+          <img src="../../assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">
+          <img src="../../assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">
+        </div>
+        <span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="../../#flagship" class="nav-link">Flagship</a></li>
+          <li><a href="../../#portfolio" class="nav-link">All Extensions</a></li>
+          <li><a href="../../word-to-latex-converter/" class="nav-link">Web Converter</a></li>
+          <li><a href="../../privacy" class="nav-link">Privacy</a></li>
+          <li><a href="../../guides/" class="nav-link active" aria-current="page">Guides</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" title="Switch to dark mode">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="mainContent">
+    <article class="container" style="max-width: 900px; padding: clamp(32px, 5vw, 64px) 16px;">
+      <nav aria-label="Breadcrumb" style="font-size: 0.85rem; margin-bottom: 24px; color: var(--text-tertiary);">
+        <a href="../../" style="color: var(--accent); text-decoration: underline;">Home</a> &rsaquo;
+        <a href="../" style="color: var(--accent); text-decoration: underline;">Guides</a> &rsaquo;
+        <span>HTML Table to Excel</span>
+      </nav>
+
+      <header style="margin-bottom: 36px;">
+        <span class="badge badge-subtle" style="margin-bottom: 12px; display: inline-block;">Technical Guide</span>
+        <h1 style="font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; letter-spacing: -0.025em; margin-bottom: 16px; line-height: 1.2;">
+          How to Convert HTML Tables to Excel or CSV Without Breaking Formatting
+        </h1>
+        <div style="font-size: 0.85rem; color: var(--text-tertiary); margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+          <span>Last updated: November 2026</span>
+          <span aria-hidden="true">&bull;</span>
+          <span>Verified against HTML5 specs, RFC 4180 CSV, and Table Extractor v1.0 source</span>
+        </div>
+        <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+          Exporting tabular information from the web into Microsoft Excel seems straightforward until merged headers displace columns, product codes lose leading zeros, or accented names degrade into garbled symbols. This technical guide examines the underlying mechanics of HTML tables, spreadsheet imports, and reliable extraction strategies.
+        </p>
+      </header>
+
+      <div style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7;">
+
+        <!-- Table of Contents -->
+        <nav class="toc-box" aria-label="Table of contents" style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 20px; margin-bottom: 32px;">
+          <div style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 12px;">Table of Contents</div>
+          <ul style="list-style: none; padding-left: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; font-size: 0.88rem;">
+            <li><a href="#html-table-structure" style="color: var(--accent); text-decoration: underline;">1. HTML Table Architecture &amp; Semantics</a></li>
+            <li><a href="#why-copy-paste-fails" style="color: var(--accent); text-decoration: underline;">2. Why Copy-Pasting Web Tables Breaks in Excel</a></li>
+            <li><a href="#csv-versus-xlsx" style="color: var(--accent); text-decoration: underline;">3. Plain CSV versus Native XLSX Worksheets</a></li>
+            <li><a href="#encoding-and-utf8-bom" style="color: var(--accent); text-decoration: underline;">4. Character Encoding &amp; The UTF-8 BOM</a></li>
+            <li><a href="#dynamic-and-filtered-tables" style="color: var(--accent); text-decoration: underline;">5. Dynamic &amp; Filtered Table Challenges</a></li>
+            <li><a href="#virtualized-grid-boundaries" style="color: var(--accent); text-decoration: underline;">6. Viewport Culling &amp; DOM Virtualization</a></li>
+            <li><a href="#interactive-playground-patterns" style="color: var(--accent); text-decoration: underline;">7. Testing Patterns in the Playground</a></li>
+            <li><a href="#table-extractor-mechanics" style="color: var(--accent); text-decoration: underline;">8. Table Extractor Engine Verification</a></li>
+            <li><a href="#standards-and-references" style="color: var(--accent); text-decoration: underline;">9. Authoritative Specifications &amp; References</a></li>
+          </ul>
+        </nav>
+
+        <!-- Interactive Playground Link Callout -->
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-left: 4px solid var(--tint-table); border-radius: 0 var(--r-md) var(--r-md) 0; padding: 18px 22px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+          <div>
+            <strong style="color: var(--text-main); font-size: 0.95rem; display: block; margin-bottom: 4px;">
+              Try Live Table Scenarios in the Browser
+            </strong>
+            <span style="font-size: 0.875rem; color: var(--text-secondary);">
+              Inspect merged headers, hidden columns, and virtualized row pools in our interactive playground.
+            </span>
+          </div>
+          <a href="../../demos/table-extraction/" class="btn btn-ghost btn-sm" style="flex-shrink: 0;">Open Table Playground &rarr;</a>
+        </div>
+
+        <!-- Section 1 -->
+        <h2 id="html-table-structure" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          1. HTML Table Architecture &amp; Semantics
+        </h2>
+        <p style="margin-bottom: 16px;">
+          The W3C HTML specification defines tables around a hierarchical semantic tree: <code>&lt;table&gt;</code> encloses structural partitions including <code>&lt;thead&gt;</code> for column headers, <code>&lt;tbody&gt;</code> for data rows, and optionally <code>&lt;tfoot&gt;</code> for summary totals. Within each row (<code>&lt;tr&gt;</code>), cells are marked as header elements (<code>&lt;th&gt;</code>) or data cells (<code>&lt;td&gt;</code>).
+        </p>
+        <p style="margin-bottom: 16px;">
+          While a visual grid appears regular on screen, the underlying DOM representation is non-uniform. HTML permits complex cell spanning through two primary attributes:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 8px;">
+            <code>colspan="n"</code>: Expands a single cell horizontally across <em>n</em> columns. The subsequent cells in that specific <code>&lt;tr&gt;</code> start at index <em>col + n</em>.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <code>rowspan="n"</code>: Expands a cell vertically down across <em>n</em> consecutive rows. Crucially, subsequent rows do not declare that cell; their child elements pick up at the neighboring column index.
+          </li>
+        </ul>
+        <p style="margin-bottom: 20px;">
+          Because HTML does not enforce a rigid rectangular matrix, an unparsed table with cell spans lacks fixed coordinates. If a program iterates through rows naively without maintaining a two-dimensional occupancy matrix, subsequent cells drift out of alignment.
+        </p>
+
+        <!-- Section 2 -->
+        <h2 id="why-copy-paste-fails" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          2. Why Copy-Pasting Web Tables Breaks in Excel
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Selecting web text and pressing Ctrl+C populates the operating system clipboard with multiple MIME formats, typically <code>text/html</code> and plain <code>text/plain</code> (separated by tabs). When pasted into spreadsheet applications like Microsoft Excel, several structural and semantic errors frequently occur:
+        </p>
+        <ol style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 10px;">
+            <strong>Merged Cell Displacement:</strong> When Excel imports HTML fragments containing <code>colspan</code> or <code>rowspan</code>, it frequently merges worksheet cells. Merged cells in Excel restrict sorting, disable autofill, and shift subsequent columns to the right, corrupting calculations.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Truncation of Leading Zeros:</strong> Excel attempts automatic type inference. A postal code such as <code>02138</code> or an internal employee ID like <code>009412</code> is interpreted as an integer, dropping the leading zeros to yield <code>2138</code> or <code>9412</code>.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Scientific Notation Conversion:</strong> Numbers exceeding 11 digits (such as 16-digit credit card references, container IDs, or 12-digit barcodes like <code>9780132350884</code>) are automatically reformatted into scientific notation (e.g. <code>9.78013E+12</code>), permanently discarding precision on subsequent saves.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Date Ambiguity &amp; Local Mangling:</strong> A date formatted as <code>05/06/2026</code> can be interpreted as May 6 or June 5 depending on the client operating system locale, introducing silent data transposition.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Embedded Line Breaks &amp; Unescaped Commas:</strong> If a table cell contains descriptive paragraphs or multiline addresses, basic copy-paste operations split the record across multiple spreadsheet rows.
+          </li>
+        </ol>
+
+        <!-- Section 3 -->
+        <h2 id="csv-versus-xlsx" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          3. Plain CSV versus Native XLSX Worksheets
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Choosing between CSV (Comma-Separated Values) and XLSX (Office Open XML spreadsheet) depends on workflow constraints and processing targets:
+        </p>
+        <div style="overflow-x: auto; margin-bottom: 24px;">
+          <table class="demo-table" style="font-size: 0.88rem;">
+            <thead>
+              <tr>
+                <th scope="col">Feature</th>
+                <th scope="col">Comma-Separated Values (CSV)</th>
+                <th scope="col">Office Open XML (.xlsx)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Data Structure</strong></td>
+                <td>Flat stream conforming to RFC 4180</td>
+                <td>Zipped package containing XML sheets &amp; relationships</td>
+              </tr>
+              <tr>
+                <td><strong>Type Metadata</strong></td>
+                <td>Untyped text (inferred by importing client)</td>
+                <td>Explicit data types (String, Number, Date, Boolean)</td>
+              </tr>
+              <tr>
+                <td><strong>Formatting &amp; Merges</strong></td>
+                <td>Does not support visual styles or cell merges</td>
+                <td>Supports cell merging, column widths, font weights</td>
+              </tr>
+              <tr>
+                <td><strong>Multiple Worksheets</strong></td>
+                <td>Single table per document</td>
+                <td>Multiple named worksheets in one workbook</td>
+              </tr>
+              <tr>
+                <td><strong>System Interoperability</strong></td>
+                <td>Broad compatibility across Unix CLI, Python, R</td>
+                <td>Optimized for Excel, Google Sheets, LibreOffice</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-bottom: 20px;">
+          For automated scripting, lightweight pipelines, and version control, RFC 4180 CSV remains the standard. For human review where explicit text formatting (e.g. keeping IDs as strings) and column widths matter, native XLSX files provide stronger fidelity.
+        </p>
+
+        <!-- Section 4 -->
+        <h2 id="encoding-and-utf8-bom" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          4. Character Encoding &amp; The UTF-8 BOM
+        </h2>
+        <p style="margin-bottom: 16px;">
+          A frequent source of spreadsheet frustration is character corruption, known as <em>mojibake</em>. When a CSV containing international accents (such as French <code>école</code>, German <code>Über</code>, or Spanish <code>año</code>) or currency symbols (<code>€</code>, <code>£</code>, <code>¥</code>) is opened directly by double-clicking in Windows Excel, characters can appear garbled as <code>Ã©cole</code> or <code>â‚¬</code>.
+        </p>
+        <p style="margin-bottom: 16px;">
+          This occurs because desktop Excel on Windows historically defaults to the legacy system ANSI code page (such as Windows-1252 in Western European configurations) when opening <code>.csv</code> files, rather than assuming UTF-8.
+        </p>
+        <p style="margin-bottom: 16px;">
+          The solution is prepending a UTF-8 Byte Order Mark (BOM) to the beginning of the CSV text stream:
+        </p>
+        <div style="background: var(--bg-surface); padding: 14px; border-radius: var(--r-md); border: 1px solid var(--border-page); font-family: var(--font-mono); font-size: 0.84rem; margin-bottom: 20px; color: var(--text-main);">
+          <code>Unicode Code Point: U+FEFF</code><br>
+          <code>UTF-8 Byte Sequence: 0xEF, 0xBB, 0xBF</code>
+        </div>
+        <p style="margin-bottom: 20px;">
+          When Excel detects this 3-byte signature at the file start, it reliably switches its decoding engine to UTF-8, rendering multilingual text, mathematical operators, and punctuation marks accurately.
+        </p>
+
+        <!-- Section 5 -->
+        <h2 id="dynamic-and-filtered-tables" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          5. Dynamic &amp; Filtered Table Challenges
+        </h2>
+        <p style="margin-bottom: 16px;">
+          Modern web applications build user interfaces using dynamic frameworks such as React, Vue, and Angular. Rather than static documents, tables on these sites frequently incorporate interactive state:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 10px;">
+            <strong>CSS Visibility Suppression:</strong> When a user types into a quick search input, frameworks often apply <code>display: none</code> or add a utility class to unmatching rows. An extraction tool must determine whether the user intends to capture only the filtered subset or the full data set.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Hidden Metadata Columns:</strong> Internal database keys, CRM record IDs, or action buttons (e.g. "Edit", "Delete") frequently exist as hidden table cells. Extracting all cells indiscriminately introduces clutter into the output spreadsheet.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Client-Side Sorting:</strong> Clicking a table header reorders DOM nodes in memory. Respecting the user's active sort order is essential when reviewing rankings or chronological reports.
+          </li>
+        </ul>
+
+        <!-- Section 6 -->
+        <h2 id="virtualized-grid-boundaries" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          6. Viewport Culling &amp; DOM Virtualization
+        </h2>
+        <p style="margin-bottom: 16px;">
+          When web pages display thousands of rows, rendering each record as an individual DOM element causes severe browser performance degradation. To maintain high frame rates, enterprise libraries (such as AG Grid, TanStack Table, and SlickGrid) implement <em>DOM virtualization</em>.
+        </p>
+        <p style="margin-bottom: 16px;">
+          In a virtualized grid, the browser mounts only a small buffer of elements (typically 15 to 40 rows) that correspond to the visible viewport. Unseen rows do not exist in the DOM; they are synthesized and bound on the fly as the user scrolls.
+        </p>
+        <p style="margin-bottom: 20px;">
+          Consequently, standard DOM scraping scripts that call <code>document.querySelectorAll('tbody tr')</code> capture only the 20 visible records on screen, missing the rest of the dataset. For an in-depth breakdown of how automated scrolling capture, mutation debounce settlement, and FNV-1a row deduplication solve this problem, refer to our dedicated guide on <a href="../export-virtualized-tables-to-excel/" style="color: var(--accent); text-decoration: underline;">Exporting Virtualized Web Tables to Excel</a>.
+        </p>
+
+        <!-- Section 7 -->
+        <h2 id="interactive-playground-patterns" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          7. Testing Patterns in the Playground
+        </h2>
+        <p style="margin-bottom: 16px;">
+          To inspect these behaviors without needing live enterprise dashboards, ExtensionGuy provides a public reference environment at <a href="../../demos/table-extraction/" style="color: var(--accent); text-decoration: underline;">/demos/table-extraction/</a>. The playground features five distinct table scenarios:
+        </p>
+        <ol style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 8px;">
+            <strong>Standard Baseline Table:</strong> Verifies numerical parsing, currency signs, and clean tabulations.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>Merged Cells Table:</strong> Tests column alignment when header <code>colspan</code> and category <code>rowspan</code> cells span multiple dimensions.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>Hidden Elements Table:</strong> Demonstrates filtering of internal SKU columns and archived rows suppressed via CSS.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>Sortable &amp; Filterable Table:</strong> Demonstrates real-time query filtering and ascending/descending column header sorting.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>Virtualized Viewport Simulation:</strong> A live demonstration with 100 simulated records and 8 DOM pool elements, illustrating viewport culling mechanics.
+          </li>
+        </ol>
+
+        <!-- Section 8 -->
+        <h2 id="table-extractor-mechanics" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          8. Table Extractor Engine Verification
+        </h2>
+        <p style="margin-bottom: 16px;">
+          The Table Extractor browser extension provides a local solution to these extraction hurdles. Built specifically for Microsoft Edge and Google Chrome, the extension operates under strict technical and privacy boundaries:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 20px;">
+          <li style="margin-bottom: 10px;">
+            <strong>Local DOM Traversal:</strong> Extraction logic runs locally inside your browser tab. Extracted text, numbers, and generated spreadsheet files reside strictly in local memory and are not transmitted to remote servers.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Occupancy Matrix Resolution:</strong> For tables with irregular merges, Table Extractor computes a virtual coordinate grid, placing cells at their proper column coordinates to prevent misalignment.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>BOM-Encoded Exports:</strong> Generated CSV files automatically include the UTF-8 Byte Order Mark (<code>\uFEFF</code>), ensuring accented characters and currency symbols render correctly upon opening in Excel.
+          </li>
+          <li style="margin-bottom: 10px;">
+            <strong>Multi-Format Output:</strong> Choose between CSV, formatted Excel XLSX, or structured JSON arrays depending on downstream analytical requirements.
+          </li>
+        </ul>
+
+        <!-- Section 9 -->
+        <h2 id="standards-and-references" style="font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin: 36px 0 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          9. Authoritative Specifications &amp; References
+        </h2>
+        <p style="margin-bottom: 16px;">
+          For engineers and analysts seeking deeper primary documentation, the following technical standards define web tables, text encodings, and spreadsheet structures:
+        </p>
+        <ul style="padding-left: 24px; margin-bottom: 24px;">
+          <li style="margin-bottom: 8px;">
+            <strong>W3C HTML Table Model:</strong> <a href="https://www.w3.org/TR/html52/tabular-data.html" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">W3C Recommendation for Tabular Data</a> — Formal specification of table elements, spanning attributes, and cell rendering algorithms.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>IETF RFC 4180:</strong> <a href="https://www.rfc-editor.org/rfc/rfc4180" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Common Format and MIME Type for CSV Files</a> — Definitive standard for comma-separated formatting, quotes, and multiline escape rules.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>Unicode Consortium Standard:</strong> <a href="https://www.unicode.org/reports/tr17/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Unicode Technical Report #17: Character Encoding Model</a> — Guidance on byte order marks and UTF-8 encoding representations.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <strong>ECMA-376 / ISO/IEC 29500:</strong> <a href="https://www.ecma-international.org/publications-and-standards/standards/ecma-376/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Office Open XML File Formats</a> — Underlying specification for native XLSX worksheets.
+          </li>
+        </ul>
+
+        <!-- Guide Footer & Cross Links -->
+        <div style="background: var(--bg-muted); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 24px; margin-top: 40px; display: flex; flex-direction: column; gap: 14px;">
+          <strong style="color: var(--text-main); font-size: 1rem;">Explore Related Tools and Guides</strong>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="../../demos/table-extraction/" class="btn btn-ghost btn-sm">Interactive Table Playground &rarr;</a>
+            <a href="../export-virtualized-tables-to-excel/" class="btn btn-ghost btn-sm">Export Virtualized Tables Guide &rarr;</a>
+            <a href="../../table-extractor/" class="btn btn-ghost btn-sm">Table Extractor Extension Details &rarr;</a>
+          </div>
+        </div>
+
+      </div>
+    </article>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <a href="../../" class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <img src="../../assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">
+            <img src="../../assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">
+          </div>
+          <span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>
+        </a>
+        <p class="footer-copy">
+          &copy; 2026 ExtensionGuy. Published extensions available on Microsoft Edge Add-ons and Chrome Web Store. Built local-first · Privacy by design.
+        </p>
+      </div>
+      <div class="footer-links">
+        <a href="../../" class="footer-link">Home</a>
+        <a href="../../#portfolio" class="footer-link">Products</a>
+        <a href="../../word-to-latex-converter/" class="footer-link">Online Converter</a>
+        <a href="../../guides/" class="footer-link">Guides</a>
+        <a href="../../#contact" class="footer-link">Support &amp; Contact</a>
+        <a href="../../privacy" class="footer-link">Privacy Policy</a>
+        <a href="../../changelog/" class="footer-link">Changelog</a>
+        <a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Source Code</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/site.js?v=20261029-1" defer></script>
+</body>
+</html>

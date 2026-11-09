@@ -33,6 +33,18 @@ const GUIDES = [
     file: 'guides/type-french-accents-on-qwerty-offline/index.html',
     canonical: 'https://extensionguy.me/guides/type-french-accents-on-qwerty-offline/',
     ogImage: 'https://extensionguy.me/assets/og/home-1200x630.png?v=2'
+  },
+  {
+    slug: 'html-table-to-excel',
+    file: 'guides/html-table-to-excel/index.html',
+    canonical: 'https://extensionguy.me/guides/html-table-to-excel/',
+    ogImage: 'https://extensionguy.me/assets/og/home-1200x630.png?v=2'
+  },
+  {
+    slug: 'audit-json-ld-and-headings-in-browser',
+    file: 'guides/audit-json-ld-and-headings-in-browser/index.html',
+    canonical: 'https://extensionguy.me/guides/audit-json-ld-and-headings-in-browser/',
+    ogImage: 'https://extensionguy.me/assets/og/seo-inspector-1200x630.png?v=2'
   }
 ];
 
@@ -211,6 +223,8 @@ describe('Guides Validation & Quality Gate', () => {
       assert.ok(content.includes('href="./export-virtualized-tables-to-excel/"'), 'Links to export-virtualized-tables-to-excel');
       assert.ok(content.includes('href="./prevent-browser-tab-loss-local-backups/"'), 'Links to prevent-browser-tab-loss-local-backups');
       assert.ok(content.includes('href="./type-french-accents-on-qwerty-offline/"'), 'Links to type-french-accents-on-qwerty-offline');
+      assert.ok(content.includes('href="./html-table-to-excel/"'), 'Links to html-table-to-excel');
+      assert.ok(content.includes('href="./audit-json-ld-and-headings-in-browser/"'), 'Links to audit-json-ld-and-headings-in-browser');
     });
   });
 

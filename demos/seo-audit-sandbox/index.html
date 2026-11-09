@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Technical SEO Debugging Sandbox — Headings, JSON-LD &amp; Canonical Tags | ExtensionGuy</title>
+  <meta name="description" content="Interactive debugging sandbox for technical SEO: test missing H1s, skipped heading levels, canonical mismatches, and malformed JSON-LD in a live browser.">
+
+  <link rel="canonical" href="https://extensionguy.me/demos/seo-audit-sandbox/">
+  <link rel="alternate" hreflang="en" href="https://extensionguy.me/demos/seo-audit-sandbox/">
+  <link rel="alternate" hreflang="x-default" href="https://extensionguy.me/demos/seo-audit-sandbox/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Interactive Technical SEO Debugging Sandbox — Headings, JSON-LD &amp; Canonical Tags | ExtensionGuy">
+  <meta property="og:description" content="Interactive debugging sandbox for technical SEO: test missing H1s, skipped heading levels, canonical mismatches, and malformed JSON-LD in a live browser.">
+  <meta property="og:url" content="https://extensionguy.me/demos/seo-audit-sandbox/">
+  <meta property="og:image" content="https://extensionguy.me/assets/og/seo-inspector-1200x630.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Interactive Technical SEO Debugging Sandbox — Headings, JSON-LD &amp; Canonical Tags | ExtensionGuy">
+  <meta name="twitter:description" content="Interactive debugging sandbox for technical SEO: test missing H1s, skipped heading levels, canonical mismatches, and malformed JSON-LD in a live browser.">
+  <meta name="twitter:image" content="https://extensionguy.me/assets/og/seo-inspector-1200x630.png?v=2">
+
+  <link rel="icon" type="image/png" sizes="96x96" href="../../assets/icons/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="../../assets/icons/favicon-48.png?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16.png?v=2">
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg?v=2">
+  <link rel="icon" href="/favicon.ico?v=2" sizes="any">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png?v=2">
+  <meta name="theme-color" content="#0f172a">
+
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script src="../../assets/js/plausible-init.js"></script>
+  <script async src="https://plausible.io/js/pa-Uu6xph5PEciiqhKs8UXgI.js"></script>
+
+  <link rel="preload" href="../../assets/fonts/manrope-500.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/manrope-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/styles.css?v=4">
+
+  <style>
+    /* Sandbox Custom Styles */
+    .sandbox-hero {
+      padding: clamp(36px, 6vw, 64px) 0 28px;
+      border-bottom: 1px solid var(--border-page);
+      background: var(--bg-surface);
+    }
+    .sandbox-banner {
+      background: var(--tint-seo-subtle);
+      border: 1px solid var(--tint-seo-border);
+      border-radius: var(--r-md);
+      padding: 16px 20px;
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    .sandbox-grid-wrap {
+      padding: 36px 0 80px;
+    }
+    .scenario-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-xl);
+      padding: clamp(18px, 4vw, 26px);
+      margin-bottom: 28px;
+      box-shadow: var(--shadow-sm);
+    }
+    .scenario-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-page);
+    }
+    .scenario-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+    }
+    .scenario-controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--bg-muted);
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-md);
+      margin-bottom: 16px;
+    }
+    .code-comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    @media (min-width: 720px) {
+      .code-comparison-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .code-box {
+      background: var(--bg-page);
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-md);
+      padding: 12px 14px;
+      font-size: 0.82rem;
+    }
+    .code-box-header {
+      font-weight: 600;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+    .code-box pre {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: var(--text-main);
+      overflow-x: auto;
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .live-preview-box {
+      background: var(--bg-page);
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-md);
+      padding: 14px 18px;
+      margin: 14px 0;
+    }
+    .inspection-hint {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      background: var(--bg-surface);
+      border-left: 3px solid var(--accent);
+      padding: 8px 14px;
+      border-radius: 0 var(--r-sm) var(--r-sm) 0;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+    .btn-active-defect {
+      background: #b45309 !important;
+      color: #fff !important;
+      border-color: #b45309 !important;
+    }
+  </style>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": "https://extensionguy.me/demos/seo-audit-sandbox/#app",
+      "url": "https://extensionguy.me/demos/seo-audit-sandbox/",
+      "name": "Technical SEO Debugging Sandbox",
+      "description": "Interactive debugging sandbox for technical SEO: test missing H1s, skipped heading levels, canonical mismatches, and malformed JSON-LD in a live browser.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "All modern browsers",
+      "author": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://extensionguy.me/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://extensionguy.me/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "SEO Audit Sandbox",
+          "item": "https://extensionguy.me/demos/seo-audit-sandbox/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body id="top">
+  <a href="#mainContent" class="skip-to-content">Skip to content</a>
+
+  <header class="navbar" role="banner">
+    <div class="container nav-inner">
+      <a href="../../" class="brand" aria-label="ExtensionGuy Portfolio">
+        <div class="brand-mark" aria-hidden="true">
+          <img src="../../assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">
+          <img src="../../assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">
+        </div>
+        <span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="../../#flagship" class="nav-link">Flagship</a></li>
+          <li><a href="../../#portfolio" class="nav-link">All Extensions</a></li>
+          <li><a href="../../word-to-latex-converter/" class="nav-link">Online Converter</a></li>
+          <li><a href="../../guides/" class="nav-link">Guides</a></li>
+          <li><a href="../../#contact" class="nav-link">Contact</a></li>
+          <li><a href="../../privacy" class="nav-link">Privacy</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" title="Switch to dark mode">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="mainContent">
+    <section class="sandbox-hero">
+      <div class="container" style="max-width: 960px;">
+        <nav aria-label="Breadcrumb" style="font-size: 0.85rem; margin-bottom: 20px; color: var(--text-tertiary);">
+          <a href="../../" style="color: var(--accent); text-decoration: underline;">Home</a> &rsaquo;
+          <a href="../../guides/" style="color: var(--accent); text-decoration: underline;">Guides</a> &rsaquo;
+          <span>SEO Audit Sandbox</span>
+        </nav>
+
+        <span class="badge badge-seo" style="margin-bottom: 12px;">Live Diagnostic Laboratory</span>
+
+        <!-- Live H1 Container (Scenario 1 target) -->
+        <div id="mainH1Wrapper">
+          <h1 style="font-size: clamp(2rem, 4.5vw, 2.75rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 14px; line-height: 1.18; color: var(--text-main);">
+            Interactive Technical SEO Debugging Sandbox
+          </h1>
+        </div>
+
+        <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6; max-width: 780px; margin: 0 0 18px 0;">
+          Test and understand common technical on-page SEO defects in a live browser environment. Toggle individual scenarios to observe real-time DOM mutations, inspect metadata shifts, and verify diagnostic detection with SEO Inspector.
+        </p>
+
+        <!-- Product Notice & Reset Bar -->
+        <div class="sandbox-banner">
+          <div>
+            <strong style="color: var(--text-main); font-size: 0.95rem; display: block; margin-bottom: 3px;">
+              Verify Live Technical SEO with SEO Inspector on Microsoft Edge
+            </strong>
+            <span style="font-size: 0.875rem; color: var(--text-secondary);">
+              Inspect heading trees, canonical tag status, Open Graph tags, and structured data in memory. Runs local-first with no remote tracking.
+            </span>
+          </div>
+          <div style="display: flex; gap: 8px; flex-shrink: 0; align-items: center; flex-wrap: wrap;">
+            <button type="button" class="btn btn-ghost btn-sm" id="resetAllScenariosBtn" data-sandbox-action="reset">Reset All to Healthy</button>
+            <a href="https://microsoftedge.microsoft.com/addons/detail/seo-inspector-meta-tags/jbnjjkfkcmfkjamakndojbkjanijlfmd" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm">Get on Edge</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container sandbox-grid-wrap" style="max-width: 960px;">
+
+      <!-- Live Document Audit Status Panel -->
+      <section style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-xl); padding: 20px; margin-bottom: 32px; box-shadow: var(--shadow-sm);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+          <h2 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main); margin: 0; display: flex; align-items: center; gap: 8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--tint-seo);"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Live Document Health Monitor (Actual Browser DOM State)
+          </h2>
+          <span class="badge badge-subtle">Real-Time DOM Inspection</span>
+        </div>
+        <p style="font-size: 0.86rem; color: var(--text-secondary); margin-bottom: 14px;">
+          This panel queries the live browser DOM and head elements directly. Toggling any scenario below immediately alters the real document properties reflected here.
+        </p>
+        <div id="liveAuditStatusBox"></div>
+      </section>
+
+      <!-- Scenario 1: Missing H1 Heading -->
+      <article class="scenario-card" data-scenario-id="missing-h1">
+        <div class="scenario-header">
+          <h2 class="scenario-title">1. Correct versus Missing H1 Heading</h2>
+          <span class="badge badge-subtle" data-scenario-status="missing-h1">Healthy (Baseline)</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px;">
+          <strong>Defect Mechanics:</strong> The primary document heading is rendered as a styled <code>&lt;div&gt;</code> or paragraph with visual CSS styling rather than a semantic <code>&lt;h1&gt;</code> element. While humans see large bold text, search engine indexers and assistive screen readers fail to recognize the document's primary topic.
+        </p>
+
+        <div class="scenario-controls-bar">
+          <span style="font-size: 0.86rem; color: var(--text-secondary);">
+            Toggle to replace the page's actual top <code>&lt;h1&gt;</code> with a styled <code>&lt;div&gt;</code>.
+          </span>
+          <button type="button" class="btn btn-ghost btn-sm" data-scenario-toggle="missing-h1" aria-pressed="false">
+            <span class="toggle-label">Enable Defect</span>
+          </button>
+        </div>
+
+        <div class="code-comparison-grid">
+          <div class="code-box">
+            <div class="code-box-header" style="color: var(--tint-seo);">Healthy Semantic Markup</div>
+            <pre><code>&lt;!-- Valid Top-Level Document Heading --&gt;
+&lt;h1&gt;Technical SEO Debugging Sandbox&lt;/h1&gt;</code></pre>
+          </div>
+          <div class="code-box">
+            <div class="code-box-header" style="color: #b45309;">Defective Presentation Markup</div>
+            <pre><code>&lt;!-- Non-semantic visual text (H1 missing from DOM) --&gt;
+&lt;div class="text-4xl font-extrabold"&gt;Technical SEO Debugging Sandbox&lt;/div&gt;</code></pre>
+          </div>
+        </div>
+
+        <div class="inspection-hint">
+          <strong>How to inspect with SEO Inspector:</strong> Open the extension popup in Edge. In the Overview tab, observe the "H1 Heading" indicator drop from 1 to 0 with a yellow warning tag.
+        </div>
+      </article>
+
+      <!-- Scenario 2: Skipped Heading Levels -->
+      <article class="scenario-card" data-scenario-id="skipped-headings">
+        <div class="scenario-header">
+          <h2 class="scenario-title">2. Skipped Heading Levels (H2 Jumping Directly to H5)</h2>
+          <span class="badge badge-subtle" data-scenario-status="skipped-headings">Healthy (Baseline)</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px;">
+          <strong>Defect Mechanics:</strong> An <code>&lt;h5&gt;</code> heading is nested directly under an <code>&lt;h2&gt;</code> section, omitting intermediate <code>&lt;h3&gt;</code> and <code>&lt;h4&gt;</code> levels. While HTML5 parsers tolerate this and search engines will still index the content, it creates ambiguous section outlines and breaks accessibility navigation for users who browse via screen reader heading shortcuts.
+        </p>
+
+        <div class="scenario-controls-bar">
+          <span style="font-size: 0.86rem; color: var(--text-secondary);">
+            Toggle to replace the child <code>&lt;h3&gt;</code> below with an out-of-sequence <code>&lt;h5&gt;</code> in the live DOM.
+          </span>
+          <button type="button" class="btn btn-ghost btn-sm" data-scenario-toggle="skipped-headings" aria-pressed="false">
+            <span class="toggle-label">Enable Defect</span>
+          </button>
+        </div>
+
+        <!-- Target Container for Scenario 2 Live Heading -->
+        <div class="live-preview-box">
+          <div style="font-size: 0.8rem; font-weight: 600; color: var(--text-tertiary); margin-bottom: 4px;">Live Heading Hierarchy Container:</div>
+          <div style="font-weight: 700; font-size: 1.15rem; color: var(--text-main);">&lt;h2&gt; Parent Section Context</div>
+          <div id="skippedHeadingTarget" style="margin-left: 18px; padding-left: 12px; border-left: 2px solid var(--border-page);">
+            <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin: 12px 0 6px;">&lt;h3&gt; Sequential Section Heading</h3>
+            <p style="font-size: 0.86rem; color: var(--text-secondary); margin: 0 0 10px;">Valid logical progression: parent &lt;h2&gt; followed properly by child &lt;h3&gt;.</p>
+          </div>
+        </div>
+
+        <div class="inspection-hint">
+          <strong>Educational note:</strong> Google does not penalize rankings solely for skipped heading levels, but W3C WCAG guidelines require logical heading progression for screen reader accessibility.
+        </div>
+      </article>
+
+      <!-- Scenario 3: Mismatched Canonical Tag -->
+      <article class="scenario-card" data-scenario-id="mismatched-canonical">
+        <div class="scenario-header">
+          <h2 class="scenario-title">3. Correct versus Mismatched Canonical URL</h2>
+          <span class="badge badge-subtle" data-scenario-status="mismatched-canonical">Healthy (Baseline)</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px;">
+          <strong>Defect Mechanics:</strong> The <code>&lt;link rel="canonical"&gt;</code> element specifies an unencrypted <code>http://</code> scheme or omits the mandatory trailing slash. In production, this causes indexers to split link equity, flag duplicate content issues, or select an unwanted version as the canonical result.
+        </p>
+
+        <div class="scenario-controls-bar">
+          <span style="font-size: 0.86rem; color: var(--text-secondary);">
+            Toggle to mutate <code>&lt;link rel="canonical"&gt;</code> in <code>&lt;head&gt;</code> to an insecure, non-slash URL.
+          </span>
+          <button type="button" class="btn btn-ghost btn-sm" data-scenario-toggle="mismatched-canonical" aria-pressed="false">
+            <span class="toggle-label">Enable Defect</span>
+          </button>
+        </div>
+
+        <div class="code-comparison-grid">
+          <div class="code-box">
+            <div class="code-box-header" style="color: var(--tint-seo);">Self-Referencing HTTPS Canonical</div>
+            <pre><code>&lt;!-- Exact match to current document URL --&gt;
+&lt;link rel="canonical" href="https://extensionguy.me/demos/seo-audit-sandbox/"&gt;</code></pre>
+          </div>
+          <div class="code-box">
+            <div class="code-box-header" style="color: #b45309;">Mismatched Protocol / Path</div>
+            <pre><code>&lt;!-- Missing trailing slash &amp; insecure HTTP protocol --&gt;
+&lt;link rel="canonical" href="http://extensionguy.me/demos/seo-audit-sandbox"&gt;</code></pre>
+          </div>
+        </div>
+
+        <div class="inspection-hint">
+          <strong>How to inspect with SEO Inspector:</strong> View the "Canonical URL" panel in the extension. When the defect is active, it flags a canonical mismatch between current browser URL and declared href.
+        </div>
+      </article>
+
+      <!-- Scenario 4: Missing Open Graph Metadata -->
+      <article class="scenario-card" data-scenario-id="missing-og">
+        <div class="scenario-header">
+          <h2 class="scenario-title">4. Missing &amp; Incomplete Open Graph Metadata</h2>
+          <span class="badge badge-subtle" data-scenario-status="missing-og">Healthy (Baseline)</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px;">
+          <strong>Defect Mechanics:</strong> Sharing cards on platforms like LinkedIn, Slack, or X require valid <code>og:image</code>, <code>og:title</code>, and <code>og:description</code> tags. Omitting social image or description metadata causes shared previews to fall back to blank grey cards or pull arbitrary body graphics.
+        </p>
+
+        <div class="scenario-controls-bar">
+          <span style="font-size: 0.86rem; color: var(--text-secondary);">
+            Toggle to remove <code>og:image</code> and <code>og:description</code> from the live document <code>&lt;head&gt;</code>.
+          </span>
+          <button type="button" class="btn btn-ghost btn-sm" data-scenario-toggle="missing-og" aria-pressed="false">
+            <span class="toggle-label">Enable Defect</span>
+          </button>
+        </div>
+
+        <div class="code-comparison-grid">
+          <div class="code-box">
+            <div class="code-box-header" style="color: var(--tint-seo);">Complete Open Graph Bundle</div>
+            <pre><code>&lt;meta property="og:title" content="..."&gt;
+&lt;meta property="og:description" content="..."&gt;
+&lt;meta property="og:image" content="https://.../card-1200x630.png"&gt;</code></pre>
+          </div>
+          <div class="code-box">
+            <div class="code-box-header" style="color: #b45309;">Missing Crucial Preview Assets</div>
+            <pre><code>&lt;!-- og:image and og:description omitted from &lt;head&gt; --&gt;
+&lt;meta property="og:title" content="..."&gt;</code></pre>
+          </div>
+        </div>
+
+        <div class="inspection-hint">
+          <strong>How to inspect with SEO Inspector:</strong> The "Social Metadata" tab highlights missing card requirements in red, detailing absent image dimensions and title tags.
+        </div>
+      </article>
+
+      <!-- Scenario 5: Malformed JSON-LD Syntax -->
+      <article class="scenario-card" data-scenario-id="malformed-jsonld">
+        <div class="scenario-header">
+          <h2 class="scenario-title">5. Valid versus Malformed JSON-LD Syntax</h2>
+          <span class="badge badge-subtle" data-scenario-status="malformed-jsonld">Healthy (Baseline)</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px;">
+          <strong>Defect Mechanics:</strong> RFC 8259 JSON syntax strictly forbids unquoted keys and trailing commas after the last key-value pair. When developers manually concatenate JSON strings or fail to lint template output, parsers abort with syntax exceptions, causing search engines to ignore all rich structured snippets.
+        </p>
+
+        <div class="scenario-controls-bar">
+          <span style="font-size: 0.86rem; color: var(--text-secondary);">
+            Toggle to inject an invalid JSON-LD script block containing trailing commas and unquoted keys.
+          </span>
+          <button type="button" class="btn btn-ghost btn-sm" data-scenario-toggle="malformed-jsonld" aria-pressed="false">
+            <span class="toggle-label">Enable Defect</span>
+          </button>
+        </div>
+
+        <div class="code-comparison-grid">
+          <div class="code-box">
+            <div class="code-box-header" style="color: var(--tint-seo);">Valid RFC 8259 JSON-LD</div>
+            <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Valid App"
+}</code></pre>
+          </div>
+          <div class="code-box">
+            <div class="code-box-header" style="color: #dc2626;">Malformed JSON Syntax</div>
+            <pre><code>{
+  "@context": "https://schema.org",
+  unquoted_key: true,
+  "name": "Broken App",  &lt;!-- Trailing Comma --&gt;
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="inspection-hint">
+          <strong>Educational note:</strong> JSON syntax validation (whether <code>JSON.parse()</code> succeeds) is distinct from Schema.org semantic validation (whether the properties adhere to schema definitions). Both must pass for rich search snippets to render.
+        </div>
+      </article>
+
+      <!-- Scenario 6: Multiple H1 Elements -->
+      <article class="scenario-card" data-scenario-id="multiple-h1">
+        <div class="scenario-header">
+          <h2 class="scenario-title">6. Multiple H1 Headings in a Single Document</h2>
+          <span class="badge badge-subtle" data-scenario-status="multiple-h1">Healthy (Baseline)</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px;">
+          <strong>Defect Mechanics:</strong> The document declares more than one <code>&lt;h1&gt;</code> element. While the HTML5 outline algorithm historically permitted multiple H1s inside separate <code>&lt;section&gt;</code> tags, major browsers did not implement the outline algorithm natively, and assistive screen reader users expect one primary H1 declaring the document's core subject.
+        </p>
+
+        <div class="scenario-controls-bar">
+          <span style="font-size: 0.86rem; color: var(--text-secondary);">
+            Toggle to inject a second top-level <code>&lt;h1&gt;</code> heading into the body below.
+          </span>
+          <button type="button" class="btn btn-ghost btn-sm" data-scenario-toggle="multiple-h1" aria-pressed="false">
+            <span class="toggle-label">Enable Defect</span>
+          </button>
+        </div>
+
+        <!-- Target Mount Point for Injected Second H1 -->
+        <div id="multipleH1Mount"></div>
+
+        <div class="inspection-hint">
+          <strong>How to inspect with SEO Inspector:</strong> In the Headings tab, observe two root-level H1 tags in the tree visualization, prompting an audit warning.
+        </div>
+      </article>
+
+      <!-- Scenario 7: Client-Side DOM Mutations -->
+      <article class="scenario-card" data-scenario-id="client-mutation">
+        <div class="scenario-header">
+          <h2 class="scenario-title">7. Client-Side DOM Mutations (Hydration Differences)</h2>
+          <span class="badge badge-subtle" data-scenario-status="client-mutation">Healthy (Baseline)</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px;">
+          <strong>Defect Mechanics:</strong> Modern single-page applications (SPAs) and hydrated frameworks (React, Next.js, Vue) frequently modify or inject headings, meta descriptions, or structured data via client-side JavaScript after the initial HTTP page load. Right-clicking and selecting "View Source" shows only initial server HTML, whereas live in-browser DOM inspection captures the true user-facing and Googlebot-rendered state.
+        </p>
+
+        <div class="scenario-controls-bar">
+          <span style="font-size: 0.86rem; color: var(--text-secondary);">
+            Toggle to execute a client-side JavaScript DOM injection into the live page.
+          </span>
+          <button type="button" class="btn btn-ghost btn-sm" data-scenario-toggle="client-mutation" aria-pressed="false">
+            <span class="toggle-label">Enable Defect</span>
+          </button>
+        </div>
+
+        <!-- Target Mount Point for Dynamic Client Injections -->
+        <div id="clientDomMutationMount" style="min-height: 40px; padding: 12px; background: var(--bg-page); border: 1px solid var(--border-page); border-radius: var(--r-md);">
+          <span style="font-size: 0.86rem; color: var(--text-tertiary); font-style: italic;">No client-side mutations active. HTML reflects initial static server output.</span>
+        </div>
+
+        <div class="inspection-hint">
+          <strong>Key insight:</strong> Browser extensions inspect the rendered DOM tree directly, capturing elements that simple curl or HTTP response scanners miss.
+        </div>
+      </article>
+
+      <!-- Educational Companion Guide Callout -->
+      <section style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-xl); padding: 32px 24px; text-align: center; margin-top: 48px;">
+        <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">
+          Read the Technical Educational Guide
+        </h2>
+        <p style="color: var(--text-secondary); max-width: 660px; margin: 0 auto 20px; font-size: 0.95rem; line-height: 1.6;">
+          Deepen your technical understanding of DOM vs HTML differences, JSON-LD syntax vs Schema semantics, localhost testing, and interpreting in-browser SEO findings.
+        </p>
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+          <a href="../../guides/audit-json-ld-and-headings-in-browser/" class="btn btn-ghost">Read Companion Guide: Audit Headings &amp; JSON-LD in Browser &rarr;</a>
+          <a href="../../seo-inspector/" class="btn btn-ghost">View SEO Inspector Extension &rarr;</a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <a href="../../" class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <img src="../../assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">
+            <img src="../../assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">
+          </div>
+          <span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>
+        </a>
+        <p class="footer-copy">
+          &copy; 2026 ExtensionGuy. Published extensions available on Microsoft Edge Add-ons and Chrome Web Store. Built local-first · Privacy by design.
+        </p>
+      </div>
+      <div class="footer-links">
+        <a href="../../" class="footer-link">Home</a>
+        <a href="../../#portfolio" class="footer-link">Products</a>
+        <a href="../../word-to-latex-converter/" class="footer-link">Online Converter</a>
+        <a href="../../guides/" class="footer-link">Guides</a>
+        <a href="../../#contact" class="footer-link">Support &amp; Contact</a>
+        <a href="../../privacy" class="footer-link">Privacy Policy</a>
+        <a href="../../changelog/" class="footer-link">Changelog</a>
+        <a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Source Code</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/site.js?v=20261029-1" defer></script>
+  <script src="../../assets/js/seo-audit-sandbox.js" defer></script>
+</body>
+</html>
