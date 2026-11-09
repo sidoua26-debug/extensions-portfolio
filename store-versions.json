@@ -3,11 +3,11 @@
     "name": "Word to LaTeX (Offline)",
     "stores": {
       "edge": {
-        "version": "1.0.6",
+        "version": "1.0.7",
         "updated": ""
       },
       "chrome": {
-        "version": "1.0.6",
+        "version": "1.0.7",
         "updated": ""
       }
     }

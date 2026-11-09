@@ -5,7 +5,12 @@ All official release milestones for extensions published by ExtensionGuy.
 ---
 
 ## Word to LaTeX (Offline)
-- **v1.0.6** (Current)
+- **v1.0.7** (Current — November 9, 2026)
+  - Licensing clarity: established explicit MIT licensing for original application code, with third-party open-source components and WebAssembly binaries retaining their respective governing licenses.
+  - Self-contained source distribution: packaged complete Pandoc 3.10 corresponding machine-readable source code directly within release packages under GPLv2 Section 3(a).
+  - Store-tailored packaging: bundled source archive on Chrome Web Store; unpacked source tree on Microsoft Edge Add-ons to satisfy store archive validation.
+  - Preserved all offline conversion features, runtime execution, and zero-permission security architecture.
+- **v1.0.6**
   - Upgraded Pandoc WebAssembly engine with streaming decompression.
   - Added experimental offline math OCR with local Tesseract.js.
   - Enhanced table conversion with `booktabs` and `longtable` environments.

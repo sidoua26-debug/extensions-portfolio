@@ -314,7 +314,7 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
           const ver = app.softwareVersion;
 
           if (name.includes('Word to LaTeX')) {
-            assert.equal(ver, '1.0.6', `${pageRel} Word to LaTeX softwareVersion matches published 1.0.6`);
+            assert.equal(ver, '1.0.7', `${pageRel} Word to LaTeX softwareVersion matches published 1.0.7`);
           } else if (name.includes('Table Extractor')) {
             assert.equal(ver, '1.0.1', `${pageRel} Table Extractor softwareVersion matches published 1.0.1`);
           } else if (name.includes('BulkGrab')) {
@@ -841,7 +841,7 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
     );
     assert.match(
       flagshipBenefits,
-      /<span class="badge badge-w2l">Published versions:\s*Edge&nbsp;v1\.0\.6 · Chrome&nbsp;v1\.0\.6<\/span>/,
+      /<span class="badge badge-w2l">Published versions:\s*Edge&nbsp;v1\.0\.7 · Chrome&nbsp;v1\.0\.7<\/span>/,
       'Flagship retains published version details'
     );
 

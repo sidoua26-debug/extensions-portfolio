@@ -103,7 +103,7 @@ html = r"""<!DOCTYPE html>
       "@type": "SoftwareApplication",
       "@id": "https://extensionguy.me/#word-to-latex",
       "name": "Word to LaTeX (Offline)",
-      "softwareVersion": "1.0.6",
+      "softwareVersion": "1.0.7",
       "operatingSystem": "Any, with Microsoft Edge or Google Chrome",
       "applicationCategory": "BrowserApplication",
       "description": "Converts Microsoft Word (.docx) documents, tables, and math into clean LaTeX: runs fully offline, nothing leaves your device.",
@@ -468,7 +468,7 @@ html = r"""<!DOCTYPE html>
             <div class="flex-wrap-gap-8">
               <span class="badge badge-edge">Available on Edge & Chrome</span>
               <span class="badge badge-subtle">No Special Permissions</span>
-              <span class="badge badge-w2l">Published versions: Edge&nbsp;v1.0.6 · Chrome&nbsp;v1.0.6</span>
+              <span class="badge badge-w2l">Published versions: Edge&nbsp;v1.0.7 · Chrome&nbsp;v1.0.7</span>
             </div>
 
             <div class="benefit-group">
@@ -603,7 +603,7 @@ html = r"""<!DOCTYPE html>
                 </div>
               </div>
             </div>
-            <div class="card-version-micro">Published versions: Edge&nbsp;v1.0.6 · Chrome&nbsp;v1.0.6</div>
+            <div class="card-version-micro">Published versions: Edge&nbsp;v1.0.7 · Chrome&nbsp;v1.0.7</div>
           </article>
 
           <!-- Product 2: Table Extractor -->

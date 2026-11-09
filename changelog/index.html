@@ -126,7 +126,17 @@
           Word to LaTeX (Offline)
         </h2>
         <div style="margin-bottom: 16px;">
-          <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--accent); margin-bottom: 6px;">v1.0.6 (Current &mdash; Edge &amp; Chrome)</h3>
+          <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--accent); margin-bottom: 6px;">v1.0.7 (Current &mdash; Edge &amp; Chrome)</h3>
+          <p style="font-size: 0.85rem; color: var(--text-tertiary); margin: 0 0 8px 0;">Published November 9, 2026</p>
+          <ul style="color: var(--text-secondary); line-height: 1.7; padding-left: 20px; margin: 0;">
+            <li>Licensing clarity: established explicit MIT licensing for the extension's original author code, with bundled third-party open-source components and WebAssembly binaries retaining their respective governing licenses.</li>
+            <li>Self-contained source distribution: packaged complete Pandoc 3.10 corresponding machine-readable source code directly within release distribution under GPLv2 Section 3(a).</li>
+            <li>Store-tailored packaging: bundled source archive on Chrome Web Store; unpacked source tree on Microsoft Edge Add-ons to satisfy store archive validation.</li>
+            <li>Maintained all conversion features, offline runtime behavior, and empty permissions array (<code>"permissions": []</code>).</li>
+          </ul>
+        </div>
+        <div style="margin-bottom: 16px;">
+          <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px;">v1.0.6</h3>
           <ul style="color: var(--text-secondary); line-height: 1.7; padding-left: 20px; margin: 0;">
             <li>Upgraded Pandoc WebAssembly engine with streaming decompression.</li>
             <li>Added experimental offline math OCR with local Tesseract.js.</li>
