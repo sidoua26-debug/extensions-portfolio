@@ -201,8 +201,11 @@ async function main() {
       });
       return overflowing;
     });
-    console.log('Guide overflowing elements:', JSON.stringify(guideOverflowReport, null, 2));
-    if (guideOverflowReport.length > 0) throw new Error('Guide mobile page has horizontal overflow!');
+    const guideIsOverflow = await guideMobilePage.evaluate(() => {
+      return document.documentElement.scrollWidth > document.documentElement.clientWidth;
+    });
+    if (guideIsOverflow) throw new Error('Guide mobile page has document horizontal overflow!');
+    if (guideOverflowReport.length > 0) throw new Error('Guide mobile page has horizontal overflow elements!');
     await guideMobilePage.screenshot({ path: path.join(rootDir, 'review-shots/overleaf-guide-mobile.png'), fullPage: true });
     console.log('Saved review-shots/overleaf-guide-mobile.png');
     await guideMobilePage.close();

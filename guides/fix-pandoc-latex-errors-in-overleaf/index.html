@@ -50,6 +50,21 @@
       overflow-x: auto;
       box-sizing: border-box;
     }
+    .callout-error {
+      background: var(--bg-muted);
+      border-left: 4px solid #ef4444;
+      padding: 12px 16px;
+      border-radius: var(--r-sm);
+      margin-bottom: 16px;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.85rem;
+      color: var(--text-main);
+      overflow-x: auto;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
   </style>
 
   <script type="application/ld+json">
@@ -182,7 +197,7 @@
       <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
         The most frequent error reported by researchers pasting Pandoc lists into Overleaf is:
       </p>
-      <div style="background: var(--bg-muted); border-left: 4px solid #ef4444; padding: 12px 16px; border-radius: var(--r-sm); margin-bottom: 16px; font-family: var(--font-mono, monospace); font-size: 0.85rem; color: var(--text-main);">
+      <div class="callout-error">
         ! Undefined control sequence.<br>
         &lt;argument&gt; \tightlist<br>
         l.14 \tightlist
@@ -208,7 +223,7 @@
       <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
         Starting with Pandoc version 3.2.1, figure graphics are wrapped in a special sizing macro:
       </p>
-      <div style="background: var(--bg-muted); border-left: 4px solid #ef4444; padding: 12px 16px; border-radius: var(--r-sm); margin-bottom: 16px; font-family: var(--font-mono, monospace); font-size: 0.85rem; color: var(--text-main);">
+      <div class="callout-error">
         ! Undefined control sequence.<br>
         l.28 \pandocbounded{\includegraphics[keepaspectratio]{fig1.png}}
       </div>
