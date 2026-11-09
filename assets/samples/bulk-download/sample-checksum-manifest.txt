@@ -1,0 +1,16 @@
+# Synthetic Demonstration Asset Manifest - BulkGrab Testing Playground
+# Classification: Synthetic Demonstration Data
+# Genuine SHA-256 checksums computed directly from sample files on disk.
+# Note: Non-self-referential manifest; excludes sample-checksum-manifest.txt.
+
+472561c49dfdef1a8377a853b863b52182faf2c6586f4abc59d037d3c1788cf7  sample-quarterly-report.pdf
+dc08dc9fb3e8c577b81d99c654c459c46159a23c68675ad8f1f294de25222778  sample-technical-whitepaper.pdf
+9e1780b6abd87a5f70a00a10564df16b436876964d156c253bf9cb35a5283196  sample-product-datasheet.pdf
+82ac9d5d384cb7065bd59824e5d587a8b99a3629588162ecb963a2c6b8df081a  sample-compliance-summary.pdf
+4c0606e7d39fc9880709e2333951cf2be2c486baa8faf68f869897f4b39b2292  sample-analytics-chart.png
+c30ee4d841a39a7e64c6c3145265f25b39b3276de84432d5cd8795c6033a36b3  sample-workflow-diagram.png
+d55364166e16bb1fcb87fe46e829fac5fed684c1b476ea7c082b9ae9c594306f  sample-architecture-render.jpg
+0baf7aaa433f5ac79080296e287d905e10f75b8140f528d6f56394036099c207  sample-interface-mockup.jpg
+4f87842a01d4f574a555e825328710fefe7450456adc256c9a92a71f696f6286  sample-metrics-export.csv
+beb69ebd5bd8997c0914d4f8e3b2458d95af72e7c2daaee937b41caf7082a258  sample-inventory-data.csv
+60f9048dd059801e7b1ce2065fddd6975c110ecf62487f2dd424af3cc569e60f  sample-release-notes.txt

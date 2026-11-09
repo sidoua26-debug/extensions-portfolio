@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Web &amp; Browser Extension Demos — ExtensionGuy</title>
+  <meta name="description" content="Explore interactive browser playgrounds for table extraction, technical SEO audits, Overleaf LaTeX diagnostics, and bulk file downloads.">
+
+  <link rel="canonical" href="https://extensionguy.me/demos/">
+  <link rel="alternate" hreflang="en" href="https://extensionguy.me/demos/">
+  <link rel="alternate" hreflang="x-default" href="https://extensionguy.me/demos/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Interactive Web &amp; Browser Extension Demos — ExtensionGuy">
+  <meta property="og:description" content="Explore interactive browser playgrounds for table extraction, technical SEO audits, Overleaf LaTeX diagnostics, and bulk file downloads.">
+  <meta property="og:url" content="https://extensionguy.me/demos/">
+  <meta property="og:image" content="https://extensionguy.me/assets/og/home-1200x630.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Interactive Web &amp; Browser Extension Demos — ExtensionGuy">
+  <meta name="twitter:description" content="Explore interactive browser playgrounds for table extraction, technical SEO audits, Overleaf LaTeX diagnostics, and bulk file downloads.">
+  <meta name="twitter:image" content="https://extensionguy.me/assets/og/home-1200x630.png?v=2">
+
+  <link rel="icon" type="image/png" sizes="96x96" href="../assets/icons/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="../assets/icons/favicon-48.png?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/favicon-16.png?v=2">
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg?v=2">
+  <link rel="icon" href="/favicon.ico?v=2" sizes="any">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png?v=2">
+  <meta name="theme-color" content="#0f172a">
+
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script src="../assets/js/plausible-init.js"></script>
+  <script async src="https://plausible.io/js/pa-Uu6xph5PEciiqhKs8UXgI.js"></script>
+
+  <link rel="preload" href="../assets/fonts/manrope-500.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/manrope-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/styles.css?v=4">
+
+  <style>
+    .demos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .demo-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .demo-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+    .demo-card-header {
+      margin-bottom: 16px;
+    }
+    .demo-card-badges {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .demo-card-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 0 0 10px 0;
+      line-height: 1.35;
+    }
+    .demo-card-title a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .demo-card-desc {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin: 0 0 20px 0;
+    }
+    .demo-card-footer {
+      border-top: 1px solid var(--border-page);
+      padding-top: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://extensionguy.me/demos/#collection",
+      "url": "https://extensionguy.me/demos/",
+      "name": "Interactive Demos & Playgrounds",
+      "description": "Explore interactive browser playgrounds for table extraction, technical SEO audits, Overleaf LaTeX diagnostics, and bulk file downloads.",
+      "inLanguage": "en",
+      "publisher": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://extensionguy.me/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Demos",
+          "item": "https://extensionguy.me/demos/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body id="top">
+  <a href="#mainContent" class="skip-to-content">Skip to content</a>
+
+  <header class="navbar" role="banner">
+    <div class="container nav-inner">
+      <a href="../" class="brand" aria-label="ExtensionGuy Portfolio">
+        <div class="brand-mark" aria-hidden="true">
+          <img src="../assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">
+          <img src="../assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">
+        </div>
+        <span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="../#flagship" class="nav-link">Flagship</a></li>
+          <li><a href="../#portfolio" class="nav-link">All Extensions</a></li>
+          <li><a href="../word-to-latex-converter/" class="nav-link">Web Converter</a></li>
+          <li><a href="./" class="nav-link active" aria-current="page">Demos</a></li>
+          <li><a href="../guides/" class="nav-link">Guides</a></li>
+          <li><a href="../privacy" class="nav-link">Privacy</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="mainContent" class="container" style="padding-top: clamp(24px, 4vw, 40px); padding-bottom: 80px; max-width: 1040px;">
+    <!-- Breadcrumbs -->
+    <nav aria-label="Breadcrumb" style="margin-bottom: 16px; font-size: 0.85rem; color: var(--text-tertiary);">
+      <a href="../" style="color: var(--text-secondary); text-decoration: none;">Home</a> &rsaquo;
+      <span aria-current="page" style="color: var(--text-main); font-weight: 600;">Demos</span>
+    </nav>
+
+    <header style="margin-bottom: 40px; border-bottom: 1px solid var(--border-page); padding-bottom: 24px;">
+      <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 12px;">
+        <span class="badge badge-edge">Interactive Sandbox Labs</span>
+        <span class="badge badge-subtle">Client-Side · Safe Testing</span>
+      </div>
+      <h1 style="font-size: clamp(2rem, 4vw, 2.7rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 12px; color: var(--text-main);">
+        Interactive Demos &amp; Testing Playgrounds
+      </h1>
+      <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6; max-width: 780px; margin: 0;">
+        Explore live interactive testing environments designed to demonstrate web data extraction, DOM structure inspection, LaTeX compilation fixes, and batch file downloads directly in your browser.
+      </p>
+    </header>
+
+    <div class="demos-grid">
+      <!-- Card 1: Table Extraction Playground -->
+      <article class="demo-card">
+        <div class="demo-card-header">
+          <div class="demo-card-badges">
+            <span class="badge badge-subtle">Table Extractor</span>
+            <span class="badge badge-subtle">Web Data</span>
+          </div>
+          <h2 class="demo-card-title">
+            <a href="./table-extraction/">Table Extraction Playground</a>
+          </h2>
+          <p class="demo-card-desc">
+            Test extracting HTML tables with merged rowspans, dynamic sortable columns, hidden rows, and virtualized data grids into Excel-compatible spreadsheets or clean CSV files.
+          </p>
+        </div>
+        <div class="demo-card-footer">
+          <a href="../table-extractor/" style="font-size: 0.85rem; color: var(--text-secondary); text-decoration: none;">View Extension &rarr;</a>
+          <a href="./table-extraction/" class="btn btn-primary btn-sm">Open Table Playground &rarr;</a>
+        </div>
+      </article>
+
+      <!-- Card 2: SEO Audit Sandbox -->
+      <article class="demo-card">
+        <div class="demo-card-header">
+          <div class="demo-card-badges">
+            <span class="badge badge-subtle">SEO Inspector</span>
+            <span class="badge badge-subtle">Technical SEO</span>
+          </div>
+          <h2 class="demo-card-title">
+            <a href="./seo-audit-sandbox/">SEO Audit Sandbox</a>
+          </h2>
+          <p class="demo-card-desc">
+            Interactive diagnostic sandbox to inspect correct versus skipped heading levels, mismatched canonical URLs, missing Open Graph cards, and malformed JSON-LD structured data.
+          </p>
+        </div>
+        <div class="demo-card-footer">
+          <a href="../seo-inspector/" style="font-size: 0.85rem; color: var(--text-secondary); text-decoration: none;">View Extension &rarr;</a>
+          <a href="./seo-audit-sandbox/" class="btn btn-primary btn-sm">Launch SEO Sandbox &rarr;</a>
+        </div>
+      </article>
+
+      <!-- Card 3: Overleaf Preamble Checker -->
+      <article class="demo-card">
+        <div class="demo-card-header">
+          <div class="demo-card-badges">
+            <span class="badge badge-subtle">Word to LaTeX</span>
+            <span class="badge badge-subtle">LaTeX Diagnostics</span>
+          </div>
+          <h2 class="demo-card-title">
+            <a href="./overleaf-preamble-checker/">Overleaf Preamble Checker</a>
+          </h2>
+          <p class="demo-card-desc">
+            Browser-local static analysis playground to diagnose why Pandoc LaTeX snippets fail in Overleaf. Inspect missing packages, undefined tightlist and pandocbounded macros, and copy fixes.
+          </p>
+        </div>
+        <div class="demo-card-footer">
+          <a href="../word-to-latex/" style="font-size: 0.85rem; color: var(--text-secondary); text-decoration: none;">View Extension &rarr;</a>
+          <a href="./overleaf-preamble-checker/" class="btn btn-primary btn-sm">Open LaTeX Checker &rarr;</a>
+        </div>
+      </article>
+
+      <!-- Card 4: Bulk Download Test Playground -->
+      <article class="demo-card">
+        <div class="demo-card-header">
+          <div class="demo-card-badges">
+            <span class="badge badge-subtle">BulkGrab</span>
+            <span class="badge badge-subtle">Batch Downloads</span>
+          </div>
+          <h2 class="demo-card-title">
+            <a href="./bulk-download/">Bulk Download Test Playground</a>
+          </h2>
+          <p class="demo-card-desc">
+            Test batch file discovery, multi-extension filtering, thumbnail scanning, and dynamic DOM link injection across downloadable PDFs, high-res images, CSV exports, and text files.
+          </p>
+        </div>
+        <div class="demo-card-footer">
+          <a href="../bulkgrab/" style="font-size: 0.85rem; color: var(--text-secondary); text-decoration: none;">View Extension &rarr;</a>
+          <a href="./bulk-download/" class="btn btn-primary btn-sm">Test Bulk Downloads &rarr;</a>
+        </div>
+      </article>
+    </div>
+
+    <!-- Related Technical Guides Card -->
+    <section style="background: var(--bg-muted); border: 1px solid var(--border-page); border-radius: var(--r-lg); padding: 32px; margin-top: 16px;">
+      <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Looking for Technical Guides?</h3>
+      <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+        Read our in-depth developer articles covering HTML table conversion algorithms, browser-based SEO debugging, Overleaf compilation error resolutions, and bulk PDF download techniques.
+      </p>
+      <a href="../guides/" class="btn btn-ghost btn-sm">Explore All Technical Guides &rarr;</a>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <a href="../" class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <img src="../assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">
+            <img src="../assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">
+          </div>
+          <span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>
+        </a>
+        <p class="footer-copy">
+          &copy; 2026 ExtensionGuy. Published extensions available on Microsoft Edge Add-ons and Chrome Web Store. Built local-first · Privacy by design.
+        </p>
+      </div>
+      <div class="footer-links">
+        <a href="../" class="footer-link">Home</a>
+        <a href="../#portfolio" class="footer-link">Products</a>
+        <a href="../word-to-latex-converter/" class="footer-link">Online Converter</a>
+        <a href="./" class="footer-link">Demos</a>
+        <a href="../guides/" class="footer-link">Guides</a>
+        <a href="../#contact" class="footer-link">Support &amp; Contact</a>
+        <a href="../privacy" class="footer-link">Privacy Policy</a>
+        <a href="../changelog/" class="footer-link">Changelog</a>
+        <a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Source Code</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/site.js?v=20261029-1" defer></script>
+</body>
+</html>

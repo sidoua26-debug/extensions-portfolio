@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Download Multiple PDF Files from a Webpage — ExtensionGuy</title>
+  <meta name="description" content="Learn how to batch download multiple PDF files from webpages. Master link extraction, extension filtering, CORS restrictions, and on-device ZIP bundling.">
+
+  <link rel="canonical" href="https://extensionguy.me/guides/download-multiple-pdfs/">
+  <link rel="alternate" hreflang="en" href="https://extensionguy.me/guides/download-multiple-pdfs/">
+  <link rel="alternate" hreflang="x-default" href="https://extensionguy.me/guides/download-multiple-pdfs/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How to Download Multiple PDF Files from a Webpage">
+  <meta property="og:description" content="Learn how to batch download multiple PDF files from webpages. Master link extraction, extension filtering, CORS restrictions, and on-device ZIP bundling.">
+  <meta property="og:url" content="https://extensionguy.me/guides/download-multiple-pdfs/">
+  <meta property="og:image" content="https://extensionguy.me/assets/og/home-1200x630.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How to Download Multiple PDF Files from a Webpage">
+  <meta name="twitter:description" content="Learn how to batch download multiple PDF files from webpages. Master link extraction, extension filtering, CORS restrictions, and on-device ZIP bundling.">
+  <meta name="twitter:image" content="https://extensionguy.me/assets/og/home-1200x630.png?v=2">
+
+  <link rel="icon" type="image/png" sizes="96x96" href="../../assets/icons/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="../../assets/icons/favicon-48.png?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16.png?v=2">
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg?v=2">
+  <link rel="icon" href="/favicon.ico?v=2" sizes="any">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png?v=2">
+  <meta name="theme-color" content="#0f172a">
+
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script src="../../assets/js/plausible-init.js"></script>
+  <script async src="https://plausible.io/js/pa-Uu6xph5PEciiqhKs8UXgI.js"></script>
+
+  <link rel="preload" href="../../assets/fonts/manrope-500.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/manrope-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/styles.css?v=4">
+
+  <style>
+    code {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    pre {
+      max-width: 100%;
+      overflow-x: auto;
+      box-sizing: border-box;
+    }
+    .guide-callout {
+      background: var(--bg-muted);
+      border-left: 4px solid var(--accent);
+      padding: 14px 18px;
+      border-radius: var(--r-sm);
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--text-main);
+      overflow-x: auto;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .topic-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .topic-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-md);
+      padding: 20px;
+    }
+  </style>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://extensionguy.me/guides/download-multiple-pdfs/#article",
+      "url": "https://extensionguy.me/guides/download-multiple-pdfs/",
+      "headline": "How to Download Multiple PDF Files from a Webpage",
+      "description": "Discover how to batch download multiple PDF files from webpages. Master link extraction, extension filtering, CORS restrictions, and on-device ZIP bundling.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-09",
+      "dateModified": "2026-11-09",
+      "author": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://extensionguy.me/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://extensionguy.me/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "How to Download Multiple PDF Files from a Webpage",
+          "item": "https://extensionguy.me/guides/download-multiple-pdfs/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body id="top">
+  <a href="#mainContent" class="skip-to-content">Skip to content</a>
+
+  <header class="navbar" role="banner">
+    <div class="container nav-inner">
+      <a href="../../" class="brand" aria-label="ExtensionGuy Portfolio">
+        <div class="brand-mark" aria-hidden="true">
+          <img src="../../assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">
+          <img src="../../assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">
+        </div>
+        <span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="../../#flagship" class="nav-link">Flagship</a></li>
+          <li><a href="../../#portfolio" class="nav-link">All Extensions</a></li>
+          <li><a href="../../word-to-latex-converter/" class="nav-link">Web Converter</a></li>
+          <li><a href="../../demos/" class="nav-link">Demos</a></li>
+          <li><a href="../" class="nav-link active" aria-current="page">Guides</a></li>
+          <li><a href="../../privacy" class="nav-link">Privacy</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="mainContent" class="container" style="padding-top: clamp(24px, 4vw, 40px); padding-bottom: 80px; max-width: 860px;">
+    <!-- Breadcrumbs -->
+    <nav aria-label="Breadcrumb" style="margin-bottom: 16px; font-size: 0.85rem; color: var(--text-tertiary);">
+      <a href="../../" style="color: var(--text-secondary); text-decoration: none;">Home</a> &rsaquo;
+      <a href="../" style="color: var(--text-secondary); text-decoration: none;">Guides</a> &rsaquo;
+      <span aria-current="page" style="color: var(--text-main); font-weight: 600;">Download Multiple PDFs</span>
+    </nav>
+
+    <header style="margin-bottom: 32px; border-bottom: 1px solid var(--border-page); padding-bottom: 24px;">
+      <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 12px;">
+        <span class="badge badge-subtle">Browser Productivity</span>
+        <span style="font-size: 0.85rem; color: var(--text-tertiary);">November 2026 · 8 min read</span>
+      </div>
+      <h1 style="font-size: clamp(2rem, 4vw, 2.7rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 12px; color: var(--text-main); line-height: 1.25;">
+        How to Download Multiple PDF Files from a Webpage
+      </h1>
+      <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+        When gathering research papers, course materials, invoices, or annual reports, clicking dozens of PDF links individually consumes valuable time. Here is how modern browsers expose file links, how extensions automate discovery, and how to navigate security boundaries cleanly.
+      </p>
+    </header>
+
+    <!-- Interactive Playground Banner -->
+    <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 20px; margin-bottom: 36px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; box-shadow: var(--shadow-sm);">
+      <div>
+        <strong style="color: var(--text-main); font-size: 1.05rem; display: block; margin-bottom: 4px;">Hands-On Testing Environment Available</strong>
+        <p style="margin: 0; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+          Test batch file scanning, extension filtering, and dynamic link revelation in our dedicated browser playground.
+        </p>
+      </div>
+      <a href="../../demos/bulk-download/" class="btn btn-primary btn-sm">Open Bulk Download Playground &rarr;</a>
+    </div>
+
+    <!-- Section 1 -->
+    <section style="margin-bottom: 40px;">
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 14px;">
+        1. Why Manual PDF Downloading is Tedious
+      </h2>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
+        Academic repositories, financial portals, and corporate document libraries regularly list collections of 20 to 100 PDF documents across single directory pages. Manually saving each asset involves clicking the link, waiting for the browser's built-in PDF viewer tab to render, opening the save menu, and selecting a destination folder.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        Repeating this interaction dozens of times increases operational fatigue, risks skipping crucial documents, and clutters your download directory with unstructured files. Automation solves this by discovering links systematically and aggregating them into a single destination folder or compressed archive.
+      </p>
+    </section>
+
+    <!-- Section 2 -->
+    <section style="margin-bottom: 40px;">
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 14px;">
+        2. How Websites Expose Downloadable PDF Links
+      </h2>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
+        In HTML markup, downloadable PDF documents are presented through several standard structures:
+      </p>
+      <ul style="color: var(--text-secondary); line-height: 1.7; padding-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 8px;">
+          <strong>Direct Anchor Elements:</strong> Standard hyperlinks declaring a path to a PDF file:
+          <pre style="margin-top: 8px; background: var(--bg-surface); padding: 12px; border-radius: var(--r-sm); border: 1px solid var(--border-page); font-family: var(--font-mono, monospace); font-size: 0.85rem;">&lt;a href="/reports/q4-audit.pdf" download="q4-audit.pdf"&gt;Download Q4 Report&lt;/a&gt;</pre>
+        </li>
+        <li style="margin-bottom: 8px;">
+          <strong>Query-Parameter Endpoints:</strong> Content delivery routes that serve documents dynamically via server-side scripts:
+          <pre style="margin-top: 8px; background: var(--bg-surface); padding: 12px; border-radius: var(--r-sm); border: 1px solid var(--border-page); font-family: var(--font-mono, monospace); font-size: 0.85rem;">&lt;a href="/api/v1/document?id=9482&amp;format=pdf"&gt;Statement #9482&lt;/a&gt;</pre>
+        </li>
+        <li style="margin-bottom: 8px;">
+          <strong>Embedded Viewers &amp; Objects:</strong> Documents embedded directly within page layouts using <code style="font-family: var(--font-mono, monospace);">&lt;iframe&gt;</code>, <code style="font-family: var(--font-mono, monospace);">&lt;embed&gt;</code>, or <code style="font-family: var(--font-mono, monospace);">&lt;object&gt;</code> tags.
+        </li>
+      </ul>
+    </section>
+
+    <!-- Section 3 -->
+    <section style="margin-bottom: 40px;">
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 14px;">
+        3. How Browser Extensions Discover Links
+      </h2>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
+        A specialized extension like BulkGrab inspects the active document object model (DOM) using sandboxed content scripts:
+      </p>
+      <div class="topic-card-grid">
+        <div class="topic-card">
+          <strong style="display: block; font-size: 1rem; color: var(--text-main); margin-bottom: 6px;">DOM Scanning</strong>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+            Queries all anchor (<code style="font-family: var(--font-mono, monospace);">&lt;a&gt;</code>) tags and media elements, extracting the resolved absolute <code style="font-family: var(--font-mono, monospace);">href</code> and <code style="font-family: var(--font-mono, monospace);">src</code> properties.
+          </p>
+        </div>
+        <div class="topic-card">
+          <strong style="display: block; font-size: 1rem; color: var(--text-main); margin-bottom: 6px;">Mutation Observers</strong>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+            Listens for client-side DOM mutations when single-page applications append new document links dynamically after user interactions.
+          </p>
+        </div>
+      </div>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        By parsing URLs through the browser's native <code style="font-family: var(--font-mono, monospace);">URL()</code> constructor against <code style="font-family: var(--font-mono, monospace);">document.baseURI</code>, relative links like <code style="font-family: var(--font-mono, monospace);">../files/sheet.pdf</code> are resolved into valid absolute fetch targets automatically.
+      </p>
+    </section>
+
+    <!-- Section 4 -->
+    <section style="margin-bottom: 40px;">
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 14px;">
+        4. Filtering Extensions and MIME Types
+      </h2>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
+        A webpage often contains hundreds of links, including navigational menus, social media buttons, and script references. Efficient batch downloaders apply multi-stage filters:
+      </p>
+      <div class="guide-callout">
+        <strong>Extension Filtering:</strong> The scanner inspects pathname endings using case-insensitive regular expressions matching <code style="font-family: var(--font-mono, monospace);">/\.pdf$/i</code>. In mixed environments, users can toggle filters between document extensions (<code style="font-family: var(--font-mono, monospace);">.pdf</code>, <code style="font-family: var(--font-mono, monospace);">.docx</code>, <code style="font-family: var(--font-mono, monospace);">.csv</code>) and image formats (<code style="font-family: var(--font-mono, monospace);">.png</code>, <code style="font-family: var(--font-mono, monospace);">.jpg</code>).
+      </div>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        When endpoints omit file extensions in the URL (e.g., RESTful resource paths), extensions can inspect server <code style="font-family: var(--font-mono, monospace);">Content-Type</code> headers via lightweight HTTP <code style="font-family: var(--font-mono, monospace);">HEAD</code> pre-flight requests to verify that the MIME type is <code style="font-family: var(--font-mono, monospace);">application/pdf</code>.
+      </p>
+    </section>
+
+    <!-- Section 5 -->
+    <section style="margin-bottom: 40px;">
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 14px;">
+        5. Browser Download Restrictions &amp; Security Boundaries
+      </h2>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
+        Modern web browsers implement security protections that govern automated downloads:
+      </p>
+      <ul style="color: var(--text-secondary); line-height: 1.7; padding-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 8px;">
+          <strong>CORS and the Download Attribute:</strong> According to the WHATWG HTML standard, the <code style="font-family: var(--font-mono, monospace);">download</code> attribute on anchor tags only works for same-origin URLs. If a link points to an external domain (e.g., AWS S3 or a CDN), browsers ignore custom suggested filenames unless CORS headers permit it. (Note: The Bulk Download playground uses local same-origin fixtures; cross-origin behavior is explained for technical context and is not simulated by same-origin playground files.)
+        </li>
+        <li style="margin-bottom: 8px;">
+          <strong>Automatic Download Permissions:</strong> If a script attempts to trigger multiple downloads rapidly without user gestures, Chrome and Edge prompt the user: <em>"This site wants to download multiple files. Allow?"</em>
+        </li>
+        <li style="margin-bottom: 8px;">
+          <strong>Connection Throttling:</strong> Browsers restrict parallel connections to the same host (typically 6 concurrent sockets). Bulk downloaders must queue requests sequentially to prevent network errors.
+        </li>
+      </ul>
+    </section>
+
+    <!-- Section 6 -->
+    <section style="margin-bottom: 40px;">
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 14px;">
+        6. Handling Duplicate Filenames and Sanitization
+      </h2>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
+        Websites frequently use generic filenames across different directories (e.g., <code style="font-family: var(--font-mono, monospace);">document.pdf</code>, <code style="font-family: var(--font-mono, monospace);">statement.pdf</code>, or <code style="font-family: var(--font-mono, monospace);">invoice.pdf</code>). Saving them naively causes local filesystems to overwrite earlier files or append confusing numbers like <code style="font-family: var(--font-mono, monospace);">document (1).pdf</code>.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.7;">
+        Effective download managers provide renaming templates. By combining page titles, link anchor text, timestamps, and sequential counters (<code style="font-family: var(--font-mono, monospace);">{index}_{title}.pdf</code>), files arrive on your storage organized and identifiable.
+      </p>
+    </section>
+
+    <!-- Section 7 -->
+    <section style="margin-bottom: 40px;">
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 14px;">
+        7. Privacy Considerations &amp; On-Device ZIP Packaging
+      </h2>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
+        Many online "bulk download" services require pasting URLs into remote web converters. This approach poses significant privacy concerns: third-party servers see which documents you access, and private links behind session authentication fail because the remote service lacks your cookies.
+      </p>
+      <div class="guide-callout">
+        <strong>The Local-First Approach:</strong> BulkGrab streams files directly from destination servers into browser memory using your active authenticated session. Using client-side compression libraries (JSZip), files are assembled into a single compressed <code style="font-family: var(--font-mono, monospace);">.zip</code> archive directly on your device. No URLs, filenames, or document bytes are transmitted to developer servers.
+      </div>
+    </section>
+
+    <!-- Section 8 -->
+    <section style="margin-bottom: 40px;">
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 14px;">
+        8. Testing the Workflow in our Interactive Playground
+      </h2>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
+        To observe file detection and extension filtering without risking real research documents, visit our interactive sandbox:
+      </p>
+      <ol style="color: var(--text-secondary); line-height: 1.7; padding-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 6px;">Open the <a href="../../demos/bulk-download/" style="color: var(--accent); text-decoration: underline;">Bulk Download Test Playground</a>.</li>
+        <li style="margin-bottom: 6px;">Launch BulkGrab's floating Shadow DOM panel.</li>
+        <li style="margin-bottom: 6px;">Filter by document types to highlight the 4 sample PDFs.</li>
+        <li style="margin-bottom: 6px;">Click <em>"Reveal Dynamic Batch Links"</em> on the playground page to verify that the scanner detects newly appended DOM nodes.</li>
+        <li style="margin-bottom: 6px;">Select items and bundle them into a local ZIP archive to test in-memory packaging.</li>
+      </ol>
+      <p style="font-size: 0.88rem; color: var(--text-tertiary); margin-top: 12px;">
+        Note: The free tier supports up to 7 downloaded files per browser session (including ZIP archiving for up to 7 items). The optional Pro upgrade ($9.99 USD via NOWPayments) unlocks unrestricted batch downloads and archiving.
+      </p>
+    </section>
+
+    <!-- Section 9: Primary Documentation References -->
+    <section style="margin-bottom: 40px; border-top: 1px solid var(--border-page); padding-top: 24px;">
+      <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 12px;">
+        Primary Documentation References
+      </h2>
+      <ul style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; padding-left: 20px;">
+        <li style="margin-bottom: 6px;">
+          <a href="https://html.spec.whatwg.org/multipage/links.html#downloading-resources" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">WHATWG HTML Standard — Downloading Resources</a>: Official specification defining anchor links, <code style="font-family: var(--font-mono, monospace);">download</code> attribute semantics, and same-origin restrictions.
+        </li>
+        <li style="margin-bottom: 6px;">
+          <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">MDN Web Docs — HTML &lt;a&gt; download attribute</a>: Browser compatibility notes, security constraints, and filename considerations.
+        </li>
+        <li style="margin-bottom: 6px;">
+          <a href="https://developer.chrome.com/docs/extensions/reference/api/downloads" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Chrome Extensions chrome.downloads API</a>: Manifest V3 permission model and download lifecycle management.
+        </li>
+      </ul>
+    </section>
+
+    <!-- Extension Callout Box -->
+    <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-lg); padding: 28px; text-align: center;">
+      <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Batch Download Web Files with BulkGrab</h3>
+      <p style="color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 20px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+        Install BulkGrab from official store catalogs to scan pages, filter links, and package files into local ZIP archives directly on your machine.
+      </p>
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <a href="../../bulkgrab/" class="btn btn-ghost btn-sm">BulkGrab Overview &rarr;</a>
+        <a href="https://microsoftedge.microsoft.com/addons/detail/bulkgrab-batch-file-dow/cphidoikhnjdkeldgelkpddnkojlfccc" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm">Get on Edge</a>
+        <a href="https://chromewebstore.google.com/detail/bulkgrab-batch-file-downl/lnmmneljpgdefilkokfpmiohjgfjcljn" target="_blank" rel="noopener noreferrer" class="btn btn-chrome btn-sm">Get on Chrome</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <a href="../../" class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <img src="../../assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">
+            <img src="../../assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">
+          </div>
+          <span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>
+        </a>
+        <p class="footer-copy">
+          &copy; 2026 ExtensionGuy. Published extensions available on Microsoft Edge Add-ons and Chrome Web Store. Built local-first · Privacy by design.
+        </p>
+      </div>
+      <div class="footer-links">
+        <a href="../../" class="footer-link">Home</a>
+        <a href="../../#portfolio" class="footer-link">Products</a>
+        <a href="../../word-to-latex-converter/" class="footer-link">Online Converter</a>
+        <a href="../../demos/" class="footer-link">Demos</a>
+        <a href="../" class="footer-link">Guides</a>
+        <a href="../../#contact" class="footer-link">Support &amp; Contact</a>
+        <a href="../../privacy" class="footer-link">Privacy Policy</a>
+        <a href="../../changelog/" class="footer-link">Changelog</a>
+        <a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Source Code</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/site.js?v=20261029-1" defer></script>
+</body>
+</html>

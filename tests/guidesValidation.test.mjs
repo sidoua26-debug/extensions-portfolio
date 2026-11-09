@@ -51,6 +51,12 @@ const GUIDES = [
     file: 'guides/fix-pandoc-latex-errors-in-overleaf/index.html',
     canonical: 'https://extensionguy.me/guides/fix-pandoc-latex-errors-in-overleaf/',
     ogImage: 'https://extensionguy.me/assets/og/home-1200x630.png?v=2'
+  },
+  {
+    slug: 'download-multiple-pdfs',
+    file: 'guides/download-multiple-pdfs/index.html',
+    canonical: 'https://extensionguy.me/guides/download-multiple-pdfs/',
+    ogImage: 'https://extensionguy.me/assets/og/home-1200x630.png?v=2'
   }
 ];
 
@@ -231,6 +237,8 @@ describe('Guides Validation & Quality Gate', () => {
       assert.ok(content.includes('href="./type-french-accents-on-qwerty-offline/"'), 'Links to type-french-accents-on-qwerty-offline');
       assert.ok(content.includes('href="./html-table-to-excel/"'), 'Links to html-table-to-excel');
       assert.ok(content.includes('href="./audit-json-ld-and-headings-in-browser/"'), 'Links to audit-json-ld-and-headings-in-browser');
+      assert.ok(content.includes('href="./fix-pandoc-latex-errors-in-overleaf/"'), 'Links to fix-pandoc-latex-errors-in-overleaf');
+      assert.ok(content.includes('href="./download-multiple-pdfs/"'), 'Links to download-multiple-pdfs');
     });
   });
 

@@ -1,0 +1,7 @@
+sample_id,workload_category,illustrative_latency_ms,data_classification,notes
+S-101,DOM_PARSER_TEST,125.4,SYNTHETIC_DEMO,Illustrative synthetic benchmark for DOM parsing tests
+S-102,LINK_FILTER_TEST,142.0,SYNTHETIC_DEMO,Illustrative synthetic benchmark for extension filter tests
+S-103,MIME_CHECK_TEST,98.6,SYNTHETIC_DEMO,Illustrative synthetic benchmark for MIME header tests
+S-104,ZIP_BUNDLE_TEST,485.2,SYNTHETIC_DEMO,Illustrative synthetic benchmark for local ZIP archiving tests
+S-105,BUFFER_SYNC_TEST,112.8,SYNTHETIC_DEMO,Illustrative synthetic benchmark for memory buffer tests
+S-106,SHADOW_DOM_TEST,164.5,SYNTHETIC_DEMO,Illustrative synthetic benchmark for Shadow DOM scanner tests

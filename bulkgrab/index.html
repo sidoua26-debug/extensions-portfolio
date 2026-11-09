@@ -253,6 +253,19 @@
         </div>
       </div>
 
+      <!-- Interactive Playground Banner -->
+      <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-left: 4px solid var(--tint-bulkgrab, var(--accent)); border-radius: 0 var(--r-md) var(--r-md) 0; padding: 18px 22px; margin-bottom: 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+        <div>
+          <strong style="color: var(--text-main); font-size: 0.95rem; display: block; margin-bottom: 4px;">
+            Bulk Download Test Playground
+          </strong>
+          <span style="font-size: 0.875rem; color: var(--text-secondary);">
+            Test link discovery, MIME type filtering, dynamic DOM elements, and local ZIP packaging with sample PDFs, images, CSVs, and text files.
+          </span>
+        </div>
+        <a href="../demos/bulk-download/" class="btn btn-ghost btn-sm" style="flex-shrink: 0;">Open Bulk Download Playground &rarr;</a>
+      </div>
+
       <section style="margin-bottom: 40px;">
         <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 16px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
           Why Use a Privacy-First Batch Downloader?
@@ -360,6 +373,39 @@
           <div style="padding: 16px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
             <strong style="display: block; font-size: 1rem; margin-bottom: 6px;">Is BulkGrab available on Chrome and Edge?</strong>
             <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Yes, BulkGrab is verified and published on both Microsoft Edge Add-ons and the Chrome Web Store.</p>
+          </div>
+        </div>
+      </section>
+
+      <section style="margin-bottom: 40px;" aria-labelledby="resourcesHeading">
+        <h2 id="resourcesHeading" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 20px; border-bottom: 1px solid var(--border-page); padding-bottom: 8px;">
+          Related Demos &amp; Guides
+        </h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+          <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="badge badge-subtle" style="margin-bottom: 8px; display: inline-block;">Interactive Playground</span>
+              <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px;">
+                <a href="../demos/bulk-download/" style="color: var(--accent); text-decoration: underline;">Bulk Download Test Playground</a>
+              </h3>
+              <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0 0 12px 0;">
+                Test batch downloading, filetype filtering, dynamic DOM injection, and local ZIP bundling across sample PDFs, images, CSVs, and text files.
+              </p>
+            </div>
+            <a href="../demos/bulk-download/" style="font-size: 0.85rem; font-weight: 600; color: var(--accent);">Launch Playground &rarr;</a>
+          </div>
+
+          <div style="padding: 20px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <span class="badge badge-subtle" style="margin-bottom: 8px; display: inline-block;">Educational Guide</span>
+              <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px;">
+                <a href="../guides/download-multiple-pdfs/" style="color: var(--accent); text-decoration: underline;">How to Download Multiple PDF Files from a Webpage</a>
+              </h3>
+              <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0 0 12px 0;">
+                Learn DOM scraping techniques, MIME filtering, handling browser download throttles, CORS boundaries, and packaging files into local ZIP archives.
+              </p>
+            </div>
+            <a href="../guides/download-multiple-pdfs/" style="font-size: 0.85rem; font-weight: 600; color: var(--accent);">Read Guide &rarr;</a>
           </div>
         </div>
       </section>
