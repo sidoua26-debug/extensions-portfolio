@@ -934,9 +934,9 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
       'Generator source contains updated flagship badge'
     );
 
-    // 7. Plausible integration and privacy links are unchanged
-    assert.ok(indexContent.includes('assets/js/plausible-init.js'), 'Plausible init script retained');
-    assert.ok(indexContent.includes('https://plausible.io/js/pa-Uu6xph5PEciiqhKs8UXgI.js'), 'Plausible official script retained');
+    // 7. Plausible integration removed and privacy links are unchanged
+    assert.ok(!indexContent.includes('assets/js/plausible-init.js'), 'Plausible init script removed');
+    assert.ok(!indexContent.includes('https://plausible.io'), 'Plausible official script removed');
     assert.ok(indexContent.includes('<a href="/privacy" class="nav-link">Privacy</a>'), 'Nav privacy link retained');
     assert.ok(indexContent.includes('<a href="/privacy" class="footer-link">Privacy Policy</a>'), 'Footer privacy link retained');
 
@@ -961,12 +961,12 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
     assert.ok(!pdfToolsContent.includes('Air-Gapped Privacy'), 'pdf-tools avoids "Air-Gapped Privacy" claim');
     assert.ok(pdfToolsContent.includes('Local PDF processing'), 'pdf-tools includes "Local PDF processing" feature pill');
     assert.ok(
-      pdfToolsContent.includes('PDF files are processed on your device. <a href="/privacy#website"'),
-      'pdf-tools includes file picker privacy notice with link to /privacy#website'
+      pdfToolsContent.includes('PDF files are processed on your device.'),
+      'pdf-tools includes file picker privacy notice'
     );
     assert.ok(
-      pdfToolsContent.includes('This website uses Plausible for cookieless website statistics.'),
-      'pdf-tools includes Plausible cookieless statistics disclosure near file picker'
+      !pdfToolsContent.includes('This website uses Plausible for cookieless website statistics.'),
+      'pdf-tools avoids Plausible cookieless statistics disclosure near file picker'
     );
   });
 

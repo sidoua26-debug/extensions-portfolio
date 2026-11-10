@@ -159,7 +159,7 @@ describe('Product Galleries & Outdated Artwork Remediation Suite', () => {
           }
           res.writeHead(200, {
             'Content-Type': contentType,
-            'Content-Security-Policy': "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://plausible.io; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' blob: data:; connect-src 'self' https://plausible.io; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';"
+            'Content-Security-Policy': "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' blob: data:; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';"
           });
           res.end(data);
         });

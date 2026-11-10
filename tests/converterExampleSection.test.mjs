@@ -81,11 +81,11 @@ describe('Step 4C: Converter Real Conversion Example Section Test', () => {
     );
   });
 
-  it('5. Converter controls and Plausible analytics remain untouched', () => {
+  it('5. Converter controls remain untouched and Plausible analytics removed', () => {
     assert.ok(html.includes('id="converterDropZone"'));
     assert.ok(html.includes('id="converterSampleBtn"'));
     assert.ok(html.includes('id="converterOutputContainer"'));
-    assert.ok(html.includes('assets/js/plausible-init.js'));
-    assert.ok(html.includes('https://plausible.io/js/pa-Uu6xph5PEciiqhKs8UXgI.js'));
+    assert.ok(!html.includes('assets/js/plausible-init.js'));
+    assert.ok(!html.includes('https://plausible.io'));
   });
 });

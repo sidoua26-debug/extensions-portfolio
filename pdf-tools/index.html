@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://plausible.io; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' blob: data:; connect-src 'self' https://plausible.io; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' blob: data:; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'" />
     <title>Free Offline PDF Tools — Merge, Split, Compress &amp; Redact | ExtensionGuy</title>
     <meta name="description" content="Free online PDF tools to merge, split, rotate, compress, and redact PDFs directly in your browser. Fast, local document processing with zero file uploads." />
     <link rel="canonical" href="https://extensionguy.me/pdf-tools/">
@@ -29,9 +29,6 @@
     <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/apple-touch-icon.png?v=2">
     <meta name="theme-color" content="#0f172a">
 
-    <!-- Privacy-friendly analytics by Plausible -->
-    <script src="../assets/js/plausible-init.js"></script>
-    <script async src="https://plausible.io/js/pa-Uu6xph5PEciiqhKs8UXgI.js"></script>
 
     <link rel="preload" href="../assets/fonts/manrope-500.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="../assets/fonts/manrope-800.woff2" as="font" type="font/woff2" crossorigin>
@@ -213,7 +210,7 @@
                   <span class="drop-subtext">Select multiple files or drag &amp; drop them here</span>
                   <input type="file" id="merge-files" accept="application/pdf,.pdf" multiple />
                 </label>
-                <p class="file-privacy-note" style="font-size: 0.8125rem; color: var(--text-tertiary); margin: 0; line-height: 1.4;">PDF files are processed on your device. <a href="/privacy#website" style="color: inherit; text-decoration: underline;">This website uses Plausible for cookieless website statistics.</a></p>
+                <p class="file-privacy-note" style="font-size: 0.8125rem; color: var(--text-tertiary); margin: 0; line-height: 1.4;">PDF files are processed on your device.</p>
                 <div class="tool-action-bar">
                   <button id="merge-run" class="btn-primary" disabled>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -262,7 +259,7 @@
                   <span class="drop-subtext">Single document up to 25 MB</span>
                   <input type="file" id="split-file" accept="application/pdf,.pdf" />
                 </label>
-                <p class="file-privacy-note" style="font-size: 0.8125rem; color: var(--text-tertiary); margin: 0; line-height: 1.4;">PDF files are processed on your device. <a href="/privacy#website" style="color: inherit; text-decoration: underline;">This website uses Plausible for cookieless website statistics.</a></p>
+                <p class="file-privacy-note" style="font-size: 0.8125rem; color: var(--text-tertiary); margin: 0; line-height: 1.4;">PDF files are processed on your device.</p>
                 <div class="input-group">
                   <label for="split-pages">
                     <span>Pages to extract</span>
@@ -341,7 +338,7 @@
                   <span class="drop-subtext">Single document up to 25 MB</span>
                   <input type="file" id="rotate-file" accept="application/pdf,.pdf" />
                 </label>
-                <p class="file-privacy-note" style="font-size: 0.8125rem; color: var(--text-tertiary); margin: 0; line-height: 1.4;">PDF files are processed on your device. <a href="/privacy#website" style="color: inherit; text-decoration: underline;">This website uses Plausible for cookieless website statistics.</a></p>
+                <p class="file-privacy-note" style="font-size: 0.8125rem; color: var(--text-tertiary); margin: 0; line-height: 1.4;">PDF files are processed on your device.</p>
                 <div class="form-row">
                   <label for="rotate-pages">
                     <span>Pages (* for all)</span>
@@ -442,7 +439,7 @@
               <span class="drop-subtext">Click to select or drag &amp; drop document here</span>
               <input type="file" id="redact-file" accept="application/pdf,.pdf" />
             </label>
-            <p class="file-privacy-note" style="font-size: 0.8125rem; color: var(--text-tertiary); margin: 0; line-height: 1.4;">PDF files are processed on your device. <a href="/privacy#website" style="color: inherit; text-decoration: underline;">This website uses Plausible for cookieless website statistics.</a></p>
+            <p class="file-privacy-note" style="font-size: 0.8125rem; color: var(--text-tertiary); margin: 0; line-height: 1.4;">PDF files are processed on your device.</p>
 
             <fieldset class="box-form">
               <legend>
@@ -566,7 +563,7 @@
               <span class="drop-subtext">Optimized for scanned documents</span>
               <input type="file" id="compress-file" accept="application/pdf,.pdf" />
             </label>
-            <p class="file-privacy-note" style="font-size: 0.8125rem; color: var(--text-tertiary); margin: 0; line-height: 1.4;">PDF files are processed on your device. <a href="/privacy#website" style="color: inherit; text-decoration: underline;">This website uses Plausible for cookieless website statistics.</a></p>
+            <p class="file-privacy-note" style="font-size: 0.8125rem; color: var(--text-tertiary); margin: 0; line-height: 1.4;">PDF files are processed on your device.</p>
             <div id="compress-file-info" class="file-info-badge" hidden></div>
 
             <fieldset>
@@ -671,7 +668,7 @@
               <span class="drop-subtext">Click to browse or drop file here</span>
               <input type="file" id="meta-file" accept="application/pdf,.pdf" />
             </label>
-            <p class="file-privacy-note" style="font-size: 0.8125rem; color: var(--text-tertiary); margin: 0; line-height: 1.4;">PDF files are processed on your device. <a href="/privacy#website" style="color: inherit; text-decoration: underline;">This website uses Plausible for cookieless website statistics.</a></p>
+            <p class="file-privacy-note" style="font-size: 0.8125rem; color: var(--text-tertiary); margin: 0; line-height: 1.4;">PDF files are processed on your device.</p>
             <div id="meta-file-info" class="file-info-badge" hidden></div>
 
             <div class="tool-action-bar">

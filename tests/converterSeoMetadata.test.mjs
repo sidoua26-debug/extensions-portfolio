@@ -96,14 +96,14 @@ describe('Step 4A: Converter SEO Metadata & Content Regression Test', () => {
     );
   });
 
-  it('6. Plausible analytics integration and CSP remain untouched', () => {
+  it('6. Plausible analytics integration is removed', () => {
     assert.ok(
-      html.includes('<script src="../assets/js/plausible-init.js"></script>'),
-      'Plausible local initializer script must be present'
+      !html.includes('assets/js/plausible-init.js'),
+      'Plausible local initializer script must not be present'
     );
     assert.ok(
-      html.includes('<script async src="https://plausible.io/js/pa-Uu6xph5PEciiqhKs8UXgI.js"></script>'),
-      'Plausible async script tag must be present'
+      !html.includes('https://plausible.io'),
+      'Plausible async script tag must not be present'
     );
   });
 });
