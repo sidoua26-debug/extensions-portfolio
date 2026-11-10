@@ -906,7 +906,7 @@ html = r"""<!DOCTYPE html>
               <a href="/pdf-tools/" style="color: inherit; text-decoration: none;">Offline PDF Tools</a>
             </h3>
             <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
-              Merge, split, rotate, compress, and redact PDF files locally in your browser. Operates entirely in browser memory with zero network uploads, zero analytics, and strict Content-Security-Policy enforcement.
+              Merge, split, rotate, compress, and redact PDFs in your browser. Your files are processed on your device.
             </p>
           </div>
           <div>

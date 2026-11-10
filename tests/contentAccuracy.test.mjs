@@ -890,6 +890,31 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
     // 8. Other sections and pages remain intact
     assert.ok(indexContent.includes('id="live-converter"'), 'Live converter demo section retained');
     assert.ok(indexContent.includes('pdf-tools/'), 'PDF tools reference retained');
+
+    // 9. PDF card and PDF tools privacy copy assertions
+    assert.ok(
+      indexContent.includes('Merge, split, rotate, compress, and redact PDFs in your browser. Your files are processed on your device.'),
+      'Homepage PDF card has updated local processing copy'
+    );
+    assert.ok(!indexContent.includes('zero analytics'), 'Homepage PDF card avoids "zero analytics" claim');
+    assert.ok(
+      generatorContent.includes('Merge, split, rotate, compress, and redact PDFs in your browser. Your files are processed on your device.'),
+      'Generator has updated local processing copy'
+    );
+    assert.ok(!generatorContent.includes('zero analytics'), 'Generator avoids "zero analytics" claim');
+
+    const pdfToolsPath = path.join(rootDir, 'pdf-tools/index.html');
+    const pdfToolsContent = fs.readFileSync(pdfToolsPath, 'utf-8');
+    assert.ok(!pdfToolsContent.includes('Air-Gapped Privacy'), 'pdf-tools avoids "Air-Gapped Privacy" claim');
+    assert.ok(pdfToolsContent.includes('Local PDF processing'), 'pdf-tools includes "Local PDF processing" feature pill');
+    assert.ok(
+      pdfToolsContent.includes('PDF files are processed on your device. <a href="/privacy#website"'),
+      'pdf-tools includes file picker privacy notice with link to /privacy#website'
+    );
+    assert.ok(
+      pdfToolsContent.includes('This website uses Plausible for cookieless website statistics.'),
+      'pdf-tools includes Plausible cookieless statistics disclosure near file picker'
+    );
   });
 
   await t.test('17. Step 7A: Visibility-2B schema accuracy, store URLs, Edge constraints, and internal link', () => {

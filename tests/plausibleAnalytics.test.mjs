@@ -164,6 +164,10 @@ describe('Plausible Privacy-First Analytics Integration', () => {
     assert.ok(privacyHtml.includes('payment identifiers'), 'privacy.html must explain payment identifiers are not sent');
     assert.ok(privacyHtml.includes('block Plausible using standard adblockers'), 'privacy.html must inform visitors they may block Plausible');
     assert.ok(!privacyHtml.includes('We do not deploy Google Analytics, advertising tracking pixels, marketing cookies, session replay tools, or cross-site fingerprinting scripts. Cloudflare Pages may inject an optional Web Analytics beacon into delivered pages; however, the Site\'s Content Security Policy blocks this third-party script from executing in the browser. Consequently, this beacon does not collect client-side pageview or performance measurements'), 'Outdated statement claiming no analytics must be replaced');
+    assert.ok(!privacyHtml.includes('There are no runtime requests to Google Fonts, remote CDNs, or external script hosts.'), 'privacy.html avoids obsolete claim that no external script hosts are requested');
+    assert.ok(privacyHtml.includes('fonts and processing assets are self-hosted'), 'privacy.html states fonts and processing assets are self-hosted');
+    assert.ok(privacyHtml.includes('loads Plausible’s external analytics script') || privacyHtml.includes("loads Plausible's external analytics script"), 'privacy.html discloses loading Plausible external analytics script');
+    assert.ok(privacyHtml.includes('Website statistics remain strictly separated from document processing'), 'privacy.html distinguishes website statistics from document processing');
   });
 
   it('7. Product functionality and browser store links remain unaltered', () => {
