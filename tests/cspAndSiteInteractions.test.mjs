@@ -895,6 +895,149 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     }
   });
 
+  it('7f. BulkGrab playground .file-meta labels achieve >= 4.5:1 WCAG AA contrast across default and dynamic cards in light and dark themes (U2)', async () => {
+    function parseRgb(colorStr) {
+      const match = colorStr.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+      if (!match) throw new Error(`Cannot parse color: ${colorStr}`);
+      return {
+        r: parseInt(match[1], 10),
+        g: parseInt(match[2], 10),
+        b: parseInt(match[3], 10),
+        a: match[4] !== undefined ? parseFloat(match[4]) : 1,
+      };
+    }
+
+    function getLuminance({ r, g, b }) {
+      const [rs, gs, bs] = [r, g, b].map(c => {
+        const s = c / 255;
+        return s <= 0.04045 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+    }
+
+    function getContrast(rgb1, rgb2) {
+      const l1 = getLuminance(rgb1);
+      const l2 = getLuminance(rgb2);
+      const brighter = Math.max(l1, l2);
+      const darker = Math.min(l1, l2);
+      return (brighter + 0.05) / (darker + 0.05);
+    }
+
+    const testPage = await browserContext.newPage();
+    await testPage.goto(`${serverUrl}/demos/bulk-download/`, { waitUntil: 'networkidle' });
+
+    for (const theme of ['light', 'dark']) {
+      await testPage.evaluate((t) => document.documentElement.setAttribute('data-theme', t), theme);
+
+      async function getMetaStyles() {
+        return await testPage.evaluate(() => {
+          const metas = Array.from(document.querySelectorAll('.file-meta'));
+          return metas.map(el => {
+            const textStyle = window.getComputedStyle(el);
+            let parent = el.parentElement;
+            let bg = 'transparent';
+            while (parent) {
+              const pStyle = window.getComputedStyle(parent);
+              if (pStyle.backgroundColor && pStyle.backgroundColor !== 'rgba(0, 0, 0, 0)' && pStyle.backgroundColor !== 'transparent') {
+                bg = pStyle.backgroundColor;
+                break;
+              }
+              parent = parent.parentElement;
+            }
+            return {
+              text: el.textContent.trim(),
+              color: textStyle.color,
+              bg,
+            };
+          });
+        });
+      }
+
+      // Check default cards
+      const defaultMetas = await getMetaStyles();
+      assert.ok(defaultMetas.length >= 10, `Expected at least 10 default file-meta elements, got ${defaultMetas.length}`);
+      for (const item of defaultMetas) {
+        const cr = getContrast(parseRgb(item.color), parseRgb(item.bg));
+        assert.ok(
+          cr >= 4.5,
+          `Expected contrast ratio >= 4.5:1 in ${theme} theme for "${item.text}", got ${cr.toFixed(2)}:1 (color: ${item.color}, bg: ${item.bg})`
+        );
+      }
+
+      // Reveal dynamic cards
+      await testPage.click('#revealDynamicBtn');
+      await testPage.waitForSelector('.dynamic-inserted');
+
+      const allMetasWithDynamic = await getMetaStyles();
+      assert.ok(allMetasWithDynamic.length > defaultMetas.length, 'Dynamic items revealed');
+      for (const item of allMetasWithDynamic) {
+        const cr = getContrast(parseRgb(item.color), parseRgb(item.bg));
+        assert.ok(
+          cr >= 4.5,
+          `Expected contrast ratio >= 4.5:1 in ${theme} theme after dynamic reveal for "${item.text}", got ${cr.toFixed(2)}:1 (color: ${item.color}, bg: ${item.bg})`
+        );
+      }
+
+      // Reset dynamic cards
+      await testPage.click('#resetDynamicBtn');
+      const dynamicCount = await testPage.locator('.dynamic-inserted').count();
+      assert.equal(dynamicCount, 0, `Dynamic cards should be removed after reset in ${theme} mode`);
+    }
+
+    await testPage.close();
+  });
+
+  it('7g. Homepage navigation labels, hero sample DOCX action, and portfolio heading alignment (U3)', async () => {
+    const homePage = await browserContext.newPage({ viewport: { width: 1440, height: 936 } });
+    await homePage.goto(`${serverUrl}/`, { waitUntil: 'networkidle' });
+
+    // 1. Navigation items
+    const tryConv = homePage.locator('#navLinks a[href="#live-converter"]');
+    assert.equal(await tryConv.count(), 1, 'Try converter nav link exists');
+    assert.equal((await tryConv.textContent()).trim(), 'Try converter');
+
+    const demosLink = homePage.locator('#navLinks a[href="/demos/"]');
+    assert.equal(await demosLink.count(), 1, 'Demos nav link exists');
+
+    const productsLink = homePage.locator('#navLinks a[href="#portfolio"]');
+    assert.equal(await productsLink.count(), 1, 'Products nav link exists');
+
+    // 2. Hero action Jump to sample DOCX
+    const heroSample = homePage.locator('.hero-actions a[href="#converterSampleBtn"]');
+    assert.equal(await heroSample.count(), 1, 'Hero sample link exists');
+    assert.equal((await heroSample.textContent()).trim(), 'Jump to sample DOCX');
+
+    // Visible without scrolling at 1440x936
+    const box = await heroSample.boundingBox();
+    assert.ok(box, 'Hero sample link has bounding box');
+    assert.ok(box.y + box.height <= 936, `Hero sample link bottom (${box.y + box.height}) must be within 936px viewport height`);
+
+    // 3. Activating hero sample link scrolls sample button into view
+    await heroSample.click();
+    await homePage.waitForTimeout(500);
+    const sampleBtn = homePage.locator('#converterSampleBtn');
+    const isInView = await sampleBtn.evaluate((el) => {
+      const rect = el.getBoundingClientRect();
+      return rect.top >= 0 && rect.bottom <= window.innerHeight;
+    });
+    assert.equal(isInView, true, 'Activating hero link brings #converterSampleBtn into viewport');
+
+    // 4. Sample button converts sample DOCX
+    await sampleBtn.click();
+    await homePage.waitForSelector('#converterOutputContainer:not([hidden])', { timeout: 15000 });
+    const output = await homePage.$eval('#converterOutputArea', (ta) => ta.value);
+    assert.ok(
+      output.includes('\\textbf{bold typographic emphasis}') && output.includes('Document Structure and Typographic Elements'),
+      'Sample conversion outputs valid LaTeX from sample manuscript'
+    );
+
+    // 5. Portfolio heading
+    const portfolioHeading = homePage.locator('#portfolioHeading');
+    assert.equal((await portfolioHeading.textContent()).trim(), 'Browser extensions for Edge and Chrome');
+
+    await homePage.close();
+  });
+
   it('8. Zero CSP violations or console errors were recorded across entire test run', () => {
     assert.deepEqual(cspViolations, [], `Expected 0 CSP violations, got: ${JSON.stringify(cspViolations)}`);
     assert.deepEqual(consoleErrors, [], `Expected 0 console errors, got: ${JSON.stringify(consoleErrors)}`);

@@ -235,7 +235,7 @@ html = r"""<!DOCTYPE html>
           <li><a href="#flagship" class="nav-link">Flagship</a></li>
           <li><a href="#portfolio" class="nav-link">Products</a></li>
           <li><a href="/demos/" class="nav-link">Demos</a></li>
-          <li><a href="#live-converter" class="nav-link">Demo</a></li>
+          <li><a href="#live-converter" class="nav-link">Try converter</a></li>
           <li><a href="#guides" class="nav-link">Guides</a></li>
           <li><a href="#contact" class="nav-link">Contact</a></li>
           <li><a href="/privacy" class="nav-link">Privacy</a></li>
@@ -309,8 +309,8 @@ html = r"""<!DOCTYPE html>
           <a href="#live-converter" class="btn btn-primary">
             Try Free Converter &rarr;
           </a>
-          <a href="#portfolio" class="btn btn-ghost">
-            Explore 6 Extensions &darr;
+          <a href="#converterSampleBtn" class="btn btn-ghost">
+            Jump to sample DOCX
           </a>
         </div>
       </div>
@@ -536,7 +536,7 @@ html = r"""<!DOCTYPE html>
         <div class="portfolio-header-area">
           <div>
             <div class="section-eyebrow">Extension Portfolio</div>
-            <h2 id="portfolioHeading" class="section-heading">Published Edge Add-ons</h2>
+            <h2 id="portfolioHeading" class="section-heading">Browser extensions for Edge and Chrome</h2>
             <p class="section-lead">Each tool is designed with a specific workflow purpose and minimal permissions. Word to LaTeX, Bilexi, and Tab Vault run locally or fully offline, while Table Extractor, BulkGrab, and SEO Inspector process your data directly in your browser with no application telemetry.</p>
           </div>
           <div>

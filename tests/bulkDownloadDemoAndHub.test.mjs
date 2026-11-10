@@ -145,6 +145,11 @@ describe('Bulk Download Playground & Demos Hub Validation', () => {
       assert.ok(desc.length >= 110 && desc.length <= 155, `Meta description (${desc.length} chars) in [110, 155]`);
     });
 
+    it('.file-meta uses var(--text-secondary) for WCAG AA contrast compliance (U2)', () => {
+      assert.ok(content.includes('color: var(--text-secondary);'), '.file-meta must use var(--text-secondary)');
+      assert.ok(!content.includes('.file-meta {\n      font-size: 0.8rem;\n      color: var(--text-tertiary);\n    }'), 'Must not use var(--text-tertiary)');
+    });
+
     it('contains all required sample resource testing sections', () => {
       // PDF documents
       assert.ok(content.includes('sample-quarterly-report.pdf'), 'PDF sample 1 present');
