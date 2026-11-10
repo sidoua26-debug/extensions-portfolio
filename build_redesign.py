@@ -756,7 +756,7 @@ html = r"""<!DOCTYPE html>
 
               <ul class="card-points">
                 <li>H1-H6 hierarchy visualizer &amp; keyword density</li>
-                <li>JSON-LD structured data parser &amp; validator</li>
+                <li>JSON-LD syntax checks and type detection</li>
                 <li>Navigation Timing API benchmarks &amp; export</li>
               </ul>
             </div>
