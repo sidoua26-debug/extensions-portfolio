@@ -366,15 +366,21 @@ describe('Bulk Download Playground & Demos Hub Validation', () => {
       }
     });
 
-    it('claims accurately distinguish BulkGrab Free (up to 7 files) and Pro ($9.99 USD) and cross-origin context', () => {
+    it('claims accurately distinguish BulkGrab Free (seven downloads) and Pro ($9.99 USD) and cross-origin context', () => {
       const demoHtml = fs.readFileSync(BULK_DEMO_HTML, 'utf8');
-      assert.ok(demoHtml.includes('up to 7 downloaded files per browser session'), 'Demo states free tier 7 files limit');
+      assert.ok(
+        demoHtml.includes('BulkGrab Free allows up to seven individual file downloads per browser session. BulkGrab Pro removes that session limit and adds ZIP bundling on your device.'),
+        'Demo states BulkGrab Free seven downloads limit and Pro ZIP bundling'
+      );
       assert.ok(demoHtml.includes('$9.99 USD'), 'Demo states Pro tier price');
       assert.ok(demoHtml.includes('NOWPayments'), 'Demo states NOWPayments');
       assert.ok(demoHtml.includes('same-origin fixtures'), 'Demo clarifies same-origin vs cross-origin');
 
       const guideHtml = fs.readFileSync(PDF_GUIDE_HTML, 'utf8');
-      assert.ok(guideHtml.includes('up to 7 downloaded files per browser session'), 'Guide states free tier 7 files limit');
+      assert.ok(
+        guideHtml.includes('BulkGrab Free allows up to seven individual file downloads per browser session. BulkGrab Pro removes that session limit and adds ZIP bundling on your device.'),
+        'Guide states BulkGrab Free seven downloads limit and Pro ZIP bundling'
+      );
       assert.ok(guideHtml.includes('same-origin fixtures'), 'Guide clarifies same-origin fixtures');
     });
   });

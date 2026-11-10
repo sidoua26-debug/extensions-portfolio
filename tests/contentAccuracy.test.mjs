@@ -383,8 +383,10 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
 
     // Pro gating disclosures
     assert.ok(teContent.includes('optional Pro upgrade'), 'Table Extractor clearly marks virtualized capture as optional Pro');
-    assert.ok(bgContent.includes('7 files per browser session'), 'BulkGrab discloses 7 files per browser session limit');
-    assert.ok(bgContent.includes('counter resets when the browser session closes'), 'BulkGrab clarifies session reset behavior');
+    assert.ok(
+      bgContent.includes('BulkGrab Free allows up to seven individual file downloads per browser session. BulkGrab Pro removes that session limit and adds ZIP bundling on your device.'),
+      'BulkGrab discloses seven individual file downloads per session and Pro ZIP bundling'
+    );
   });
 
   await t.test('12. Step 5B: SEO Inspector version accuracy & regression gate', () => {
@@ -564,8 +566,10 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
     assert.ok(teContent.includes('500 scroll steps'), 'Table Extractor retains 500 scroll steps disclosure');
     assert.ok(teContent.includes('5,000 rows'), 'Table Extractor retains default 5,000 rows disclosure');
     assert.ok(teContent.includes('optional Pro upgrade'), 'Table Extractor retains optional Pro upgrade disclosure');
-    assert.ok(bgContent.includes('7 files per browser session'), 'BulkGrab retains 7 files per session disclosure');
-    assert.ok(bgContent.includes('counter resets when the browser session closes'), 'BulkGrab retains session reset disclosure');
+    assert.ok(
+      bgContent.includes('BulkGrab Free allows up to seven individual file downloads per browser session. BulkGrab Pro removes that session limit and adds ZIP bundling on your device.'),
+      'BulkGrab retains seven individual file downloads per session and Pro ZIP bundling disclosure'
+    );
 
     // 7. No false Chrome availability claim is added to other extensions
     for (const [name, content] of [['SEO Inspector', seoContent], ['Bilexi', bilexiContent], ['Tab Vault', tabVaultContent]]) {
