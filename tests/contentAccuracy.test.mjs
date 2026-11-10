@@ -656,22 +656,75 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
       'Tab Vault version badge remains Edge v1.0.0'
     );
 
-    // 6. Footer and unrelated GitHub links remain available where previously present
+    // 6. Footer portfolio repository links labeled Website source
     assert.ok(
-      bilexiContent.includes('<a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Source Code</a>'),
-      'Bilexi footer retains GitHub Source Code link'
+      bilexiContent.includes('<a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Website source</a>'),
+      'Bilexi footer retains GitHub Website source link'
     );
     assert.ok(
-      tabVaultContent.includes('<a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Source Code</a>'),
-      'Tab Vault footer retains GitHub Source Code link'
+      tabVaultContent.includes('<a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Website source</a>'),
+      'Tab Vault footer retains GitHub Website source link'
+    );
+    assert.ok(
+      seoContent.includes('<a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Website source</a>'),
+      'SEO Inspector footer retains GitHub Website source link'
+    );
+    assert.ok(
+      teContent.includes('<a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Website source</a>'),
+      'Table Extractor footer retains GitHub Website source link'
+    );
+    assert.ok(
+      bgContent.includes('<a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Website source</a>'),
+      'BulkGrab footer retains GitHub Website source link'
+    );
+    assert.ok(
+      w2lContent.includes('<a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Website source</a>'),
+      'Word to LaTeX footer retains GitHub Website source link'
     );
 
-    // 7. All other extension landing pages remain unchanged
+    // 7. Product source repository links across all 6 products and homepage flagship
+    const indexContent = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf-8');
+    assert.match(
+      indexContent,
+      /<a href="https:\/\/github\.com\/sidoua26-debug\/word-to-latex-extension" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">[\s\S]*?Open source on GitHub[\s\S]*?<\/a>/,
+      'Homepage flagship links to word-to-latex-extension repository'
+    );
+    assert.ok(
+      indexContent.includes('<a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Website source</a>'),
+      'Homepage footer retains GitHub Website source link'
+    );
+    assert.match(
+      w2lContent,
+      /<a href="https:\/\/github\.com\/sidoua26-debug\/word-to-latex-extension" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">\s*Source on GitHub\s*<\/a>/,
+      'Word to LaTeX links to word-to-latex-extension repository'
+    );
+    assert.match(
+      teContent,
+      /<a href="https:\/\/github\.com\/sidoua26-debug\/table-extractor" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">\s*GitHub \(@sidoua26-debug\)\s*<\/a>/,
+      'Table Extractor links to table-extractor repository'
+    );
+    assert.match(
+      bgContent,
+      /<a href="https:\/\/github\.com\/sidoua26-debug\/bulkgrab" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">\s*GitHub \(@sidoua26-debug\)\s*<\/a>/,
+      'BulkGrab links to bulkgrab repository'
+    );
     assert.match(
       seoContent,
-      /<a href="https:\/\/github\.com\/sidoua26-debug\/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">\s*GitHub \(@sidoua26-debug\)\s*<\/a>/,
-      'SEO Inspector retains GitHub hero button'
+      /<a href="https:\/\/github\.com\/sidoua26-debug\/seo-inspector-extension" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">\s*GitHub \(@sidoua26-debug\)\s*<\/a>/,
+      'SEO Inspector links to seo-inspector-extension repository'
     );
+    assert.match(
+      bilexiContent,
+      /<a href="https:\/\/github\.com\/sidoua26-debug\/bilexi" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">\s*Extension source on GitHub\s*<\/a>/,
+      'Bilexi links to bilexi repository'
+    );
+    assert.match(
+      tabVaultContent,
+      /<a href="https:\/\/github\.com\/sidoua26-debug\/tab-vault" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">\s*Extension source on GitHub\s*<\/a>/,
+      'Tab Vault links to tab-vault repository'
+    );
+
+    // 8. Other extension landing page badges remain unchanged
     assert.match(
       teContent,
       /<span class="badge badge-edge">Available on Edge & Chrome<\/span>/,
