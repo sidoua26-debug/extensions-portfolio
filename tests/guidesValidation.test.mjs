@@ -62,7 +62,7 @@ const GUIDES = [
     slug: 'redact-pdf-without-uploading',
     file: 'guides/redact-pdf-without-uploading/index.html',
     canonical: 'https://extensionguy.me/guides/redact-pdf-without-uploading/',
-    ogImage: 'https://extensionguy.me/assets/og/home-1200x630.png?v=2'
+    ogImage: 'https://extensionguy.me/assets/og/guide-redact-pdf-without-uploading-1200x630.png?v=2'
   }
 ];
 
