@@ -62,3 +62,22 @@ The production website is continuously deployed to **Cloudflare Pages** from the
 - **Hosting Provider**: Cloudflare Pages
 - **Build Command**: None (Static directory publish)
 - **Output Directory**: `.` (Repository root)
+
+---
+
+## 🧪 Automated Testing
+
+### Unit & Integration Suite
+Run the full local test suite (313 tests):
+```bash
+npm test
+```
+
+### BrowserStack Automated Smoke Test
+Automated smoke test running on a real Android device (Chrome) via BrowserStack's Playwright CDP endpoint:
+```bash
+export BROWSERSTACK_USERNAME="<your_username>"
+export BROWSERSTACK_ACCESS_KEY="<your_access_key>"
+node scripts/verify_browserstack_smoke.mjs
+```
+The test connects directly via Playwright's built-in `chromium.connect` to verify the live deployed website across the homepage converter, PDF Studio, and Table Extractor. In CI, it executes automatically via `.github/workflows/browserstack-smoke.yml` using GitHub Actions secrets (`BROWSERSTACK_USERNAME`, `BROWSERSTACK_ACCESS_KEY`).
