@@ -62,3 +62,35 @@ The production website is continuously deployed to **Cloudflare Pages** from the
 - **Hosting Provider**: Cloudflare Pages
 - **Build Command**: None (Static directory publish)
 - **Output Directory**: `.` (Repository root)
+
+---
+
+## 🧪 Automated Testing
+
+### Unit & Integration Suite
+Run the full local test suite (313 tests):
+```bash
+npm test
+```
+
+### BrowserStack Automated Smoke Test
+Automated smoke test executing against a real Android device (Google Pixel 8, Android 14, Chrome) via BrowserStack Automate's native Playwright `_android.connect` bridge.
+
+Trigger via GitHub Actions:
+1. Open **Actions** → **BrowserStack Smoke Test**
+2. Select **Run workflow**
+3. Select `main` (after this PR is merged)
+4. Keep the production target and verified Pixel 8 / Android 14 defaults
+
+Or trigger via the GitHub CLI:
+```bash
+gh workflow run browserstack-smoke.yml --ref main
+```
+
+**Target & Scope**:
+- The smoke test defaults to the live deployed production site (`https://extensionguy.me`). A green run verifies deployed site health, converter functionality, and production store destinations; it does **not** validate unmerged website changes unless `target_url` is explicitly specified for a preview deployment.
+
+**Version & CI Environment**:
+- Playwright 1.62.0 is the tested Android configuration for this workflow.
+- In CI (`.github/workflows/browserstack-smoke.yml`), the workflow installs `playwright@1.62.0` via `npm install --no-save` specifically for this smoke execution step.
+- The repository's normal dependency declared in `package.json` remains Playwright 1.63.0, which powers the full local unit and integration test suite (`npm test`).
