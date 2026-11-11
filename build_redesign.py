@@ -626,7 +626,7 @@ html = r"""<!DOCTYPE html>
               </div>
 
               <div class="card-benefit-quote">
-                <strong>Main Benefit:</strong> Effortlessly captures locked tables and virtualized AG Grid containers without manual formatting cleanup.
+                <strong>Main Benefit:</strong> Export standard HTML tables to Excel, CSV or JSON. Pro adds capture for supported virtualized grids.
               </div>
 
               <div class="card-screenshot-wrap">
@@ -638,9 +638,9 @@ html = r"""<!DOCTYPE html>
               </div>
 
               <ul class="card-points">
-                <li>Auto-detects standard &amp; virtualized tables</li>
+                <li>Free extraction for standard HTML tables</li>
+                <li>Pro capture for supported virtualized grids</li>
                 <li>UTF-8 BOM encoding for instant Excel opening</li>
-                <li>Granular row range &amp; hidden column recovery</li>
               </ul>
             </div>
 
@@ -652,6 +652,7 @@ html = r"""<!DOCTYPE html>
                   <a href="https://microsoftedge.microsoft.com/addons/detail/pekammppimoaikllkhhebocbkbidoboe" target="_blank" rel="noopener noreferrer" class="btn btn-edge btn-sm">Get on Edge</a>
                 </div>
                 <div class="card-actions-secondary">
+                  <a href="/demos/table-extraction/" class="btn btn-ghost btn-sm">Try demo</a>
                   <button type="button" class="btn btn-preview btn-sm" data-preview="table-extractor">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                     Preview
