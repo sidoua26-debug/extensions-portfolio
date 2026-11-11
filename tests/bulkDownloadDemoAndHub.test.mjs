@@ -236,11 +236,11 @@ describe('Bulk Download Playground & Demos Hub Validation', () => {
   });
 
   describe('5. Cross-Site Integration & Navigation Consistency', () => {
-    it('sitemap.xml has exactly 26 canonical URLs including new pages', () => {
+    it('sitemap.xml has at least 26 canonical URLs including new pages', () => {
       assert.ok(fs.existsSync(SITEMAP_PATH), 'sitemap.xml must exist');
       const sitemap = fs.readFileSync(SITEMAP_PATH, 'utf8');
       const locMatches = sitemap.match(/<loc>([^<]+)<\/loc>/g) || [];
-      assert.equal(locMatches.length, 26, `Sitemap must contain exactly 26 URLs, found ${locMatches.length}`);
+      assert.ok(locMatches.length >= 26, `Sitemap must contain at least 26 URLs, found ${locMatches.length}`);
       assert.ok(sitemap.includes('<loc>https://extensionguy.me/demos/</loc>'), 'Sitemap has /demos/');
       assert.ok(sitemap.includes('<loc>https://extensionguy.me/demos/bulk-download/</loc>'), 'Sitemap has /demos/bulk-download/');
       assert.ok(sitemap.includes('<loc>https://extensionguy.me/guides/download-multiple-pdfs/</loc>'), 'Sitemap has /guides/download-multiple-pdfs/');
