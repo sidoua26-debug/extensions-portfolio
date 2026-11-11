@@ -1,0 +1,77 @@
+name: BrowserStack Smoke Test
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'scripts/verify_browserstack_smoke.mjs'
+      - '.github/workflows/browserstack-smoke.yml'
+      - 'package.json'
+      - 'README.md'
+  workflow_dispatch:
+    inputs:
+      target_url:
+        description: 'Target website URL'
+        required: false
+        default: 'https://extensionguy.me'
+      device:
+        description: 'BrowserStack Android real device'
+        required: false
+        default: 'Google Pixel 8'
+      os_version:
+        description: 'Android OS version'
+        required: false
+        default: '14.0'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: browserstack-smoke
+  cancel-in-progress: false
+
+jobs:
+  smoke-test:
+    name: Android Real Device Smoke Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    # Skip on fork pull requests where repository secrets are inaccessible
+    if: github.repository == 'sidoua26-debug/extensions-portfolio' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Pin Playwright 1.62 for BrowserStack Android compatibility
+        # BrowserStack Automate Android grid currently supports Playwright up to 1.62.
+        # We pin Playwright 1.62 for this step without downgrading repository package.json.
+        run: npm install --no-save playwright@1.62.0
+
+      - name: Execute BrowserStack Android smoke test
+        env:
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          TARGET_URL: ${{ github.event.inputs.target_url || 'https://extensionguy.me' }}
+          BROWSERSTACK_DEVICE: ${{ github.event.inputs.device || 'Google Pixel 8' }}
+          BROWSERSTACK_OS_VERSION: ${{ github.event.inputs.os_version || '14.0' }}
+          ARTIFACTS_DIR: artifacts/browserstack-smoke
+        run: node scripts/verify_browserstack_smoke.mjs
+
+      - name: Upload smoke test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browserstack-smoke-artifacts
+          path: artifacts/browserstack-smoke/
+          if-no-files-found: ignore
