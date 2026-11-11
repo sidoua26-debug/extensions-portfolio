@@ -74,10 +74,20 @@ npm test
 ```
 
 ### BrowserStack Automated Smoke Test
-Automated smoke test running on a real Android device (Chrome) via BrowserStack's Playwright CDP endpoint:
+Automated smoke test executing against a real Android device (Chrome) via BrowserStack Automate's native Playwright `_android.connect` bridge:
+
 ```bash
 export BROWSERSTACK_USERNAME="<your_username>"
 export BROWSERSTACK_ACCESS_KEY="<your_access_key>"
-node scripts/verify_browserstack_smoke.mjs
+# BrowserStack's Android grid currently supports Playwright up to 1.62.0.
+# Run with Playwright 1.62 without changing repository package.json:
+npx --yes playwright@1.62.0 node scripts/verify_browserstack_smoke.mjs
 ```
-The test connects via Playwright's native `_android.connect` to a real Android device (Google Pixel 8, Android 14.0, Chrome) using BrowserStack Automate's Playwright 1.62 Android grid. In CI, it executes automatically via `.github/workflows/browserstack-smoke.yml` using GitHub Actions secrets (`BROWSERSTACK_USERNAME`, `BROWSERSTACK_ACCESS_KEY`).
+
+**Target & Scope**:
+- The smoke test defaults to the live deployed production site (`https://extensionguy.me`). A green run verifies deployed site health, converter functionality, and production store destinations; it does **not** validate unmerged local or branch website changes unless `TARGET_URL` is explicitly overridden (e.g., pointing to a preview deployment).
+
+**Version & CI Environment**:
+- BrowserStack Automate's Android real-device grid currently supports Playwright versions up to **1.62.0**.
+- In CI (`.github/workflows/browserstack-smoke.yml`), the job installs `playwright@1.62.0` via `npm install --no-save` specifically for the smoke execution step. This preserves the repository's normal `package.json` dependency (`playwright: 1.63.0`) for the local unit and integration test suite (`npm test`).
+- For local smoke testing, invoking with `npx --yes playwright@1.62.0` or `npm install --no-save playwright@1.62.0` satisfies the remote grid requirement without modifying `package.json` or `package-lock.json`.

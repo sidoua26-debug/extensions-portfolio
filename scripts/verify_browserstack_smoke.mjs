@@ -30,15 +30,53 @@ const OVERALL_TIMEOUT_MS = 600_000; // 10 minutes total execution deadline
 
 fs.mkdirSync(ARTIFACTS_DIR, { recursive: true });
 
-function sanitize(text) {
+/**
+ * Sanitizes an external dashboard URL by enforcing HTTPS on automate.browserstack.com
+ * and stripping any query string (including auth_token credentials) and hash fragments.
+ * Returns null if validation fails.
+ */
+export function sanitizeDashboardUrl(rawUrl) {
+  if (!rawUrl || typeof rawUrl !== 'string') return null;
+  try {
+    const parsed = new URL(rawUrl);
+    if (parsed.protocol !== 'https:') {
+      return null;
+    }
+    const hostname = parsed.hostname.toLowerCase();
+    if (hostname !== 'automate.browserstack.com' && hostname !== 'app-automate.browserstack.com') {
+      return null;
+    }
+    parsed.username = '';
+    parsed.password = '';
+    parsed.search = '';
+    parsed.hash = '';
+    return parsed.toString();
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Redacts secrets, auth_token query values, and authenticated WebSocket endpoints from logs and error messages.
+ */
+export function sanitize(text) {
   if (typeof text !== 'string') text = String(text ?? '');
-  if (BROWSERSTACK_ACCESS_KEY) {
-    text = text.replaceAll(BROWSERSTACK_ACCESS_KEY, '***');
+  const key = process.env.BROWSERSTACK_ACCESS_KEY || BROWSERSTACK_ACCESS_KEY;
+  const user = process.env.BROWSERSTACK_USERNAME || BROWSERSTACK_USERNAME;
+  if (key) {
+    text = text.replaceAll(key, '***');
   }
-  if (BROWSERSTACK_USERNAME) {
-    text = text.replaceAll(BROWSERSTACK_USERNAME, '***');
+  if (user) {
+    text = text.replaceAll(user, '***');
   }
-  return text.replace(/wss:\/\/[^\s"']+/g, 'wss://cdp.browserstack.com/playwright?caps=[REDACTED]');
+  // Strip auth_token query values from any text or URLs
+  text = text.replace(/([?&]auth_token=)[^&"'\s]+/gi, '$1***');
+  text = text.replace(/auth_token=[^&"'\s]+/gi, 'auth_token=***');
+  // Strip query strings from automate.browserstack.com URLs in error strings
+  text = text.replace(/(https?:\/\/automate\.browserstack\.com\/[^\s"'>]+)\?[^\s"'>]+/gi, '$1');
+  // Redact authenticated WebSocket URLs and encoded caps
+  text = text.replace(/wss:\/\/[^\s"']+/g, '[REDACTED_WEBSOCKET_ENDPOINT]');
+  return text;
 }
 
 async function run() {
@@ -82,15 +120,23 @@ async function run() {
     error: null,
   };
 
-  // Step 1: Check credentials
+  // Step 1: Check credentials - fail honestly if missing
   if (!BROWSERSTACK_USERNAME || !BROWSERSTACK_ACCESS_KEY) {
-    console.log('[SKIP] BROWSERSTACK_USERNAME or BROWSERSTACK_ACCESS_KEY is not defined.');
-    console.log('Skipping remote BrowserStack execution. Configure repository secrets to enable.');
-    summary.status = 'skipped';
+    const missing = [];
+    if (!BROWSERSTACK_USERNAME) missing.push('BROWSERSTACK_USERNAME');
+    if (!BROWSERSTACK_ACCESS_KEY) missing.push('BROWSERSTACK_ACCESS_KEY');
+    const msg = `Missing required BrowserStack credentials: ${missing.join(', ')}`;
+    console.error(`[CONFIGURATION ERROR] ${msg}`);
+    summary.status = 'failed';
     summary.stage = 'missing_credentials';
-    summary.reason = 'Missing BrowserStack credentials';
+    summary.error = msg;
+    summary.checks = {
+      homepage: 'not_executed',
+      pdfTools: 'not_executed',
+      tableExtractor: 'not_executed',
+    };
     fs.writeFileSync(path.join(ARTIFACTS_DIR, 'summary.json'), JSON.stringify(summary, null, 2));
-    return;
+    throw new Error(msg);
   }
 
   // Capabilities: align with BrowserStack Android documentation and legacy fixture
@@ -173,7 +219,8 @@ async function run() {
         const rawDetails = await page.evaluate(_ => {}, `browserstack_executor: ${JSON.stringify({ action: 'getSessionDetails' })}`);
         const details = typeof rawDetails === 'string' ? JSON.parse(rawDetails) : (rawDetails || {});
         summary.sessionId = details.hashed_id || details.session_id || null;
-        summary.dashboardUrl = details.public_url || details.browser_url || null;
+        // Sanitize dashboard URL before storing in summary
+        summary.dashboardUrl = sanitizeDashboardUrl(details.browser_url || details.public_url || null);
         if (summary.sessionId) console.log(`  BrowserStack Session ID: ${summary.sessionId}`);
         if (summary.dashboardUrl) console.log(`  BrowserStack Dashboard: ${summary.dashboardUrl}`);
       } catch (err) {
@@ -414,7 +461,10 @@ async function run() {
   }
 }
 
-run().catch((err) => {
-  console.error('Fatal execution error:', sanitize(err.message));
-  process.exit(1);
-});
+// Execute when invoked directly
+if (process.argv[1] && import.meta.url.endsWith(path.basename(process.argv[1]))) {
+  run().catch((err) => {
+    console.error('Fatal execution error:', sanitize(err.message));
+    process.exit(1);
+  });
+}
