@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Redact a PDF Without Uploading It — ExtensionGuy</title>
+  <meta name="description" content="Learn how to redact a PDF locally in your browser. Mark areas to hide, review selective page rasterization, and verify files before sharing.">
+
+  <link rel="canonical" href="https://extensionguy.me/guides/redact-pdf-without-uploading/">
+  <link rel="alternate" hreflang="en" href="https://extensionguy.me/guides/redact-pdf-without-uploading/">
+  <link rel="alternate" hreflang="x-default" href="https://extensionguy.me/guides/redact-pdf-without-uploading/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How to Redact a PDF Without Uploading It">
+  <meta property="og:description" content="Learn how to redact a PDF locally in your browser. Mark areas to hide, review selective page rasterization, and verify files before sharing.">
+  <meta property="og:url" content="https://extensionguy.me/guides/redact-pdf-without-uploading/">
+  <meta property="og:image" content="https://extensionguy.me/assets/og/home-1200x630.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How to Redact a PDF Without Uploading It">
+  <meta name="twitter:description" content="Learn how to redact a PDF locally in your browser. Mark areas to hide, review selective page rasterization, and verify files before sharing.">
+  <meta name="twitter:image" content="https://extensionguy.me/assets/og/home-1200x630.png?v=2">
+
+  <link rel="icon" type="image/png" sizes="96x96" href="../../assets/icons/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="../../assets/icons/favicon-48.png?v=2">
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32.png?v=2">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16.png?v=2">
+  <link rel="icon" type="image/svg+xml" href="../../assets/icons/favicon.svg?v=2">
+  <link rel="icon" href="/favicon.ico?v=2" sizes="any">
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png?v=2">
+  <meta name="theme-color" content="#0f172a">
+
+  <link rel="preload" href="../../assets/fonts/manrope-500.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/manrope-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../../assets/css/styles.css?v=4">
+
+  <style>
+    code {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    pre {
+      max-width: 100%;
+      overflow-x: auto;
+      box-sizing: border-box;
+    }
+    .guide-callout {
+      background: var(--bg-muted);
+      border-left: 4px solid var(--accent);
+      padding: 14px 18px;
+      border-radius: var(--r-sm);
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--text-main);
+      overflow-x: auto;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .topic-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .topic-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-page);
+      border-radius: var(--r-md);
+      padding: 20px;
+    }
+  </style>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "@id": "https://extensionguy.me/guides/redact-pdf-without-uploading/#article",
+      "url": "https://extensionguy.me/guides/redact-pdf-without-uploading/",
+      "headline": "How to Redact a PDF Without Uploading It",
+      "description": "Learn how to redact a PDF locally in your browser. Mark areas to hide, review selective page rasterization, and verify files before sharing.",
+      "inLanguage": "en",
+      "datePublished": "2026-11-11",
+      "dateModified": "2026-11-11",
+      "author": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Sid",
+        "url": "https://extensionguy.me/#about"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://extensionguy.me/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://extensionguy.me/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "How to Redact a PDF Without Uploading It",
+          "item": "https://extensionguy.me/guides/redact-pdf-without-uploading/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body id="top">
+  <a href="#mainContent" class="skip-to-content">Skip to content</a>
+
+  <header class="navbar" role="banner">
+    <div class="container nav-inner">
+      <a href="../../" class="brand" aria-label="ExtensionGuy Portfolio">
+        <div class="brand-mark" aria-hidden="true">
+          <img src="../../assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">
+          <img src="../../assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">
+        </div>
+        <span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="../../#flagship" class="nav-link">Flagship</a></li>
+          <li><a href="../../#portfolio" class="nav-link">All Extensions</a></li>
+          <li><a href="../../word-to-latex-converter/" class="nav-link">Web Converter</a></li>
+          <li><a href="../../demos/" class="nav-link">Demos</a></li>
+          <li><a href="../" class="nav-link active">Guides</a></li>
+          <li><a href="../../privacy" class="nav-link">Privacy</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="mainContent" class="container" style="padding-top: clamp(24px, 4vw, 40px); padding-bottom: 80px; max-width: 860px;">
+    <!-- Breadcrumbs -->
+    <nav aria-label="Breadcrumb" style="margin-bottom: 16px; font-size: 0.85rem; color: var(--text-tertiary);">
+      <a href="../../" style="color: var(--text-secondary); text-decoration: none;">Home</a> &rsaquo;
+      <a href="../" style="color: var(--text-secondary); text-decoration: none;">Guides</a> &rsaquo;
+      <span aria-current="page" style="color: var(--text-main); font-weight: 600;">Redact PDF Without Uploading</span>
+    </nav>
+
+    <header style="margin-bottom: 32px; border-bottom: 1px solid var(--border-page); padding-bottom: 24px;">
+      <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 12px;">
+        <span class="badge badge-subtle">Security &amp; Privacy</span>
+        <span style="font-size: 0.85rem; color: var(--text-tertiary);">November 2026 · 7 min read</span>
+      </div>
+      <h1 style="font-size: clamp(2rem, 4vw, 2.7rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 12px; color: var(--text-main); line-height: 1.25;">
+        How to Redact a PDF Without Uploading It
+      </h1>
+      <p style="font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+        Open a PDF in your browser, mark the areas you want to hide, and download a redacted copy. PDF Studio processes your document on your device. Follow these steps to use the controls and check the exported file.
+      </p>
+    </header>
+
+    <!-- Interactive Tool Banner -->
+    <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md); padding: 20px; margin-bottom: 36px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; box-shadow: var(--shadow-sm);">
+      <div>
+        <strong style="color: var(--text-main); font-size: 1.05rem; display: block; margin-bottom: 4px;">In-Browser Redaction Suite</strong>
+        <p style="margin: 0; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+          Redact sensitive documents on your local workstation with visual masking and selective image rasterization.
+        </p>
+      </div>
+      <a href="../../pdf-tools/" class="btn btn-primary btn-sm">Open Offline PDF Studio &rarr;</a>
+    </div>
+
+    <!-- Section 1: Step-by-Step Practical Walkthrough -->
+    <section style="margin-bottom: 40px;">
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 14px;">
+        Step-by-Step Redaction Workflow
+      </h2>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px;">
+        Follow these seven steps to load your document, mask private details, and download an updated PDF:
+      </p>
+      <ol style="color: var(--text-secondary); line-height: 1.8; padding-left: 20px; margin-bottom: 20px;">
+        <li style="margin-bottom: 12px;">
+          <strong>Open PDF Studio and select Redaction:</strong> Navigate to <a href="../../pdf-tools/" style="color: var(--accent); text-decoration: underline;">Offline PDF Studio</a> and select the Redaction tab in the top navigation bar.
+        </li>
+        <li style="margin-bottom: 12px;">
+          <strong>Choose the PDF to redact:</strong> Click the drop zone or drag your PDF file directly into the file selector. The browser loads the document into local memory.
+        </li>
+        <li style="margin-bottom: 12px;">
+          <strong>Move between pages and draw the required regions:</strong> Use the Previous and Next buttons to view each sheet. Click and drag your cursor over the preview canvas to frame blackout boxes over target text or images. Alternatively, enter exact dimensions in the Coordinate Entry form (X, Y, Width, and Height in points, where 72 points equal 1 inch from the top-left origin) and select <strong>Add box to page</strong> to register the region.
+        </li>
+        <li style="margin-bottom: 12px;">
+          <strong>Adjust or remove incorrect regions using the actual available controls:</strong> If you place a box mistakenly, select <strong>Undo</strong> to remove the most recent box on the current page. If a page contains an entire sensitive schedule or table, select <strong>Cover whole page</strong> to obscure the full sheet in one click. The panel lists active box coordinates below the form.
+        </li>
+        <li style="margin-bottom: 12px;">
+          <strong>Review every relevant page, using preview zoom where helpful:</strong> Use the zoom controls (Fit, 100%, or the Inspect tool which magnifies between 200% and 300%) to inspect fine text, account numbers, and table cells. You must find and mark other sensitive occurrences across all pages yourself; the tool does not scan or auto-select terms across the document.
+        </li>
+        <li style="margin-bottom: 12px;">
+          <strong>Select &ldquo;Redact, verify and download&rdquo;:</strong> Click the primary action button. The engine draws blackout rectangles over marked areas, rasterizes marked pages to image canvases, copies unmarked pages directly, clears standard metadata fields, and initiates a file download.
+        </li>
+        <li style="margin-bottom: 12px;">
+          <strong>Reopen the downloaded copy and inspect it before sharing:</strong> Open the exported file in an external PDF reader to verify that target figures are obscured, text cannot be selected on marked pages, and metadata fields are clear.
+        </li>
+      </ol>
+    </section>
+
+    <!-- Section 2: Browser Processing & Privacy -->
+    <section style="margin-bottom: 40px;">
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 14px;">
+        Local Device Processing and Network Boundaries
+      </h2>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
+        When visiting Offline PDF Studio, your browser downloads standard static web assets (HTML, stylesheets, scripts, and interface icons) from the hosting server. Once those client assets arrive, your selected PDF file is opened and processed locally on your device.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
+        File reading, page decoding, canvas rendering, and export building take place within local browser memory. The document contents are not sent to cloud conversion APIs or remote processing services. For details on asset delivery and website data practices, review the <a href="../../privacy#website" style="color: var(--accent); text-decoration: underline;">ExtensionGuy Privacy Policy</a>.
+      </p>
+    </section>
+
+    <!-- Section 3: Visual Overlays vs True Redaction -->
+    <section style="margin-bottom: 40px;">
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 14px;">
+        Understanding Overlay Shapes and Underlying Text Streams
+      </h2>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
+        A recurring issue in document security occurs when standard drawing or annotation tools are used to hide private details. In many generic PDF viewers or presentation programs, drawing a dark rectangle over a word simply adds a graphical shape object on top of the existing page content stream.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
+        Because standard PDF streams separate vector drawing paths from text instructions, the underlying character codes, font mappings, and word coordinates remain present beneath an overlay box. Anyone opening such a file can drag a cursor over the box, copy the text to their clipboard, or extract it with automated scripts. Dedicated redaction software or rasterization engines avoid this by removing or flattening the text layer.
+      </p>
+      <div class="guide-callout">
+        <strong>Observation:</strong> Adding visual shape annotations over text without rasterization or stream scrubbing leaves underlying character data accessible to search filters, screen readers, and text extractors.
+      </div>
+    </section>
+
+    <!-- Section 4: What the Exported PDF Contains -->
+    <section style="margin-bottom: 40px;">
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 14px;">
+        What the Exported PDF File Actually Contains
+      </h2>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
+        When you select <em>&ldquo;Redact, verify and download&rdquo;</em>, the local engine applies selective page handling rather than rebuilding every page identically:
+      </p>
+      <div class="topic-card-grid">
+        <div class="topic-card">
+          <strong style="color: var(--text-main); display: block; margin-bottom: 6px;">Marked Pages: Rendered to Image Canvases</strong>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+            Pages containing one or more redaction boxes are rendered to high-density bitmap image canvases with blackout rectangles drawn into the pixel matrix. The original text operators for that page are removed, converting all text on that page into image pixels.
+          </p>
+        </div>
+        <div class="topic-card">
+          <strong style="color: var(--text-main); display: block; margin-bottom: 6px;">Unmarked Pages: Direct PDF Page Copying</strong>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+            Pages without redactions are copied directly from the source document as vector PDF pages. Vector fonts, crisp line art, selectable text, and searchability present on those pages remain intact.
+          </p>
+        </div>
+      </div>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
+        <strong>Impact on Text Selection, Search, and Accessibility:</strong> On marked pages, because text is converted into image pixels, standard in-page search and clipboard selection do not function. Assistive technology such as screen readers cannot read text from these flattened pages unless optical character recognition (OCR) is applied later.
+      </p>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
+        <strong>Document Information Fields:</strong> During export, the engine replaces the standard Document Information dictionary entries (Title, Author, Subject, Keywords, Creator, and Producer) with empty strings. Clearing these standard fields removes top-level file properties, but it does not inspect or certify the absence of identities, file paths, or private data in other structures (such as uninspected XML metadata packets, embedded font names, or embedded images).
+      </p>
+    </section>
+
+    <!-- Section 5: Boundaries & File Limits -->
+    <section style="margin-bottom: 40px;">
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 14px;">
+        Operational Boundaries and Limits
+      </h2>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
+        Because all document operations execute within client memory, specific boundaries apply:
+      </p>
+      <ul style="color: var(--text-secondary); line-height: 1.7; padding-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 8px;"><strong>File Size Limit:</strong> Maximum input document size is 25 megabytes.</li>
+        <li style="margin-bottom: 8px;"><strong>Page Count Limit:</strong> Maximum document length is 200 pages.</li>
+        <li style="margin-bottom: 8px;"><strong>Encrypted Files:</strong> Password-protected or encrypted PDFs must be decrypted prior to loading.</li>
+        <li style="margin-bottom: 8px;"><strong>Manual Discovery:</strong> Users must locate each sensitive record across pages manually.</li>
+      </ul>
+    </section>
+
+    <!-- Section 6: Verification Procedure -->
+    <section style="margin-bottom: 40px;">
+      <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 14px;">
+        How to Check the Exported File Before Sharing
+      </h2>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 14px;">
+        Before distributing an exported PDF, conduct visual checks in an ordinary document viewer. If you have access to terminal tools, optional command-line utilities provide additional inspection.
+      </p>
+
+      <h3 style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-top: 20px; margin-bottom: 10px;">
+        Primary Verification: Standard Document Viewer
+      </h3>
+      <ol style="color: var(--text-secondary); line-height: 1.7; padding-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 8px;">
+          <strong>Visual Inspection:</strong> Open the file in an external reader (such as Adobe Acrobat, Apple Preview, or a browser viewer). Confirm that blackout boxes cover the intended content without shifting.
+        </li>
+        <li style="margin-bottom: 8px;">
+          <strong>Selection Test:</strong> Attempt to click and drag across the redacted region and adjacent words on that page. Confirm that text cannot be highlighted or copied to the clipboard.
+        </li>
+        <li style="margin-bottom: 8px;">
+          <strong>Document Properties Dialog:</strong> Open File &rarr; Properties in your viewer and check that Title, Author, and Subject fields do not display sensitive details.
+        </li>
+      </ol>
+
+      <h3 style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-top: 20px; margin-bottom: 10px;">
+        Optional Secondary Verification: Command-Line Utilities (Poppler)
+      </h3>
+      <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 12px;">
+        Command-line utilities such as <code style="font-family: var(--font-mono, monospace);">pdftotext</code> and <code style="font-family: var(--font-mono, monospace);">pdfinfo</code> from the Poppler package allow technical inspection of text streams and file properties:
+      </p>
+      <ol style="color: var(--text-secondary); line-height: 1.7; padding-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 12px;">
+          <strong>Text Extraction Check (<code style="font-family: var(--font-mono, monospace);">pdftotext</code>):</strong> Extract text to an intermediate file first to confirm extraction succeeds before evaluating queries:
+          <pre style="margin-top: 8px; background: var(--bg-surface); padding: 12px; border-radius: var(--r-sm); border: 1px solid var(--border-page); font-family: var(--font-mono, monospace); font-size: 0.85rem;">pdftotext redacted_copy.pdf extracted_output.txt &amp;&amp; grep -i "ConfidentialName" extracted_output.txt</pre>
+          Checking that extraction completes avoids mistaking a failed command for a clean document. Keep in mind that a term can legitimately appear if it exists on an unmarked page where redaction was not applied. Furthermore, text extraction inspects character streams and does not detect words embedded inside photographs or drawings.
+        </li>
+        <li style="margin-bottom: 12px;">
+          <strong>Header Inspection (<code style="font-family: var(--font-mono, monospace);">pdfinfo</code>):</strong> Inspect standard document dictionary fields:
+          <pre style="margin-top: 8px; background: var(--bg-surface); padding: 12px; border-radius: var(--r-sm); border: 1px solid var(--border-page); font-family: var(--font-mono, monospace); font-size: 0.85rem;">pdfinfo redacted_copy.pdf</pre>
+          To inspect document-level XML metadata if present, pass the meta flag:
+          <pre style="margin-top: 8px; background: var(--bg-surface); padding: 12px; border-radius: var(--r-sm); border: 1px solid var(--border-page); font-family: var(--font-mono, monospace); font-size: 0.85rem;">pdfinfo -meta redacted_copy.pdf</pre>
+          This command displays document-level metadata packets rather than certifying complete absence of sensitive data across every component of the document.
+        </li>
+      </ol>
+    </section>
+
+    <!-- Section 7: Authoritative References -->
+    <section style="margin-bottom: 40px; border-top: 1px solid var(--border-page); padding-top: 24px;">
+      <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--text-main); margin-bottom: 12px;">
+        Primary Documentation References
+      </h2>
+      <ul style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; padding-left: 20px;">
+        <li style="margin-bottom: 6px;">
+          <a href="https://poppler.freedesktop.org/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Poppler PDF Rendering Library &amp; Utilities</a>: Official project documentation for <code style="font-family: var(--font-mono, monospace);">pdftotext</code>, <code style="font-family: var(--font-mono, monospace);">pdfinfo</code>, and font extraction tools.
+        </li>
+        <li style="margin-bottom: 6px;">
+          <a href="https://www.iso.org/standard/75839.html" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">ISO 32000-2 (PDF 2.0 Specification)</a>: International standard defining content streams, text operators, and document information dictionaries.
+        </li>
+        <li style="margin-bottom: 6px;">
+          <a href="https://html.spec.whatwg.org/multipage/canvas.html" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">WHATWG HTML Canvas 2D Context</a>: Standard specification for browser pixel manipulation, rendering paths, and canvas exports.
+        </li>
+      </ul>
+    </section>
+
+    <!-- Tool Callout Box -->
+    <div style="background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-lg); padding: 28px; text-align: center;">
+      <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Redact PDFs Locally with Offline PDF Studio</h3>
+      <p style="color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 20px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+        Use visual blackout boxes, coordinate entry, and selective image flattening to protect private records directly on your machine.
+      </p>
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <a href="../../pdf-tools/" class="btn btn-primary btn-sm">Launch Offline PDF Studio &rarr;</a>
+        <a href="../" class="btn btn-ghost btn-sm">Explore More Guides &rarr;</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <a href="../../" class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <img src="../../assets/icons/logo-icon.svg" alt="ExtensionGuy" class="brand-icon brand-icon-light" width="34" height="28">
+            <img src="../../assets/icons/logo-icon-dark.svg" alt="ExtensionGuy" class="brand-icon brand-icon-dark" width="34" height="28">
+          </div>
+          <span class="brand-text"><span class="wordmark-ext" style="font-weight:800;color:var(--wordmark-extension,#3B33C4)">Extension</span><span class="wordmark-guy" style="font-weight:500;color:var(--wordmark-guy,#14123A)">Guy</span></span>
+        </a>
+        <p class="footer-copy">
+          &copy; 2026 ExtensionGuy. Published extensions available on Microsoft Edge Add-ons and Chrome Web Store. Built local-first · Privacy by design.
+        </p>
+      </div>
+      <div class="footer-links">
+        <a href="../../" class="footer-link">Home</a>
+        <a href="../../#portfolio" class="footer-link">Products</a>
+        <a href="../../word-to-latex-converter/" class="footer-link">Online Converter</a>
+        <a href="../../demos/" class="footer-link">Demos</a>
+        <a href="../" class="footer-link">Guides</a>
+        <a href="../../#contact" class="footer-link">Support &amp; Contact</a>
+        <a href="../../privacy" class="footer-link">Privacy Policy</a>
+        <a href="../../changelog/" class="footer-link">Changelog</a>
+        <a href="https://github.com/sidoua26-debug/extensions-portfolio" target="_blank" rel="noopener noreferrer" class="footer-link">Source Code</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/site.js?v=20261029-1" defer></script>
+</body>
+</html>

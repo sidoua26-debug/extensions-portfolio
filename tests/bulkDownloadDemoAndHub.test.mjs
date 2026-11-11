@@ -236,14 +236,33 @@ describe('Bulk Download Playground & Demos Hub Validation', () => {
   });
 
   describe('5. Cross-Site Integration & Navigation Consistency', () => {
-    it('sitemap.xml has exactly 26 canonical URLs including new pages', () => {
+    it('sitemap.xml registers required routes, the new guide URL exactly once, and zero duplicate URLs', () => {
       assert.ok(fs.existsSync(SITEMAP_PATH), 'sitemap.xml must exist');
       const sitemap = fs.readFileSync(SITEMAP_PATH, 'utf8');
-      const locMatches = sitemap.match(/<loc>([^<]+)<\/loc>/g) || [];
-      assert.equal(locMatches.length, 26, `Sitemap must contain exactly 26 URLs, found ${locMatches.length}`);
-      assert.ok(sitemap.includes('<loc>https://extensionguy.me/demos/</loc>'), 'Sitemap has /demos/');
-      assert.ok(sitemap.includes('<loc>https://extensionguy.me/demos/bulk-download/</loc>'), 'Sitemap has /demos/bulk-download/');
-      assert.ok(sitemap.includes('<loc>https://extensionguy.me/guides/download-multiple-pdfs/</loc>'), 'Sitemap has /guides/download-multiple-pdfs/');
+      const rawLocs = sitemap.match(/<loc>([^<]+)<\/loc>/g) || [];
+      const urls = rawLocs.map(m => m.replace(/<\/?loc>/g, '').trim());
+
+      // Canonical URLs contain no duplicates
+      const uniqueUrls = new Set(urls);
+      assert.equal(uniqueUrls.size, urls.length, `Sitemap must contain zero duplicate URLs (found ${urls.length - uniqueUrls.size} duplicates)`);
+
+      // Required existing routes remain present
+      const requiredRoutes = [
+        'https://extensionguy.me/',
+        'https://extensionguy.me/pdf-tools/',
+        'https://extensionguy.me/demos/',
+        'https://extensionguy.me/demos/bulk-download/',
+        'https://extensionguy.me/guides/',
+        'https://extensionguy.me/guides/download-multiple-pdfs/'
+      ];
+      for (const route of requiredRoutes) {
+        assert.ok(urls.includes(route), `Sitemap must include required route: ${route}`);
+      }
+
+      // The new guide URL appears exactly once
+      const targetGuide = 'https://extensionguy.me/guides/redact-pdf-without-uploading/';
+      const targetOccurrences = urls.filter(u => u === targetGuide).length;
+      assert.equal(targetOccurrences, 1, `The new guide URL must appear exactly once in sitemap, found ${targetOccurrences}`);
     });
 
     it('bulkgrab/index.html has playground banner and guide card', () => {

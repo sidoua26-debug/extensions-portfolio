@@ -57,6 +57,12 @@ const GUIDES = [
     file: 'guides/download-multiple-pdfs/index.html',
     canonical: 'https://extensionguy.me/guides/download-multiple-pdfs/',
     ogImage: 'https://extensionguy.me/assets/og/home-1200x630.png?v=2'
+  },
+  {
+    slug: 'redact-pdf-without-uploading',
+    file: 'guides/redact-pdf-without-uploading/index.html',
+    canonical: 'https://extensionguy.me/guides/redact-pdf-without-uploading/',
+    ogImage: 'https://extensionguy.me/assets/og/home-1200x630.png?v=2'
   }
 ];
 
@@ -239,6 +245,7 @@ describe('Guides Validation & Quality Gate', () => {
       assert.ok(content.includes('href="./audit-json-ld-and-headings-in-browser/"'), 'Links to audit-json-ld-and-headings-in-browser');
       assert.ok(content.includes('href="./fix-pandoc-latex-errors-in-overleaf/"'), 'Links to fix-pandoc-latex-errors-in-overleaf');
       assert.ok(content.includes('href="./download-multiple-pdfs/"'), 'Links to download-multiple-pdfs');
+      assert.ok(content.includes('href="./redact-pdf-without-uploading/"'), 'Links to redact-pdf-without-uploading');
     });
   });
 
