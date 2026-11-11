@@ -52,7 +52,8 @@ describe('Table Extraction Playground & Companion Guide Suite (VISIBILITY-10)', 
       assert.ok(breadcrumbs, 'BreadcrumbList schema exists');
       assert.equal(breadcrumbs.itemListElement.length, 3);
       assert.equal(breadcrumbs.itemListElement[0].item, 'https://extensionguy.me/');
-      assert.equal(breadcrumbs.itemListElement[1].item, 'https://extensionguy.me/guides/');
+      assert.equal(breadcrumbs.itemListElement[1].name, 'Demos');
+      assert.equal(breadcrumbs.itemListElement[1].item, 'https://extensionguy.me/demos/');
       assert.equal(breadcrumbs.itemListElement[2].item, 'https://extensionguy.me/demos/table-extraction/');
     });
 
