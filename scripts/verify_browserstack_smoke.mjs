@@ -46,6 +46,7 @@ async function run() {
 
   const capabilities = {
     browserName: 'chrome',
+    device: DEVICE_NAME,
     deviceName: DEVICE_NAME,
     osVersion: OS_VERSION,
     realMobile: 'true',
@@ -53,19 +54,18 @@ async function run() {
     build: BUILD_NAME,
     'browserstack.username': BROWSERSTACK_USERNAME,
     'browserstack.accessKey': BROWSERSTACK_ACCESS_KEY,
+    'client.playwrightVersion': '1.63.0',
   };
 
   const wsEndpoint = `wss://cdp.browserstack.com/playwright?caps=${encodeURIComponent(JSON.stringify(capabilities))}`;
 
   console.log(`Connecting to BrowserStack on real Android device: ${DEVICE_NAME} (Android ${OS_VERSION})...`);
-  const browser = await chromium.connect(wsEndpoint);
+  const browser = await chromium.connectOverCDP(wsEndpoint);
   let page;
 
   try {
-    const context = await browser.newContext({
-      viewport: null, // use native device screen size
-    });
-    page = await context.newPage();
+    const context = browser.contexts()[0] || (await browser.newContext());
+    page = context.pages()[0] || (await context.newPage());
 
     // Retrieve BrowserStack session details
     try {
