@@ -53,6 +53,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Pin Playwright 1.62 for BrowserStack Android compatibility
+        # BrowserStack Automate Android grid currently supports Playwright up to 1.62.
+        # We pin Playwright 1.62 for this step without downgrading repository package.json.
+        run: npm install --no-save playwright@1.62.0
+
       - name: Execute BrowserStack Android smoke test
         env:
           BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}

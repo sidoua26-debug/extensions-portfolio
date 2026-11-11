@@ -68,6 +68,12 @@ async function run() {
     return;
   }
 
+  let installedClientVersion = `${PLAYWRIGHT_BS_VERSION}.0`;
+  try {
+    const pwPkg = JSON.parse(fs.readFileSync(path.resolve('node_modules/playwright-core/package.json'), 'utf8'));
+    if (pwPkg.version) installedClientVersion = pwPkg.version;
+  } catch (_) {}
+
   // Capabilities aligned with BrowserStack Automate Playwright Android docs
   const capabilities = {
     browserName: 'chrome',
@@ -79,7 +85,7 @@ async function run() {
     'browserstack.username': BROWSERSTACK_USERNAME,
     'browserstack.accessKey': BROWSERSTACK_ACCESS_KEY,
     'browserstack.playwrightVersion': PLAYWRIGHT_BS_VERSION,
-    'client.playwrightVersion': `${PLAYWRIGHT_BS_VERSION}.0`,
+    'client.playwrightVersion': installedClientVersion,
   };
 
   const wsEndpoint = `wss://cdp.browserstack.com/playwright?caps=${encodeURIComponent(JSON.stringify(capabilities))}`;
