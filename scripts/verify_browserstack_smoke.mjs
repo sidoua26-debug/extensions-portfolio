@@ -11,6 +11,9 @@ import { _android } from 'playwright';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
 
 const TARGET_URL = (process.env.TARGET_URL || 'https://extensionguy.me').replace(/\/+$/, '');
 const ARTIFACTS_DIR = path.resolve(process.env.ARTIFACTS_DIR || 'artifacts/browserstack-smoke');
@@ -19,11 +22,10 @@ const BROWSERSTACK_USERNAME = process.env.BROWSERSTACK_USERNAME;
 const BROWSERSTACK_ACCESS_KEY = process.env.BROWSERSTACK_ACCESS_KEY;
 const DEVICE_NAME = process.env.BROWSERSTACK_DEVICE || 'Google Pixel 8';
 const OS_VERSION = process.env.BROWSERSTACK_OS_VERSION || '14.0';
-const PLAYWRIGHT_BS_VERSION = process.env.BROWSERSTACK_PLAYWRIGHT_VERSION || '1.62';
 const BUILD_NAME = process.env.BROWSERSTACK_BUILD_NAME || `extensionguy-smoke-${new Date().toISOString().slice(0, 10)}`;
 
-const CONNECT_TIMEOUT_MS = 60_000; // Explicit 60s connection timeout
-const ACTION_TIMEOUT_MS = 35_000;  // Bounded navigation / action timeout
+const CONNECT_TIMEOUT_MS = 60_000;  // Explicit 60s connection timeout
+const ACTION_TIMEOUT_MS = 35_000;   // Bounded navigation / action timeout
 const OVERALL_TIMEOUT_MS = 600_000; // 10 minutes total execution deadline
 
 fs.mkdirSync(ARTIFACTS_DIR, { recursive: true });
@@ -40,19 +42,42 @@ function sanitize(text) {
 }
 
 async function run() {
+  // Resolve actual imported Playwright packages without fallback invention
+  const playwrightPkgPath = require.resolve('playwright/package.json');
+  const playwrightPkg = JSON.parse(fs.readFileSync(playwrightPkgPath, 'utf8'));
+  const playwrightVersion = playwrightPkg.version;
+  const playwrightLocation = path.dirname(playwrightPkgPath);
+
+  const playwrightCorePkgPath = require.resolve('playwright-core/package.json', { paths: [playwrightLocation] });
+  const playwrightCorePkg = JSON.parse(fs.readFileSync(playwrightCorePkgPath, 'utf8'));
+  const playwrightCoreVersion = playwrightCorePkg.version;
+  const playwrightCoreLocation = path.dirname(playwrightCorePkgPath);
+
   const summary = {
     targetUrl: TARGET_URL,
-    configuredDevice: DEVICE_NAME,
-    configuredOsVersion: OS_VERSION,
-    supportedPlaywrightVersion: PLAYWRIGHT_BS_VERSION,
     timestamp: new Date().toISOString(),
     status: 'pending',
     stage: 'initialization',
+    runtime: {
+      nodeVersion: process.version,
+      playwrightVersion,
+      playwrightLocation,
+      playwrightCoreVersion,
+      playwrightCoreLocation,
+      configuredDevice: DEVICE_NAME,
+      configuredOsVersion: OS_VERSION,
+      clientPlaywrightVersion: playwrightVersion,
+      hasExplicitRemoteVersion: false,
+    },
     sessionId: null,
     dashboardUrl: null,
     deviceInfo: null,
     viewport: null,
-    checks: {},
+    checks: {
+      homepage: 'not_executed',
+      pdfTools: 'not_executed',
+      tableExtractor: 'not_executed',
+    },
     screenshots: [],
     error: null,
   };
@@ -68,13 +93,8 @@ async function run() {
     return;
   }
 
-  let installedClientVersion = `${PLAYWRIGHT_BS_VERSION}.0`;
-  try {
-    const pwPkg = JSON.parse(fs.readFileSync(path.resolve('node_modules/playwright-core/package.json'), 'utf8'));
-    if (pwPkg.version) installedClientVersion = pwPkg.version;
-  } catch (_) {}
-
-  // Capabilities aligned with BrowserStack Automate Playwright Android docs
+  // Capabilities: align with BrowserStack Android documentation and legacy fixture
+  // Rely on client-based version selection using exact installed client version
   const capabilities = {
     browserName: 'chrome',
     deviceName: DEVICE_NAME,
@@ -84,9 +104,21 @@ async function run() {
     build: BUILD_NAME,
     'browserstack.username': BROWSERSTACK_USERNAME,
     'browserstack.accessKey': BROWSERSTACK_ACCESS_KEY,
-    'browserstack.playwrightVersion': PLAYWRIGHT_BS_VERSION,
-    'client.playwrightVersion': installedClientVersion,
+    'client.playwrightVersion': playwrightVersion,
   };
+
+  const hasExplicitRemote = Boolean(capabilities['browserstack.playwrightVersion']);
+  summary.runtime.hasExplicitRemoteVersion = hasExplicitRemote;
+
+  // Concise, credential-free diagnostics immediately before connection
+  console.log('--- Runtime & Playwright Diagnostics ---');
+  console.log(`Node version: ${process.version}`);
+  console.log(`Playwright: ${playwrightVersion} (${playwrightLocation})`);
+  console.log(`Playwright-core: ${playwrightCoreVersion} (${playwrightCoreLocation})`);
+  console.log(`Target Android device: ${DEVICE_NAME} (Android ${OS_VERSION})`);
+  console.log(`client.playwrightVersion: ${capabilities['client.playwrightVersion']}`);
+  console.log(`browserstack.playwrightVersion explicitly supplied: ${hasExplicitRemote}`);
+  console.log('----------------------------------------');
 
   const wsEndpoint = `wss://cdp.browserstack.com/playwright?caps=${encodeURIComponent(JSON.stringify(capabilities))}`;
 
@@ -106,17 +138,18 @@ async function run() {
     const executionPromise = (async () => {
       // Step 2: Establish connection to Android device
       summary.stage = 'connection';
-      console.log(`[Phase 1] Connecting to BrowserStack Android device: ${DEVICE_NAME} (Android ${OS_VERSION}, Playwright grid ${PLAYWRIGHT_BS_VERSION})...`);
+      console.log(`[Phase 1] Connecting to BrowserStack Android device: ${DEVICE_NAME} (Android ${OS_VERSION})...`);
 
       try {
         device = await _android.connect(wsEndpoint, { timeout: CONNECT_TIMEOUT_MS });
       } catch (connErr) {
-        summary.status = 'connection_failed';
-        summary.stage = 'connection';
         const msg = sanitize(connErr.message);
-        if (/unsupported|invalid capability|not found/i.test(msg)) {
+        if (/version not supported/i.test(msg) || /unsupported|invalid capability|not found/i.test(msg)) {
           summary.status = 'unsupported_configuration';
+        } else {
+          summary.status = 'connection_failed';
         }
+        summary.stage = 'connection';
         throw new Error(`Device connection failed: ${msg}`);
       }
 
