@@ -74,20 +74,23 @@ npm test
 ```
 
 ### BrowserStack Automated Smoke Test
-Automated smoke test executing against a real Android device (Chrome) via BrowserStack Automate's native Playwright `_android.connect` bridge:
+Automated smoke test executing against a real Android device (Google Pixel 8, Android 14, Chrome) via BrowserStack Automate's native Playwright `_android.connect` bridge.
 
+Trigger via GitHub Actions:
+1. Open **Actions** → **BrowserStack Smoke Test**
+2. Select **Run workflow**
+3. Select `main` (after this PR is merged)
+4. Keep the production target and verified Pixel 8 / Android 14 defaults
+
+Or trigger via the GitHub CLI:
 ```bash
-export BROWSERSTACK_USERNAME="<your_username>"
-export BROWSERSTACK_ACCESS_KEY="<your_access_key>"
-# BrowserStack's Android grid currently supports Playwright up to 1.62.0.
-# Run with Playwright 1.62 without changing repository package.json:
-npx --yes playwright@1.62.0 node scripts/verify_browserstack_smoke.mjs
+gh workflow run browserstack-smoke.yml --ref main
 ```
 
 **Target & Scope**:
-- The smoke test defaults to the live deployed production site (`https://extensionguy.me`). A green run verifies deployed site health, converter functionality, and production store destinations; it does **not** validate unmerged local or branch website changes unless `TARGET_URL` is explicitly overridden (e.g., pointing to a preview deployment).
+- The smoke test defaults to the live deployed production site (`https://extensionguy.me`). A green run verifies deployed site health, converter functionality, and production store destinations; it does **not** validate unmerged website changes unless `target_url` is explicitly specified for a preview deployment.
 
 **Version & CI Environment**:
-- BrowserStack Automate's Android real-device grid currently supports Playwright versions up to **1.62.0**.
-- In CI (`.github/workflows/browserstack-smoke.yml`), the job installs `playwright@1.62.0` via `npm install --no-save` specifically for the smoke execution step. This preserves the repository's normal `package.json` dependency (`playwright: 1.63.0`) for the local unit and integration test suite (`npm test`).
-- For local smoke testing, invoking with `npx --yes playwright@1.62.0` or `npm install --no-save playwright@1.62.0` satisfies the remote grid requirement without modifying `package.json` or `package-lock.json`.
+- Playwright 1.62.0 is the tested Android configuration for this workflow.
+- In CI (`.github/workflows/browserstack-smoke.yml`), the workflow installs `playwright@1.62.0` via `npm install --no-save` specifically for this smoke execution step.
+- The repository's normal dependency declared in `package.json` remains Playwright 1.63.0, which powers the full local unit and integration test suite (`npm test`).
