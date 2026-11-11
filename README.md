@@ -34,7 +34,7 @@ Official portfolio and documentation repository for **ExtensionGuy** ([extension
 
 - **Static Architecture**: Hosted on Cloudflare Pages as static HTML, CSS, and client-side JavaScript.
 - **Client-Side Document Conversion**: Document conversion runs entirely inside browser WebAssembly (Pandoc 3.10) in an isolated Web Worker thread. Word documents are never uploaded to ExtensionGuy servers.
-- **Website Analytics**: The website uses Plausible Analytics for aggregate website usage statistics without tracking cookies. The analytics script is served from plausible.io. Document conversion runs locally in the browser; document contents are not sent to ExtensionGuy servers or included in website analytics.
+- **Website Privacy**: The website does not embed visitor analytics or advertising trackers. Document conversion and PDF processing happen on your device. Cloudflare provides hosting, delivery and security. The [privacy policy](https://extensionguy.me/privacy#website) describes its infrastructure processing.
 - **Zero Framework Bloat**: Pure CSS architecture with custom design tokens for light and dark themes, using Google Fonts `Geist`, `Manrope`, and `JetBrains Mono`.
 
 ---
