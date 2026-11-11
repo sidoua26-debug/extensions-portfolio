@@ -60,5 +60,17 @@ Then open `http://localhost:8080` in your browser.
 The production website is continuously deployed to **Cloudflare Pages** from the `main` branch:
 - **Production URL**: [https://extensionguy.me/](https://extensionguy.me/)
 - **Hosting Provider**: Cloudflare Pages
-- **Build Command**: None (Static directory publish)
-- **Output Directory**: `.` (Repository root)
+- **Build Command**: `python3 build_redesign.py && python3 scripts/stage_pages.py`
+- **Output Directory**: `dist`
+
+The staging script uses Python's standard library on Linux and copies the public
+pages, assets, Cloudflare rules, and required license/source downloads to `dist`.
+Build scripts, tests, reports, and package manifests stay in the source checkout.
+When adding a new top-level public route, add its directory to
+`PUBLIC_DIRECTORIES` in `scripts/stage_pages.py`.
+
+Before applying these settings to production, validate a Cloudflare Pages preview
+using `dist` as its output directory. Check all sitemap URLs, DOCX conversion,
+PDF processing, the 404 page, and the license/source downloads. Confirm that
+`/src/converter/worker.ts`, `/tests/bulkDownloadDemoAndHub.test.mjs`, and
+`/reports/GOOGLE_SEARCH_FAVICON_AUDIT.md` return HTTP 404.
