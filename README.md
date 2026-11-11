@@ -80,4 +80,4 @@ export BROWSERSTACK_USERNAME="<your_username>"
 export BROWSERSTACK_ACCESS_KEY="<your_access_key>"
 node scripts/verify_browserstack_smoke.mjs
 ```
-The test connects directly via Playwright's built-in `chromium.connect` to verify the live deployed website across the homepage converter, PDF Studio, and Table Extractor. In CI, it executes automatically via `.github/workflows/browserstack-smoke.yml` using GitHub Actions secrets (`BROWSERSTACK_USERNAME`, `BROWSERSTACK_ACCESS_KEY`).
+The test connects via Playwright's native `_android.connect` to a real Android device (Google Pixel 8, Android 14.0, Chrome) using BrowserStack Automate's Playwright 1.62 Android grid. In CI, it executes automatically via `.github/workflows/browserstack-smoke.yml` using GitHub Actions secrets (`BROWSERSTACK_USERNAME`, `BROWSERSTACK_ACCESS_KEY`).

@@ -60,6 +60,7 @@ jobs:
           TARGET_URL: ${{ github.event.inputs.target_url || 'https://extensionguy.me' }}
           BROWSERSTACK_DEVICE: ${{ github.event.inputs.device || 'Google Pixel 8' }}
           BROWSERSTACK_OS_VERSION: ${{ github.event.inputs.os_version || '14.0' }}
+          BROWSERSTACK_PLAYWRIGHT_VERSION: '1.62'
           ARTIFACTS_DIR: artifacts/browserstack-smoke
         run: node scripts/verify_browserstack_smoke.mjs
 
