@@ -1039,6 +1039,20 @@ button:disabled {
   transition: grid-template-columns 0.2s ease;
 }
 
+.tool-workspace-grid.preview-expanded .box-form-inputs {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tool-workspace-grid.preview-expanded .box-form-inputs label {
+  min-width: 0;
+}
+
+.tool-workspace-grid.preview-expanded .box-form-inputs input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
 .preview-card.expanded-workspace {
   box-shadow: var(--shadow-lg);
   border-color: var(--accent-primary);
@@ -1309,6 +1323,13 @@ button:disabled {
 
 .box-form-inputs label {
   min-width: 0;
+}
+
+.box-form-help {
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+  margin: 0;
+  line-height: 1.4;
 }
 
 #redact-add-box {
@@ -1845,6 +1866,31 @@ details ul {
   .stage {
     padding: 0.5rem;
     max-height: 50vh;
+  }
+}
+
+@media (max-width: 560px) {
+  .tool-nav-wrapper .tabs[role="tablist"] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.4rem;
+    overflow-x: visible;
+  }
+
+  .tool-nav-wrapper .tabs[role="tablist"] .tab-btn {
+    min-width: 0;
+    min-height: 44px;
+    white-space: normal;
+    text-align: center;
+    padding: 0.5rem 0.4rem;
+    font-size: 0.875rem;
+    line-height: 1.25;
+    justify-content: center;
+    gap: 0.35rem;
+  }
+
+  .tool-nav-wrapper .tabs[role="tablist"] .tab-btn svg {
+    flex-shrink: 0;
   }
 }
 

@@ -449,21 +449,22 @@
               <div class="box-form-inputs">
                 <label for="box-x">
                   <span>X</span>
-                  <input type="number" id="box-x" min="0" step="1" value="0" />
+                  <input type="number" id="box-x" min="0" step="1" value="0" aria-describedby="box-form-help" />
                 </label>
                 <label for="box-y">
                   <span>Y</span>
-                  <input type="number" id="box-y" min="0" step="1" value="0" />
+                  <input type="number" id="box-y" min="0" step="1" value="0" aria-describedby="box-form-help" />
                 </label>
                 <label for="box-w">
                   <span>Width</span>
-                  <input type="number" id="box-w" min="1" step="1" value="100" />
+                  <input type="number" id="box-w" min="1" step="1" value="100" aria-describedby="box-form-help" />
                 </label>
                 <label for="box-h">
                   <span>Height</span>
-                  <input type="number" id="box-h" min="1" step="1" value="20" />
+                  <input type="number" id="box-h" min="1" step="1" value="20" aria-describedby="box-form-help" />
                 </label>
               </div>
+              <p id="box-form-help" class="box-form-help">Coordinates are in PDF points (72 pt = 1 in) from the displayed page’s top-left origin (0, 0), following rendered page orientation.</p>
               <button type="button" id="redact-add-box" disabled>Add box to page</button>
             </fieldset>
 
