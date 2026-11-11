@@ -26,7 +26,7 @@ Official portfolio and documentation repository for **ExtensionGuy** ([extension
 ## 🌐 Companion Client-Side Web Tools
 
 - **Online Word to LaTeX Converter** ([/word-to-latex-converter/](https://extensionguy.me/word-to-latex-converter/)) — Zero-install browser converter running Pandoc WebAssembly in a sandboxed Web Worker for `.docx` files and tables (distinct from the browser extension; does not include OCR). Processes documents locally in browser memory without remote file transmission. Supports LaTeX Fragment and Complete Document output modes with step-by-step Overleaf project workflows.
-- **Offline PDF Tools** ([/pdf-tools/](https://extensionguy.me/pdf-tools/)) — Client-side PDF utility suite (merge, split, rotate, redact, compress, and metadata sanitization) powered locally by `pdf-lib` and `PDF.js`.
+- **Offline PDF Tools** ([/pdf-tools/](https://extensionguy.me/pdf-tools/)) — Client-side PDF utility suite (merge, split, rotate, redact, compress, and metadata sanitization) powered locally by `pdf-lib` and `PDF.js`. See the [practical guide to redacting a PDF without uploading it](https://extensionguy.me/guides/redact-pdf-without-uploading/).
 
 ---
 
