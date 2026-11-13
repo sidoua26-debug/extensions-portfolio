@@ -1139,32 +1139,32 @@ html = r"""<!DOCTYPE html>
     <section class="install-section" id="install" aria-labelledby="installHeading">
       <div class="container">
         <div class="section-eyebrow">Installation Guide</div>
-        <h2 id="installHeading" class="section-heading">Simple Installation on Microsoft Edge</h2>
-        <p class="section-lead">Install directly from the Microsoft Edge Add-ons store in one click, or test unpacked builds via Developer Mode.</p>
+        <h2 id="installHeading" class="section-heading">Install on desktop Edge or Chrome</h2>
+        <p class="section-lead">Install from the official store in your desktop browser. All six extensions are available for Microsoft Edge. Word to LaTeX, Table Extractor and BulkGrab are also available for Google Chrome.</p>
 
         <div class="install-cards-grid">
           <div class="install-step-box">
             <div class="step-badge">1</div>
-            <h3 class="step-heading">Open Store Page</h3>
-            <p class="step-paragraph">Click "Get on Edge" on any extension above to navigate directly to its official listing on the Microsoft Edge Add-ons store catalog.</p>
+            <h3 class="step-heading">Choose your store</h3>
+            <p class="step-paragraph">Open an extension's Edge Add-ons or Chrome Web Store link from the product cards above. Choose a listing available for your browser.</p>
           </div>
 
           <div class="install-step-box">
             <div class="step-badge">2</div>
-            <h3 class="step-heading">Click "Get"</h3>
-            <p class="step-paragraph">Click the blue <strong>Get</strong> button to install. Microsoft Edge inspects the extension package and clearly prompts you to review the minimal permission scope requested before enabling it.</p>
+            <h3 class="step-heading">Install the extension</h3>
+            <p class="step-paragraph">In Edge, select <strong>Get</strong>. In Chrome, select <strong>Add to Chrome</strong>. Review any requested permissions, then confirm with <strong>Add extension</strong>.</p>
           </div>
 
           <div class="install-step-box">
             <div class="step-badge">3</div>
-            <h3 class="step-heading">Pin to Toolbar</h3>
-            <p class="step-paragraph">Click the puzzle extensions icon in Edge's address bar and toggle the pin icon next to the extension for instant one-click access whenever you work.</p>
+            <h3 class="step-heading">Pin for quick access</h3>
+            <p class="step-paragraph">Open your browser's Extensions menu and pin the extension to the toolbar if that option is available.</p>
           </div>
 
           <div class="install-step-box">
             <div class="step-badge">4</div>
-            <h3 class="step-heading">Developer Unpacked</h3>
-            <p class="step-paragraph">For offline testing, security audits, or local verification: clone or download the source repository from GitHub, navigate to <code>edge://extensions</code> in your browser, switch Developer mode on, and choose <strong>Load unpacked</strong>.</p>
+            <h3 class="step-heading">Developer testing (optional)</h3>
+            <p class="step-paragraph">Follow the extension repository's build instructions. In Edge, open <code>edge://extensions</code>; for Chrome-supported products, open <code>chrome://extensions</code>. Enable Developer mode and use <strong>Load unpacked</strong> to select the built extension folder.</p>
           </div>
         </div>
         <div class="section-footer-privacy"><a href="/privacy" class="footer-privacy-link">&bull; Verified store packages &amp; audit guide &mdash; Read Privacy Policy</a></div>
