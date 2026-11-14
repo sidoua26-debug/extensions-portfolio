@@ -1,86 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!--
+    Sitemap Maintenance Rule:
+    Update <lastmod> (and any corresponding in-page modification metadata such as dateModified
+    or visible "Last updated" text) only when a substantive release introduces meaningful changes
+    to page content, functionality, relevant metadata, or linked resources.
+    Unchanged builds must preserve existing dates.
+    Reference: https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
+  -->
   <url>
     <loc>https://extensionguy.me/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://extensionguy.me/word-to-latex/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://extensionguy.me/word-to-latex-converter/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://extensionguy.me/pdf-tools/</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://extensionguy.me/table-extractor/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://extensionguy.me/bulkgrab/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://extensionguy.me/seo-inspector/</loc>
-    <lastmod>2026-10-24</lastmod>
+    <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://extensionguy.me/bilexi/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://extensionguy.me/tab-vault/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://extensionguy.me/privacy</loc>
-    <lastmod>2026-10-24</lastmod>
+    <lastmod>2026-11-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://extensionguy.me/changelog/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://extensionguy.me/guides/</loc>
-    <lastmod>2026-10-26</lastmod>
+    <lastmod>2026-11-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://extensionguy.me/guides/docx-to-latex-offline/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://extensionguy.me/guides/word-tables-to-latex/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -104,7 +112,7 @@
   </url>
   <url>
     <loc>https://extensionguy.me/demos/table-extraction/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -116,13 +124,13 @@
   </url>
   <url>
     <loc>https://extensionguy.me/demos/seo-audit-sandbox/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://extensionguy.me/guides/audit-json-ld-and-headings-in-browser/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -146,13 +154,13 @@
   </url>
   <url>
     <loc>https://extensionguy.me/demos/bulk-download/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://extensionguy.me/guides/download-multiple-pdfs/</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
