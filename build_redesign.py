@@ -1073,7 +1073,7 @@ html = r"""<!DOCTYPE html>
                 Open to check
               </h3>
               <p class="about-value-text">
-                Transparent, open-source codebases hosted on GitHub. Anyone can inspect the implementation, audit security boundaries, verify dependency manifests, and confirm telemetry-free operation firsthand.
+                Source code is published on GitHub so you can inspect the implementation, review dependencies, and check how each tool handles data. Reuse rights vary by project; check each repository’s licensing status and third-party notices.
               </p>
             </div>
           </div>

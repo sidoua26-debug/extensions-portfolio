@@ -718,6 +718,23 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
       /<a href="https:\/\/github\.com\/sidoua26-debug\/bilexi" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">\s*Extension source on GitHub\s*<\/a>/,
       'Bilexi links to bilexi repository'
     );
+    assert.ok(
+      bilexiContent.includes('Source code and licensing'),
+      'Bilexi page contains Source code and licensing heading'
+    );
+    assert.match(
+      bilexiContent,
+      /Bilexi[’']s source is public for inspection\. The author reserves rights in the original code; redistribution and incorporation into other products require written permission\. Bundled dictionaries and other third-party materials retain their own licenses\./,
+      'Bilexi page contains verified licensing status copy'
+    );
+    assert.ok(
+      bilexiContent.includes('href="https://github.com/sidoua26-debug/bilexi#project-licensing-status"'),
+      'Bilexi links to project licensing status section'
+    );
+    assert.ok(
+      bilexiContent.includes('href="https://github.com/sidoua26-debug/bilexi/blob/main/THIRD_PARTY_NOTICES.md"'),
+      'Bilexi links to third-party notices'
+    );
     assert.match(
       tabVaultContent,
       /<a href="https:\/\/github\.com\/sidoua26-debug\/tab-vault" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">\s*Extension source on GitHub\s*<\/a>/,
@@ -955,6 +972,24 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
       'Generator has updated local processing copy'
     );
     assert.ok(!generatorContent.includes('zero analytics'), 'Generator avoids "zero analytics" claim');
+    assert.ok(
+      !indexContent.includes('Transparent, open-source codebases hosted on GitHub'),
+      'Homepage index.html removes collective open-source claim'
+    );
+    assert.ok(
+      !generatorContent.includes('Transparent, open-source codebases hosted on GitHub'),
+      'Generator removes collective open-source claim'
+    );
+    assert.match(
+      indexContent,
+      /Source code is published on GitHub so you can inspect the implementation, review dependencies, and check how each tool handles data\. Reuse rights vary by project; check each repository[’']s licensing status and third-party notices\./,
+      'Homepage index.html contains updated licensing disclosure'
+    );
+    assert.match(
+      generatorContent,
+      /Source code is published on GitHub so you can inspect the implementation, review dependencies, and check how each tool handles data\. Reuse rights vary by project; check each repository[’']s licensing status and third-party notices\./,
+      'Generator contains updated licensing disclosure'
+    );
 
     const pdfToolsPath = path.join(rootDir, 'pdf-tools/index.html');
     const pdfToolsContent = fs.readFileSync(pdfToolsPath, 'utf-8');
