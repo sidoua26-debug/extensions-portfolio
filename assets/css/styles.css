@@ -820,3 +820,11 @@ html:not([data-theme="light"]) .gallery-thumbs .gallery-thumb-btn.active .thumb-
   border-color: var(--accent);
   box-shadow: 0 0 0 1px var(--accent);
 }
+
+.card-tier-text {
+  font-size: 0.835rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin: 0;
+}
+
