@@ -1255,11 +1255,11 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
       'Bilexi changelog section links to product page for current version details'
     );
 
-    // Sitemap lastmod for changelog is updated to 2026-11-05
+    // Sitemap lastmod for changelog is updated to 2026-11-09 (v1.0.7 release notes)
     assert.match(
       sitemapContent,
-      /<loc>https:\/\/extensionguy\.me\/changelog\/<\/loc>\s*<lastmod>2026-11-05<\/lastmod>/,
-      'sitemap.xml reflects lastmod 2026-11-05 for changelog'
+      /<loc>https:\/\/extensionguy\.me\/changelog\/<\/loc>\s*<lastmod>2026-11-09<\/lastmod>/,
+      'sitemap.xml reflects lastmod 2026-11-09 for changelog'
     );
   });
 });
