@@ -171,7 +171,7 @@
           <li style="margin-bottom: 6px;">Third-party tag managers or analytics snippets append or overwrite canonical links and Open Graph tags after initial load.</li>
         </ul>
         <p style="margin-bottom: 14px;">
-          While modern search engine crawlers (such as Googlebot powered by Chromium Web Rendering Service) execute JavaScript to render pages, crawler budgets and execution timeouts can cause asynchronous tags to be missed if scripts fail or run with significant delay. Inspecting the live DOM provides the true picture of what the browser displays.
+          Selecting &ldquo;View Source&rdquo; displays the initial HTML response delivered by the server, while an in-browser tool like SEO Inspector reads the current browser session&rsquo;s live DOM after client scripts execute. However, Google performs its own crawling and rendering in an independent processing pipeline. Local browser-side inspection does not establish Google&rsquo;s rendered or indexed state.
         </p>
 
         <!-- Section 2 -->
@@ -179,7 +179,7 @@
           2. Inspecting Client-Rendered Content
         </h2>
         <p style="margin-bottom: 14px;">
-          To verify what search engines and assistive technologies encounter after client scripts run, developers must inspect the living DOM rather than static text files.
+          To verify how modern browsers and assistive technologies construct the page after client scripts run, developers inspect the living DOM rather than static text files.
         </p>
         <p style="margin-bottom: 14px;">
           In Chromium-based browsers, opening Developer Tools (Ctrl+Shift+I or F12) and navigating to the <strong>Elements</strong> panel displays the current live DOM tree. Key distinctions to look for include:
@@ -190,7 +190,7 @@
           <li style="margin-bottom: 6px;"><strong>Console Errors:</strong> Script runtime exceptions frequently halt hydration mid-stream, leaving heading tags unmounted and JSON-LD scripts half-populated.</li>
         </ul>
         <p style="margin-bottom: 14px;">
-          Browser extensions running in the active tab context query <code>window.document</code> directly, evaluating the post-hydration state in real time without requiring manual DevTools tree navigation.
+          Browser extensions running in the active tab context query <code>window.document</code> directly, evaluating the post-hydration state in real time without requiring manual DevTools tree navigation. While this confirms what the local browser session rendered, Google-specific evidence requires tools like Google Search Console URL Inspection.
         </p>
 
         <!-- Section 3 -->
@@ -229,19 +229,20 @@
           4. Canonical URL Pitfalls
         </h2>
         <p style="margin-bottom: 14px;">
-          The canonical link element (<code>&lt;link rel="canonical" href="..."&gt;</code>), standardized under RFC 6596, signals to search engines the authoritative URL representation when multiple URL variants serve identical or similar content.
+          The canonical link element (<code>&lt;link rel="canonical" href="..."&gt;</code>), standardized under RFC 6596, provides search engines with a signal regarding the preferred URL representation when multiple URL variants serve identical or similar content. Crucially, a canonical link tag acts as a hint rather than an absolute directive; Google considers canonical declarations alongside redirects, internal links, and sitemaps to determine the selected canonical.
         </p>
         <p style="margin-bottom: 14px;">
-          Common technical misconfigurations include:
+          Common considerations and technical misconfigurations include:
         </p>
         <ul style="margin-bottom: 16px; padding-left: 24px;">
-          <li style="margin-bottom: 8px;"><strong>Trailing Slash Mismatches:</strong> A page loaded at <code>https://example.com/blog/</code> that specifies a canonical of <code>https://example.com/blog</code> causes a self-contradiction. Web servers often enforce redirect rules on trailing slashes; mismatching the tag triggers unnecessary redirect hops for indexing bots.</li>
-          <li style="margin-bottom: 8px;"><strong>Protocol and Subdomain Divergence:</strong> Serving a page over secure HTTPS while declaring an HTTP canonical or referencing <code>www</code> on an apex domain creates indexing ambiguity.</li>
-          <li style="margin-bottom: 8px;"><strong>Tracking Parameter Contamination:</strong> Copy-pasting canonical tags that include query parameters (such as <code>?utm_source=email</code> or <code>?ref=twitter</code>) tells crawlers that parameterized URLs represent the authoritative source.</li>
-          <li style="margin-bottom: 8px;"><strong>Multiple Conflicting Canonical Tags:</strong> When server templates and client-side scripts each output their own canonical tag, search engines observe multiple conflicting declarations and typically ignore all of them.</li>
+          <li style="margin-bottom: 8px;"><strong>Slash Conventions and URL Discrepancies:</strong> Slash and non-slash paths can be separate URLs, and either convention can be valid. Rather than assuming one format is mandatory, check actual server responses and identify the site&rsquo;s preferred URL. Ensure that canonical declarations, HTTP redirects, internal links, and sitemap entries remain consistent.</li>
+          <li style="margin-bottom: 8px;"><strong>Investigating URL Differences:</strong> A canonical tag can intentionally identify another equivalent URL (such as parameter consolidation or regional defaults). A difference between the current browser address and the declared canonical href warrants investigation to verify intentional design, rather than automatically proving an error.</li>
+          <li style="margin-bottom: 8px;"><strong>Protocol and Subdomain Divergence:</strong> Serving a page over secure HTTPS while declaring an HTTP canonical or referencing <code>www</code> on an apex domain creates conflicting signals between the transport layer and the declared hint.</li>
+          <li style="margin-bottom: 8px;"><strong>Tracking Parameter Contamination:</strong> Copying canonical tags that inadvertently include query parameters (such as <code>?utm_source=email</code> or <code>?ref=twitter</code>) suggests to crawlers that temporary tracking URLs represent the primary indexable version.</li>
+          <li style="margin-bottom: 8px;"><strong>Multiple Conflicting Canonical Tags:</strong> When server templates and client-side scripts each output their own canonical tag, search engines observe multiple conflicting declarations and may disregard the hints.</li>
         </ul>
         <p style="margin-bottom: 14px;">
-          A healthy implementation provides exactly one canonical link in the document head matching the clean, resolved, canonical URL of the current page.
+          A sound implementation specifies exactly one canonical link in the document head, pointing to the site&rsquo;s preferred authoritative URL and aligned with redirects, internal links, and sitemaps.
         </p>
 
         <!-- Section 5 -->
@@ -305,7 +306,7 @@
             <strong>Meta Tag Completeness:</strong> Evaluates character lengths of document titles and meta descriptions against search result display thresholds (typically 50&ndash;60 characters for titles, 110&ndash;155 characters for descriptions). Flags missing viewports or robots directives.
           </li>
           <li style="margin-bottom: 10px;">
-            <strong>Canonical Validation:</strong> Compares the document&rsquo;s current URL with the declared canonical value, highlighting protocol differences, path mismatches, or missing self-referential links.
+            <strong>Canonical Validation:</strong> Compares the document&rsquo;s current browser URL with the declared canonical value, highlighting protocol differences, path discrepancies, or missing declarations. A difference warrants investigation to confirm consistency with server redirects and preferred canonical strategy, rather than an unintentional configuration defect.
           </li>
           <li style="margin-bottom: 10px;">
             <strong>Social Preview Cards:</strong> Renders visual simulations of Open Graph and Twitter cards, catching missing tags, broken images, or suboptimal aspect ratios before pages go live.
@@ -329,6 +330,7 @@
             <li style="margin-bottom: 6px;"><strong>Server-Side Redirect Chains:</strong> If a URL issues an HTTP 301 or 302 redirect prior to loading, the browser arrives at the final destination. In-browser inspection evaluates the terminal document, not the preceding server status codes or intermediary hops.</li>
             <li style="margin-bottom: 6px;"><strong>Crawl Budget and Discovery:</strong> Browser tools do not indicate how frequently search engine spiders crawl a site, nor can they verify whether internal link architecture distributes crawl equity effectively across deep URLs.</li>
             <li style="margin-bottom: 6px;"><strong>Robots.txt Server Enforcement:</strong> Spiders fetch <code>/robots.txt</code> directly from the host server. A browser rendering a page does not simulate crawler disallow logic unless explicitly queried.</li>
+            <li style="margin-bottom: 6px;"><strong>Googlebot Rendering and Canonical Selection:</strong> Viewing Source displays the initial HTML response, whereas SEO Inspector reads the current browser session&rsquo;s live DOM. Google performs its own crawling and rendering, so browser-side inspection does not establish Google&rsquo;s rendered or indexed state. Google Search Console URL Inspection provides Google-specific evidence: indexed URL data reflects Google&rsquo;s canonical selection, while a live test inspects current markup but cannot predict canonical selection.</li>
           </ul>
         </div>
         <p style="margin-bottom: 14px;">
@@ -367,6 +369,26 @@
             <a href="https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">
               <strong>Google Search Central &mdash; Structured Data Documentation:</strong>
             </a> Guidelines on search feature eligibility, JSON-LD syntax, and troubleshooting.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <a href="https://developers.google.com/search/blog/2010/04/to-slash-or-not-to-slash" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">
+              <strong>Google Search Central Blog &mdash; To Slash or Not to Slash:</strong>
+            </a> Guidance on URL path structure, trailing slash conventions, and server response consistency.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">
+              <strong>Google Search Central &mdash; Consolidate Duplicate URLs:</strong>
+            </a> Specifying canonical URLs, canonical signals, and how Google chooses a canonical URL.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <a href="https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">
+              <strong>Google Search Central &mdash; JavaScript SEO Basics:</strong>
+            </a> Understanding how Googlebot crawls, renders, and indexes client-side JavaScript applications.
+          </li>
+          <li style="margin-bottom: 8px;">
+            <a href="https://support.google.com/webmasters/answer/9012289" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">
+              <strong>Google Search Console Help &mdash; URL Inspection Tool:</strong>
+            </a> Inspecting Google-indexed pages, viewing Google-selected canonicals, and running live tests.
           </li>
         </ul>
 
