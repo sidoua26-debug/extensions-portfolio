@@ -718,5 +718,232 @@ describe('Audit Finding F1: Strict Page Selection Contract & Parity', () => {
       await page.locator('#rotate-pages').fill('   ');
       assert.equal(await page.locator('#rotate-run').isDisabled(), true, 'Empty rotate-pages must be disabled');
     });
+
+    it('Split: inspection readiness, preview rendering delay, and stale response protection', async () => {
+      await page.click('#tab-merge');
+      await page.click('#subtab-split');
+
+      // Install inspect request interceptor
+      await page.evaluate(() => {
+        window.__origRequest = window.__pdfStudio.controller.request.bind(window.__pdfStudio.controller);
+        window.__inspectQueue = [];
+        window.__pdfStudio.controller.request = (action, payload, options) => {
+          if (action === 'inspect') {
+            return new Promise((resolve, reject) => {
+              window.__inspectQueue.push({
+                resolve: () => window.__origRequest(action, payload, options).then(resolve, reject),
+                reject: (err) => reject(err || new Error('Inspection failed'))
+              });
+            });
+          }
+          return window.__origRequest(action, payload, options);
+        };
+      });
+
+      try {
+        // 1. Preview rendering while inspection is delayed leaves export disabled
+        await page.locator('#split-pages').fill('1');
+        await page.locator('#split-file').setInputFiles(FIXTURE_SAMPLE);
+
+        // Wait for preview to render page 1 of 3
+        await page.waitForFunction(() => {
+          const indicator = document.getElementById('split-page-indicator')?.textContent ?? '';
+          return indicator.includes('Page 1 of 3');
+        });
+        // Badge says page is included in extract
+        const badgeText = await page.locator('#split-range-badge').textContent();
+        assert.ok(badgeText.includes('included in extract'), 'Badge indicates inclusion in extract');
+        // Inspection is still delayed
+        const queueLen1 = await page.evaluate(() => window.__inspectQueue.length);
+        assert.equal(queueLen1, 1, 'Inspect request is pending in queue');
+        // Export button MUST remain disabled
+        assert.equal(await page.locator('#split-run').isDisabled(), true, 'Export button must be disabled while inspection is pending');
+
+        // 2. Editing to another valid selection during inspection cannot enable export
+        await page.locator('#split-pages').fill('2');
+        assert.equal(await page.locator('#split-run').isDisabled(), true, 'Editing to valid selection cannot enable export while inspection is pending');
+
+        // 3. Successful inspection enables export only when current selection is valid
+        await page.evaluate(() => window.__inspectQueue.shift().resolve());
+        await page.waitForFunction(() => document.getElementById('split-run').disabled === false);
+        assert.equal(await page.locator('#split-run').isEnabled(), true, 'Successful inspection enables export for valid selection');
+
+        // Editing to invalid selection disables export
+        await page.locator('#split-pages').fill('4');
+        assert.equal(await page.locator('#split-run').isDisabled(), true, 'Out of bounds selection disables export');
+        await page.locator('#split-pages').fill('1');
+        assert.equal(await page.locator('#split-run').isEnabled(), true, 'Restoring valid selection re-enables export');
+
+        // 4. Failed inspection keeps export disabled even if preview rendering succeeded
+        await page.locator('#split-pages').fill('1');
+        await page.locator('#split-file').setInputFiles(FIXTURE_SAMPLE);
+        await page.waitForFunction(() => window.__inspectQueue.length === 1);
+        assert.equal(await page.locator('#split-run').isDisabled(), true, 'Export disabled immediately on new file pick');
+        await page.evaluate(() => window.__inspectQueue.shift().reject());
+        await page.waitForFunction(() => {
+          const status = document.getElementById('status')?.textContent ?? '';
+          return status.includes('could not be read as a PDF') || status.includes('failed');
+        });
+        assert.equal(await page.locator('#split-run').isDisabled(), true, 'Failed inspection keeps export disabled');
+
+        // 5. Clearing or replacing the file prevents an older inspection response from restoring stale readiness
+        await page.locator('#split-pages').fill('3');
+        // Pick file A (3 pages)
+        await page.locator('#split-file').setInputFiles(FIXTURE_SAMPLE);
+        await page.waitForFunction(() => window.__inspectQueue.length === 1);
+        assert.equal(await page.locator('#split-run').isDisabled(), true, 'Export disabled while file A inspect is pending');
+
+        // Replace with file B (2 pages) before file A resolves
+        await page.locator('#split-file').setInputFiles(FIXTURE_SECRET);
+        await page.waitForFunction(() => window.__inspectQueue.length === 2);
+        assert.equal(await page.locator('#split-run').isDisabled(), true, 'Export disabled while file B inspect is pending');
+
+        // Release file A's inspect request (which should be discarded by generation token)
+        await page.evaluate(() => window.__inspectQueue.shift().resolve());
+        await page.waitForTimeout(100);
+        assert.equal(await page.locator('#split-run').isDisabled(), true, 'File A resolution cannot enable export for file B');
+
+        // Now release file B's inspect request
+        await page.evaluate(() => window.__inspectQueue.shift().resolve());
+        await page.waitForFunction(() => {
+          const status = document.getElementById('status')?.textContent ?? '';
+          return status.includes('2 page(s)');
+        });
+        // Selection is '3', file B has 2 pages -> must stay disabled
+        assert.equal(await page.locator('#split-run').isDisabled(), true, 'Selection 3 is out of range for 2-page file B');
+
+        // Correct selection to '1' for file B enables export
+        await page.locator('#split-pages').fill('1');
+        assert.equal(await page.locator('#split-run').isEnabled(), true, 'In-range selection enables export on file B');
+
+        // Clearing file prevents older response from restoring readiness
+        await page.locator('#split-file').setInputFiles(FIXTURE_SAMPLE);
+        await page.waitForFunction(() => window.__inspectQueue.length === 1);
+        await page.locator('#split-file').setInputFiles([]);
+        await page.evaluate(() => window.__inspectQueue.shift().resolve());
+        await page.waitForTimeout(100);
+        assert.equal(await page.locator('#split-run').isDisabled(), true, 'Clearing file keeps export disabled even if old inspect resolves');
+      } finally {
+        await page.evaluate(() => {
+          if (window.__origRequest) {
+            window.__pdfStudio.controller.request = window.__origRequest;
+            delete window.__origRequest;
+            delete window.__inspectQueue;
+          }
+        });
+      }
+    });
+
+    it('Rotate: inspection readiness, preview rendering delay, and stale response protection', async () => {
+      await page.click('#tab-merge');
+      await page.click('#subtab-rotate');
+
+      // Install inspect request interceptor
+      await page.evaluate(() => {
+        window.__origRequest = window.__pdfStudio.controller.request.bind(window.__pdfStudio.controller);
+        window.__inspectQueue = [];
+        window.__pdfStudio.controller.request = (action, payload, options) => {
+          if (action === 'inspect') {
+            return new Promise((resolve, reject) => {
+              window.__inspectQueue.push({
+                resolve: () => window.__origRequest(action, payload, options).then(resolve, reject),
+                reject: (err) => reject(err || new Error('Inspection failed'))
+              });
+            });
+          }
+          return window.__origRequest(action, payload, options);
+        };
+      });
+
+      try {
+        // 1. Preview rendering while inspection is delayed leaves export disabled
+        await page.locator('#rotate-pages').fill('1');
+        await page.locator('#rotate-file').setInputFiles(FIXTURE_SAMPLE);
+
+        // Wait for preview to render page 1 of 3
+        await page.waitForFunction(() => {
+          const indicator = document.getElementById('rotate-page-indicator')?.textContent ?? '';
+          return indicator.includes('Page 1 of 3');
+        });
+        // Inspection is still delayed
+        const queueLen1 = await page.evaluate(() => window.__inspectQueue.length);
+        assert.equal(queueLen1, 1, 'Inspect request is pending in queue');
+        // Export button MUST remain disabled
+        assert.equal(await page.locator('#rotate-run').isDisabled(), true, 'Rotate button must be disabled while inspection is pending');
+
+        // 2. Editing to another valid selection during inspection cannot enable export
+        await page.locator('#rotate-pages').fill('2');
+        assert.equal(await page.locator('#rotate-run').isDisabled(), true, 'Editing to valid selection cannot enable rotate while inspection is pending');
+
+        // 3. Successful inspection enables export only when current selection is valid
+        await page.evaluate(() => window.__inspectQueue.shift().resolve());
+        await page.waitForFunction(() => document.getElementById('rotate-run').disabled === false);
+        assert.equal(await page.locator('#rotate-run').isEnabled(), true, 'Successful inspection enables rotate for valid selection');
+
+        // Editing to invalid selection disables export
+        await page.locator('#rotate-pages').fill('5');
+        assert.equal(await page.locator('#rotate-run').isDisabled(), true, 'Out of bounds selection disables rotate');
+        await page.locator('#rotate-pages').fill('*');
+        assert.equal(await page.locator('#rotate-run').isEnabled(), true, 'Wildcard selection enables rotate');
+
+        // 4. Failed inspection keeps export disabled even if preview rendering succeeded
+        await page.locator('#rotate-pages').fill('1');
+        await page.locator('#rotate-file').setInputFiles(FIXTURE_SAMPLE);
+        await page.waitForFunction(() => window.__inspectQueue.length === 1);
+        assert.equal(await page.locator('#rotate-run').isDisabled(), true, 'Rotate disabled immediately on new file pick');
+        await page.evaluate(() => window.__inspectQueue.shift().reject());
+        await page.waitForFunction(() => {
+          const status = document.getElementById('status')?.textContent ?? '';
+          return status.includes('could not be read as a PDF') || status.includes('failed');
+        });
+        assert.equal(await page.locator('#rotate-run').isDisabled(), true, 'Failed inspection keeps rotate disabled');
+
+        // 5. Clearing or replacing the file prevents an older inspection response from restoring stale readiness
+        await page.locator('#rotate-pages').fill('3');
+        // Pick file A (3 pages)
+        await page.locator('#rotate-file').setInputFiles(FIXTURE_SAMPLE);
+        await page.waitForFunction(() => window.__inspectQueue.length === 1);
+        assert.equal(await page.locator('#rotate-run').isDisabled(), true, 'Rotate disabled while file A inspect is pending');
+
+        // Replace with file B (2 pages) before file A resolves
+        await page.locator('#rotate-file').setInputFiles(FIXTURE_SECRET);
+        await page.waitForFunction(() => window.__inspectQueue.length === 2);
+        assert.equal(await page.locator('#rotate-run').isDisabled(), true, 'Rotate disabled while file B inspect is pending');
+
+        // Release file A's inspect request (which should be discarded by generation token)
+        await page.evaluate(() => window.__inspectQueue.shift().resolve());
+        await page.waitForTimeout(100);
+        assert.equal(await page.locator('#rotate-run').isDisabled(), true, 'File A resolution cannot enable rotate for file B');
+
+        // Now release file B's inspect request
+        await page.evaluate(() => window.__inspectQueue.shift().resolve());
+        await page.waitForFunction(() => {
+          const status = document.getElementById('status')?.textContent ?? '';
+          return status.includes('2 page(s)');
+        });
+        // Selection is '3', file B has 2 pages -> must stay disabled
+        assert.equal(await page.locator('#rotate-run').isDisabled(), true, 'Selection 3 is out of range for 2-page file B');
+
+        // Correct selection to '1' for file B enables rotate
+        await page.locator('#rotate-pages').fill('1');
+        assert.equal(await page.locator('#rotate-run').isEnabled(), true, 'In-range selection enables rotate on file B');
+
+        // Clearing file prevents older response from restoring readiness
+        await page.locator('#rotate-file').setInputFiles(FIXTURE_SAMPLE);
+        await page.waitForFunction(() => window.__inspectQueue.length === 1);
+        await page.locator('#rotate-file').setInputFiles([]);
+        await page.evaluate(() => window.__inspectQueue.shift().resolve());
+        await page.waitForTimeout(100);
+        assert.equal(await page.locator('#rotate-run').isDisabled(), true, 'Clearing file keeps rotate disabled even if old inspect resolves');
+      } finally {
+        await page.evaluate(() => {
+          if (window.__origRequest) {
+            window.__pdfStudio.controller.request = window.__origRequest;
+            delete window.__origRequest;
+            delete window.__inspectQueue;
+          }
+        });
+      }
+    });
   });
 });

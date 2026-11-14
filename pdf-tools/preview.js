@@ -514,16 +514,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const splitPagesInput = document.getElementById("split-pages");
   const splitBadge = document.getElementById("split-range-badge");
-  const splitRunBtn = document.getElementById("split-run");
 
   function updateSplitBadge() {
     if (!splitBadge) return;
-    const isBusy = splitRunBtn?.getAttribute("aria-busy") === "true";
     if (!splitPreview.pdf) {
       splitBadge.textContent = "Select document to preview range";
       splitBadge.className = "preview-badge badge-neutral";
       splitPagesInput?.setAttribute("aria-invalid", "false");
-      if (splitRunBtn) splitRunBtn.disabled = true;
       return;
     }
     const rangeStr = splitPagesInput ? splitPagesInput.value : "";
@@ -531,7 +528,6 @@ document.addEventListener("DOMContentLoaded", () => {
       splitBadge.textContent = "Enter range to preview extraction";
       splitBadge.className = "preview-badge badge-neutral";
       splitPagesInput?.setAttribute("aria-invalid", "false");
-      if (splitRunBtn) splitRunBtn.disabled = true;
       return;
     }
     const check = validatePageSelection(rangeStr, splitPreview.totalPages);
@@ -539,11 +535,9 @@ document.addEventListener("DOMContentLoaded", () => {
       splitBadge.textContent = "Invalid page selection (e.g. 1-3, 5, 8-, or *)";
       splitBadge.className = "preview-badge badge-error";
       splitPagesInput?.setAttribute("aria-invalid", "true");
-      if (splitRunBtn) splitRunBtn.disabled = true;
       return;
     }
     splitPagesInput?.setAttribute("aria-invalid", "false");
-    if (splitRunBtn) splitRunBtn.disabled = isBusy ? true : false;
     const pagesSet = check.pageSet;
     if (pagesSet.has(splitPreview.currentPage)) {
       splitBadge.textContent = `✓ Page ${splitPreview.currentPage} included in extract (${check.pages.length} page(s) total)`;
@@ -599,11 +593,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const rotateWrapper = document.getElementById("rotate-canvas-wrapper");
   const rotatePagesInput = document.getElementById("rotate-pages");
   const rotateBadge = document.getElementById("rotate-range-badge");
-  const rotateRunBtn = document.getElementById("rotate-run");
 
   function updateRotationVisual() {
     if (!rotateWrapper) return;
-    const isBusy = rotateRunBtn?.getAttribute("aria-busy") === "true";
     if (!rotatePreview.pdf) {
       rotateWrapper.style.transform = "rotate(0deg)";
       rotatePagesInput?.setAttribute("aria-invalid", "false");
@@ -611,7 +603,6 @@ document.addEventListener("DOMContentLoaded", () => {
         rotateBadge.textContent = "Enter pages to rotate (* for all)";
         rotateBadge.className = "preview-badge badge-neutral";
       }
-      if (rotateRunBtn) rotateRunBtn.disabled = true;
       return;
     }
     const rangeStr = rotatePagesInput ? rotatePagesInput.value : "";
@@ -622,7 +613,6 @@ document.addEventListener("DOMContentLoaded", () => {
         rotateBadge.textContent = "Enter pages to rotate (* for all)";
         rotateBadge.className = "preview-badge badge-neutral";
       }
-      if (rotateRunBtn) rotateRunBtn.disabled = true;
       return;
     }
     const check = validatePageSelection(rangeStr, rotatePreview.totalPages);
@@ -633,12 +623,10 @@ document.addEventListener("DOMContentLoaded", () => {
         rotateBadge.textContent = "Invalid page selection (e.g. 1-3, 5, 8-, or *)";
         rotateBadge.className = "preview-badge badge-error";
       }
-      if (rotateRunBtn) rotateRunBtn.disabled = true;
       return;
     }
 
     rotatePagesInput?.setAttribute("aria-invalid", "false");
-    if (rotateRunBtn) rotateRunBtn.disabled = isBusy ? true : false;
     const isIncluded = check.pageSet.has(rotatePreview.currentPage);
     if (isIncluded) {
       const val = rotateSelect?.value || "0";
@@ -663,11 +651,6 @@ document.addEventListener("DOMContentLoaded", () => {
   rotatePagesInput?.addEventListener("input", updateRotationVisual);
   rotateSelect?.addEventListener("change", updateRotationVisual);
   updateRotationVisual();
-
-  window.addEventListener("pdfstudio:busychange", () => {
-    updateSplitBadge();
-    updateRotationVisual();
-  });
 
   const rotateInput = document.getElementById("rotate-file");
   rotateInput?.addEventListener("focus", () => setActiveSubpanel("field-rotate"));
