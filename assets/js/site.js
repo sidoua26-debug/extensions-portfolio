@@ -78,9 +78,9 @@
     },
     "bulkgrab": {
       name: "BulkGrab",
-      badge: "File Productivity · Local ZIP Bundler",
+      badge: "File Productivity · Local ZIP Bundler (Pro)",
       tagline: "Batch File Downloader & Local Archiver",
-      description: "Deep-scans webpages for downloadable files, documents (PDF, DOCX), archives, images, and media. Filter by extension, select files in a non-intrusive floating panel, and download them individually or bundled into a single ZIP archive on-device.",
+      description: "Deep-scans webpages for downloadable files, documents (PDF, DOCX), archives, images, and media. Filter by extension, select files in a non-intrusive floating panel, and save them directly to your device. BulkGrab Free allows up to seven individual file downloads per browser session. BulkGrab Pro removes that session limit and adds ZIP bundling on your device.",
       privacyNote: "Direct Downloads: Files download directly from destination host servers to your device; on-device ZIP packaging via JSZip. No download URLs, filenames, or file contents reach the developer. Optional Pro licensing contacts our Cloudflare Worker to verify a payment ID.",
       installUrl: "https://microsoftedge.microsoft.com/addons/detail/cphidoikhnjdkeldgelkpddnkojlfccc",
       installLabel: "Get on Edge",
@@ -90,13 +90,13 @@
         { src: "assets/screenshots/bulkgrab-1-panel.png", label: "In-Page Panel", caption: "BulkGrab interactive floating file detection panel" },
         { src: "assets/screenshots/bulkgrab-2-popup.png", label: "Smart Filters", caption: "Smart category filters isolating PDFs, documents, media, and archives" },
         { src: "assets/screenshots/bulkgrab-3-options.png", label: "Download Selection", caption: "Interactive batch file selection with direct browser download management" },
-        { src: "assets/screenshots/bulkgrab-4-zip.png", label: "ZIP Packaging", caption: "Client-side ZIP packaging bundling multi-file batches on-device" },
+        { src: "assets/screenshots/bulkgrab-4-zip.png", label: "ZIP Packaging", caption: "Client-side ZIP packaging bundling multi-file batches on-device (Pro)" },
         { src: "assets/screenshots/bulkgrab-5-privacy.png", label: "Direct Transfer", caption: "Direct browser downloads from source host with zero proxy servers" }
       ],
       features: [
         "Smart scan for PDFs, images, archives, and media across complex sites",
         "Shadow DOM isolated in-page panel that never interferes with host site CSS",
-        "Client-side ZIP packaging bundling multi-file batches on-device",
+        "Client-side ZIP packaging bundling multi-file batches on-device (Pro)",
         "Direct browser downloads without developer proxy servers"
       ]
     },
