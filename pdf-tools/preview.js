@@ -3,7 +3,7 @@
  * Reuses existing window.pdfjsLib infrastructure. Zero external dependencies.
  */
 
-import { parsePageRanges, validatePageSelection } from "./pageRanges.js";
+import { validatePageSelection } from "./pageRanges.js";
 
 // Safe helper to obtain pdfjsLib with polling fallback if app.js is evaluating
 async function getPdfjs() {
@@ -518,6 +518,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateSplitBadge() {
     if (!splitBadge) return;
+    const isBusy = splitRunBtn?.getAttribute("aria-busy") === "true";
     if (!splitPreview.pdf) {
       splitBadge.textContent = "Select document to preview range";
       splitBadge.className = "preview-badge badge-neutral";
@@ -542,7 +543,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     splitPagesInput?.setAttribute("aria-invalid", "false");
-    if (splitRunBtn) splitRunBtn.disabled = false;
+    if (splitRunBtn) splitRunBtn.disabled = isBusy ? true : false;
     const pagesSet = check.pageSet;
     if (pagesSet.has(splitPreview.currentPage)) {
       splitBadge.textContent = `✓ Page ${splitPreview.currentPage} included in extract (${check.pages.length} page(s) total)`;
@@ -602,6 +603,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateRotationVisual() {
     if (!rotateWrapper) return;
+    const isBusy = rotateRunBtn?.getAttribute("aria-busy") === "true";
     if (!rotatePreview.pdf) {
       rotateWrapper.style.transform = "rotate(0deg)";
       rotatePagesInput?.setAttribute("aria-invalid", "false");
@@ -636,7 +638,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     rotatePagesInput?.setAttribute("aria-invalid", "false");
-    if (rotateRunBtn) rotateRunBtn.disabled = false;
+    if (rotateRunBtn) rotateRunBtn.disabled = isBusy ? true : false;
     const isIncluded = check.pageSet.has(rotatePreview.currentPage);
     if (isIncluded) {
       const val = rotateSelect?.value || "0";
@@ -661,6 +663,11 @@ document.addEventListener("DOMContentLoaded", () => {
   rotatePagesInput?.addEventListener("input", updateRotationVisual);
   rotateSelect?.addEventListener("change", updateRotationVisual);
   updateRotationVisual();
+
+  window.addEventListener("pdfstudio:busychange", () => {
+    updateSplitBadge();
+    updateRotationVisual();
+  });
 
   const rotateInput = document.getElementById("rotate-file");
   rotateInput?.addEventListener("focus", () => setActiveSubpanel("field-rotate"));

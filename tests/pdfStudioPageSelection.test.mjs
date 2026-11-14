@@ -13,6 +13,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORTFOLIO_ROOT = path.resolve(__dirname, '..');
 const FIXTURE_SAMPLE = path.join(__dirname, 'fixtures/sample.pdf');
 const FIXTURE_SECRET = path.join(__dirname, 'fixtures/secret.pdf');
+const FIXTURE_CORRUPT = path.join(__dirname, 'fixtures/corrupt.pdf');
 
 const mimeTypes = {
   '.html': 'text/html',
@@ -168,6 +169,7 @@ describe('Audit Finding F1: Strict Page Selection Contract & Parity', () => {
     let serverUrl;
     let browser;
     let page;
+    const pageErrors = [];
 
     before(async () => {
       const s = await startStaticServer(PORTFOLIO_ROOT);
@@ -177,6 +179,9 @@ describe('Audit Finding F1: Strict Page Selection Contract & Parity', () => {
       const { chromium } = await import('playwright');
       browser = await chromium.launch({ headless: true });
       page = await browser.newPage();
+      page.on('pageerror', (err) => {
+        pageErrors.push(err);
+      });
       await page.goto(`${serverUrl}/pdf-tools/`, { waitUntil: 'networkidle' });
     });
 
@@ -591,6 +596,127 @@ describe('Audit Finding F1: Strict Page Selection Contract & Parity', () => {
       const extracted = await extractPagesText(downloadedBytes, [1, 2]);
       assert.ok(!extracted[1].includes('CONFIDENTIAL_SECRET_TOKEN'), 'Secret token must be destroyed from page 1');
       assert.ok(extracted[2].includes('Second page safe text'), 'Page 2 unredacted text must survive');
+    });
+
+    it('Metadata: handles null callback cleanly when clearing input or on invalid PDF', async () => {
+      const initialErrorCount = pageErrors.length;
+      await page.click('#tab-metadata');
+
+      // 1. Load valid file
+      await page.locator('#meta-file').setInputFiles(FIXTURE_SAMPLE);
+      await page.waitForFunction(() => document.getElementById('meta-run').disabled === false);
+      const rowCountBefore = await page.locator('#meta-table tbody tr').count();
+      assert.ok(rowCountBefore > 0, 'Metadata table must show entries for valid PDF');
+      assert.equal(await page.locator('#meta-table').isVisible(), true);
+      assert.equal(await page.locator('#meta-run').isEnabled(), true);
+
+      // 2. Clear input
+      await page.locator('#meta-file').setInputFiles([]);
+      await page.waitForFunction(() => document.getElementById('meta-run').disabled === true);
+      assert.equal(await page.locator('#meta-run').isDisabled(), true, 'Export button must be disabled when cleared');
+      assert.equal(await page.locator('#meta-table').isHidden(), true, 'Metadata table must be hidden when cleared');
+      assert.equal(pageErrors.length, initialErrorCount, 'Zero unhandled page errors when clearing file');
+
+      // 3. Upload invalid PDF
+      await page.locator('#meta-file').setInputFiles(FIXTURE_CORRUPT);
+      await page.waitForFunction(() => {
+        const status = document.getElementById('status')?.textContent ?? '';
+        return status.includes('could not be read as a PDF') || status.toLowerCase().includes('invalid');
+      });
+      const statusText = await page.locator('#status').textContent();
+      assert.ok(statusText.includes('could not be read as a PDF'), `Actionable error displayed: ${statusText}`);
+      assert.equal(await page.locator('#meta-run').isDisabled(), true, 'Export button must remain disabled on invalid PDF');
+      assert.equal(await page.locator('#meta-table').isHidden(), true, 'Metadata table must remain hidden on invalid PDF');
+      assert.equal(pageErrors.length, initialErrorCount, 'Zero unhandled page errors on invalid PDF');
+
+      // 4. Correct with valid PDF
+      await page.locator('#meta-file').setInputFiles(FIXTURE_SAMPLE);
+      await page.waitForFunction(() => document.getElementById('meta-run').disabled === false);
+      assert.equal(await page.locator('#meta-run').isEnabled(), true, 'Export button must re-enable on valid PDF');
+      assert.equal(await page.locator('#meta-table').isVisible(), true, 'Metadata table must be visible again');
+      assert.equal(pageErrors.length, initialErrorCount, 'Zero unhandled page errors throughout metadata lifecycle');
+    });
+
+    it('Split: pending operation locking, delayed request control, and validity recomputation', async () => {
+      await page.click('#tab-merge');
+      await page.click('#subtab-split');
+      await page.locator('#split-file').setInputFiles(FIXTURE_SAMPLE);
+      await page.locator('#split-pages').fill('1,3');
+      await page.waitForFunction(() => document.getElementById('split-run').disabled === false);
+
+      // Install request delay hook on controller.request
+      await page.evaluate(() => {
+        const orig = window.__pdfStudio.controller.request.bind(window.__pdfStudio.controller);
+        window.__delayedSplitRequests = [];
+        window.__pdfStudio.controller.request = (action, payload, options) => {
+          if (action === 'split') {
+            return new Promise((resolve, reject) => {
+              window.__delayedSplitRequests.push(() => orig(action, payload, options).then(resolve, reject));
+            });
+          }
+          return orig(action, payload, options);
+        };
+      });
+
+      let downloadCount = 0;
+      const downloadHandler = () => { downloadCount++; };
+      page.on('download', downloadHandler);
+
+      try {
+        // 1. Start valid split with "1,3": export disables and becomes busy
+        await page.click('#split-run');
+        assert.equal(await page.locator('#split-run').isDisabled(), true, 'Button must disable immediately when busy');
+        assert.equal(await page.locator('#split-run').getAttribute('aria-busy'), 'true');
+
+        // 2. While pending, change selection to valid "2": export CANNOT enable
+        await page.locator('#split-pages').fill('2');
+        assert.equal(await page.locator('#split-run').isDisabled(), true, 'Changing to another valid selection cannot enable button while busy');
+
+        // 3. While pending, change selection to invalid "2abc": export remains disabled, aria-invalid becomes true
+        await page.locator('#split-pages').fill('2abc');
+        assert.equal(await page.locator('#split-run').isDisabled(), true, 'Button remains disabled on invalid input');
+        assert.equal(await page.locator('#split-pages').getAttribute('aria-invalid'), 'true');
+        assert.ok((await page.locator('#split-range-badge').getAttribute('class')).includes('badge-error'));
+
+        // 4. Release the original delayed request
+        await page.evaluate(() => {
+          const req = window.__delayedSplitRequests.shift();
+          if (req) req();
+        });
+
+        // Wait for original download to complete
+        await page.waitForFunction(() => document.getElementById('split-run').getAttribute('aria-busy') === null);
+        assert.equal(downloadCount, 1, 'Only one download occurred from original user action');
+
+        // 5. After completion, button MUST REMAIN DISABLED because current selection is "2abc"
+        assert.equal(await page.locator('#split-run').isDisabled(), true, 'Button must remain disabled after completion when input is invalid');
+        assert.equal(await page.locator('#split-pages').getAttribute('aria-invalid'), 'true');
+        assert.ok((await page.locator('#split-range-badge').getAttribute('class')).includes('badge-error'));
+
+        // 6. Correcting input after completion restores normal export
+        await page.locator('#split-pages').fill('1');
+        assert.equal(await page.locator('#split-run').isEnabled(), true, 'Correcting input after completion restores export button');
+        assert.equal(await page.locator('#split-pages').getAttribute('aria-invalid'), 'false');
+        assert.ok((await page.locator('#split-range-badge').getAttribute('class')).includes('badge-success'));
+      } finally {
+        page.off('download', downloadHandler);
+        await page.evaluate(() => {
+          delete window.__delayedSplitRequests;
+        });
+      }
+    });
+
+    it('Split & Rotate: empty selections remain strictly invalid and keep export disabled', async () => {
+      await page.click('#tab-merge');
+      await page.click('#subtab-split');
+      await page.locator('#split-file').setInputFiles(FIXTURE_SAMPLE);
+      await page.locator('#split-pages').fill('   ');
+      assert.equal(await page.locator('#split-run').isDisabled(), true, 'Empty split-pages must be disabled');
+
+      await page.click('#subtab-rotate');
+      await page.locator('#rotate-file').setInputFiles(FIXTURE_SAMPLE);
+      await page.locator('#rotate-pages').fill('   ');
+      assert.equal(await page.locator('#rotate-run').isDisabled(), true, 'Empty rotate-pages must be disabled');
     });
   });
 });
