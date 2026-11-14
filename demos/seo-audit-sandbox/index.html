@@ -103,6 +103,7 @@
       grid-template-columns: 1fr;
       gap: 14px;
       margin-top: 14px;
+      min-width: 0;
     }
     @media (min-width: 720px) {
       .code-comparison-grid {
@@ -115,6 +116,7 @@
       border-radius: var(--r-md);
       padding: 12px 14px;
       font-size: 0.82rem;
+      min-width: 0;
     }
     .code-box-header {
       font-weight: 600;
@@ -370,12 +372,12 @@
           <span class="badge badge-subtle" data-scenario-status="mismatched-canonical">Healthy (Baseline)</span>
         </div>
         <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px;">
-          <strong>Defect Mechanics:</strong> The <code>&lt;link rel="canonical"&gt;</code> element specifies an unencrypted <code>http://</code> scheme or omits the mandatory trailing slash. In production, this causes indexers to split link equity, flag duplicate content issues, or select an unwanted version as the canonical result.
+          <strong>Defect Mechanics:</strong> This demo deliberately declares an HTTP URL that differs from this page’s preferred HTTPS canonical. Slash and non-slash paths can be separate URLs, and either convention can be valid. Check the server responses and preferred URL, then keep redirects, internal links, sitemap entries and canonical declarations consistent. A mismatch warrants investigation; Google decides which canonical to use.
         </p>
 
         <div class="scenario-controls-bar">
           <span style="font-size: 0.86rem; color: var(--text-secondary);">
-            Toggle to mutate <code>&lt;link rel="canonical"&gt;</code> in <code>&lt;head&gt;</code> to an insecure, non-slash URL.
+            Toggle to mutate <code>&lt;link rel="canonical"&gt;</code> in <code>&lt;head&gt;</code> to an HTTP non-slash URL differing from this demo's preferred canonical.
           </span>
           <button type="button" class="btn btn-ghost btn-sm" data-scenario-toggle="mismatched-canonical" aria-pressed="false">
             <span class="toggle-label">Enable Defect</span>
@@ -384,19 +386,19 @@
 
         <div class="code-comparison-grid">
           <div class="code-box">
-            <div class="code-box-header" style="color: var(--tint-seo);">Self-Referencing HTTPS Canonical</div>
-            <pre><code>&lt;!-- Exact match to current document URL --&gt;
+            <div class="code-box-header" style="color: var(--tint-seo);">Preferred HTTPS Canonical</div>
+            <pre><code>&lt;!-- Preferred canonical URL for this demo --&gt;
 &lt;link rel="canonical" href="https://extensionguy.me/demos/seo-audit-sandbox/"&gt;</code></pre>
           </div>
           <div class="code-box">
-            <div class="code-box-header" style="color: #b45309;">Mismatched Protocol / Path</div>
-            <pre><code>&lt;!-- Missing trailing slash &amp; insecure HTTP protocol --&gt;
+            <div class="code-box-header" style="color: #b45309;">Differing Protocol &amp; Path</div>
+            <pre><code>&lt;!-- Non-slash HTTP URL differing from preferred canonical --&gt;
 &lt;link rel="canonical" href="http://extensionguy.me/demos/seo-audit-sandbox"&gt;</code></pre>
           </div>
         </div>
 
         <div class="inspection-hint">
-          <strong>How to inspect with SEO Inspector:</strong> View the "Canonical URL" panel in the extension. When the defect is active, it flags a canonical mismatch between current browser URL and declared href.
+          <strong>How to inspect with SEO Inspector:</strong> View the "Canonical URL" panel in the extension. When the defect is active, it flags that the declared canonical href differs from the browser URL. A difference warrants investigation to confirm consistency with server responses and site preference, since canonical declarations serve as hints rather than binding directives.
         </div>
       </article>
 
@@ -515,7 +517,7 @@
           <span class="badge badge-subtle" data-scenario-status="client-mutation">Healthy (Baseline)</span>
         </div>
         <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px;">
-          <strong>Defect Mechanics:</strong> Modern single-page applications (SPAs) and hydrated frameworks (React, Next.js, Vue) frequently modify or inject headings, meta descriptions, or structured data via client-side JavaScript after the initial HTTP page load. Right-clicking and selecting "View Source" shows only initial server HTML, whereas live in-browser DOM inspection captures the true user-facing and Googlebot-rendered state.
+          <strong>Defect Mechanics:</strong> Modern single-page applications (SPAs) and hydrated frameworks (React, Next.js, Vue) frequently modify or inject headings, meta descriptions, or structured data via client-side JavaScript after the initial HTTP page load. Right-clicking and selecting "View Source" shows only the initial HTML response, whereas SEO Inspector reads the current browser session's live DOM. Google performs its own crawling and rendering, so browser inspection does not establish Google's rendered or indexed state. Google Search Console URL Inspection provides Google-specific evidence, where indexed URL data indicates the Google-selected canonical, though a live test cannot predict canonical selection.
         </p>
 
         <div class="scenario-controls-bar">
@@ -533,7 +535,7 @@
         </div>
 
         <div class="inspection-hint">
-          <strong>Key insight:</strong> Browser extensions inspect the rendered DOM tree directly, capturing elements that simple curl or HTTP response scanners miss.
+          <strong>Key insight:</strong> Browser extensions inspect the rendered DOM tree of the local browser session directly, capturing elements that simple curl or HTTP response scanners miss. Use Google Search Console URL Inspection for Google-specific rendering and canonical indexing evidence.
         </div>
       </article>
 
@@ -546,7 +548,7 @@
           Deepen your technical understanding of DOM vs HTML differences, JSON-LD syntax vs Schema semantics, localhost testing, and interpreting in-browser SEO findings.
         </p>
         <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-          <a href="../../guides/audit-json-ld-and-headings-in-browser/" class="btn btn-ghost">Read Companion Guide: Audit Headings &amp; JSON-LD in Browser &rarr;</a>
+          <a href="../../guides/audit-json-ld-and-headings-in-browser/" class="btn btn-ghost" style="white-space: normal; text-align: center;">Read Companion Guide: Audit Headings &amp; JSON-LD in Browser &rarr;</a>
           <a href="../../seo-inspector/" class="btn btn-ghost">View SEO Inspector Extension &rarr;</a>
         </div>
       </section>

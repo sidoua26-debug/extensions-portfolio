@@ -134,6 +134,25 @@ describe('SEO Audit Sandbox & Companion Guide Validation', () => {
       assert.equal(breadcrumb.itemListElement[1].name, 'Guides');
       assert.equal(breadcrumb.itemListElement[2].item, 'https://extensionguy.me/demos/seo-audit-sandbox/');
     });
+
+    it('teaches accurate canonical concepts in Scenario 3 and rendering boundaries in Scenario 7', () => {
+      assert.ok(
+        html.includes('Slash and non-slash paths can be separate URLs, and either convention can be valid'),
+        'Scenario 3 must teach that either slash convention can be valid'
+      );
+      assert.ok(
+        html.includes('Google decides which canonical to use'),
+        'Scenario 3 must state that Google decides which canonical to use'
+      );
+      assert.ok(
+        html.includes('Google performs its own crawling and rendering'),
+        'Scenario 7 must clarify that Google performs its own crawling and rendering'
+      );
+      assert.ok(
+        html.includes('Google Search Console URL Inspection provides Google-specific evidence'),
+        'Scenario 7 must reference Google Search Console URL Inspection'
+      );
+    });
   });
 
   describe('3. Companion Technical Guide (/guides/audit-json-ld-and-headings-in-browser/)', () => {
@@ -188,6 +207,7 @@ describe('SEO Audit Sandbox & Companion Guide Validation', () => {
       assert.ok(html.includes('Server-Side Redirect'), 'Mentions server-side redirect limits');
       assert.ok(html.includes('Crawl Budget'), 'Mentions crawl budget limits');
       assert.ok(html.includes('Robots.txt'), 'Mentions robots.txt server enforcement limits');
+      assert.ok(html.includes('Googlebot Rendering and Canonical Selection'), 'Mentions Googlebot rendering and canonical selection limits');
     });
 
     it('cites authoritative primary references', () => {
@@ -196,6 +216,10 @@ describe('SEO Audit Sandbox & Companion Guide Validation', () => {
       assert.ok(html.includes('https://ogp.me/'), 'Cites Open Graph');
       assert.ok(html.includes('https://www.rfc-editor.org/rfc/rfc6596.html'), 'Cites RFC 6596');
       assert.ok(html.includes('https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data'), 'Cites Google Search Central');
+      assert.ok(html.includes('https://developers.google.com/search/blog/2010/04/to-slash-or-not-to-slash'), 'Cites Google Blog To Slash or Not to Slash');
+      assert.ok(html.includes('https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls'), 'Cites Google Canonical URL Consolidation');
+      assert.ok(html.includes('https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics'), 'Cites Google JavaScript SEO Basics');
+      assert.ok(html.includes('https://support.google.com/webmasters/answer/9012289'), 'Cites Google URL Inspection Tool Help');
     });
 
     it('links to SEO Inspector on Microsoft Edge and does NOT advertise Chrome', () => {

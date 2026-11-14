@@ -5,11 +5,11 @@
  * Provides live DOM and metadata mutations to test in-browser SEO inspection:
  * 1. Missing H1 heading
  * 2. Skipped heading levels (H2 -> H5)
- * 3. Mismatched canonical tag (protocol, trailing slash, or domain)
+ * 3. Mismatched canonical tag (protocol, path, or domain differing from preferred URL)
  * 4. Incomplete Open Graph metadata (missing og:image / og:description)
  * 5. Malformed JSON-LD syntax (RFC 8259 syntax errors like trailing commas)
  * 6. Multiple H1 headings on a single document
- * 7. Client-side DOM mutations (tags injected only after JS execution)
+ * 7. Client-side DOM mutations (tags injected dynamically after initial HTML)
  *
  * Initial state is clean, crawlable, and valid.
  * Reset button restores all initial DOM and head elements.
@@ -64,7 +64,7 @@
     if (!canonical) return;
 
     if (active) {
-      // Missing trailing slash and HTTP protocol mismatch
+      // Deliberately set HTTP non-slash URL differing from this demo's preferred HTTPS canonical
       canonical.setAttribute('href', 'http://extensionguy.me/demos/seo-audit-sandbox');
     } else {
       canonical.setAttribute('href', originalCanonicalHref);
@@ -139,7 +139,7 @@
     if (!existing) return;
 
     if (active) {
-      existing.innerHTML = '<div class="client-rendered-banner" style="padding: 14px 18px; background: var(--tint-seo-subtle); border: 1px solid var(--tint-seo-border); border-radius: var(--r-md); margin-top: 10px;"><strong style="color: var(--tint-seo); display: block; margin-bottom: 4px;">⚡ Client-Side Rendered Section (Dynamic Hydration)</strong><span style="font-size: 0.88rem; color: var(--text-secondary);">This element and its inner headings were created by JavaScript. A static crawler (or "View Source") will not see this markup in raw HTML, whereas browser-based DOM inspection reflects the live page state.</span><h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-top: 8px;">Client-Injected &lt;h4&gt; Subheading</h4></div>';
+      existing.innerHTML = '<div class="client-rendered-banner" style="padding: 14px 18px; background: var(--tint-seo-subtle); border: 1px solid var(--tint-seo-border); border-radius: var(--r-md); margin-top: 10px;"><strong style="color: var(--tint-seo); display: block; margin-bottom: 4px;">⚡ Client-Side Rendered Section (Dynamic Hydration)</strong><span style="font-size: 0.88rem; color: var(--text-secondary);">This element and its inner headings were created by JavaScript. View Source shows initial HTML, whereas in-browser inspection reads the live session DOM. Remember that Google performs its own crawling and rendering.</span><h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-top: 8px;">Client-Injected &lt;h4&gt; Subheading</h4></div>';
     } else {
       existing.innerHTML = '<span style="font-size: 0.86rem; color: var(--text-tertiary); font-style: italic;">No client-side mutations active. HTML reflects initial static server output.</span>';
     }
@@ -209,7 +209,7 @@
         '<div class="audit-item" style="padding: 10px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-sm);">' +
           '<div style="font-weight: 600; color: var(--text-tertiary); margin-bottom: 2px;">Canonical URL</div>' +
           '<div style="font-size: 0.85rem; font-family: var(--font-mono); font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: ' + (isCanonicalValid ? 'var(--tint-seo)' : '#b45309') + ';" title="' + canonicalHref + '">' +
-            (isCanonicalValid ? 'Self-Referencing HTTPS' : 'Mismatched / Insecure') +
+            (isCanonicalValid ? 'Preferred HTTPS Canonical' : 'Differs from Preferred URL') +
           '</div>' +
         '</div>' +
         '<div class="audit-item" style="padding: 10px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-sm);">' +
