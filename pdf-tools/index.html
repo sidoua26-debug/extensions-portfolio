@@ -263,7 +263,7 @@
                 <div class="input-group">
                   <label for="split-pages">
                     <span>Pages to extract</span>
-                    <input type="text" id="split-pages" placeholder="e.g. 1-3, 5, 8-" />
+                    <input type="text" id="split-pages" placeholder="e.g. 1-3, 5, 8-" aria-describedby="split-range-badge" aria-invalid="false" />
                   </label>
                   <div id="split-range-badge" class="preview-badge badge-neutral" aria-live="polite">Enter range to preview extraction</div>
                 </div>
@@ -340,10 +340,13 @@
                 </label>
                 <p class="file-privacy-note" style="font-size: 0.8125rem; color: var(--text-tertiary); margin: 0; line-height: 1.4;">PDF files are processed on your device.</p>
                 <div class="form-row">
-                  <label for="rotate-pages">
-                    <span>Pages (* for all)</span>
-                    <input type="text" id="rotate-pages" value="*" />
-                  </label>
+                  <div class="input-group">
+                    <label for="rotate-pages">
+                      <span>Pages (* for all)</span>
+                      <input type="text" id="rotate-pages" value="*" aria-describedby="rotate-range-badge" aria-invalid="false" />
+                    </label>
+                    <div id="rotate-range-badge" class="preview-badge badge-neutral" aria-live="polite">Enter pages to rotate (* for all)</div>
+                  </div>
                   <label for="rotate-degrees">
                     <span>Rotation angle</span>
                     <select id="rotate-degrees">
