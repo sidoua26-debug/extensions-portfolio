@@ -1110,6 +1110,12 @@ button:disabled {
   color: var(--warn-text);
 }
 
+.badge-error {
+  background: var(--err-bg);
+  border: 1px solid var(--err-border);
+  color: var(--err-text);
+}
+
 .file-info-badge {
   font-size: 0.8125rem;
   font-weight: 600;

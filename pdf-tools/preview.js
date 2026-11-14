@@ -3,6 +3,8 @@
  * Reuses existing window.pdfjsLib infrastructure. Zero external dependencies.
  */
 
+import { validatePageSelection } from "./pageRanges.js";
+
 // Safe helper to obtain pdfjsLib with polling fallback if app.js is evaluating
 async function getPdfjs() {
   if (window.pdfjsLib) return window.pdfjsLib;
@@ -19,32 +21,6 @@ function formatFileSize(bytes) {
   const units = ["B", "KB", "MB", "GB"];
   const i = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
   return `${(bytes / Math.pow(1024, i)).toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
-}
-
-// Range parser for Split tool (e.g. "1-3, 5")
-function parsePageRange(rangeStr, maxPages) {
-  if (!rangeStr || !rangeStr.trim() || !maxPages) return new Set();
-  const pages = new Set();
-  const parts = rangeStr.split(/[,;\s]+/);
-  for (const part of parts) {
-    if (!part) continue;
-    if (part.includes("-")) {
-      const [startStr, endStr] = part.split("-");
-      const start = parseInt(startStr, 10);
-      const end = parseInt(endStr, 10);
-      if (!isNaN(start) && !isNaN(end)) {
-        const min = Math.max(1, Math.min(start, end));
-        const max = Math.min(maxPages, Math.max(start, end));
-        for (let p = min; p <= max; p++) pages.add(p);
-      }
-    } else {
-      const p = parseInt(part, 10);
-      if (!isNaN(p) && p >= 1 && p <= maxPages) {
-        pages.add(p);
-      }
-    }
-  }
-  return pages;
 }
 
 class SingleDocPreview {
@@ -544,24 +520,37 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!splitPreview.pdf) {
       splitBadge.textContent = "Select document to preview range";
       splitBadge.className = "preview-badge badge-neutral";
+      splitPagesInput?.setAttribute("aria-invalid", "false");
       return;
     }
     const rangeStr = splitPagesInput ? splitPagesInput.value : "";
-    const pagesSet = parsePageRange(rangeStr, splitPreview.totalPages);
     if (!rangeStr.trim()) {
       splitBadge.textContent = "Enter range to preview extraction";
       splitBadge.className = "preview-badge badge-neutral";
-    } else if (pagesSet.has(splitPreview.currentPage)) {
-      splitBadge.textContent = `✓ Page ${splitPreview.currentPage} included in extract (${pagesSet.size} page(s) total)`;
+      splitPagesInput?.setAttribute("aria-invalid", "false");
+      return;
+    }
+    const check = validatePageSelection(rangeStr, splitPreview.totalPages);
+    if (!check.valid) {
+      splitBadge.textContent = "Invalid page selection (e.g. 1-3, 5, 8-, or *)";
+      splitBadge.className = "preview-badge badge-error";
+      splitPagesInput?.setAttribute("aria-invalid", "true");
+      return;
+    }
+    splitPagesInput?.setAttribute("aria-invalid", "false");
+    const pagesSet = check.pageSet;
+    if (pagesSet.has(splitPreview.currentPage)) {
+      splitBadge.textContent = `✓ Page ${splitPreview.currentPage} included in extract (${check.pages.length} page(s) total)`;
       splitBadge.className = "preview-badge badge-success";
     } else {
-      splitBadge.textContent = `✕ Page ${splitPreview.currentPage} excluded from extract (${pagesSet.size} page(s) total)`;
+      splitBadge.textContent = `✕ Page ${splitPreview.currentPage} excluded from extract (${check.pages.length} page(s) total)`;
       splitBadge.className = "preview-badge badge-warning";
     }
   }
 
   splitPreview.onPageRendered = () => updateSplitBadge();
   splitPagesInput?.addEventListener("input", updateSplitBadge);
+  updateSplitBadge();
 
   const splitInput = document.getElementById("split-file");
   splitInput?.addEventListener("focus", () => setActiveSubpanel("field-split"));
@@ -602,16 +591,66 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const rotateSelect = document.getElementById("rotate-degrees");
   const rotateWrapper = document.getElementById("rotate-canvas-wrapper");
+  const rotatePagesInput = document.getElementById("rotate-pages");
+  const rotateBadge = document.getElementById("rotate-range-badge");
 
   function updateRotationVisual() {
     if (!rotateWrapper) return;
-    const val = rotateSelect?.value || "0";
-    const deg = val === "reset" ? 0 : parseInt(val, 10) || 0;
-    rotateWrapper.style.transform = `rotate(${deg}deg)`;
-    rotateWrapper.style.transition = "transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)";
+    if (!rotatePreview.pdf) {
+      rotateWrapper.style.transform = "rotate(0deg)";
+      rotatePagesInput?.setAttribute("aria-invalid", "false");
+      if (rotateBadge) {
+        rotateBadge.textContent = "Enter pages to rotate (* for all)";
+        rotateBadge.className = "preview-badge badge-neutral";
+      }
+      return;
+    }
+    const rangeStr = rotatePagesInput ? rotatePagesInput.value : "";
+    if (!rangeStr.trim()) {
+      rotateWrapper.style.transform = "rotate(0deg)";
+      rotatePagesInput?.setAttribute("aria-invalid", "false");
+      if (rotateBadge) {
+        rotateBadge.textContent = "Enter pages to rotate (* for all)";
+        rotateBadge.className = "preview-badge badge-neutral";
+      }
+      return;
+    }
+    const check = validatePageSelection(rangeStr, rotatePreview.totalPages);
+    if (!check.valid) {
+      rotateWrapper.style.transform = "rotate(0deg)";
+      rotatePagesInput?.setAttribute("aria-invalid", "true");
+      if (rotateBadge) {
+        rotateBadge.textContent = "Invalid page selection (e.g. 1-3, 5, 8-, or *)";
+        rotateBadge.className = "preview-badge badge-error";
+      }
+      return;
+    }
+
+    rotatePagesInput?.setAttribute("aria-invalid", "false");
+    const isIncluded = check.pageSet.has(rotatePreview.currentPage);
+    if (isIncluded) {
+      const val = rotateSelect?.value || "0";
+      const deg = val === "reset" ? 0 : parseInt(val, 10) || 0;
+      rotateWrapper.style.transform = `rotate(${deg}deg)`;
+      rotateWrapper.style.transition = "transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)";
+      if (rotateBadge) {
+        rotateBadge.textContent = `✓ Page ${rotatePreview.currentPage} included in rotation (${check.pages.length} page(s) total)`;
+        rotateBadge.className = "preview-badge badge-success";
+      }
+    } else {
+      rotateWrapper.style.transform = "rotate(0deg)";
+      rotateWrapper.style.transition = "transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)";
+      if (rotateBadge) {
+        rotateBadge.textContent = `✕ Page ${rotatePreview.currentPage} excluded from rotation (${check.pages.length} page(s) total)`;
+        rotateBadge.className = "preview-badge badge-warning";
+      }
+    }
   }
 
+  rotatePreview.onPageRendered = () => updateRotationVisual();
+  rotatePagesInput?.addEventListener("input", updateRotationVisual);
   rotateSelect?.addEventListener("change", updateRotationVisual);
+  updateRotationVisual();
 
   const rotateInput = document.getElementById("rotate-file");
   rotateInput?.addEventListener("focus", () => setActiveSubpanel("field-rotate"));
