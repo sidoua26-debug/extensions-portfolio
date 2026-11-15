@@ -711,7 +711,7 @@ describe('Step 6C: Strengthened Converter UI Integration & Race Tests (Playwrigh
     // 1. Verify updated asset cache versions on homepage
     const cssHref = await page.$eval('link[rel="stylesheet"][href*="styles.css"]', (el) => el.getAttribute('href'));
     const jsSrc = await page.$eval('script[type="module"][src*="converterUi.js"]', (el) => el.getAttribute('src'));
-    assert.ok(cssHref.includes('styles.css?v=4'), `Homepage references styles.css?v=4, got: ${cssHref}`);
+    assert.ok(cssHref.includes('styles.css?v=20261114-o1'), `Homepage references styles.css?v=20261114-o1, got: ${cssHref}`);
     assert.ok(jsSrc.includes('converterUi.js?v=2'), `Homepage references converterUi.js?v=2, got: ${jsSrc}`);
 
     // 2. Verify initial state: hidden and disabled
@@ -819,7 +819,7 @@ describe('Step 6C: Strengthened Converter UI Integration & Race Tests (Playwrigh
     // 1. Verify updated asset cache versions on dedicated converter page
     const cssHref = await page.$eval('link[rel="stylesheet"][href*="styles.css"]', (el) => el.getAttribute('href'));
     const jsSrc = await page.$eval('script[type="module"][src*="converterUi.js"]', (el) => el.getAttribute('src'));
-    assert.ok(cssHref.includes('styles.css?v=4'), `Dedicated page references styles.css?v=4, got: ${cssHref}`);
+    assert.ok(cssHref.includes('styles.css?v=20261114-o1'), `Dedicated page references styles.css?v=20261114-o1, got: ${cssHref}`);
     assert.ok(jsSrc.includes('converterUi.js?v=2'), `Dedicated page references converterUi.js?v=2, got: ${jsSrc}`);
 
     // 2. Switch to dark theme
