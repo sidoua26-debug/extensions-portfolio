@@ -641,20 +641,24 @@ describe('Audit Finding F1: Strict Page Selection Contract & Parity', () => {
       await page.click('#tab-merge');
       await page.click('#subtab-split');
       await page.locator('#split-file').setInputFiles(FIXTURE_SAMPLE);
+      await page.waitForFunction(() => {
+        const ind = document.getElementById('split-page-indicator')?.textContent ?? '';
+        return ind.includes('Page 1 of 3');
+      }, { timeout: 15000 });
       await page.locator('#split-pages').fill('1,3');
       await page.waitForFunction(() => document.getElementById('split-run').disabled === false);
 
       // Install request delay hook on controller.request
       await page.evaluate(() => {
-        const orig = window.__pdfStudio.controller.request.bind(window.__pdfStudio.controller);
+        window.__origSplitControllerRequest = window.__pdfStudio.controller.request.bind(window.__pdfStudio.controller);
         window.__delayedSplitRequests = [];
         window.__pdfStudio.controller.request = (action, payload, options) => {
           if (action === 'split') {
             return new Promise((resolve, reject) => {
-              window.__delayedSplitRequests.push(() => orig(action, payload, options).then(resolve, reject));
+              window.__delayedSplitRequests.push(() => window.__origSplitControllerRequest(action, payload, options).then(resolve, reject));
             });
           }
-          return orig(action, payload, options);
+          return window.__origSplitControllerRequest(action, payload, options);
         };
       });
 
@@ -701,6 +705,10 @@ describe('Audit Finding F1: Strict Page Selection Contract & Parity', () => {
       } finally {
         page.off('download', downloadHandler);
         await page.evaluate(() => {
+          if (window.__origSplitControllerRequest) {
+            window.__pdfStudio.controller.request = window.__origSplitControllerRequest;
+            delete window.__origSplitControllerRequest;
+          }
           delete window.__delayedSplitRequests;
         });
       }
