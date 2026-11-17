@@ -173,7 +173,7 @@
 
   function G(e, o) {
     if (!b) return;
-    b.innerHTML = "";
+    b.replaceChildren();
     const count = e.screenshots ? e.screenshots.length : 0;
     if (count <= 1) {
       b.style.display = "none";
@@ -230,7 +230,7 @@
     x && (x.href = n.installUrl, x.textContent = n.installLabel || "Get on Edge");
     I && (I.href = n.installUrl, I.textContent = n.installLabel || "Get on Edge");
     h && (n.secondaryInstallUrl ? (h.style.display = "inline-flex", h.href = n.secondaryInstallUrl, h.textContent = n.secondaryInstallLabel || "Get on Chrome") : h.style.display = "none");
-    L && (L.innerHTML = "", n.features.forEach(p => {
+    L && (L.replaceChildren(), n.features.forEach(p => {
       const g = document.createElement("li");
       g.textContent = p;
       L.appendChild(g);

@@ -50,7 +50,7 @@ export function initBulkDownloadDemo() {
   if (!revealBtn || !dynamicContainer) return;
 
   function renderDynamicLinks() {
-    dynamicContainer.innerHTML = '';
+    dynamicContainer.replaceChildren();
 
     DYNAMIC_SAMPLES.forEach(sample => {
       const card = document.createElement('div');
@@ -94,7 +94,7 @@ export function initBulkDownloadDemo() {
   }
 
   function resetDynamicLinks() {
-    dynamicContainer.innerHTML = '';
+    dynamicContainer.replaceChildren();
     if (dynamicStatus) {
       dynamicStatus.textContent = 'No dynamic links loaded. Click above to inject DOM elements.';
       dynamicStatus.className = 'status-msg status-muted';

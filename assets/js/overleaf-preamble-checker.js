@@ -502,7 +502,7 @@ function initCheckerUI() {
 
   // Render diagnostics into right panel safely
   function renderDiagnostics(analysis) {
-    diagnosticsList.innerHTML = '';
+    diagnosticsList.replaceChildren();
 
     const issues = analysis.issues;
     const errorCount = issues.filter(i => i.severity === 'error').length;

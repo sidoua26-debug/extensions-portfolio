@@ -322,7 +322,7 @@
 
     spacer.style.height = (TOTAL_RECORDS * ROW_HEIGHT) + 'px';
 
-    rowPool.innerHTML = '';
+    rowPool.replaceChildren();
     var poolElements = [];
     for (var j = 0; j < VISIBLE_COUNT; j++) {
       var row = document.createElement('div');

@@ -1223,7 +1223,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     try {
-      loadingTask = pdfjs.getDocument({ data: buffer.slice(0), isEvalSupported: false });
+      loadingTask = pdfjs.getDocument({
+        data: new Uint8Array(buffer.slice(0)),
+        cMapUrl: new URL("cmaps/", window.location.href).href,
+        cMapPacked: true,
+        standardFontDataUrl: new URL("standard_fonts/", window.location.href).href,
+        isEvalSupported: false
+      });
       pdfDoc = await loadingTask.promise;
       totalPages = pdfDoc.numPages;
       if (currentPage > totalPages) currentPage = 1;
