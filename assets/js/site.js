@@ -249,15 +249,25 @@
         r && (r.textContent = s);
       }
     }
-    t && (t.classList.add("active"), document.body.style.overflow = "hidden");
+    if (t) {
+      t.classList.add("active");
+      if (typeof t.showModal === "function" && !t.open) {
+        t.showModal();
+      }
+    }
     i && i.focus();
   }
 
   function k() {
-    if (!t || !t.classList.contains("active")) return;
+    if (!t) return;
     t.classList.remove("active");
-    document.body.style.overflow = "";
-    w && typeof w.focus === "function" && w.focus();
+    if (typeof t.close === "function" && t.open) {
+      t.close();
+    } else {
+      if (w && typeof w.focus === "function" && document.activeElement !== w) {
+        w.focus();
+      }
+    }
   }
 
   l.forEach(e => {
@@ -293,38 +303,46 @@
   B && B.addEventListener("click", k);
   D && D.addEventListener("click", () => { m(v - 1); });
   O && O.addEventListener("click", () => { m(v + 1); });
-  t && t.addEventListener("click", e => {
-    (e.target === t || !e.target.closest(".lightbox-window")) && k();
-  });
 
-  document.addEventListener("keydown", e => {
-    if (!t || !t.classList.contains("active")) return;
-    if (e.key === "Escape") {
-      e.preventDefault();
-      k();
-    } else if (e.key === "ArrowRight") {
-      e.preventDefault();
-      m(v + 1);
-    } else if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      m(v - 1);
-    } else if (e.key === "Tab") {
-      const o = t.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-      if (o.length === 0) return;
-      const s = o[0], n = o[o.length - 1];
-      if (e.shiftKey) {
-        if (document.activeElement === s || !t.contains(document.activeElement)) {
-          e.preventDefault();
-          n.focus();
-        }
-      } else {
-        if (document.activeElement === n || !t.contains(document.activeElement)) {
-          e.preventDefault();
-          s.focus();
-        }
+  if (t) {
+    t.addEventListener("close", () => {
+      t.classList.remove("active");
+      t.returnValue = "";
+      if (w && typeof w.focus === "function" && document.activeElement !== w) {
+        w.focus();
       }
+    });
+    t.addEventListener("cancel", () => {
+      t.classList.remove("active");
+    });
+
+    // Light-dismiss fallback for browsers without native closedby support
+    if (!("closedBy" in HTMLDialogElement.prototype)) {
+      t.addEventListener("click", e => {
+        if (e.target !== t) return;
+        const rect = t.getBoundingClientRect();
+        const isContent = (
+          rect.top <= e.clientY &&
+          e.clientY <= rect.top + rect.height &&
+          rect.left <= e.clientX &&
+          e.clientX <= rect.left + rect.width
+        );
+        if (!isContent) k();
+      });
     }
-  });
+
+    t.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        t.classList.remove("active");
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        m(v + 1);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        m(v - 1);
+      }
+    });
+  }
 
   // Product Page Inline Gallery Controller
   function initProductGalleries() {

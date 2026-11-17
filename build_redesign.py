@@ -1286,9 +1286,9 @@ html = r"""<!DOCTYPE html>
   <!-- ========================================================================
        ACCESSIBLE LIGHTBOX & PRODUCT PREVIEW MODAL
        ======================================================================== -->
-    <div class="lightbox-modal" id="lightboxModal" role="dialog" aria-modal="true" aria-label="Interactive Product Preview" aria-describedby="lightboxCaption">
+    <dialog class="lightbox-modal" id="lightboxModal" aria-labelledby="previewModalName" aria-describedby="lightboxCaption" closedby="any">
     <div class="lightbox-window">
-      <button class="lightbox-close-btn" id="lightboxCloseBtn" type="button">&times;</button>
+      <button class="lightbox-close-btn" id="lightboxCloseBtn" type="button" aria-label="Close dialog" autofocus>&times;</button>
 
       <!-- Preview Modal Header -->
       <div class="preview-modal-header" id="previewModalHeader">
@@ -1347,7 +1347,7 @@ html = r"""<!DOCTYPE html>
         </div>
       </div>
     </div>
-  </div>
+  </dialog>
 
   <!-- ========================================================================
        SCRIPTS: THEMING, TABS, LIGHTBOX, ACCESSIBILITY, DEFERRED FOR PERFORMANCE

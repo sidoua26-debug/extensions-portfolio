@@ -245,8 +245,12 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
 
     await trigger.click();
 
-    // 1. Modal is active
+    // 1. Modal is native dialog and active
     const isModalActive = await page.evaluate(() => document.getElementById('lightboxModal').classList.contains('active'));
+    const isDialogOpen = await page.evaluate(() => document.getElementById('lightboxModal').open);
+    const dialogTagName = await page.evaluate(() => document.getElementById('lightboxModal').tagName);
+    assert.equal(dialogTagName, 'DIALOG', 'Modal container should be a native HTML <dialog> element');
+    assert.equal(isDialogOpen, true, 'Native dialog open property should be true when opened');
     assert.equal(isModalActive, true, 'Modal should be active after clicking screenshot');
 
     // 2. Full-size image and real alt are displayed
@@ -262,17 +266,20 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     const isCloseBtnFocused = await page.evaluate(() => document.activeElement === document.getElementById('lightboxCloseBtn'));
     assert.equal(isCloseBtnFocused, true, 'Close button should receive focus on open');
 
-    // 4. Escape closes modal
+    // 4. Escape closes modal and restores focus
     await page.keyboard.press('Escape');
     const isModalClosed = await page.evaluate(() => document.getElementById('lightboxModal').classList.contains('active'));
+    const isDialogClosed = await page.evaluate(() => !document.getElementById('lightboxModal').open);
     assert.equal(isModalClosed, false, 'Modal should be closed after Escape key');
+    assert.equal(isDialogClosed, true, 'Native dialog should not be open after Escape key');
 
     // 5. Re-open and verify backdrop click closes modal
     await trigger.click();
-    assert.equal(await page.evaluate(() => document.getElementById('lightboxModal').classList.contains('active')), true);
-    // Click on modal background (outside window)
-    await page.click('#lightboxModal', { position: { x: 10, y: 10 } });
-    assert.equal(await page.evaluate(() => document.getElementById('lightboxModal').classList.contains('active')), false, 'Modal should close on backdrop click');
+    assert.equal(await page.evaluate(() => document.getElementById('lightboxModal').open), true);
+    // Click on modal backdrop (outside window at top-left of viewport)
+    await page.mouse.click(10, 10);
+    assert.equal(await page.evaluate(() => document.getElementById('lightboxModal').open), false, 'Modal should close on backdrop click');
+    assert.equal(await page.evaluate(() => document.getElementById('lightboxModal').classList.contains('active')), false, 'Modal active class should be removed on backdrop click');
 
     assert.equal(cspViolations.length, 0, 'No CSP violations during lightbox interaction');
   });
@@ -380,6 +387,73 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
     await page.setViewportSize({ width: 1280, height: 800 });
 
     assert.equal(cspViolations.length, 0, 'No CSP violations during complete product preview testing');
+  });
+
+  it('4c. Native Dialog Accessibility & Semantics: closedby="any", ARIA labeling, focus return, and keyboard navigation', async () => {
+    // 1. Verify semantic attributes per Modern Web Guidance
+    const dlgAttrs = await page.evaluate(() => {
+      const d = document.getElementById('lightboxModal');
+      return {
+        tagName: d.tagName,
+        closedby: d.getAttribute('closedby'),
+        ariaLabelledby: d.getAttribute('aria-labelledby'),
+        ariaDescribedby: d.getAttribute('aria-describedby'),
+        hasRole: d.hasAttribute('role'),
+        hasAriaModal: d.hasAttribute('aria-modal'),
+      };
+    });
+
+    assert.equal(dlgAttrs.tagName, 'DIALOG', 'Container must be HTML <dialog>');
+    assert.equal(dlgAttrs.closedby, 'any', 'closedby attribute must be "any" for light-dismiss');
+    assert.equal(dlgAttrs.ariaLabelledby, 'previewModalName', 'aria-labelledby must point to heading');
+    assert.equal(dlgAttrs.ariaDescribedby, 'lightboxCaption', 'aria-describedby must point to caption');
+    assert.equal(dlgAttrs.hasRole, false, 'No redundant role="dialog"');
+    assert.equal(dlgAttrs.hasAriaModal, false, 'No redundant aria-modal');
+
+    // 2. Keyboard opening via Enter key on trigger
+    const trigger = page.locator('.lightbox-trigger').first();
+    await trigger.focus();
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(100);
+
+    assert.equal(await page.evaluate(() => document.getElementById('lightboxModal').open), true, 'Dialog opens on Enter key');
+    assert.equal(await page.evaluate(() => document.activeElement.id === 'lightboxCloseBtn'), true, 'Close button receives initial focus via autofocus');
+
+    // 3. Tab focus containment inside dialog
+    await page.keyboard.press('Tab');
+    const insideDialog = await page.evaluate(() => document.getElementById('lightboxModal').contains(document.activeElement));
+    assert.equal(insideDialog, true, 'Tab navigation stays contained inside open dialog');
+
+    // 4. Click inside dialog does NOT close it
+    await page.click('.preview-modal-header');
+    await page.waitForTimeout(50);
+    assert.equal(await page.evaluate(() => document.getElementById('lightboxModal').open), true, 'Click inside dialog window preserves open state');
+
+    // 5. Escape closes dialog and restores focus to invoker
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(50);
+    assert.equal(await page.evaluate(() => document.getElementById('lightboxModal').open), false, 'Dialog closed on Escape');
+    assert.equal(await page.evaluate(() => document.activeElement === document.querySelector('.lightbox-trigger')), true, 'Focus restored to invoker trigger');
+
+    // 6. Arrow key gallery navigation while open
+    const previewBtn = page.locator('[data-preview="word-to-latex"]');
+    await previewBtn.click();
+    await page.waitForTimeout(100);
+    const initialSrc = await page.getAttribute('#lightboxLargeImg', 'src');
+
+    await page.keyboard.press('ArrowRight');
+    await page.waitForTimeout(100);
+    const nextSrc = await page.getAttribute('#lightboxLargeImg', 'src');
+    assert.notEqual(nextSrc, initialSrc, 'ArrowRight advances screenshot slide');
+
+    await page.keyboard.press('ArrowLeft');
+    await page.waitForTimeout(100);
+    const prevSrc = await page.getAttribute('#lightboxLargeImg', 'src');
+    assert.equal(prevSrc, initialSrc, 'ArrowLeft reverses screenshot slide back');
+
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(50);
+    assert.equal(await page.evaluate(() => document.getElementById('lightboxModal').open), false, 'Modal closed cleanly');
   });
 
   it('5. Live Word-to-LaTeX Converter is positioned above the fold with calm Ready status and hidden file inputs', async () => {
