@@ -639,7 +639,7 @@ describe('Step 7E: Site Interactions & Strict CSP Verification (Playwright)', ()
 
     // 1. Title, meta description, and canonical
     const title = await convPage.title();
-    assert.equal(title, 'Word to LaTeX Converter (DOCX) | Free Online Tool', `Title should match, got: ${title}`);
+    assert.equal(title, 'Word to LaTeX Converter Online (DOCX) — Free & Private', `Title should match, got: ${title}`);
 
     const metaDesc = await convPage.$eval('meta[name="description"]', (el) => el.getAttribute('content'));
     assert.ok(metaDesc.length <= 160 && metaDesc.length >= 120, `Meta description should be between 120-160 chars, got ${metaDesc.length}`);

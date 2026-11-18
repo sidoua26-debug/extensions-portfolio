@@ -11,45 +11,45 @@ const CONVERTER_HTML_PATH = path.join(PORTFOLIO_ROOT, 'word-to-latex-converter/i
 describe('Step 4A: Converter SEO Metadata & Content Regression Test', () => {
   const html = fs.readFileSync(CONVERTER_HTML_PATH, 'utf8');
 
-  it('1. Title and meta description match approved Step 4A specifications', () => {
+  it('1. Title and meta description match approved SEO specifications', () => {
     const titleMatch = html.match(/<title>([\s\S]*?)<\/title>/);
     assert.ok(titleMatch, '<title> tag must exist');
     assert.equal(
       titleMatch[1].trim(),
-      'Word to LaTeX Converter (DOCX) | Free Online Tool',
-      'Title must match exact approved Step 4A copy'
+      'Word to LaTeX Converter Online (DOCX) — Free &amp; Private',
+      'Title must match exact approved SEO copy'
     );
 
     const descMatches = [...html.matchAll(/<meta\s+name=["']description["']\s+content=["']([\s\S]*?)["']\s*\/?>/gi)];
     assert.equal(descMatches.length, 1, 'Exactly one meta description tag must exist');
     assert.equal(
       descMatches[0][1].trim(),
-      'Convert Word (.docx) documents to LaTeX with Pandoc WebAssembly in your browser. No document uploads. Try a sample, then copy or download the .tex output.',
-      'Meta description must match exact approved Step 4A copy'
+      'Convert Word (.docx) documents to LaTeX online in your browser using Pandoc WebAssembly. Private, local processing with math, tables, and no file uploads.',
+      'Meta description must match exact approved SEO copy'
     );
   });
 
   it('2. Open Graph and Twitter metadata align with updated title and description', () => {
     const ogTitle = html.match(/<meta\s+property=["']og:title["']\s+content=["']([\s\S]*?)["']\s*\/?>/i);
     assert.ok(ogTitle, 'og:title must exist');
-    assert.equal(ogTitle[1].trim(), 'Word to LaTeX Converter (DOCX) | Free Online Tool');
+    assert.equal(ogTitle[1].trim(), 'Word to LaTeX Converter Online (DOCX) — Free &amp; Private');
 
     const ogDesc = html.match(/<meta\s+property=["']og:description["']\s+content=["']([\s\S]*?)["']\s*\/?>/i);
     assert.ok(ogDesc, 'og:description must exist');
     assert.equal(
       ogDesc[1].trim(),
-      'Convert Word (.docx) documents to LaTeX with Pandoc WebAssembly in your browser. No document uploads. Try a sample, then copy or download the .tex output.'
+      'Convert Word (.docx) documents to LaTeX online in your browser using Pandoc WebAssembly. Private, local processing with math, tables, and no file uploads.'
     );
 
     const twitterTitle = html.match(/<meta\s+name=["']twitter:title["']\s+content=["']([\s\S]*?)["']\s*\/?>/i);
     assert.ok(twitterTitle, 'twitter:title must exist');
-    assert.equal(twitterTitle[1].trim(), 'Word to LaTeX Converter (DOCX) | Free Online Tool');
+    assert.equal(twitterTitle[1].trim(), 'Word to LaTeX Converter Online (DOCX) — Free &amp; Private');
 
     const twitterDesc = html.match(/<meta\s+name=["']twitter:description["']\s+content=["']([\s\S]*?)["']\s*\/?>/i);
     assert.ok(twitterDesc, 'twitter:description must exist');
     assert.equal(
       twitterDesc[1].trim(),
-      'Convert Word (.docx) documents to LaTeX with Pandoc WebAssembly in your browser. No document uploads. Try a sample, then copy or download the .tex output.'
+      'Convert Word (.docx) documents to LaTeX online in your browser using Pandoc WebAssembly. Private, local processing with math, tables, and no file uploads.'
     );
   });
 
