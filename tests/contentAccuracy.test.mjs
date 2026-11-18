@@ -798,11 +798,11 @@ test('Content Accuracy & Product Claims Regression Gate', async (t) => {
         `${slug} JSON-LD includes Home level`
       );
 
-      // Verify stylesheet link is updated to v=3 for cache-busting
+      // Verify stylesheet link is updated to v=20261114-o1 for cache-busting
       assert.match(
         content,
-        /<link rel="stylesheet" href="\.\.\/assets\/css\/styles\.css\?v=3">/,
-        `${slug} links to styles.css?v=3`
+        /<link rel="stylesheet" href="\.\.\/assets\/css\/styles\.css\?v=20261114-o1">/,
+        `${slug} links to styles.css?v=20261114-o1`
       );
     }
 

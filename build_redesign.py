@@ -64,7 +64,7 @@ html = r"""<!DOCTYPE html>
   <link rel="preload" href="assets/fonts/geist-700.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Self-hosted CSS containing local WOFF2 @font-face rules -->
-  <link rel="stylesheet" href="assets/css/styles.css?v=4">
+  <link rel="stylesheet" href="assets/css/styles.css?v=20261114-o1">
 
   <script type="application/ld+json">
 {
@@ -1352,7 +1352,7 @@ html = r"""<!DOCTYPE html>
   <!-- ========================================================================
        SCRIPTS: THEMING, TABS, LIGHTBOX, ACCESSIBILITY, DEFERRED FOR PERFORMANCE
        ======================================================================== -->
-  <script src="assets/js/site.js?v=20261029-1" defer></script>
+  <script src="assets/js/site.js?v=20261114-o1" defer></script>
   <script type="module" src="assets/js/converterUi.js?v=2"></script>
 </body>
 </html>
