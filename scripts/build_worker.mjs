@@ -138,7 +138,6 @@ try {
     target: ['es2022'],
     minify: false,
     sourcemap: false,
-    plugins: [resolveWorkspaceModules],
     banner: {
       js: `/*
  * Word-to-LaTeX UI Controller

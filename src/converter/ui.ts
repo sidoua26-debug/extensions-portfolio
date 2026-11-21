@@ -14,7 +14,6 @@
  */
 
 import { ConverterClient, OutputMode, ProgressEvent, ConversionResult } from './client.ts';
-import { zipSync, strToU8 } from 'fflate';
 
 const DOWNLOAD_SVG =
   '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
@@ -534,22 +533,12 @@ export class ConverterUI {
     this.revokeObjectUrl();
 
     const baseName = this.currentFile?.name ? this.currentFile.name.replace(/\.[^/.]+$/, '') : 'document';
-    const mediaFiles = this.currentResult.mediaFiles;
-    const mediaKeys = mediaFiles ? Object.keys(mediaFiles) : [];
-
     let blob: Blob;
     let downloadFilename: string;
 
-    if (mediaKeys.length > 0) {
+    if (this.currentResult.zipBytes) {
       downloadFilename = `${baseName}.zip`;
-      const zipData: Record<string, Uint8Array> = {
-        [`${baseName}.tex`]: strToU8(this.currentResult.cleanLatex),
-      };
-      for (const [key, bytes] of Object.entries(mediaFiles!)) {
-        zipData[key] = bytes;
-      }
-      const zipped = zipSync(zipData);
-      blob = new Blob([zipped], { type: 'application/zip' });
+      blob = new Blob([this.currentResult.zipBytes], { type: 'application/zip' });
     } else {
       downloadFilename = `${baseName}.tex`;
       blob = new Blob([this.currentResult.cleanLatex], { type: 'text/x-tex;charset=utf-8' });

@@ -3580,6 +3580,17 @@ ${listContent}
           const mode = data.options?.mode || "fragment";
           const geometry = lastDocxPreprocessMetadata?.geometry;
           const finalLatex = mode === "document" ? wrapCompleteDocument(cleanLatex, { geometry }) : cleanLatex;
+          let zipBytes;
+          if (mediaFiles && Object.keys(mediaFiles).length > 0) {
+            const baseName = data.filename ? data.filename.replace(/\.[^/.]+$/, "") : "document";
+            const zipData = {
+              [`${baseName}.tex`]: strToU8(finalLatex)
+            };
+            for (const [key, bytes] of Object.entries(mediaFiles)) {
+              zipData[key] = bytes;
+            }
+            zipBytes = zipSync(zipData);
+          }
           postMessage({
             id,
             type: "result",
@@ -3587,6 +3598,7 @@ ${listContent}
             rawLatex,
             cleanLatex: finalLatex,
             mediaFiles,
+            zipBytes,
             metadata: {
               mode,
               hasGeometry: Boolean(geometry),
