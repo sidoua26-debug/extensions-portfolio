@@ -33,13 +33,18 @@ export type ConvertInput =
   | { format: 'docx'; bytes: ArrayBuffer; filename?: string; options?: DocxPreprocessOptions }
   | { format: 'html' | 'markdown'; text: string };
 
+export interface PandocConvertResult {
+  stdout: string;
+  mediaFiles: Record<string, Uint8Array>;
+}
+
 /**
  * Executes conversion given an initialized pandoc instance.
  */
 export async function runPandocConvert(
   pandoc: Pick<PandocInstance, 'convert'>,
   input: ConvertInput
-): Promise<string> {
+): Promise<PandocConvertResult> {
   let result;
 
   if (input.format === 'docx') {
@@ -65,6 +70,7 @@ export async function runPandocConvert(
         from: 'docx',
         to: 'latex',
         wrap: 'none',
+        'extract-media': '',
         'input-files': [filename],
       },
       null,
@@ -98,5 +104,21 @@ export async function runPandocConvert(
     throw new Error(`Pandoc error: ${result.stderr}`);
   }
 
-  return result.stdout;
+  const mediaFiles: Record<string, Uint8Array> = {};
+  if (result.mediaFiles) {
+    for (const [rawKey, fileBlob] of Object.entries(result.mediaFiles)) {
+      // Normalize and sanitize paths to prevent directory traversal
+      const cleanKey = rawKey.replace(/\\/g, '/').replace(/^\/+/, '');
+      if (!cleanKey || cleanKey.includes('..')) {
+        continue;
+      }
+      const buffer = await fileBlob.arrayBuffer();
+      mediaFiles[cleanKey] = new Uint8Array(buffer);
+    }
+  }
+
+  return {
+    stdout: result.stdout,
+    mediaFiles,
+  };
 }

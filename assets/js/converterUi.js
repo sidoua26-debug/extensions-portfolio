@@ -230,6 +230,8 @@ var ConverterClient = class {
           success: true,
           cleanLatex: data.cleanLatex || "",
           rawLatex: data.rawLatex,
+          mediaFiles: data.mediaFiles,
+          zipBytes: data.zipBytes,
           metadata: data.metadata
         });
       } else {
@@ -325,6 +327,7 @@ var ConverterClient = class {
 };
 
 // src/converter/ui.ts
+var DOWNLOAD_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
 var ConverterUI = class {
   constructor(elements) {
     this.elements = elements;
@@ -576,6 +579,14 @@ var ConverterUI = class {
       this.elements.outputContainer.removeAttribute("hidden");
       this.elements.copyBtn.disabled = false;
       this.elements.downloadBtn.disabled = false;
+      const hasMedia = Boolean(result.mediaFiles && Object.keys(result.mediaFiles).length > 0);
+      if (hasMedia) {
+        this.elements.downloadBtn.innerHTML = `${DOWNLOAD_SVG} Download .zip`;
+        this.elements.downloadBtn.title = "Download LaTeX project (.zip) with embedded images";
+      } else {
+        this.elements.downloadBtn.innerHTML = `${DOWNLOAD_SVG} Download .tex`;
+        this.elements.downloadBtn.title = "Download as .tex file";
+      }
       if (this.elements.successBanner) {
         this.elements.successBanner.removeAttribute("hidden");
       }
@@ -659,6 +670,8 @@ var ConverterUI = class {
     this.elements.outputContainer.setAttribute("hidden", "");
     this.elements.copyBtn.disabled = true;
     this.elements.downloadBtn.disabled = true;
+    this.elements.downloadBtn.innerHTML = `${DOWNLOAD_SVG} Download .tex`;
+    this.elements.downloadBtn.title = "Download as .tex file";
     if (this.elements.successBanner) {
       this.elements.successBanner.setAttribute("hidden", "");
     }
@@ -708,8 +721,15 @@ var ConverterUI = class {
     if (!this.currentResult || !this.currentResult.cleanLatex) return;
     this.revokeObjectUrl();
     const baseName = this.currentFile?.name ? this.currentFile.name.replace(/\.[^/.]+$/, "") : "document";
-    const downloadFilename = `${baseName}.tex`;
-    const blob = new Blob([this.currentResult.cleanLatex], { type: "text/x-tex;charset=utf-8" });
+    let blob;
+    let downloadFilename;
+    if (this.currentResult.zipBytes) {
+      downloadFilename = `${baseName}.zip`;
+      blob = new Blob([this.currentResult.zipBytes], { type: "application/zip" });
+    } else {
+      downloadFilename = `${baseName}.tex`;
+      blob = new Blob([this.currentResult.cleanLatex], { type: "text/x-tex;charset=utf-8" });
+    }
     this.objectUrl = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = this.objectUrl;
