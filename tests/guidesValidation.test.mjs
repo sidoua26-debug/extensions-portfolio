@@ -135,8 +135,14 @@ describe('Guides Validation & Quality Gate', () => {
         assert.equal(parsed['@context'], 'https://schema.org');
         assert.ok(Array.isArray(parsed['@graph']), '@graph array exists');
 
-        const article = parsed['@graph'].find(item => item['@type'] === 'TechArticle');
-        assert.ok(article, 'TechArticle schema present');
+        const article = parsed['@graph'].find(item => {
+          const t = item['@type'];
+          return Array.isArray(t) ? (t.includes('Article') && t.includes('TechArticle')) : t === 'TechArticle';
+        });
+        assert.ok(article, 'Article/TechArticle schema present');
+        const types = Array.isArray(article['@type']) ? article['@type'] : [article['@type']];
+        assert.ok(types.includes('TechArticle'), 'TechArticle type present');
+        assert.ok(types.includes('Article'), 'Article type present');
         assert.ok(article.headline, 'Article headline exists');
         assert.ok(article.datePublished, 'datePublished exists');
 

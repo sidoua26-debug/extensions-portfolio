@@ -123,7 +123,10 @@ describe('Table Extraction Playground & Companion Guide Suite (VISIBILITY-10)', 
       assert.equal(parsed['@context'], 'https://schema.org');
       assert.ok(Array.isArray(parsed['@graph']));
 
-      const article = parsed['@graph'].find(item => item['@type'] === 'TechArticle');
+      const article = parsed['@graph'].find(item => {
+        const t = item['@type'];
+        return Array.isArray(t) ? (t.includes('Article') && t.includes('TechArticle')) : t === 'TechArticle';
+      });
       assert.ok(article, 'TechArticle schema exists');
       assert.equal(article['@id'], 'https://extensionguy.me/guides/html-table-to-excel/#article');
       assert.ok(article.headline);
