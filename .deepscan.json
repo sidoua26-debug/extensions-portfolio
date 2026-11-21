@@ -1,5 +1,6 @@
 {
   "ignorePatterns": [
-    "assets/js/**"
+    "assets/",
+    "tests/"
   ]
 }
