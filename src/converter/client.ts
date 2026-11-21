@@ -47,6 +47,7 @@ export interface ConversionResult {
   success: boolean;
   cleanLatex: string;
   rawLatex?: string;
+  mediaFiles?: Record<string, Uint8Array>;
   error?: string;
   metadata?: ConversionMetadata;
 }
@@ -340,6 +341,7 @@ export class ConverterClient {
           success: true,
           cleanLatex: data.cleanLatex || '',
           rawLatex: data.rawLatex,
+          mediaFiles: data.mediaFiles,
           metadata: data.metadata,
         });
       } else {

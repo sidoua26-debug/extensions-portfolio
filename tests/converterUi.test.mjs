@@ -5,10 +5,12 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { unzipSync } from 'fflate';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORTFOLIO_ROOT = path.resolve(__dirname, '..');
 const FIXTURE_DOCX = path.join(__dirname, 'fixtures/headings_bold_italic.docx');
+const FIXTURE_IMAGE_DOCX = path.join(__dirname, 'fixtures/document_with_image.docx');
 
 describe('Step 6C: Strengthened Converter UI Integration & Race Tests (Playwright)', () => {
   let server;
@@ -879,6 +881,77 @@ describe('Step 6C: Strengthened Converter UI Integration & Race Tests (Playwrigh
     await page.click('#converterChooseBtn');
     const chooser = await choosePromise;
     assert.ok(chooser, 'Choose button on dedicated page opens file chooser');
+
+    await page.close();
+  });
+
+  it('Test 17 — Embedded image DOCX downloads ZIP containing .tex and nonempty media image', async () => {
+    const page = await browserContext.newPage();
+    await page.goto(serverUrl);
+
+    const fileInput = await page.$('#docxFileInput');
+    await fileInput.setInputFiles(FIXTURE_IMAGE_DOCX);
+
+    await page.waitForSelector('#converterOutputContainer:not([hidden])', { timeout: 20000 });
+    const outputText = await page.$eval('#converterOutputArea', (el) => el.value);
+
+    assert.ok(outputText.includes('media/image1.png'), 'Output references media/image1.png');
+    assert.ok(outputText.includes('\\includegraphics'), 'Output contains \\includegraphics');
+
+    const downloadText = await page.$eval('#converterDownloadBtn', (btn) => btn.textContent);
+    assert.ok(downloadText.includes('Download .zip'), 'Download button says Download .zip for image doc');
+
+    const [download] = await Promise.all([
+      page.waitForEvent('download'),
+      page.click('#converterDownloadBtn'),
+    ]);
+
+    assert.equal(download.suggestedFilename(), 'document_with_image.zip');
+
+    const tempZipPath = path.join(os.tmpdir(), `test_download_${Date.now()}.zip`);
+    await download.saveAs(tempZipPath);
+
+    const zipBytes = fs.readFileSync(tempZipPath);
+    fs.unlinkSync(tempZipPath);
+
+    const unzipped = unzipSync(new Uint8Array(zipBytes));
+    const entries = Object.keys(unzipped);
+
+    assert.ok(entries.includes('document_with_image.tex'), 'ZIP contains document_with_image.tex');
+    assert.ok(entries.includes('media/image1.png'), 'ZIP contains media/image1.png');
+    assert.ok(unzipped['media/image1.png'].length > 0, 'media/image1.png has non-empty bytes');
+
+    await page.close();
+  });
+
+  it('Test 18 — Switching from image DOCX to text-only DOCX clears media and restores .tex download', async () => {
+    const page = await browserContext.newPage();
+    await page.goto(serverUrl);
+
+    // 1. Convert image DOCX first
+    const fileInput = await page.$('#docxFileInput');
+    await fileInput.setInputFiles(FIXTURE_IMAGE_DOCX);
+    await page.waitForSelector('#converterOutputContainer:not([hidden])', { timeout: 20000 });
+
+    const btnText1 = await page.$eval('#converterDownloadBtn', (btn) => btn.textContent);
+    assert.ok(btnText1.includes('Download .zip'), 'Download button is .zip for first document');
+
+    // 2. Switch directly to text-only DOCX
+    await fileInput.setInputFiles(FIXTURE_DOCX);
+    await page.waitForSelector('#converterOutputContainer:not([hidden])', { timeout: 20000 });
+
+    const outputText2 = await page.$eval('#converterOutputArea', (el) => el.value);
+    assert.ok(!outputText2.includes('media/'), 'Text-only output contains no media references');
+
+    const btnText2 = await page.$eval('#converterDownloadBtn', (btn) => btn.textContent);
+    assert.ok(btnText2.includes('Download .tex'), 'Download button restored to Download .tex');
+
+    const [download2] = await Promise.all([
+      page.waitForEvent('download'),
+      page.click('#converterDownloadBtn'),
+    ]);
+
+    assert.equal(download2.suggestedFilename(), 'headings_bold_italic.tex');
 
     await page.close();
   });

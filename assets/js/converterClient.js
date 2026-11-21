@@ -230,6 +230,7 @@ var ConverterClient = class {
           success: true,
           cleanLatex: data.cleanLatex || "",
           rawLatex: data.rawLatex,
+          mediaFiles: data.mediaFiles,
           metadata: data.metadata
         });
       } else {

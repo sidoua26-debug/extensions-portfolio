@@ -2958,6 +2958,7 @@
           from: "docx",
           to: "latex",
           wrap: "none",
+          "extract-media": "",
           "input-files": [filename]
         },
         null,
@@ -2981,7 +2982,21 @@
     if (!result.stdout && result.stderr) {
       throw new Error(`Pandoc error: ${result.stderr}`);
     }
-    return result.stdout;
+    const mediaFiles = {};
+    if (result.mediaFiles) {
+      for (const [rawKey, fileBlob] of Object.entries(result.mediaFiles)) {
+        const cleanKey = rawKey.replace(/\\/g, "/").replace(/^\/+/, "");
+        if (!cleanKey || cleanKey.includes("..")) {
+          continue;
+        }
+        const buffer = await fileBlob.arrayBuffer();
+        mediaFiles[cleanKey] = new Uint8Array(buffer);
+      }
+    }
+    return {
+      stdout: result.stdout,
+      mediaFiles
+    };
   }
 
   // src/converter/cleanup.ts
@@ -3559,7 +3574,7 @@ ${listContent}
               text: typeof data.content === "string" ? data.content : new TextDecoder().decode(data.content)
             };
           }
-          const rawLatex = await runPandocConvert(pandoc, convertInput);
+          const { stdout: rawLatex, mediaFiles } = await runPandocConvert(pandoc, convertInput);
           postMessage({ id, type: "progress", stage: "cleaning", message: "Applying LaTeX quality pipeline..." });
           const cleanLatex = cleanupLatex(rawLatex);
           const mode = data.options?.mode || "fragment";
@@ -3571,6 +3586,7 @@ ${listContent}
             success: true,
             rawLatex,
             cleanLatex: finalLatex,
+            mediaFiles,
             metadata: {
               mode,
               hasGeometry: Boolean(geometry),

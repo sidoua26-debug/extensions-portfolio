@@ -170,7 +170,7 @@ self.onmessage = (event: MessageEvent<WorkerInMessage>) => {
             };
           }
 
-          const rawLatex = await runPandocConvert(pandoc, convertInput);
+          const { stdout: rawLatex, mediaFiles } = await runPandocConvert(pandoc, convertInput);
 
           postMessage({ id, type: 'progress', stage: 'cleaning', message: 'Applying LaTeX quality pipeline...' });
           const cleanLatex = cleanupLatex(rawLatex);
@@ -185,6 +185,7 @@ self.onmessage = (event: MessageEvent<WorkerInMessage>) => {
             success: true,
             rawLatex,
             cleanLatex: finalLatex,
+            mediaFiles,
             metadata: {
               mode,
               hasGeometry: Boolean(geometry),
