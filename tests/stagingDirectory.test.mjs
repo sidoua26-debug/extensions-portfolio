@@ -197,6 +197,7 @@ describe('Cloudflare Pages Public Directory Staging (dist/)', () => {
       'reports',
       'review-shots',
       'scripts',
+      'seo',
       'seo-audit',
       'specs',
       'src',
