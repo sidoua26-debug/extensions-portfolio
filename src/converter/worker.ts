@@ -14,11 +14,13 @@ import {
   PandocInstance,
   ConvertInput,
   lastDocxPreprocessMetadata,
+  getSafeTexEntryName,
 } from './pandocCore.ts';
 import {
   cleanupLatex,
   wrapCompleteDocument,
 } from './cleanup.ts';
+import { zipSync, strToU8 } from 'fflate';
 
 let pandocInstancePromise: Promise<PandocInstance> | null = null;
 let conversionQueue: Promise<void> = Promise.resolve();
@@ -170,7 +172,7 @@ self.onmessage = (event: MessageEvent<WorkerInMessage>) => {
             };
           }
 
-          const rawLatex = await runPandocConvert(pandoc, convertInput);
+          const { stdout: rawLatex, mediaFiles } = await runPandocConvert(pandoc, convertInput);
 
           postMessage({ id, type: 'progress', stage: 'cleaning', message: 'Applying LaTeX quality pipeline...' });
           const cleanLatex = cleanupLatex(rawLatex);
@@ -179,12 +181,25 @@ self.onmessage = (event: MessageEvent<WorkerInMessage>) => {
           const geometry = lastDocxPreprocessMetadata?.geometry;
           const finalLatex = mode === 'document' ? wrapCompleteDocument(cleanLatex, { geometry }) : cleanLatex;
 
+          let zipBytes: Uint8Array | undefined;
+          if (mediaFiles && Object.keys(mediaFiles).length > 0) {
+            const texEntryName = getSafeTexEntryName(data.filename, mediaFiles);
+            const zipData: Record<string, Uint8Array> = {};
+            for (const [key, bytes] of Object.entries(mediaFiles)) {
+              zipData[key] = bytes;
+            }
+            zipData[texEntryName] = strToU8(finalLatex);
+            zipBytes = zipSync(zipData);
+          }
+
           postMessage({
             id,
             type: 'result',
             success: true,
             rawLatex,
             cleanLatex: finalLatex,
+            mediaFiles,
+            zipBytes,
             metadata: {
               mode,
               hasGeometry: Boolean(geometry),

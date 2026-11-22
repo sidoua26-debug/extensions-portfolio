@@ -2958,6 +2958,7 @@
           from: "docx",
           to: "latex",
           wrap: "none",
+          "extract-media": "",
           "input-files": [filename]
         },
         null,
@@ -2981,7 +2982,59 @@
     if (!result.stdout && result.stderr) {
       throw new Error(`Pandoc error: ${result.stderr}`);
     }
-    return result.stdout;
+    let stdout = result.stdout;
+    const mediaFiles = {};
+    if (result.mediaFiles) {
+      for (const [rawKey, fileBlob] of Object.entries(result.mediaFiles)) {
+        const cleanKey = validateMediaKey(rawKey);
+        if (rawKey !== cleanKey && stdout && stdout.includes(rawKey)) {
+          stdout = stdout.split(rawKey).join(cleanKey);
+        }
+        const buffer = await fileBlob.arrayBuffer();
+        mediaFiles[cleanKey] = new Uint8Array(buffer);
+      }
+    }
+    return {
+      stdout,
+      mediaFiles
+    };
+  }
+  function validateMediaKey(rawKey) {
+    if (typeof rawKey !== "string" || !rawKey.trim()) {
+      throw new Error(`Invalid media entry path "${rawKey}": path cannot be empty.`);
+    }
+    if (/^[a-zA-Z]:/.test(rawKey)) {
+      throw new Error(`Invalid media entry path "${rawKey}": drive-prefixed paths are not allowed.`);
+    }
+    if (rawKey.startsWith("/") || rawKey.startsWith("\\")) {
+      throw new Error(`Invalid media entry path "${rawKey}": absolute paths are not allowed.`);
+    }
+    const cleanKey = rawKey.replace(/\\/g, "/");
+    const segments = cleanKey.split("/");
+    for (const seg of segments) {
+      if (seg === "..") {
+        throw new Error(`Invalid media entry path "${rawKey}": directory traversal is not allowed.`);
+      }
+      if (seg === "." || seg === "") {
+        throw new Error(`Invalid media entry path "${rawKey}": invalid path segment "${seg}".`);
+      }
+    }
+    return cleanKey;
+  }
+  function getSafeTexEntryName(filename, mediaFiles) {
+    const rawBase = (filename || "").split(/[/\\]/).pop() || "";
+    let safeBase = rawBase.replace(/\.[^/.]+$/, "").trim();
+    safeBase = safeBase.replace(/[/\\?%*:|"<>]/g, "_").trim();
+    if (!safeBase || safeBase === "." || safeBase === "..") {
+      safeBase = "document";
+    }
+    let texName = `${safeBase}.tex`;
+    let counter = 1;
+    while (mediaFiles && Object.prototype.hasOwnProperty.call(mediaFiles, texName)) {
+      texName = `${safeBase}_${counter}.tex`;
+      counter++;
+    }
+    return texName;
   }
 
   // src/converter/cleanup.ts
@@ -3559,18 +3612,30 @@ ${listContent}
               text: typeof data.content === "string" ? data.content : new TextDecoder().decode(data.content)
             };
           }
-          const rawLatex = await runPandocConvert(pandoc, convertInput);
+          const { stdout: rawLatex, mediaFiles } = await runPandocConvert(pandoc, convertInput);
           postMessage({ id, type: "progress", stage: "cleaning", message: "Applying LaTeX quality pipeline..." });
           const cleanLatex = cleanupLatex(rawLatex);
           const mode = data.options?.mode || "fragment";
           const geometry = lastDocxPreprocessMetadata?.geometry;
           const finalLatex = mode === "document" ? wrapCompleteDocument(cleanLatex, { geometry }) : cleanLatex;
+          let zipBytes;
+          if (mediaFiles && Object.keys(mediaFiles).length > 0) {
+            const texEntryName = getSafeTexEntryName(data.filename, mediaFiles);
+            const zipData = {};
+            for (const [key, bytes] of Object.entries(mediaFiles)) {
+              zipData[key] = bytes;
+            }
+            zipData[texEntryName] = strToU8(finalLatex);
+            zipBytes = zipSync(zipData);
+          }
           postMessage({
             id,
             type: "result",
             success: true,
             rawLatex,
             cleanLatex: finalLatex,
+            mediaFiles,
+            zipBytes,
             metadata: {
               mode,
               hasGeometry: Boolean(geometry),

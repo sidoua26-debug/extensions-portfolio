@@ -33,13 +33,18 @@ export type ConvertInput =
   | { format: 'docx'; bytes: ArrayBuffer; filename?: string; options?: DocxPreprocessOptions }
   | { format: 'html' | 'markdown'; text: string };
 
+export interface PandocConvertResult {
+  stdout: string;
+  mediaFiles: Record<string, Uint8Array>;
+}
+
 /**
  * Executes conversion given an initialized pandoc instance.
  */
 export async function runPandocConvert(
   pandoc: Pick<PandocInstance, 'convert'>,
   input: ConvertInput
-): Promise<string> {
+): Promise<PandocConvertResult> {
   let result;
 
   if (input.format === 'docx') {
@@ -65,6 +70,7 @@ export async function runPandocConvert(
         from: 'docx',
         to: 'latex',
         wrap: 'none',
+        'extract-media': '',
         'input-files': [filename],
       },
       null,
@@ -98,5 +104,101 @@ export async function runPandocConvert(
     throw new Error(`Pandoc error: ${result.stderr}`);
   }
 
-  return result.stdout;
+  let stdout = result.stdout;
+  const mediaFiles: Record<string, Uint8Array> = {};
+  if (result.mediaFiles) {
+    for (const [rawKey, fileBlob] of Object.entries(result.mediaFiles)) {
+      const cleanKey = validateMediaKey(rawKey);
+      if (rawKey !== cleanKey && stdout && stdout.includes(rawKey)) {
+        stdout = stdout.split(rawKey).join(cleanKey);
+      }
+      const buffer = await fileBlob.arrayBuffer();
+      mediaFiles[cleanKey] = new Uint8Array(buffer);
+    }
+  }
+
+  return {
+    stdout,
+    mediaFiles,
+  };
 }
+
+/**
+ * Validates and normalizes an embedded media path extracted from a document.
+ * Ensures the entry is a safe relative path within the package.
+ *
+ * Rules:
+ * - Reject non-string, empty, or whitespace-only paths.
+ * - Reject drive-prefixed paths (e.g., C:image.png, D:\media\img.png).
+ * - Reject absolute paths (starting with / or \).
+ * - Validate actual path segments: reject directory traversal ('..') and empty or current-dir segments ('.').
+ * - Preserve legitimate filenames containing multiple dots (e.g., diagram..png).
+ * - Return the normalized path using forward slashes.
+ */
+export function validateMediaKey(rawKey: string): string {
+  if (typeof rawKey !== 'string' || !rawKey.trim()) {
+    throw new Error(`Invalid media entry path "${rawKey}": path cannot be empty.`);
+  }
+
+  // Reject drive-prefixed paths (e.g. C:, D:\, c:foo)
+  if (/^[a-zA-Z]:/.test(rawKey)) {
+    throw new Error(`Invalid media entry path "${rawKey}": drive-prefixed paths are not allowed.`);
+  }
+
+  // Reject absolute paths
+  if (rawKey.startsWith('/') || rawKey.startsWith('\\')) {
+    throw new Error(`Invalid media entry path "${rawKey}": absolute paths are not allowed.`);
+  }
+
+  const cleanKey = rawKey.replace(/\\/g, '/');
+  const segments = cleanKey.split('/');
+
+  for (const seg of segments) {
+    if (seg === '..') {
+      throw new Error(`Invalid media entry path "${rawKey}": directory traversal is not allowed.`);
+    }
+    if (seg === '.' || seg === '') {
+      throw new Error(`Invalid media entry path "${rawKey}": invalid path segment "${seg}".`);
+    }
+  }
+
+  return cleanKey;
+}
+
+/**
+ * Derives a safe .tex entry filename for the packaged ZIP archive.
+ *
+ * Requirements:
+ * - Kept at the ZIP root (no directory components, slashes, or traversal).
+ * - Fall back to 'document.tex' if basename is empty, whitespace, or invalid.
+ * - Disallow path traversal ('..') or navigation ('.').
+ * - Prevent collisions with media entries (e.g. if media contains document.tex).
+ */
+export function getSafeTexEntryName(
+  filename?: string,
+  mediaFiles?: Record<string, unknown>
+): string {
+  // Extract basename only, stripping any directory structure
+  const rawBase = (filename || '').split(/[/\\]/).pop() || '';
+  // Strip extension
+  let safeBase = rawBase.replace(/\.[^/.]+$/, '').trim();
+
+  // Strip illegal filesystem / archive characters
+  safeBase = safeBase.replace(/[/\\?%*:|"<>]/g, '_').trim();
+
+  // Sensible fallback if empty, whitespace, or navigation dots
+  if (!safeBase || safeBase === '.' || safeBase === '..') {
+    safeBase = 'document';
+  }
+
+  // Prevent collision with media entries
+  let texName = `${safeBase}.tex`;
+  let counter = 1;
+  while (mediaFiles && Object.prototype.hasOwnProperty.call(mediaFiles, texName)) {
+    texName = `${safeBase}_${counter}.tex`;
+    counter++;
+  }
+
+  return texName;
+}
+
