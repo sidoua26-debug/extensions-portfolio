@@ -24,7 +24,7 @@ Generate curated, honest outreach batches to suggest ExtensionGuy tools, extensi
 Never pitch a generic homepage. Target pages where an ExtensionGuy tool or guide directly answers the reader's problem:
 - Articles on PDF security or privacy → `/pdf-tools/` or `/guides/redact-pdf-without-uploading/`
 - Guides on converting Word documents to LaTeX or Overleaf → `/word-to-latex-converter/`
-- Browser productivity roundups → `/tab-vault/`, `/bulkgrab/`, or `/bilexi/`
+- Browser productivity & developer roundups → `/word-to-latex/`, `/table-extractor/`, `/bulkgrab/`, `/seo-inspector/`, `/bilexi/`, or `/tab-vault/`
 
 ### Qualification criteria
 

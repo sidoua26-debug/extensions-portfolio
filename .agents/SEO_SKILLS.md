@@ -25,16 +25,42 @@ This document records the installation, configuration, and local adaptations of 
 
 ---
 
+## Maintained Product Inventory & Verified Sitemap URLs
+
+Derived from repository source of truth (`store-versions.json`, `build_redesign.py`, and `sitemap.xml`):
+
+### 1. Maintained Browser Extensions
+- **Word to LaTeX (Offline)**: `/word-to-latex/` (Chrome, Edge: 1.0.7)
+- **Table Extractor**: `/table-extractor/` (Chrome, Edge: 1.0.1)
+- **BulkGrab**: `/bulkgrab/` (Chrome 1.0.3, Edge 1.0.0)
+- **SEO Inspector**: `/seo-inspector/` (Edge: 1.0.1)
+- **Bilexi**: `/bilexi/` (Edge: 0.5.1)
+- **Tab Vault**: `/tab-vault/` (Edge: 1.0.0)
+
+### 2. Maintained Web Tools
+- **Word-to-LaTeX Converter**: `/word-to-latex-converter/` (in-browser WASM converter)
+- **Client-Side PDF Redaction Tool**: `/pdf-tools/` (in-browser visual redaction tool)
+
+### 3. Verified Technical Guides & Demos
+- Guides: `/guides/redact-pdf-without-uploading/`, `/guides/docx-to-latex-offline/`, `/guides/word-tables-to-latex/`, `/guides/type-french-accents-on-qwerty-offline/`, `/guides/prevent-browser-tab-loss-local-backups/`, `/guides/export-virtualized-tables-to-excel/`, `/guides/html-table-to-excel/`, `/guides/audit-json-ld-and-headings-in-browser/`, `/guides/fix-pandoc-latex-errors-in-overleaf/`, `/guides/download-multiple-pdfs/`
+- Demos: `/demos/`, `/demos/table-extraction/`, `/demos/bulk-download/`, `/demos/seo-audit-sandbox/`, `/demos/overleaf-preamble-checker/`
+
+---
+
 ## Local Adaptations & Constraints
 
 All seven skills were adapted from the upstream repository to align strictly with ExtensionGuy's technical architecture, operational guidelines, and ethical guardrails:
 
 1. **ExtensionGuy Portfolio Scoping**:
-   - Scoped to ExtensionGuy's static website, browser extensions (*Bilexi*, *BulkGrab*, *TabVault*, *SEO Inspector*, *Table Extractor*), guides (`guides/`), interactive demos (`demos/`), and client-side browser tools (`/pdf-tools/`, `/word-to-latex-converter/`).
+   - Scoped to ExtensionGuy's static website, browser extensions (including *Word to LaTeX (Offline)*), guides (`guides/`), interactive demos (`demos/`), and client-side browser tools (`/pdf-tools/`, `/word-to-latex-converter/`).
+   - Nonexistent routes removed from all examples and references.
 
-2. **On-Device & Privacy-First Architecture**:
-   - Workflows preserve and highlight ExtensionGuy's fundamental privacy promise: 100% client-side execution via WebAssembly / HTML5 Canvas with zero remote server document uploads or tracking.
-   - Qualified security and redaction claims: do not overstate or claim complete sanitization where client-side visual blackouts do not strip hidden document metadata.
+2. **Factual Integrity & Proof Card Lifecycle**:
+   - Unsourced contact details (such as `press@extensionguy.me`) are replaced with explicit placeholders (`[CONTACT_EMAIL_PLACEHOLDER]`).
+   - Example proof cards are **never pre-marked as verified**.
+   - Each proof card requires identification of its `evidence_source`, commit SHA, date, and lifecycle status (`proposed`, `tested on a candidate`, `merged`, or `production-verified`).
+   - **Source inspection alone must not be presented as a measured network or privacy test.** Privacy and offline claims must be backed by an executed runtime network trace.
+   - LaTeX generation is described accurately: the Web Worker generates LaTeX (not compiles).
 
 3. **Ground Truth & Data Limitations**:
    - Use existing connected tools and user-supplied exports (e.g. Google Search Console or Ahrefs CSV exports).
@@ -49,7 +75,7 @@ All seven skills were adapted from the upstream repository to align strictly wit
    - Removed all requirements to connect third-party paid services or MCP endpoints (e.g. AI SEO Tracker, Scribiz, GenPPT). No new subscriptions, credentials, or third-party MCP servers required.
 
 6. **No Speculative Ranking or Citation Guarantees**:
-   - Upstream ranking metrics, traffic claims (e.g. "traffic up 720%"), and directory domain ratings are treated as historical examples requiring independent verification.
+   - Upstream ranking metrics, traffic claims, and directory domain ratings are treated as historical examples requiring independent verification.
    - The agent does not promise specific search engine rankings or automated AI citations.
 
 7. **Draft-Only Mode for Outreach and Submissions**:
@@ -60,10 +86,17 @@ All seven skills were adapted from the upstream repository to align strictly wit
    - Acknowledged that ExtensionGuy products are already launched on Product Hunt; duplicate launch preparation and scheduling steps were omitted.
 
 9. **Repository Source-of-Truth Enforcement**:
-   - Acknowledged that ExtensionGuy's core website is generated via `build_redesign.py`. Modifications to site templates or navigation must update `build_redesign.py` and run `python3 build_redesign.py` to regenerate output. Standalone guides in `guides/<slug>/index.html` are edited directly.
+   - ExtensionGuy's core website is generated via `build_redesign.py`. Modifications to site templates or navigation must update `build_redesign.py` and run `python3 build_redesign.py` to regenerate output. Standalone guides in `guides/<slug>/index.html` are edited directly.
 
 10. **Adapted Internal Link Graph Script**:
-    - Replaced the upstream React/Next.js scanner in `scripts/internal-link-graph.mjs` with an implementation tailored to ExtensionGuy's static HTML directory layout (`guides/`, `demos/`, `pdf-tools/`, `word-to-latex-converter/`, etc.).
+    - Script at `.agents/skills/internal-linking/scripts/internal-link-graph.mjs`:
+      - Resolves relative links, root-relative links, and same-origin absolute URLs against each page's actual URL.
+      - Counts `<a href>` elements only, ignoring `<link rel="canonical">` or stylesheets.
+      - Includes `/word-to-latex/` and all maintained products in its scanned targets.
+      - Separates content links from header/nav/footer links, while reporting total inbound links.
+      - Strictly defines **orphan** as having zero inbound links (`totalInbound === 0`).
+      - Labels pages with inbound links below the threshold as **underlinked**.
+    - Verified via narrow fixture test in `tests/internalLinkGraphFixture.test.mjs`.
 
 11. **Attribution & Licensing**:
     - Retained upstream attribution and MIT copyright notices (Ilias Ism / Illyism) in all installed skills.

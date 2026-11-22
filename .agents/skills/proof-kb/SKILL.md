@@ -5,19 +5,19 @@ metadata:
   author: illyism
   source: https://github.com/Illyism/seo-skills (commit a158c36a1c2c84a44ee7a1ae69c009caf73e1a35)
   adapted_for: ExtensionGuy (https://extensionguy.me)
-  version: 1.0.0
+  version: 1.0.1
   license: MIT
 ---
 
 # First-hand proof knowledge base (`seo/kb/`) for ExtensionGuy
 
-Verifiable first-hand technical receipts—such as concrete benchmark numbers, verified client-side privacy boundaries, test counts, and exact feature specifications—differentiate technical guides and product pages from generic AI-generated content.
+Verifiable first-hand technical receipts—such as concrete benchmark numbers, measured client-side privacy boundaries, test counts, and exact feature specifications—differentiate technical guides and product pages from generic AI-generated content.
 
 1. **Open with concrete first-hand receipts** (exact WASM bundle sizes, in-browser conversion benchmarks, test counts, or local execution proof).
 2. **Stack verifiable proof categories** across guides and product pages.
 3. **Preserve privacy-first guarantees**: ExtensionGuy tools and extensions operate on-device without remote document uploads. Proof points should verify and highlight these on-device boundaries.
 
-Store verifiable facts once in `seo/kb/` and wire those atomic proof files into product pages, guides (`guides/`), demos (`demos/`), and tools (`pdf-tools/`, `word-to-latex-converter/`). Never invent specs, performance numbers, or user metrics.
+Store verifiable facts in `seo/kb/` and wire those atomic proof files into product pages, guides (`guides/`), demos (`demos/`), and tools (`pdf-tools/`, `word-to-latex-converter/`). Never invent specs, performance numbers, or user metrics.
 
 > **Note on Upstream Claims:** Upstream references to guaranteed top-3 rankings or automated AI citations are examples, not guarantees.
 
@@ -57,16 +57,24 @@ Inspect `package.json`, `build_redesign.py`, store listings in `store-versions.j
 
 ### 1. `seo/kb/brand-ssot.md` (single source of truth)
 
-Exact extension capabilities, version numbers, permissions, and what tools do NOT do. Write only facts found in code, tests, or confirmed by the user; mark anything else `[UNVERIFIED]`.
+Exact extension capabilities, version numbers, permissions, and what tools do NOT do. Derive product inventory from maintained repository sources (`store-versions.json` and `build_redesign.py`). Write only facts found in code, tests, or confirmed by the user; mark anything else `[UNVERIFIED]`.
 
 ```markdown
 # Brand SSOT: ExtensionGuy (https://extensionguy.me)
 Last verified: 2026-11-22
 
 ## Portfolio Overview
-- Developer portfolio and privacy-focused browser extensions and web tools.
-- Maintained extensions: Bilexi, BulkGrab, TabVault, SEO Inspector, Table Extractor.
-- Browser-based tools: PDF Redaction Tool (/pdf-tools/), Word-to-LaTeX Converter (/word-to-latex-converter/).
+- Developer portfolio of privacy-focused browser extensions and web tools.
+- Maintained browser extensions:
+  1. Word to LaTeX (Offline) (/word-to-latex/)
+  2. Table Extractor (/table-extractor/)
+  3. BulkGrab (/bulkgrab/)
+  4. SEO Inspector (/seo-inspector/)
+  5. Bilexi (/bilexi/)
+  6. Tab Vault (/tab-vault/)
+- Maintained browser tools:
+  1. Word-to-LaTeX Converter (/word-to-latex-converter/)
+  2. Client-Side PDF Redaction Tool (/pdf-tools/)
 
 ## Technical Architecture & Privacy Boundaries
 - 100% Client-side execution: Files processed entirely in the user's browser via WebAssembly/Web Workers.
@@ -76,24 +84,37 @@ Last verified: 2026-11-22
 
 ### 2. `seo/kb/proof/{benchmarks,privacy,boundaries,workflows}/<id>.md`
 
-One file per verifiable fact or test result:
+One file per verifiable fact or test result.
+
+#### Proof card schema and lifecycle rules:
+- **Do not pre-mark proof cards as verified.**
+- Every proof card must record:
+  1. `evidence_source`: Exact test script, fixture, or benchmark output file.
+  2. `commit`: Full git commit SHA where evidence was captured.
+  3. `date`: ISO date of test execution.
+  4. `status`: Current lifecycle state (`proposed`, `tested on a candidate`, `merged`, or `production-verified`).
+- **Privacy and Network Claims**: Source code inspection alone (e.g. noting the absence of `fetch()` calls in code) must **not** be presented as a measured network or privacy test. To record a privacy or offline proof card, the test must execute a measured browser network trace (such as Playwright network interception verifying 0 remote egress requests during active file processing) and cite that test execution in `evidence_source`.
+
+Example proof card template:
 
 ```markdown
 ---
 id: proof-converter-image-zip-delivery
 category: boundaries
 date: 2026-11-21
+commit: 72f35a770bb79501abbc3792c79e0eb22947f823
+status: tested on a candidate # [proposed | tested on a candidate | merged | production-verified]
 topics: [word-to-latex, wasm, images, packaging]
-verified: true
-source: tests/fixtures/document_with_image.docx
+evidence_source: tests/converterUi.test.mjs
+verification_command: node --test tests/converterUi.test.mjs
 ---
 
 # In-Browser Word-to-LaTeX Embedded Image ZIP Packaging
 
 ## Verified Mechanics
 - pandoc-wasm extracts embedded media into memory via `'extract-media': ''`.
-- fflate packages .tex and referenced media/ files into a .zip archive entirely inside a Web Worker.
-- Zero server transmission: conversion and zip creation happen entirely on the local device.
+- fflate packages .tex and referenced media/ files into a .zip archive inside a Web Worker.
+- In-browser conversion: the Web Worker generates LaTeX and packages ZIP archive entirely in the browser without server upload.
 ```
 
 ### 3. `seo/kb/competitors/claims-to-beat.md`
@@ -102,14 +123,14 @@ Competitor claims paired with ExtensionGuy's privacy-first, on-device advantages
 
 ### 4. `seo/kb/pages-index.md`
 
-Mapping of maintained guides, tool pages, and product pages to their verified proof IDs.
+Mapping of maintained guides (verified against `sitemap.xml`), tool pages, and product pages to their proof IDs.
 
 ## Workflow 2: `audit-gaps` (fill proof gaps without inventing)
 
 Never invent benchmarks, user counts, latency numbers, or security guarantees.
 
 ### Step 1: Inspect local repository evidence
-Check local test fixtures, Playwright test runs, source code implementations, and commit logs.
+Check local test fixtures, Playwright test runs, source code implementations, and commit logs. Remember that network/privacy assertions require actual runtime traces, not code reading alone.
 
 ### Step 2: Formulate focused questions if needed
 If a critical technical fact is missing (e.g. maximum tested document size or specific browser support limit), note it in `seo/kb/open-questions.md` or ask the user a concise question. Do not connect external transcription services or require paid subscriptions.
@@ -136,8 +157,11 @@ When a tool feature, version number, or verified limit changes:
 ## Verification checklist
 
 - [ ] `seo/kb/brand-ssot.md` and `seo/kb/pages-index.md` exist and reflect verified code/test facts.
-- [ ] Privacy-first claims strictly reflect actual client-side implementation (zero server uploads).
-- [ ] No invented metrics, competitor data, or ranking promises.
+- [ ] Product inventory includes Word to LaTeX (Offline) alongside all maintained extensions and tools.
+- [ ] Proof cards record evidence source, commit/date, and explicit status (`proposed`, `tested on a candidate`, `merged`, or `production-verified`).
+- [ ] No proof cards pre-marked as verified without recorded execution evidence.
+- [ ] Privacy/offline claims cite measured network traces, not source code inspection alone.
+- [ ] LaTeX generation mechanics are described accurately (Web Worker generates LaTeX, not compiles).
 - [ ] Edits respect repository source-of-truth rules (maintained sources edited; build outputs regenerated).
 
 ---

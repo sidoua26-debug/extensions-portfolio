@@ -52,7 +52,7 @@ Ensure all ExtensionGuy technical guides, landing pages, and tool documentation 
 | 6 | **Puffery** | Cut `revolutionary`, `groundbreaking`, `game-changing`, `cutting-edge`, `world-class`. Name the actual capability. |
 | 7 | **Trailing `-ing` Clauses** | Cut vague tails like `"...ensuring maximum performance"`. If a tail holds a real fact, make it an explicit sentence. |
 | 8 | **Pompous Verbs** | Use `use` instead of `utilize`/`leverage`; `help` instead of `facilitate`; `because` instead of `due to the fact that`. |
-| 9 | **Passive Voice** | Name the actor (`"the Web Worker compiles LaTeX"`, not `"LaTeX is compiled"`). |
+| 9 | **Passive Voice** | Name the actor (`"the Web Worker generates LaTeX"`, not `"LaTeX is generated"`). |
 | 10 | **Vague Adverbs** | Replace `"converts rapidly"` with the tested benchmark or describe the client-side execution model. |
 | 11 | **Title Case Headings** | Use sentence case for all subheadings (`<h2>`, `<h3>`). |
 | 12 | **Chatbot Preamble & Outro** | Cut `"In this guide, we will explore"`, `"Let's dive in!"`, `"In conclusion"`. |

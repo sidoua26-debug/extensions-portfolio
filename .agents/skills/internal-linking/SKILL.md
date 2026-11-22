@@ -5,13 +5,13 @@ metadata:
   author: illyism
   source: https://github.com/Illyism/seo-skills (commit a158c36a1c2c84a44ee7a1ae69c009caf73e1a35)
   adapted_for: ExtensionGuy (https://extensionguy.me)
-  version: 1.0.0
+  version: 1.0.1
   license: MIT
 ---
 
 # Internal linking and equity routing for ExtensionGuy
 
-Route discovery and topical authority from informational guides (`guides/`) and interactive demos (`demos/`) to core browser tools (`pdf-tools/`, `word-to-latex-converter/`) and extension product pages (`bilexi/`, `bulkgrab/`, `tab-vault/`, etc.).
+Route discovery and topical authority from informational guides (`guides/`) and interactive demos (`demos/`) to core browser tools (`pdf-tools/`, `word-to-latex-converter/`) and extension product pages (`word-to-latex/`, `table-extractor/`, `bulkgrab/`, `seo-inspector/`, `bilexi/`, `tab-vault/`).
 
 > **ExtensionGuy Architecture & Source-of-Truth Rules:**
 > - ExtensionGuy is a static website deployed on Cloudflare Pages.
@@ -19,14 +19,14 @@ Route discovery and topical authority from informational guides (`guides/`) and 
 > - Always edit maintained source files: if modifying generated templates or navigation, edit `build_redesign.py` and run `python3 build_redesign.py` to regenerate. If editing a guide, edit its primary HTML file.
 > - No paid links or external link buying services. All internal links must remain natural, editorial, and `dofollow`.
 
-## Target categories on ExtensionGuy
+## Target categories on ExtensionGuy (verified against sitemap.xml)
 
-| Category | Role | Key URLs |
+| Category | Role | Verified Sitemap URLs |
 | --- | --- | --- |
-| **Tools & Utilities** | Primary conversion targets | `/pdf-tools/`, `/word-to-latex-converter/` |
-| **Product Pages** | Extension landing pages | `/bilexi/`, `/bulkgrab/`, `/tab-vault/`, `/table-extractor/`, `/seo-inspector/` |
-| **Guides & Articles** | Contextual traffic sources | `/guides/redact-pdf-without-uploading/`, `/guides/word-to-latex/`, `/guides/french-autocorrect-extension/`, etc. |
-| **Interactive Demos** | Functional showcases | `/demos/table-extractor/`, `/demos/bulkgrab/`, etc. |
+| **Tools & Web Utilities** | Primary conversion targets | `/pdf-tools/`, `/word-to-latex-converter/` |
+| **Extension Product Pages** | Maintained extension landing pages | `/word-to-latex/`, `/table-extractor/`, `/bulkgrab/`, `/seo-inspector/`, `/bilexi/`, `/tab-vault/` |
+| **Technical Guides** | Contextual traffic sources | `/guides/redact-pdf-without-uploading/`, `/guides/docx-to-latex-offline/`, `/guides/word-tables-to-latex/`, `/guides/type-french-accents-on-qwerty-offline/`, `/guides/prevent-browser-tab-loss-local-backups/`, `/guides/export-virtualized-tables-to-excel/`, `/guides/html-table-to-excel/`, `/guides/audit-json-ld-and-headings-in-browser/`, `/guides/fix-pandoc-latex-errors-in-overleaf/`, `/guides/download-multiple-pdfs/` |
+| **Interactive Demos** | Functional showcases | `/demos/`, `/demos/table-extraction/`, `/demos/bulk-download/`, `/demos/seo-audit-sandbox/`, `/demos/overleaf-preamble-checker/` |
 
 ## Step 1: Analyze internal link structure
 
@@ -36,13 +36,17 @@ Run the adapted internal link graph script:
 node .agents/skills/internal-linking/scripts/internal-link-graph.mjs > seo/internal-link-graph.json
 ```
 
-Identify:
-1. **Underlinked Target Pages**: Tools or extensions with fewer than 3 contextual inbound links from related guides.
-2. **High-Context Sources**: Guides that discuss problems directly solved by ExtensionGuy extensions or tools (e.g. the PDF redaction guide linking directly to `/pdf-tools/`).
+The script:
+- Resolves relative links (`../../word-to-latex-converter/`), root-relative links (`/word-to-latex/`), and same-origin absolute links against each page's actual URL.
+- Counts `<a href>` elements only, ignoring `<link rel="canonical">` or stylesheets.
+- Includes `/word-to-latex/` and all maintained products in its scanned targets.
+- Accurately separates content links from header/nav/footer links, reporting both `contentInbound` and `totalInbound`.
+- Reserves the label **orphan** strictly for pages with **zero inbound links** (`totalInbound === 0`).
+- Labels pages below the configurable threshold (default < 3) as **underlinked**.
 
 ## Step 2: Contextual link injection rules
 
-1. **Topical Relevance**: Only link a guide to a tool or extension if the guide explicitly covers that task (e.g. French autocorrect guide to Bilexi, PDF privacy guide to PDF Tools).
+1. **Topical Relevance**: Only link a guide to a tool or extension if the guide explicitly covers that task (e.g. French accents guide to Bilexi, PDF privacy guide to PDF Tools, docx-to-latex offline guide to Word-to-LaTeX extension and converter).
 2. **Natural Placement**: Place contextual links early in the content (within the problem definition or initial steps) so users can immediately access the client-side solution.
 3. **Descriptive Anchor Text**: Use 3-6 word descriptive anchors explaining the action (e.g. `redact sensitive data with offline PDF tools`, `convert Word documents to LaTeX in your browser`). Avoid generic phrases like `click here` or `learn more`.
 4. **Varied Anchors**: Avoid reusing identical anchor text across multiple pages.
@@ -73,10 +77,10 @@ Ensure callouts:
    ```bash
    node .agents/skills/internal-linking/scripts/internal-link-graph.mjs > seo/internal-link-graph.after.json
    ```
-2. Check internal link targets: ensure no broken relative or absolute links (`href="/broken-path"`).
+2. Verify internal link targets: ensure no broken relative or absolute links (`href="/broken-path"`).
 3. Record changes in a concise summary:
    - Modified files (source vs generated).
-   - Inbound link counts before and after.
+   - Inbound link counts before and after (content vs total).
    - Exact anchor text used.
 
 ---
