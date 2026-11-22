@@ -5,6 +5,10 @@
 # Python cache & build
 __pycache__/
 *.py[cod]
+dist/
+.pages-stage-*/
+.pages-stage.lock
+.pages-dist-backup/
 
 # OS & editor files
 .DS_Store
