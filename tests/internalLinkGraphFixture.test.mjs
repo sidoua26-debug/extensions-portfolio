@@ -4,8 +4,7 @@ import {
   parseAnchorsFromHtml,
   resolveHref,
   getPageBaseUrl,
-  buildLinkGraph,
-  norm
+  buildLinkGraph
 } from '../.agents/skills/internal-linking/scripts/internal-link-graph.mjs';
 
 test('internal-link-graph fixture verification', async (t) => {
