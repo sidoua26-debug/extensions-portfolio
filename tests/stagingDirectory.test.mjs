@@ -3,15 +3,18 @@ import assert from 'node:assert/strict';
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { unzipSync } from 'fflate';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const DIST = path.join(ROOT, 'dist');
 const STAGE_SCRIPT = path.join(ROOT, 'scripts/stage_pages.py');
 const FIXTURE_DOCX = path.join(__dirname, 'fixtures/headings_bold_italic.docx');
+const FIXTURE_IMAGE_DOCX = path.join(__dirname, 'fixtures/document_with_image.docx');
 const FIXTURE_PDF = path.join(__dirname, 'fixtures/sample.pdf');
 
 function sha256File(filePath) {
@@ -293,6 +296,81 @@ describe('Cloudflare Pages Public Directory Staging (dist/)', () => {
       pageTitle.toLowerCase().includes('not found') || pageTitle.includes('404'),
       `Page title must indicate 404/Not Found, got: ${pageTitle}`
     );
+
+    await context.close();
+  });
+
+  it('9. smoke check: image DOCX downloads ZIP with .tex and media image in staged dist/', async () => {
+    const context = await browser.newContext({ acceptDownloads: true });
+    const page = await context.newPage();
+
+    await page.goto(`${serverUrl}/word-to-latex-converter/`);
+
+    const fileInput = await page.$('#docxFileInput');
+    assert.ok(fileInput, 'File input #docxFileInput must exist on converter page');
+    await fileInput.setInputFiles(FIXTURE_IMAGE_DOCX);
+
+    await page.waitForSelector('#converterOutputContainer:not([hidden])', { timeout: 20000 });
+    const outputText = await page.$eval('#converterOutputArea', (el) => el.value);
+
+    assert.ok(outputText.includes('media/image1.png'), 'Output references media/image1.png');
+    assert.ok(outputText.includes('\\includegraphics'), 'Output contains \\includegraphics');
+
+    const downloadText = await page.$eval('#converterDownloadBtn', (btn) => btn.textContent);
+    assert.ok(downloadText.includes('Download .zip'), 'Download button says Download .zip for image doc');
+
+    const [download] = await Promise.all([
+      page.waitForEvent('download'),
+      page.click('#converterDownloadBtn'),
+    ]);
+
+    assert.equal(download.suggestedFilename(), 'document_with_image.zip');
+
+    const tempZipPath = path.join(os.tmpdir(), `staged_test_download_${Date.now()}.zip`);
+    await download.saveAs(tempZipPath);
+
+    const zipBytes = fs.readFileSync(tempZipPath);
+    fs.unlinkSync(tempZipPath);
+
+    const unzipped = unzipSync(new Uint8Array(zipBytes));
+    const entries = Object.keys(unzipped);
+
+    assert.ok(entries.includes('document_with_image.tex'), 'ZIP contains document_with_image.tex at root');
+    assert.ok(entries.includes('media/image1.png'), 'ZIP contains media/image1.png');
+    assert.ok(unzipped['media/image1.png'].length > 0, 'media/image1.png has non-empty bytes');
+
+    await context.close();
+  });
+
+  it('10. smoke check: switching from image DOCX to text-only DOCX restores .tex download in staged dist/', async () => {
+    const context = await browser.newContext({ acceptDownloads: true });
+    const page = await context.newPage();
+
+    await page.goto(`${serverUrl}/word-to-latex-converter/`);
+
+    const fileInput = await page.$('#docxFileInput');
+    await fileInput.setInputFiles(FIXTURE_IMAGE_DOCX);
+    await page.waitForSelector('#converterOutputContainer:not([hidden])', { timeout: 20000 });
+
+    const btnText1 = await page.$eval('#converterDownloadBtn', (btn) => btn.textContent);
+    assert.ok(btnText1.includes('Download .zip'), 'Download button is .zip for image doc');
+
+    // Switch directly to text-only DOCX
+    await fileInput.setInputFiles(FIXTURE_DOCX);
+    await page.waitForSelector('#converterOutputContainer:not([hidden])', { timeout: 20000 });
+
+    const outputText2 = await page.$eval('#converterOutputArea', (el) => el.value);
+    assert.ok(!outputText2.includes('media/'), 'Text-only output contains no media references');
+
+    const btnText2 = await page.$eval('#converterDownloadBtn', (btn) => btn.textContent);
+    assert.ok(btnText2.includes('Download .tex'), 'Download button restored to Download .tex');
+
+    const [download2] = await Promise.all([
+      page.waitForEvent('download'),
+      page.click('#converterDownloadBtn'),
+    ]);
+
+    assert.equal(download2.suggestedFilename(), 'headings_bold_italic.tex');
 
     await context.close();
   });

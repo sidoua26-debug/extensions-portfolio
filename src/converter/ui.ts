@@ -532,7 +532,11 @@ export class ConverterUI {
 
     this.revokeObjectUrl();
 
-    const baseName = this.currentFile?.name ? this.currentFile.name.replace(/\.[^/.]+$/, '') : 'document';
+    const rawBase = this.currentFile?.name ? this.currentFile.name.split(/[/\\]/).pop() || '' : '';
+    let baseName = rawBase.replace(/\.[^/.]+$/, '').trim().replace(/[/\\?%*:|"<>]/g, '_');
+    if (!baseName || baseName === '.' || baseName === '..') {
+      baseName = 'document';
+    }
     let blob: Blob;
     let downloadFilename: string;
 

@@ -14,6 +14,7 @@ import {
   PandocInstance,
   ConvertInput,
   lastDocxPreprocessMetadata,
+  getSafeTexEntryName,
 } from './pandocCore.ts';
 import {
   cleanupLatex,
@@ -182,13 +183,12 @@ self.onmessage = (event: MessageEvent<WorkerInMessage>) => {
 
           let zipBytes: Uint8Array | undefined;
           if (mediaFiles && Object.keys(mediaFiles).length > 0) {
-            const baseName = data.filename ? data.filename.replace(/\.[^/.]+$/, '') : 'document';
-            const zipData: Record<string, Uint8Array> = {
-              [`${baseName}.tex`]: strToU8(finalLatex),
-            };
+            const texEntryName = getSafeTexEntryName(data.filename, mediaFiles);
+            const zipData: Record<string, Uint8Array> = {};
             for (const [key, bytes] of Object.entries(mediaFiles)) {
               zipData[key] = bytes;
             }
+            zipData[texEntryName] = strToU8(finalLatex);
             zipBytes = zipSync(zipData);
           }
 
