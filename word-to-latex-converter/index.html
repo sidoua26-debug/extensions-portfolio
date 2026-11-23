@@ -201,7 +201,7 @@
           <span style="display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: var(--r-sm); background: var(--accent-subtle); color: var(--accent); font-weight: 700; font-size: 0.85rem; flex-shrink: 0;" aria-hidden="true">3</span>
           <div>
             <strong style="display: block; font-size: 0.9rem; color: var(--text-main); margin-bottom: 2px;">Copy or Download</strong>
-            <span style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.4;">Copy the generated LaTeX or download the .tex file. Review any required packages and formatting before compiling in Overleaf.</span>
+            <span style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.4;">Download a .tex file for text-only documents. When your DOCX contains embedded images, the website converter downloads a ZIP containing the LaTeX file and its media folder. Copy LaTeX copies the code only. Review any required packages and formatting before compiling in Overleaf.</span>
           </div>
         </div>
       </div>
@@ -363,7 +363,7 @@
         <div style="padding: 24px; background: var(--bg-surface); border: 1px solid var(--border-page); border-radius: var(--r-md);">
           <div style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: var(--r-sm); background: rgba(59, 130, 246, 0.12); color: var(--brand-w2l); font-weight: 700; margin-bottom: 12px;">3</div>
           <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: var(--text-main);">Clipboard &amp; Export</h3>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Copy the resulting LaTeX fragment to your clipboard with one click, or download a full <code>.tex</code> document ready for compilation in Overleaf or TeXstudio.</p>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">Download a <code>.tex</code> file for text-only documents. When your DOCX contains embedded images, the website converter downloads a ZIP containing the LaTeX file and its <code>media/</code> folder. Copy LaTeX copies the code only (images must be transferred separately). Always review generated LaTeX before compilation.</p>
         </div>
       </div>
 
@@ -546,7 +546,7 @@ Standard inline equations convert to LaTeX math syntax: \(E\  = \ mc^{2}\)</code
             <div style="display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: var(--r-sm); background: rgba(59, 130, 246, 0.12); color: var(--brand-w2l, #2563eb); font-weight: 700; font-size: 0.9rem; margin-bottom: 12px;">3</div>
             <h3 style="font-size: 1.05rem; font-weight: 700; margin: 0 0 8px 0; color: var(--text-main);">Copy or download LaTeX</h3>
             <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0; flex-grow: 1;">
-              Click <strong>Copy LaTeX</strong> to copy the generated markup directly to your clipboard, or click <strong>Download .tex</strong> to save the file locally for uploading into your project.
+              Download a <code>.tex</code> file for text-only documents. When your DOCX contains embedded images, the website converter downloads a ZIP containing the LaTeX file and its <code>media/</code> folder. Click <strong>Copy LaTeX</strong> to copy the generated markup directly to your clipboard, or click <strong>Download .tex</strong> / <strong>Download .zip</strong> to save your output locally (Copy LaTeX copies the code only; images must be transferred separately).
             </p>
           </div>
 
@@ -555,9 +555,10 @@ Standard inline equations convert to LaTeX math syntax: \(E\  = \ mc^{2}\)</code
             <div style="display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: var(--r-sm); background: rgba(59, 130, 246, 0.12); color: var(--brand-w2l, #2563eb); font-weight: 700; font-size: 0.9rem; margin-bottom: 12px;">4</div>
             <h3 style="font-size: 1.05rem; font-weight: 700; margin: 0 0 8px 0; color: var(--text-main);">Use the result in Overleaf</h3>
             <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0; flex-grow: 1;">
-              <strong>For Fragments:</strong> Paste the generated code inside your document body, between <code>\begin{document}</code> and <code>\end{document}</code> (do not replace the entire file). Place required <code>\usepackage</code> declarations in your preamble before <code>\begin{document}</code>.<br><br>
-              <strong>For Complete Documents:</strong> Upload the <code>.tex</code> file using Overleaf's <a href="https://docs.overleaf.com/managing-projects-and-files/adding-files-to-a-project/uploading-files-to-a-project" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Upload feature</a> and set it as the <a href="https://docs.overleaf.com/getting-started/recompiling-your-project/the-main-document" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Main document</a> in project settings, or copy its contents into <code>main.tex</code> in a new blank project.<br><br>
-              <strong>Compile &amp; Review:</strong> Recompile to PDF in Overleaf and check equations, table borders, and document formatting. Manual preamble adjustments may be required depending on your packages and template.
+              <strong>Images in Either Mode:</strong> If your download is a ZIP archive, extract the ZIP and upload the <code>media/</code> folder to your Overleaf project while preserving its directory path so <code>\includegraphics</code> references resolve properly.<br><br>
+              <strong>For Fragments:</strong> Paste the generated body code inside your existing document, between <code>\begin{document}</code> and <code>\end{document}</code> (do not replace the entire file), and retain that project's main document and preamble. Fragment mode still requires your existing document's preamble for required packages (such as <code>graphicx</code> for images or <code>booktabs</code> for tables). Place required <code>\usepackage</code> declarations in your preamble before <code>\begin{document}</code>.<br><br>
+              <strong>For Complete Documents:</strong> Upload the generated <code>.tex</code> file and accompanying media using Overleaf's <a href="https://docs.overleaf.com/managing-projects-and-files/adding-files-to-a-project/uploading-files-to-a-project" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Upload feature</a> and set it as the <a href="https://docs.overleaf.com/getting-started/recompiling-your-project/the-main-document" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">Main document</a> in project settings, or copy its contents into <code>main.tex</code> in a new blank project. When creating a new project from Complete Document output, you can also use Overleaf's "New Project" &rarr; "Upload Project" to import the downloaded ZIP directly.<br><br>
+              <strong>Compile &amp; Review:</strong> Recompile to PDF in Overleaf and check equations, table borders, and document formatting. Compile and review the output in your chosen template. Adjust packages or formatting where needed. Manual preamble adjustments may be required depending on your packages and template.
             </p>
           </div>
         </div>
