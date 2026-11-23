@@ -1,0 +1,203 @@
+{
+  "product": {
+    "name": "ExtensionGuy Tools & Extensions",
+    "domain": "extensionguy.me",
+    "url": "https://extensionguy.me",
+    "privacy_url": "https://extensionguy.me/privacy.html",
+    "contact_email": "[CONTACT_EMAIL_PLACEHOLDER]",
+    "github_repo": "https://github.com/sidoua26-debug/extensions-portfolio",
+    "developer_affiliation": "ExtensionGuy project maintainer"
+  },
+  "verified_technical_claims": {
+    "tool_target": "Word to LaTeX Converter Online",
+    "canonical_url": "https://extensionguy.me/word-to-latex-converter/",
+    "conversion_engine": "Pandoc 3.10 compiled to WebAssembly (pandoc-wasm) running in a dedicated Web Worker in browser memory",
+    "input_format": "Microsoft Word (.docx) documents",
+    "output_format": "LaTeX markup (.tex) or ZIP archive (.zip)",
+    "image_delivery": "Documents containing embedded images download as a ZIP archive containing the root .tex document and an extracted media/ folder. Text-only documents download directly as a .tex file.",
+    "clipboard_behavior": "Copy LaTeX button copies generated markup text only to clipboard; binary images must be obtained via the ZIP download.",
+    "compilation_boundary": "Generates clean LaTeX markup only; compilation to PDF is separate and requires an external TeX distribution (e.g., TeX Live, MacTeX) or cloud service (e.g., Overleaf).",
+    "telemetry_and_privacy_status": "Client-side execution in Web Worker memory is verified. Automated zero-egress network isolation during conversion is unverified pending dedicated Playwright egress network trace measurement. Remote file uploads are not required for conversion.",
+    "licensing_status": "Website repository is public at https://github.com/sidoua26-debug/extensions-portfolio. Bundled Pandoc 3.10 WebAssembly binary is GPL with corresponding source provided at /assets/wasm/pandoc-3.10-corresponding-source.tar.gz and license at /assets/wasm/LICENSE.txt. Generic open-source licensing is not claimed for proprietary portfolio extensions."
+  },
+  "extensions": [
+    {
+      "name": "Word to LaTeX (Offline)",
+      "slug": "word-to-latex",
+      "url": "https://extensionguy.me/word-to-latex/",
+      "tagline": "Offline browser extension to convert DOCX files into clean LaTeX",
+      "category": "Browser Extension / Productivity"
+    },
+    {
+      "name": "Table Extractor",
+      "slug": "table-extractor",
+      "url": "https://extensionguy.me/table-extractor/",
+      "tagline": "Extract web tables, virtualized grids, and HTML tables to Excel/CSV",
+      "category": "Browser Extension / Developer Tools"
+    },
+    {
+      "name": "BulkGrab",
+      "slug": "bulkgrab",
+      "url": "https://extensionguy.me/bulkgrab/",
+      "tagline": "Fast, selective media and document downloader extension",
+      "category": "Browser Extension / Media Tools"
+    },
+    {
+      "name": "SEO Inspector",
+      "slug": "seo-inspector",
+      "url": "https://extensionguy.me/seo-inspector/",
+      "tagline": "In-browser technical SEO audit, heading hierarchy, and JSON-LD inspector",
+      "category": "Browser Extension / Developer Tools"
+    },
+    {
+      "name": "Bilexi",
+      "slug": "bilexi",
+      "url": "https://extensionguy.me/bilexi/",
+      "tagline": "Context-aware French autocorrect extension",
+      "category": "Browser Extension / Productivity"
+    },
+    {
+      "name": "Tab Vault",
+      "slug": "tab-vault",
+      "url": "https://extensionguy.me/tab-vault/",
+      "tagline": "Lightweight browser tab manager and local session backup",
+      "category": "Browser Extension / Productivity"
+    }
+  ],
+  "browser_tools": [
+    {
+      "name": "Word to LaTeX Converter Online",
+      "url": "https://extensionguy.me/word-to-latex-converter/",
+      "tagline": "In-browser DOCX to clean LaTeX generator with media ZIP packaging",
+      "pricing": "Free / Client-Side WebAssembly"
+    },
+    {
+      "name": "Client-Side PDF Redaction Tool",
+      "url": "https://extensionguy.me/pdf-tools/",
+      "tagline": "Private, in-browser PDF text and area blackout without file uploads",
+      "pricing": "Free / 100% Client-Side"
+    }
+  ],
+  "submission_candidates": [
+    {
+      "id": "pandoc-extras",
+      "name": "Pandoc Extras Wiki",
+      "platform_url": "https://github.com/jgm/pandoc/wiki/Pandoc-Extras",
+      "submission_url": "https://github.com/jgm/pandoc/wiki/Pandoc-Extras/_edit",
+      "submission_route": "GitHub Wiki edit",
+      "status": "ready_for_review",
+      "free_submission": true,
+      "account_requirements": "GitHub account with edit permissions on jgm/pandoc wiki",
+      "moderation": "Post-moderation community wiki maintained by Pandoc project",
+      "duplicate_check": {
+        "existing_listing": false,
+        "checked_at": "2026-11-23",
+        "evidence": "Grep search on live Pandoc-Extras.md returned zero matches for extensionguy or word-to-latex"
+      },
+      "suggested_section": "Web Services to Process Files by Pandoc",
+      "developer_affiliation": "Disclosed (maintained by ExtensionGuy developer)",
+      "draft_payload": {
+        "format": "markdown_list_item",
+        "text": "- [Word-to-LaTeX Converter](https://extensionguy.me/word-to-latex-converter/) runs Pandoc 3.10 compiled to WebAssembly in a browser Web Worker. Converts DOCX documents to LaTeX client-side, downloading a ZIP with root .tex and extracted media/ folder for image-bearing documents or direct .tex for text-only files (requires external TeX engine for PDF compilation)."
+      }
+    },
+    {
+      "id": "saashub",
+      "name": "SaaSHub",
+      "platform_url": "https://www.saashub.com",
+      "submission_url": "https://www.saashub.com/services/new?url=https://extensionguy.me/word-to-latex-converter/",
+      "submission_route": "Web form submission",
+      "status": "ready_for_review",
+      "free_submission": true,
+      "account_requirements": "SaaSHub user account; domain-matched email ([CONTACT_EMAIL_PLACEHOLDER]) recommended for verified status",
+      "moderation": "Human editorial approval queue; automated submissions by AI agents are explicitly prohibited by platform guidelines",
+      "duplicate_check": {
+        "existing_listing": false,
+        "checked_at": "2026-11-23",
+        "evidence": "Site search on saashub.com returned no existing profile for extensionguy.me or Word to LaTeX"
+      },
+      "suggested_categories": [
+        "Developer Tools",
+        "Document Management",
+        "Productivity"
+      ],
+      "suggested_competitors": [
+        "Pandoc",
+        "Overleaf",
+        "MathType",
+        "Docx2LaTeX"
+      ],
+      "developer_affiliation": "Disclosed (developer submission by ExtensionGuy)",
+      "draft_payload": {
+        "name": "Word to LaTeX Converter Online",
+        "url": "https://extensionguy.me/word-to-latex-converter/",
+        "tagline": "In-browser DOCX to clean LaTeX generator powered by Pandoc WebAssembly",
+        "description": "Word to LaTeX Converter is a free web tool that converts DOCX manuscripts, tables, and equations into LaTeX markup using Pandoc 3.10 compiled to WebAssembly. The conversion runs entirely in the client browser Web Worker memory without remote file uploads. For documents containing images, it automatically packages a ZIP archive containing the root .tex file and extracted media/ directory. Text-only documents download directly as .tex. Note that the tool generates LaTeX markup; compiling the generated code into PDF requires an external TeX distribution or cloud compiler like Overleaf."
+      }
+    },
+    {
+      "id": "alternativeto",
+      "name": "AlternativeTo",
+      "platform_url": "https://alternativeto.net",
+      "submission_url": "https://alternativeto.net/manage-item/",
+      "submission_route": "Web form submission",
+      "status": "ready_for_review",
+      "free_submission": true,
+      "account_requirements": "AlternativeTo registered account with verified email; developer claim option available post-approval",
+      "moderation": "Community moderation backlog before public listing",
+      "duplicate_check": {
+        "existing_listing": false,
+        "checked_at": "2026-11-23",
+        "evidence": "Search on alternativeto.net confirmed no existing listing for extensionguy.me or Word to LaTeX Converter"
+      },
+      "suggested_platforms": [
+        "Web / Browser"
+      ],
+      "suggested_license": "Free (Web Tool)",
+      "suggested_tags": [
+        "latex",
+        "pandoc",
+        "docx-to-latex",
+        "word-to-latex",
+        "webassembly",
+        "document-converter"
+      ],
+      "suggested_alternatives": [
+        "Pandoc",
+        "Overleaf",
+        "MathType",
+        "GrindEQ Word-to-LaTeX"
+      ],
+      "developer_affiliation": "Disclosed (developer submission, request direct developer management access)",
+      "draft_payload": {
+        "name": "Word to LaTeX Converter",
+        "website": "https://extensionguy.me/word-to-latex-converter/",
+        "short_description": "Convert Word DOCX files into clean LaTeX markup directly in your browser using Pandoc WebAssembly.",
+        "full_description": "Word to LaTeX Converter is a free web utility designed to convert Microsoft Word (.docx) documents into LaTeX source code inside your web browser. Powered by Pandoc 3.10 WebAssembly running in a dedicated Web Worker, documents are processed client-side in browser memory without sending document data to external conversion servers.\n\nKey features:\n- Converts DOCX text, headings, tables, and formatting to clean LaTeX.\n- Automatically packages a ZIP archive with the root .tex file and extracted media/ folder when images are present in the document.\n- Downloads directly as a standalone .tex file for text-only documents.\n- Output can be copied to the clipboard or downloaded for editing in LaTeX environments such as Overleaf, TeXstudio, or TeX Live.\n- Important boundary: Generates LaTeX source code only; it does not compile LaTeX into PDF (separate compilation in a TeX engine is required)."
+      }
+    },
+    {
+      "id": "awesome-latex",
+      "name": "egeerardyn/awesome-LaTeX",
+      "platform_url": "https://github.com/egeerardyn/awesome-LaTeX",
+      "submission_url": "https://github.com/egeerardyn/awesome-LaTeX/pulls",
+      "submission_route": "GitHub Pull Request",
+      "status": "pending_verification",
+      "free_submission": true,
+      "account_requirements": "GitHub account for submitting pull requests",
+      "moderation": "Curator review via GitHub PR template with CI checks (link checker and awesome-lint)",
+      "duplicate_check": {
+        "existing_listing": false,
+        "checked_at": "2026-11-23",
+        "evidence": "Repository search confirmed no existing listing for extensionguy.me or Word to LaTeX Converter"
+      },
+      "blocker_or_restriction": "Maturity requirement: Contributing guidelines (CONTRIBUTING.md) require approximately 3 months of public history and active development before submission. ExtensionGuy was launched in November 2026; repository creation date does not establish public launch history. Submission is held until the 3-month milestone is reached (planned re-evaluation: February 2027) unless an explicit community exception is requested.",
+      "suggested_category": "Web Services or Tools",
+      "developer_affiliation": "Disclosed (maintainer affiliation and AI tool assistance must be stated in PR template)",
+      "draft_payload": {
+        "format": "markdown_list_item",
+        "text": "- [Word-to-LaTeX Converter](https://extensionguy.me/word-to-latex-converter/) - Free in-browser DOCX to LaTeX generator running Pandoc 3.10 via WebAssembly."
+      }
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Pandoc Extras Wiki",
+    "url": "https://github.com/jgm/pandoc/wiki/Pandoc-Extras",
+    "submissionUrl": "https://github.com/jgm/pandoc/wiki/Pandoc-Extras/_edit",
+    "status": "ready_for_review",
+    "preparedDate": "2026-11-23",
+    "toolTarget": "Word to LaTeX Converter Online (https://extensionguy.me/word-to-latex-converter/)",
+    "freeOption": true,
+    "accountRequirements": "GitHub account with public wiki edit permissions on jgm/pandoc",
+    "moderation": "Post-moderation community wiki; changes are public immediately but subject to community and maintainer review",
+    "blockerOrUnresolved": null,
+    "notes": "Free community wiki listing under 'Web Services to Process Files by Pandoc'. No existing entry for ExtensionGuy or Word to LaTeX found."
+  },
+  {
+    "name": "SaaSHub",
+    "url": "https://www.saashub.com",
+    "submissionUrl": "https://www.saashub.com/services/new?url=https://extensionguy.me/word-to-latex-converter/",
+    "status": "ready_for_review",
+    "preparedDate": "2026-11-23",
+    "toolTarget": "Word to LaTeX Converter Online (https://extensionguy.me/word-to-latex-converter/)",
+    "freeOption": true,
+    "accountRequirements": "SaaSHub registered account; domain-matched email ([CONTACT_EMAIL_PLACEHOLDER]) recommended for verified product status",
+    "moderation": "Pre-moderation editorial review queue. Explicit rule: human operator must submit form; automated submissions by AI agents are prohibited.",
+    "blockerOrUnresolved": null,
+    "notes": "Free basic profile listing. Suggested categories include Developer Tools, Document Management, and Productivity. No paid add-ons selected."
+  },
+  {
+    "name": "AlternativeTo",
+    "url": "https://alternativeto.net",
+    "submissionUrl": "https://alternativeto.net/manage-item/",
+    "status": "ready_for_review",
+    "preparedDate": "2026-11-23",
+    "toolTarget": "Word to LaTeX Converter Online (https://extensionguy.me/word-to-latex-converter/)",
+    "freeOption": true,
+    "accountRequirements": "AlternativeTo registered account with verified email address. Developer ownership claim can be requested post-approval.",
+    "moderation": "Community moderation queue before publication.",
+    "blockerOrUnresolved": null,
+    "notes": "Free software listing with suggested alternatives (Pandoc, Overleaf, MathType) and tags (latex, pandoc, docx-to-latex, webassembly)."
+  },
+  {
+    "name": "egeerardyn/awesome-LaTeX",
+    "url": "https://github.com/egeerardyn/awesome-LaTeX",
+    "submissionUrl": "https://github.com/egeerardyn/awesome-LaTeX/pulls",
+    "status": "pending_verification",
+    "preparedDate": "2026-11-23",
+    "toolTarget": "Word to LaTeX Converter Online (https://extensionguy.me/word-to-latex-converter/)",
+    "freeOption": true,
+    "accountRequirements": "GitHub account for submitting pull requests",
+    "moderation": "Curator review against CONTRIBUTING.md checklist and CI automation (awesome-lint, markdown link checker)",
+    "blockerOrUnresolved": "Maturity requirement: CONTRIBUTING.md requires approximately 3 months of public history and active development before submission. ExtensionGuy was launched in November 2026; repository creation date does not establish public launch history. Held pending verification until February 2027.",
+    "notes": "Candidate evaluated and draft entry prepared, but submission blocked by 3-month maturity rule. Re-evaluate when public history milestone is satisfied."
+  }
+]
