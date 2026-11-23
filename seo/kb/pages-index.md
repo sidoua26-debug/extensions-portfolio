@@ -1,6 +1,6 @@
 # Pages Index: ExtensionGuy
 
-Last updated: 2026-11-22  
+Last updated: 2026-11-23  
 Derived from: `sitemap.xml` (27 verified URLs)
 
 ## Tool & Core Pages
@@ -31,16 +31,16 @@ Derived from: `sitemap.xml` (27 verified URLs)
 
 ## Technical Guides
 
-| URL | Path | Description |
-| :--- | :--- | :--- |
-| `https://extensionguy.me/guides/` | `guides/index.html` | Guides hub directory |
-| `https://extensionguy.me/guides/docx-to-latex-offline/` | `guides/docx-to-latex-offline/index.html` | How offline DOCX to LaTeX parsing works in-browser |
-| `https://extensionguy.me/guides/word-tables-to-latex/` | `guides/word-tables-to-latex/index.html` | Converting Word tables to longtable and booktabs |
-| `https://extensionguy.me/guides/fix-pandoc-latex-errors-in-overleaf/` | `guides/fix-pandoc-latex-errors-in-overleaf/index.html` | Diagnosing and resolving Pandoc LaTeX macro errors |
-| `https://extensionguy.me/guides/export-virtualized-tables-to-excel/` | `guides/export-virtualized-tables-to-excel/index.html` | Capturing virtualized DOM tables to CSV/Excel |
-| `https://extensionguy.me/guides/prevent-browser-tab-loss-local-backups/` | `guides/prevent-browser-tab-loss-local-backups/index.html` | Browser session recovery and profile crash handling |
-| `https://extensionguy.me/guides/type-french-accents-on-qwerty-offline/` | `guides/type-french-accents-on-qwerty-offline/index.html` | Offline accent restoration on standard QWERTY keyboards |
-| `https://extensionguy.me/guides/html-table-to-excel/` | `guides/html-table-to-excel/index.html` | Extracting raw HTML tables into formatted spreadsheets |
-| `https://extensionguy.me/guides/audit-json-ld-and-headings-in-browser/` | `guides/audit-json-ld-and-headings-in-browser/index.html` | Inspecting structured data and heading hierarchies in DOM |
-| `https://extensionguy.me/guides/download-multiple-pdfs/` | `guides/download-multiple-pdfs/index.html` | Downloading multiple PDF documents in the browser |
-| `https://extensionguy.me/guides/redact-pdf-without-uploading/` | `guides/redact-pdf-without-uploading/index.html` | Client-side visual PDF redaction |
+| URL | Path | Description | Associated Proof IDs |
+| :--- | :--- | :--- | :--- |
+| `https://extensionguy.me/guides/` | `guides/index.html` | Guides hub directory | — |
+| `https://extensionguy.me/guides/docx-to-latex-offline/` | `guides/docx-to-latex-offline/index.html` | How offline DOCX to LaTeX parsing works in-browser | — |
+| `https://extensionguy.me/guides/word-tables-to-latex/` | `guides/word-tables-to-latex/index.html` | Converting Word tables to longtable and booktabs | — |
+| `https://extensionguy.me/guides/fix-pandoc-latex-errors-in-overleaf/` | `guides/fix-pandoc-latex-errors-in-overleaf/index.html` | Diagnosing and resolving Pandoc LaTeX macro errors | `proof-converter-image-zip-delivery` |
+| `https://extensionguy.me/guides/export-virtualized-tables-to-excel/` | `guides/export-virtualized-tables-to-excel/index.html` | Capturing virtualized DOM tables to CSV/Excel | — |
+| `https://extensionguy.me/guides/prevent-browser-tab-loss-local-backups/` | `guides/prevent-browser-tab-loss-local-backups/index.html` | Browser session recovery and profile crash handling | — |
+| `https://extensionguy.me/guides/type-french-accents-on-qwerty-offline/` | `guides/type-french-accents-on-qwerty-offline/index.html` | Offline accent restoration on standard QWERTY keyboards | — |
+| `https://extensionguy.me/guides/html-table-to-excel/` | `guides/html-table-to-excel/index.html` | Extracting raw HTML tables into formatted spreadsheets | — |
+| `https://extensionguy.me/guides/audit-json-ld-and-headings-in-browser/` | `guides/audit-json-ld-and-headings-in-browser/index.html` | Inspecting structured data and heading hierarchies in DOM | — |
+| `https://extensionguy.me/guides/download-multiple-pdfs/` | `guides/download-multiple-pdfs/index.html` | Downloading multiple PDF documents in the browser | — |
+| `https://extensionguy.me/guides/redact-pdf-without-uploading/` | `guides/redact-pdf-without-uploading/index.html` | Client-side visual PDF redaction | — |
