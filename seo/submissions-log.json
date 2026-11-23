@@ -6,24 +6,45 @@
     "status": "ready_for_review",
     "preparedDate": "2026-11-23",
     "toolTarget": "Word to LaTeX Converter Online (https://extensionguy.me/word-to-latex-converter/)",
-    "freeOption": true,
-    "accountRequirements": "GitHub account with public wiki edit permissions on jgm/pandoc",
+    "pricing": "Free",
+    "accountRequirements": "GitHub account. Wiki edit permissions for external accounts are [UNVERIFIED] until tested directly.",
     "moderation": "Post-moderation community wiki; changes are public immediately but subject to community and maintainer review",
+    "duplicateCheck": {
+      "status": "no matching entry found",
+      "searchTerms": [
+        "extensionguy",
+        "word-to-latex",
+        "word to latex"
+      ],
+      "date": "2026-11-23",
+      "evidenceUrl": "https://raw.githubusercontent.com/wiki/jgm/pandoc/Pandoc-Extras.md"
+    },
     "blockerOrUnresolved": null,
-    "notes": "Free community wiki listing under 'Web Services to Process Files by Pandoc'. No existing entry for ExtensionGuy or Word to LaTeX found."
+    "notes": "Free community wiki listing under 'Web Services to Process Files by Pandoc'. Search confirmed 'no matching entry found'. Account wiki edit permission is marked [UNVERIFIED]."
   },
   {
     "name": "SaaSHub",
     "url": "https://www.saashub.com",
-    "submissionUrl": "https://www.saashub.com/services/new?url=https://extensionguy.me/word-to-latex-converter/",
+    "submissionUrl": "https://www.saashub.com/services/submit",
     "status": "ready_for_review",
     "preparedDate": "2026-11-23",
     "toolTarget": "Word to LaTeX Converter Online (https://extensionguy.me/word-to-latex-converter/)",
-    "freeOption": true,
+    "pricing": "Free",
+    "submissionRoute": "Official submission page (https://www.saashub.com/services/submit)",
     "accountRequirements": "SaaSHub registered account; domain-matched email ([CONTACT_EMAIL_PLACEHOLDER]) recommended for verified product status",
-    "moderation": "Pre-moderation editorial review queue. Explicit rule: human operator must submit form; automated submissions by AI agents are prohibited.",
+    "moderation": "Pre-moderation editorial review queue. Human operator must submit form; automated submissions by AI agents are prohibited.",
+    "duplicateCheck": {
+      "status": "no matching entry found",
+      "searchTerms": [
+        "extensionguy.me",
+        "Word to LaTeX"
+      ],
+      "date": "2026-11-23",
+      "evidenceUrl": "https://www.saashub.com/search?q=Word+to+LaTeX"
+    },
+    "competitors": "Direct comparison: GrindEQ Word-to-LaTeX (https://latextoword.com/word-to-latex/), Pandoc, Docx2LaTeX. Overleaf is described as a place to compile the output, not a direct conversion competitor.",
     "blockerOrUnresolved": null,
-    "notes": "Free basic profile listing. Suggested categories include Developer Tools, Document Management, and Productivity. No paid add-ons selected."
+    "notes": "Free basic profile listing via official submission page. Search confirmed 'no matching entry found'. Uses base wording with Fragment and Complete Document distinction."
   },
   {
     "name": "AlternativeTo",
@@ -32,11 +53,23 @@
     "status": "ready_for_review",
     "preparedDate": "2026-11-23",
     "toolTarget": "Word to LaTeX Converter Online (https://extensionguy.me/word-to-latex-converter/)",
-    "freeOption": true,
+    "pricing": "Free",
+    "submissionRoute": "Documented 'Suggest new application' route (via user profile menu -> Suggest new application, or https://alternativeto.net/manage-item/)",
     "accountRequirements": "AlternativeTo registered account with verified email address. Developer ownership claim can be requested post-approval.",
     "moderation": "Community moderation queue before publication.",
+    "duplicateCheck": {
+      "status": "no matching entry found",
+      "searchTerms": [
+        "extensionguy.me",
+        "Word to LaTeX Converter"
+      ],
+      "date": "2026-11-23",
+      "evidenceUrl": "https://alternativeto.net/browse/search/?q=Word+to+LaTeX"
+    },
+    "competitors": "Direct comparison: GrindEQ Word-to-LaTeX, Pandoc. Overleaf is noted as a place to compile the output.",
+    "websiteSoftwareLicense": "[UNVERIFIED] - The website software license is unverified.",
     "blockerOrUnresolved": null,
-    "notes": "Free software listing with suggested alternatives (Pandoc, Overleaf, MathType) and tags (latex, pandoc, docx-to-latex, webassembly)."
+    "notes": "Free software listing via documented 'Suggest new application' route. Search confirmed 'no matching entry found'. Software license left unverified."
   },
   {
     "name": "egeerardyn/awesome-LaTeX",
@@ -45,10 +78,20 @@
     "status": "pending_verification",
     "preparedDate": "2026-11-23",
     "toolTarget": "Word to LaTeX Converter Online (https://extensionguy.me/word-to-latex-converter/)",
-    "freeOption": true,
+    "pricing": "Free",
     "accountRequirements": "GitHub account for submitting pull requests",
     "moderation": "Curator review against CONTRIBUTING.md checklist and CI automation (awesome-lint, markdown link checker)",
-    "blockerOrUnresolved": "Maturity requirement: CONTRIBUTING.md requires approximately 3 months of public history and active development before submission. ExtensionGuy was launched in November 2026; repository creation date does not establish public launch history. Held pending verification until February 2027.",
-    "notes": "Candidate evaluated and draft entry prepared, but submission blocked by 3-month maturity rule. Re-evaluate when public history milestone is satisfied."
+    "duplicateCheck": {
+      "status": "no matching entry found",
+      "searchTerms": [
+        "extensionguy.me",
+        "Word to LaTeX Converter"
+      ],
+      "date": "2026-11-23",
+      "evidenceUrl": "https://raw.githubusercontent.com/egeerardyn/awesome-LaTeX/master/README.md"
+    },
+    "blockerOrUnresolved": "Maturity requirement: CONTRIBUTING.md requires approximately 3 months of public history and active development before submission. Submission is held in pending_verification status.",
+    "evidenceRequiredForEligibility": "Independent evidence establishing at least 3 months of continuous public availability and active development (such as third-party web archive snapshots, verifiable public launch announcements, or dated release records; repository creation dates or git commit timestamps alone do not establish public product history), plus clean automated CI runs (passing awesome-lint and markdown link checker).",
+    "notes": "Candidate held in pending_verification status. Unsupported launch dates and February eligibility claims removed. PR checklist boxes remain unchecked pending verification."
   }
 ]
