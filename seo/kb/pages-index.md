@@ -42,5 +42,5 @@ Derived from: `sitemap.xml` (27 verified URLs)
 | `https://extensionguy.me/guides/type-french-accents-on-qwerty-offline/` | `guides/type-french-accents-on-qwerty-offline/index.html` | Offline accent restoration on standard QWERTY keyboards |
 | `https://extensionguy.me/guides/html-table-to-excel/` | `guides/html-table-to-excel/index.html` | Extracting raw HTML tables into formatted spreadsheets |
 | `https://extensionguy.me/guides/audit-json-ld-and-headings-in-browser/` | `guides/audit-json-ld-and-headings-in-browser/index.html` | Inspecting structured data and heading hierarchies in DOM |
-| `https://extensionguy.me/guides/download-multiple-pdfs/` | `guides/download-multiple-pdfs/index.html` | Downloading bulk document files without browser freezing |
-| `https://extensionguy.me/guides/redact-pdf-without-uploading/` | `guides/redact-pdf-without-uploading/index.html` | Client-side visual and vector PDF redaction |
+| `https://extensionguy.me/guides/download-multiple-pdfs/` | `guides/download-multiple-pdfs/index.html` | Downloading multiple PDF documents in the browser |
+| `https://extensionguy.me/guides/redact-pdf-without-uploading/` | `guides/redact-pdf-without-uploading/index.html` | Client-side visual PDF redaction |

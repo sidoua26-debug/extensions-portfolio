@@ -1,0 +1,26 @@
+Starting verification against: https://extensionguy.me
+Navigating to https://extensionguy.me/word-to-latex-converter/...
+Uploading document_with_image.docx...
+Waiting for conversion completion (timeout 300s)...
+Verifying output LaTeX references...
+Downloading ZIP...
+Downloaded filename: document_with_image.zip
+Unzipping archive (2546 bytes)...
+Archive entries: [ 'media/image1.png', 'document_with_image.tex' ]
+Tex content image reference snippet: \includegraphics[width=3in,height=1.5in]{media/image1.png}
+Image SHA256: d629e573597835e57202aab346c9db69829b2a9723e116b15c24b68c9ec50de7
+✓ Step 1 verified successfully: ZIP contains root .tex and exact image bytes.
+
+Step 2: Switching to text-only DOCX fixture in the same session...
+Download button text:  Download .tex
+Downloaded text filename: headings_bold_italic.tex
+✓ Step 2 verified successfully: Switching restored plain .tex with zero stale image content.
+
+Checking development paths return HTTP 404...
+Path /.agents/SEO_SKILLS.md -> HTTP 404
+Path /src/converter/worker.ts -> HTTP 404
+Path /package.json -> HTTP 404
+Path /tests/converterUi.test.mjs -> HTTP 404
+✓ Development paths are strictly absent and return 404.
+
+All checks passed successfully!

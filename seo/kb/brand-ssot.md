@@ -56,5 +56,5 @@ Derived from `store-versions.json`:
    - Compiling generated LaTeX to PDF requires an external TeX distribution or cloud service (e.g. Overleaf). Compilation to PDF is **not guaranteed** and requires user review.
 3. **Verification Status Conventions**:
    - `production-verified`: Checked against live `https://extensionguy.me` with recorded test evidence.
-   - `merged`: Verified locally and deployed to origin `pages.dev`.
+   - `merged`: Incorporated into main; deployment requires separate evidence.
    - `[UNVERIFIED]`: Unmeasured claims (e.g. arbitrary file size ceilings, external network isolation without Playwright egress traces).
