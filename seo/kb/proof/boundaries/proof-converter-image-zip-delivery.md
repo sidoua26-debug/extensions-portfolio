@@ -33,7 +33,7 @@ verification_command: TARGET_URL=https://extensionguy.me node scripts/verify_con
    - **Tested URL**: `https://extensionguy.me/word-to-latex-converter/`
    - **Tested Commit**: `464a9b8be8f27c42fc4f7ad8302d6fa170b5322b`
    - **Test Date**: `2026-11-22`
-   - **Output Mode Scope**: Complete Document and Fragment modes.
+   - **Output Mode Scope**: The verifier used the default UI output mode. The run did not record the selected mode or separately exercise both output modes.
    - **Fixture Scope**:
      - Image fixture: `tests/fixtures/document_with_image.docx`
      - Text-only fixture: `tests/fixtures/headings_bold_italic.docx`
