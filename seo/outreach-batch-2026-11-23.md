@@ -31,7 +31,7 @@ All submission copy in this batch is constrained by verified capabilities docume
    - Software License: The website software license is marked **[UNVERIFIED]**. Bundled Pandoc 3.10 WebAssembly source is archived for GPL compliance at `/assets/wasm/pandoc-3.10-corresponding-source.tar.gz`.
 
 6. **Network Processing**:
-   - Files are processed client-side in browser Web Worker memory using WebAssembly without requiring server uploads. Unmeasured network guarantees are excluded.
+   - Files are processed client-side in browser Web Worker memory using WebAssembly without requiring server uploads.
 
 7. **Competitor Comparison**:
    - Direct comparisons are restricted to products that perform Word-to-LaTeX conversion.
@@ -128,8 +128,8 @@ Add ExtensionGuy Word-to-LaTeX Converter to Web Services (developer contribution
 - **Target URL**: `https://alternativeto.net/faq/`
 - **Submission Route**: AlternativeTo documented "Suggest new application" route (`https://alternativeto.net/manage-item/` or profile menu -> "Suggest new application")
 - **Status**: `ready_for_review`
-- **Pricing**: Free (Free Web Tool)
-- **Website Software License**: Marked **[UNVERIFIED]**.
+- **Pricing**: Free
+- **Website Software License**: Marked **[UNVERIFIED]**. If the AlternativeTo submission form requires selecting a software license, leave the submission pending until the license is established.
 - **Account Requirements**: Registered account with verified email. Developer ownership claim can be requested post-approval.
 - **Moderation Style**: Community moderation queue prior to public listing.
 - **Directory Search Result**:
@@ -138,7 +138,8 @@ Add ExtensionGuy Word-to-LaTeX Converter to Web Services (developer contribution
   - Date: `2026-11-23`
   - Evidence URL: `https://alternativeto.net/browse/search/?q=Word+to+LaTeX`
 - **Suggested Platforms**: `Web / Browser`
-- **Suggested License**: `Free (Web Tool)`
+- **Pricing**: `Free`
+- **Software License**: `[UNVERIFIED]` (If the form requires selecting a software license, leave the submission pending until the license is established)
 - **Suggested Tags**: `latex`, `pandoc`, `docx-to-latex`, `word-to-latex`, `webassembly`, `document-converter`
 - **Direct Alternatives**:
   - `GrindEQ Word-to-LaTeX` (`https://latextoword.com/word-to-latex/` - direct Word-to-LaTeX comparison)
@@ -150,8 +151,8 @@ Add ExtensionGuy Word-to-LaTeX Converter to Web Services (developer contribution
 
 - **Application Name**: `Word to LaTeX Converter`
 - **Official Website**: `https://extensionguy.me/word-to-latex-converter/`
-- **Pricing / License**: `Free` / `Free (Web Tool)`
-- **Software License**: `[UNVERIFIED]`
+- **Pricing**: `Free`
+- **Software License**: `[UNVERIFIED]` (If the form requires a software license, leave the submission pending until the license is established)
 - **Platform**: `Web / Browser`
 - **Short Description**:
   `In-browser DOCX to LaTeX converter using Pandoc WebAssembly with image ZIP packaging.`
@@ -164,7 +165,7 @@ Add ExtensionGuy Word-to-LaTeX Converter to Web Services (developer contribution
   - Fragment mode generates body markup intended to be pasted into an existing LaTeX document, preserving that project's main document and preamble.
   - Direct comparison: Performs Word-to-LaTeX conversion similar to GrindEQ Word-to-LaTeX, operating client-side via Pandoc WebAssembly.
   - External compilation: The tool generates LaTeX markup; compile the output in an external environment such as TeX Live or Overleaf (Overleaf serves as a place to compile the output).
-  - Processing: Runs in client browser Web Worker memory without requiring server uploads. Unmeasured network guarantees are excluded.
+  - Processing: Runs in client browser Web Worker memory without requiring server uploads.
   ```
 - **Alternatives to map**:
   - `GrindEQ Word-to-LaTeX` (direct Word-to-LaTeX converter)
@@ -219,5 +220,5 @@ Add ExtensionGuy Word-to-LaTeX Converter to Web Services (developer contribution
 1. **Review Drafts**: Verify consistency of base wording, Free pricing, and Complete Document / Fragment mode descriptions.
 2. **Execute Pandoc Extras Wiki Edit**: Log into GitHub and append the drafted bullet item to `https://github.com/jgm/pandoc/wiki/Pandoc-Extras` if edit permissions permit.
 3. **Submit SaaSHub Profile**: Log into SaaSHub, navigate to official submission page `https://www.saashub.com/services/submit`, enter `https://extensionguy.me/word-to-latex-converter/`, and paste the drafted form fields.
-4. **Submit AlternativeTo Item**: Log into AlternativeTo, follow the documented "Suggest new application" route (`https://alternativeto.net/manage-item/`), paste the drafted fields, and suggest GrindEQ Word-to-LaTeX as direct alternative.
+4. **Submit AlternativeTo Item**: Log into AlternativeTo, follow the documented "Suggest new application" route (`https://alternativeto.net/manage-item/`), paste the drafted fields, and suggest GrindEQ Word-to-LaTeX as direct alternative. If the form requires a software license, leave the submission pending until the license is established.
 5. **Monitor awesome-LaTeX Eligibility**: Gather independent public availability evidence before opening a PR against `egeerardyn/awesome-LaTeX`.

@@ -23,7 +23,7 @@
     "image_delivery": "Documents containing embedded images download as a ZIP archive containing the root .tex document and an extracted media/ folder. Text-only documents download directly as a .tex file.",
     "clipboard_behavior": "Copy LaTeX button copies generated markup text only to clipboard; binary images must be obtained via the ZIP download.",
     "compilation_boundary": "Generates clean LaTeX markup only; compilation to PDF is separate and requires an external TeX distribution (e.g., TeX Live, MacTeX) or cloud service. Overleaf is described as a place to compile the output, not a direct Word-to-LaTeX converter.",
-    "network_and_privacy_status": "Files are processed client-side in browser Web Worker memory using WebAssembly without requiring server uploads. Unmeasured network guarantees are excluded.",
+    "network_and_privacy_status": "Files are processed client-side in browser Web Worker memory using WebAssembly without requiring server uploads.",
     "licensing_status": "[UNVERIFIED] - The website software license is unverified. Bundled Pandoc 3.10 WebAssembly binary is GPL with corresponding source provided at /assets/wasm/pandoc-3.10-corresponding-source.tar.gz and license at /assets/wasm/LICENSE.txt."
   },
   "competitor_analysis": {
@@ -197,7 +197,7 @@
       "suggested_platforms": [
         "Web / Browser"
       ],
-      "suggested_license": "Free (Web Tool)",
+      "pricing": "Free",
       "website_software_license": "[UNVERIFIED] - The website software license is unverified.",
       "suggested_tags": [
         "latex",
@@ -218,7 +218,7 @@
         "website": "https://extensionguy.me/word-to-latex-converter/",
         "pricing": "Free",
         "short_description": "In-browser DOCX to LaTeX converter using Pandoc WebAssembly with image ZIP packaging.",
-        "full_description": "I maintain ExtensionGuy. The converter uses Pandoc WebAssembly in your browser to turn DOCX files into LaTeX. Documents with embedded images download as a ZIP containing the .tex file and media/ folder. Text-only documents download as .tex. Compile the result separately.\n\nKey details:\n- Complete Document mode generates a standalone LaTeX document with preamble, document environment, and structure ready for compilation.\n- Fragment mode generates body markup intended to be pasted into an existing LaTeX document, preserving that project's main document and preamble.\n- Direct comparison: Performs Word-to-LaTeX conversion similar to GrindEQ Word-to-LaTeX, operating client-side via Pandoc WebAssembly.\n- External compilation: The tool generates LaTeX markup; compile the output in an external environment such as TeX Live or Overleaf (Overleaf serves as a place to compile the output).\n- Processing: Runs in client browser Web Worker memory without requiring server uploads. Unmeasured network guarantees are excluded."
+        "full_description": "I maintain ExtensionGuy. The converter uses Pandoc WebAssembly in your browser to turn DOCX files into LaTeX. Documents with embedded images download as a ZIP containing the .tex file and media/ folder. Text-only documents download as .tex. Compile the result separately.\n\nKey details:\n- Complete Document mode generates a standalone LaTeX document with preamble, document environment, and structure ready for compilation.\n- Fragment mode generates body markup intended to be pasted into an existing LaTeX document, preserving that project's main document and preamble.\n- Direct comparison: Performs Word-to-LaTeX conversion similar to GrindEQ Word-to-LaTeX, operating client-side via Pandoc WebAssembly.\n- External compilation: The tool generates LaTeX markup; compile the output in an external environment such as TeX Live or Overleaf (Overleaf serves as a place to compile the output).\n- Processing: Runs in client browser Web Worker memory without requiring server uploads."
       }
     },
     {
